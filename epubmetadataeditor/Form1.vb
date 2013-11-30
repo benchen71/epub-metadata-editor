@@ -3369,12 +3369,12 @@ outputsource:
         returnstring = ""
 
         Try
-            Dim data As Stream = client.OpenRead("http://code.google.com/p/epub-metadata-editor/wiki/Version")
+            Dim data As Stream = client.OpenRead("https://github.com/benchen71/epub-metadata-editor")
             Dim reader As StreamReader = New StreamReader(data)
 
             str = reader.ReadLine()
             Do While Not str Is Nothing
-                If InStr(str, "Latest version:") Then
+                If InStr(str, "Version: ") Then
                     GoTo foundversion
                 End If
                 str = reader.ReadLine()
@@ -3385,9 +3385,12 @@ outputsource:
             Return returnstring
 
 foundversion:
-            currpos = InStr(str, "Latest version:")
-            endpos = InStr(currpos, str, " </p>")
-            versioninfo = Mid(str, currpos + 16, endpos - currpos - 16)
+            currpos = InStr(str, "Version: ")
+            endpos = InStr(currpos, str, Chr(13))
+            If endpos = 0 Then
+                endpos = InStr(currpos, str, Chr(10))
+            End If
+            versioninfo = Mid(str, currpos + 9, endpos - currpos - 9)
             currentversion = Mid(My.Application.Info.Version.ToString, 1, Len(My.Application.Info.Version.ToString) - 2)
             Dim oldVersion As New Version(currentversion)
             Dim newVersion As New Version(versioninfo)

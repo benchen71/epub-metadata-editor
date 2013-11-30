@@ -8,6 +8,6 @@ Public Class Dialog3
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        System.Diagnostics.Process.Start("http://code.google.com/p/epub-metadata-editor/downloads/list")
+        System.Diagnostics.Process.Start("https://github.com/benchen71/epub-metadata-editor/tree/master/epubmetadataeditor/bin/Release/Output/EPubMetadataEditorInstaller.exe")
     End Sub
 End Class

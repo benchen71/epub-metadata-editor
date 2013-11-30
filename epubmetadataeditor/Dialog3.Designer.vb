@@ -61,14 +61,14 @@ Partial Class Dialog3
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(4, 62)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(211, 13)
+        Me.Label1.Size = New System.Drawing.Size(241, 13)
         Me.Label1.TabIndex = 1
-        Me.Label1.Text = "The latest version can be downloaded from"
+        Me.Label1.Text = "The latest version can be downloaded by clicking"
         '
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(212, 62)
+        Me.LinkLabel1.Location = New System.Drawing.Point(242, 62)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(28, 13)
         Me.LinkLabel1.TabIndex = 2
@@ -79,7 +79,7 @@ Partial Class Dialog3
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(235, 62)
+        Me.Label2.Location = New System.Drawing.Point(265, 62)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(10, 13)
         Me.Label2.TabIndex = 3
