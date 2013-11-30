@@ -3363,7 +3363,7 @@ outputsource:
     Private Function CheckForUpdate(ByVal background As Boolean) As String
         Dim versioninfo, currentversion, returnstring As String
         Dim str As String = ""
-        Dim currpos, endpos As Integer
+        Dim currpos As Integer
         Dim client As WebClient = New WebClient()
 
         returnstring = ""
@@ -3386,11 +3386,7 @@ outputsource:
 
 foundversion:
             currpos = InStr(str, "Version: ")
-            endpos = InStr(currpos, str, Chr(13))
-            If endpos = 0 Then
-                endpos = InStr(currpos, str, Chr(10))
-            End If
-            versioninfo = Mid(str, currpos + 9, endpos - currpos - 9)
+            versioninfo = Mid(str, currpos + 9)
             currentversion = Mid(My.Application.Info.Version.ToString, 1, Len(My.Application.Info.Version.ToString) - 2)
             Dim oldVersion As New Version(currentversion)
             Dim newVersion As New Version(versioninfo)

@@ -1,2 +1,2 @@
 1.2.16
-[*] 
+[*] Changed the check update process to look at GitHub rather than Google Code.
