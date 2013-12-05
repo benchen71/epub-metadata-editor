@@ -1,0 +1,4 @@
+1.2.17
+[*] Added an entry to the cover image context menu that allows the user to select an image that is already present in the EPUB.
+[*] Added a fix to prevent alternate opf formats breaking after changes to the metadata are made.
+[*] Added a 'donate using PayPal' page to the installer.

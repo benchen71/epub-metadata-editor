@@ -4,8 +4,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{C093DB2B-F7B8-4E5A-8E98-626F5486A44B}
 AppName=EPubMetadataEditor
-AppVerName=EPubMetadataEditor 1.2.16
-VersionInfoVersion=1.2.16
+AppVerName=EPubMetadataEditor 1.2.17
+VersionInfoVersion=1.2.17
 AppPublisher=Ben Chenoweth
 AppPublisherURL=http://code.google.com/p/epub-metadata-editor/
 AppSupportURL=http://code.google.com/p/epub-metadata-editor/wiki/FAQ
@@ -36,6 +36,7 @@ Source: EPubMetadataEditor.exe; DestDir: {app}; Flags: ignoreversion
 Source: EPubMetadataEditorConsole.exe; DestDir: {app}; Flags: ignoreversion
 Source: Ionic.Zip.dll; DestDir: {app}; Flags: ignoreversion
 Source: EPubMetadataEditor License.txt; DestDir: {app}; Flags: ignoreversion
+Source: btn_donateCC_LG.bmp; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -55,3 +56,52 @@ Root: HKCR; Subkey: EPUB File\DefaultIcon; ValueType: string; ValueData: {app}\E
 
 [Run]
 Filename: {app}\EPubMetadataEditor.exe; Description: {cm:LaunchProgram,EPubMetadataEditor}; Flags: nowait postinstall skipifsilent
+
+[Code]
+procedure BitmapImageOnClick(Sender: TObject);
+var
+  ErrorCode: Integer;
+begin
+  ShellExecAsOriginalUser('open', 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KC9T4JCJ2MPZG', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+end;
+
+procedure CreateTheWizardPages;
+var
+  Page: TWizardPage;
+  Label1, Label2: TLabel;
+  BitmapImage: TBitmapImage;
+  BitmapFileName: String;
+begin
+  Page := CreateCustomPage(wpInstalling, 'Installation Complete', 'Setup was completed successfully');
+
+  Label1 := TLabel.Create(Page);
+  Label1.Caption := 'Thank you for installing EPubMetadataEditor.';
+  Label1.Left := 10;
+  Label1.Top := 10;
+  Label1.Parent := Page.Surface;
+
+  Label2 := TLabel.Create(Page);
+  Label2.Caption := 'Please consider donating, if you would like to show your appreciation for the program and support future development.  Donations are handled by PayPal.';
+  Label2.Left := 10;
+  Label2.Top := 40;
+  Label2.Width := 400;
+  Label2.WordWrap := true;
+  Label2.Parent := Page.Surface;
+
+  BitmapFileName := ExpandConstant('{tmp}\btn_donateCC_LG.bmp');
+  ExtractTemporaryFile(ExtractFileName(BitmapFileName));
+
+  BitmapImage := TBitmapImage.Create(Page);
+  BitmapImage.AutoSize := True;
+  BitmapImage.Bitmap.LoadFromFile(BitmapFileName);
+  BitmapImage.Left := 160;
+  BitmapImage.Top := 100;
+  BitmapImage.Cursor := crHand;
+  BitmapImage.OnClick := @BitmapImageOnClick;
+  BitmapImage.Parent := Page.Surface;
+end;
+
+procedure InitializeWizard();
+begin
+  CreateTheWizardPages;  
+end;

@@ -411,7 +411,7 @@ lookforpagemap:
         Button28.Enabled = True
         Button29.Enabled = True
         LinkLabel3.Enabled = True
-        SaveImageAsToolStripMenuItem.Enabled = True
+        'SaveImageAsToolStripMenuItem.Enabled = True
         If versioninfo = "3.0" Then
             Label25.Visible = True
             'Title cannot have 'file-as' apparently
@@ -1018,6 +1018,7 @@ foundhref:
                     PictureBox1.ImageLocation = coverfile
                     PictureBox1.Load()
                     ChangeImageToolStripMenuItem.Enabled = True
+                    UseExistingImageToolStripMenuItem.Enabled = True
                     AddImageToolStripMenuItem.Enabled = False
                     GoTo updateinterface
                 End If
@@ -1027,6 +1028,7 @@ foundhref:
                     PictureBox1.ImageLocation = coverfile
                     PictureBox1.Load()
                     ChangeImageToolStripMenuItem.Enabled = True
+                    UseExistingImageToolStripMenuItem.Enabled = True
                     AddImageToolStripMenuItem.Enabled = False
                     GoTo updateinterface
                 End If
@@ -1056,6 +1058,7 @@ parsecoverfile:
                                     PictureBox1.ImageLocation = coverimagefile
                                     PictureBox1.Load()
                                     ChangeImageToolStripMenuItem.Enabled = True
+                                    UseExistingImageToolStripMenuItem.Enabled = True
                                     AddImageToolStripMenuItem.Enabled = False
                                     'RichTextBox1.Text = LoadUnicodeFile(opffile)
                                     GoTo updateinterface
@@ -1076,6 +1079,7 @@ parsecoverfile:
                                         PictureBox1.ImageLocation = coverimagefile
                                         PictureBox1.Load()
                                         ChangeImageToolStripMenuItem.Enabled = True
+                                        UseExistingImageToolStripMenuItem.Enabled = True
                                         AddImageToolStripMenuItem.Enabled = False
                                         'RichTextBox1.Text = LoadUnicodeFile(opffile)
                                         GoTo updateinterface
@@ -1096,6 +1100,7 @@ parsecoverfile:
                                             PictureBox1.ImageLocation = coverimagefile
                                             PictureBox1.Load()
                                             ChangeImageToolStripMenuItem.Enabled = True
+                                            UseExistingImageToolStripMenuItem.Enabled = True
                                             AddImageToolStripMenuItem.Enabled = False
                                             'RichTextBox1.Text = LoadUnicodeFile(opffile)
                                             GoTo updateinterface
@@ -1114,6 +1119,7 @@ parsecoverfile:
 
 didnotfindhref:
         ChangeImageToolStripMenuItem.Enabled = False
+        UseExistingImageToolStripMenuItem.Enabled = True
         AddImageToolStripMenuItem.Enabled = True
         GoTo exitsub
 
@@ -2365,7 +2371,7 @@ errortext:
     End Sub
     Private Sub SaveEpub()
         Dim metadatafile, optionaltext, optionaltext2 As String
-        Dim startpos, endtag, endpos, lenheader, checktag, lookforID, endID As Integer
+        Dim startpos, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
         Dim idpos, temploop, temppos, endheaderpos, refinespos, testpos As Integer
         Dim idinfo, rolestring, identifierscheme As String
@@ -2387,7 +2393,12 @@ errortext:
             'Add it to <metadata > tag
             startpos = InStr(metadatafile, "<metadata")
             startpos = InStr(startpos, metadatafile, ">") - 1
-            metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
+            extracheck = InStr(metadatafile, "xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34))
+            If extracheck = 0 Then
+                metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
+            Else
+                metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
+            End If
         End If
 
         'Output title
@@ -4192,9 +4203,9 @@ errortext:
 
     Private Sub ContextMenuStrip1_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip1.Opening
         If (Clipboard.ContainsImage()) Then
-            ContextMenuStrip1.Items(3).Enabled = True
+            ContextMenuStrip1.Items(4).Enabled = True
         Else
-            ContextMenuStrip1.Items(3).Enabled = False
+            ContextMenuStrip1.Items(4).Enabled = False
         End If
     End Sub
 
@@ -4244,5 +4255,66 @@ errortext:
         projectchanged = True
         Button3.Enabled = True
         Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPub Metadata Editor"
+    End Sub
+
+    Private Sub UseExistingImageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseExistingImageToolStripMenuItem.Click
+        Dim result As DialogResult
+        Dim ImageDirectory, FileNameOnly, RelativeLocation, metadatafile As String
+        Dim startpos, endpos As Integer
+        OpenFileDialog6.InitialDirectory = opfdirectory
+        OpenFileDialog6.Filter = "Image files (*.jpg, *.png) | *.jpg; *.png"
+        result = OpenFileDialog6.ShowDialog()
+        If result = Windows.Forms.DialogResult.OK Then
+            ImageDirectory = Path.GetDirectoryName(OpenFileDialog6.FileName)
+            If InStr(ImageDirectory, opfdirectory) = 0 Then
+                DialogResult = MsgBox("Error: You can only select an image that is already in the EPUB file." + Chr(10) + "If you want to select an image that is not already in the EPUB file, use 'Add image...' or 'Change image...'", MsgBoxStyle.OkOnly, "EPub Metadata Editor")
+            Else
+                RelativeLocation = ImageDirectory.Replace(opfdirectory, "")
+                FileNameOnly = Path.GetFileName(OpenFileDialog6.FileName)
+                If Mid(RelativeLocation, 1, 1) = "\" Then
+                    RelativeLocation = Mid(RelativeLocation, 2)
+                End If
+                RelativeLocation = RelativeLocation.Replace("\", "/")
+
+                RichTextBox1.Text = LoadUnicodeFile(opffile)
+                metadatafile = RichTextBox1.Text
+
+                If (InStr(metadatafile, "<guide>") = 0) Then
+                    endpos = InStr(metadatafile, "</package>")
+                    If endpos <> 0 Then
+                        metadatafile = Mid(metadatafile, 1, endpos - 1) + "<guide>" + Chr(10) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + "</guide>" + Chr(10) + Mid(metadatafile, endpos)
+                    End If
+                Else
+                    startpos = InStr(metadatafile, "<guide>")
+                    endpos = InStr(startpos, metadatafile, "type=" + Chr(34) + "cover")
+                    If endpos = 0 Then
+                        metadatafile = Mid(metadatafile, 1, endpos + 7) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, endpos + 8)
+                    Else
+                        While (Mid(metadatafile, endpos, 5) <> "href=")
+                            endpos = endpos - 1
+                        End While
+                        startpos = endpos
+                        endpos = InStr(startpos + 7, metadatafile, Chr(34))
+                        metadatafile = Mid(metadatafile, 1, startpos + 5) + RelativeLocation + "/" + FileNameOnly + Mid(metadatafile, endpos)
+                    End If
+                End If
+
+                RichTextBox1.Text = metadatafile
+                SaveUnicodeFile(opffile, RichTextBox1.Text)
+
+                SaveImageAsToolStripMenuItem.Enabled = True
+                AddImageToolStripMenuItem.Enabled = False
+                ChangeImageToolStripMenuItem.Enabled = True
+
+                projectchanged = True
+                Button3.Enabled = True
+                Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPub Metadata Editor"
+
+                ' Need to update metadata
+                RichTextBox1.Text = LoadUnicodeFile(opffile)
+                metadatafile = RichTextBox1.Text
+                ExtractMetadata(metadatafile, True)
+            End If
+        End If
     End Sub
 End Class

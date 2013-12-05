@@ -51,9 +51,10 @@ Partial Class Form1
         Me.AddImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.ChangeImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.UseExistingImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PasteImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SaveImageAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.SaveImageAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.Button16 = New System.Windows.Forms.Button
         Me.Button25 = New System.Windows.Forms.Button
@@ -143,6 +144,7 @@ Partial Class Form1
         Me.TextBox17 = New System.Windows.Forms.RichTextBox
         Me.Label27 = New System.Windows.Forms.Label
         Me.Button35 = New System.Windows.Forms.Button
+        Me.OpenFileDialog6 = New System.Windows.Forms.OpenFileDialog
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -353,46 +355,52 @@ Partial Class Form1
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddImageToolStripMenuItem, Me.ToolStripMenuItem1, Me.ChangeImageToolStripMenuItem, Me.PasteImageToolStripMenuItem, Me.ToolStripMenuItem2, Me.SaveImageAsToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddImageToolStripMenuItem, Me.ToolStripMenuItem1, Me.ChangeImageToolStripMenuItem, Me.UseExistingImageToolStripMenuItem, Me.PasteImageToolStripMenuItem, Me.ToolStripMenuItem2, Me.SaveImageAsToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(161, 104)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 148)
         '
         'AddImageToolStripMenuItem
         '
         Me.AddImageToolStripMenuItem.Enabled = False
         Me.AddImageToolStripMenuItem.Name = "AddImageToolStripMenuItem"
-        Me.AddImageToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.AddImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.AddImageToolStripMenuItem.Text = "Add image..."
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(157, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
         '
         'ChangeImageToolStripMenuItem
         '
         Me.ChangeImageToolStripMenuItem.Enabled = False
         Me.ChangeImageToolStripMenuItem.Name = "ChangeImageToolStripMenuItem"
-        Me.ChangeImageToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.ChangeImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.ChangeImageToolStripMenuItem.Text = "Change image..."
+        '
+        'UseExistingImageToolStripMenuItem
+        '
+        Me.UseExistingImageToolStripMenuItem.Name = "UseExistingImageToolStripMenuItem"
+        Me.UseExistingImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.UseExistingImageToolStripMenuItem.Text = "Use existing image..."
         '
         'PasteImageToolStripMenuItem
         '
         Me.PasteImageToolStripMenuItem.Name = "PasteImageToolStripMenuItem"
-        Me.PasteImageToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.PasteImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.PasteImageToolStripMenuItem.Text = "Paste image"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(178, 6)
         '
         'SaveImageAsToolStripMenuItem
         '
         Me.SaveImageAsToolStripMenuItem.Enabled = False
         Me.SaveImageAsToolStripMenuItem.Name = "SaveImageAsToolStripMenuItem"
-        Me.SaveImageAsToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.SaveImageAsToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.SaveImageAsToolStripMenuItem.Text = "Save image as..."
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(157, 6)
         '
         'ToolTip1
         '
@@ -1308,6 +1316,10 @@ Partial Class Form1
         Me.Button35.UseVisualStyleBackColor = True
         Me.Button35.Visible = False
         '
+        'OpenFileDialog6
+        '
+        Me.OpenFileDialog6.FileName = "OpenFileDialog6"
+        '
         'Form1
         '
         Me.AllowDrop = True
@@ -1543,5 +1555,7 @@ Partial Class Form1
     Friend WithEvents TextBox17 As System.Windows.Forms.RichTextBox
     Friend WithEvents Label27 As System.Windows.Forms.Label
     Friend WithEvents Button35 As System.Windows.Forms.Button
+    Friend WithEvents OpenFileDialog6 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents UseExistingImageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
