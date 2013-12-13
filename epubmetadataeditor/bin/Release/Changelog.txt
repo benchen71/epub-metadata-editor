@@ -1,0 +1,2 @@
+1.2.18
+[*] Fixed update link so that file should start downloading automatically.
