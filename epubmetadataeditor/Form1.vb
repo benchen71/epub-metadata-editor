@@ -1410,10 +1410,10 @@ errortext:
     Private Sub Button10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button10.Click
         Dim filenum, x As Integer
         Dim startpos, endpos, lenheader As Integer
-        Dim metadatafile, optionaltext As String
+        Dim metadatafile, optionaltext, tempstring As String
 
         ' do some checks first
-        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False)) Then
+        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False)) Then
             MsgBox("You need to check one of the batch task boxes!")
             Exit Sub
         End If
@@ -1501,14 +1501,58 @@ errortext:
             ExtractMetadata(metadatafile, False)
 
             'Do the processing
-            If CheckBox1.Checked = True Then
-                ' copy 'file as' to 'creator'
-                If TextBox12.Text <> "" Then
-                    TextBox2.Text = TextBox12.Text
+            If ((CheckBox1.Checked = True) And (CheckBox8.Checked = True)) Then
+                'swap 'file as' and 'creator'
+                tempstring = TextBox12.Text
+                TextBox12.Text = TextBox2.Text
+                TextBox2.Text = tempstring
+
+                tempstring = TextBox13.Text
+                TextBox13.Text = TextBox3.Text
+                TextBox3.Text = tempstring
+            Else
+                If CheckBox1.Checked = True Then
+                    ' copy 'file as' to 'creator'
+                    If TextBox12.Text <> "" Then
+                        TextBox2.Text = TextBox12.Text
+                    End If
+
+                    If TextBox13.Text <> "" Then
+                        TextBox3.Text = TextBox13.Text
+                    End If
                 End If
 
-                If TextBox13.Text <> "" Then
-                    TextBox3.Text = TextBox13.Text
+                If CheckBox8.Checked = True Then
+                    ' copy 'creator' to 'file as'
+                    If TextBox2.Text <> "" Then
+                        TextBox12.Text = TextBox2.Text
+                    End If
+
+                    If TextBox3.Text <> "" Then
+                        TextBox13.Text = TextBox3.Text
+                    End If
+                End If
+            End If
+
+
+            If ((CheckBox6.Checked = True) And (CheckBox7.Checked = True)) Then
+                'swap 'file as' and 'title'
+                tempstring = TextBox16.Text
+                TextBox16.Text = TextBox1.Text
+                TextBox1.Text = tempstring
+            Else
+                If CheckBox6.Checked = True Then
+                    ' copy 'file as' to 'title'
+                    If TextBox16.Text <> "" Then
+                        TextBox1.Text = TextBox16.Text
+                    End If
+                End If
+
+                If CheckBox7.Checked = True Then
+                    ' copy 'title' to 'file as'
+                    If TextBox1.Text <> "" Then
+                        TextBox16.Text = TextBox1.Text
+                    End If
                 End If
             End If
 

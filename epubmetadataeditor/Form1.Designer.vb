@@ -145,6 +145,9 @@ Partial Class Form1
         Me.Label27 = New System.Windows.Forms.Label
         Me.Button35 = New System.Windows.Forms.Button
         Me.OpenFileDialog6 = New System.Windows.Forms.OpenFileDialog
+        Me.CheckBox6 = New System.Windows.Forms.CheckBox
+        Me.CheckBox7 = New System.Windows.Forms.CheckBox
+        Me.CheckBox8 = New System.Windows.Forms.CheckBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -357,7 +360,7 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddImageToolStripMenuItem, Me.ToolStripMenuItem1, Me.ChangeImageToolStripMenuItem, Me.UseExistingImageToolStripMenuItem, Me.PasteImageToolStripMenuItem, Me.ToolStripMenuItem2, Me.SaveImageAsToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 148)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 126)
         '
         'AddImageToolStripMenuItem
         '
@@ -636,7 +639,7 @@ Partial Class Form1
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.HorizontalScrollbar = True
-        Me.ListBox1.Location = New System.Drawing.Point(906, 176)
+        Me.ListBox1.Location = New System.Drawing.Point(906, 212)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(333, 186)
         Me.ListBox1.Sorted = True
@@ -655,10 +658,10 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Enabled = False
-        Me.Button10.Location = New System.Drawing.Point(906, 144)
+        Me.Button10.Location = New System.Drawing.Point(906, 180)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 58
+        Me.Button10.TabIndex = 62
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -679,7 +682,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(906, 368)
+        Me.ProgressBar1.Location = New System.Drawing.Point(906, 404)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(333, 19)
         Me.ProgressBar1.TabIndex = 81
@@ -774,7 +777,7 @@ Partial Class Form1
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(903, 402)
+        Me.Label21.Location = New System.Drawing.Point(903, 438)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(132, 17)
         Me.Label21.TabIndex = 66
@@ -783,20 +786,20 @@ Partial Class Form1
         'Button19
         '
         Me.Button19.Enabled = False
-        Me.Button19.Location = New System.Drawing.Point(906, 433)
+        Me.Button19.Location = New System.Drawing.Point(906, 469)
         Me.Button19.Name = "Button19"
         Me.Button19.Size = New System.Drawing.Size(140, 25)
-        Me.Button19.TabIndex = 61
+        Me.Button19.TabIndex = 70
         Me.Button19.Text = "Edit .opf file"
         Me.Button19.UseVisualStyleBackColor = True
         '
         'Button20
         '
         Me.Button20.Enabled = False
-        Me.Button20.Location = New System.Drawing.Point(906, 464)
+        Me.Button20.Location = New System.Drawing.Point(906, 500)
         Me.Button20.Name = "Button20"
         Me.Button20.Size = New System.Drawing.Size(140, 25)
-        Me.Button20.TabIndex = 62
+        Me.Button20.TabIndex = 71
         Me.Button20.Text = "Edit toc.ncx file"
         Me.Button20.UseVisualStyleBackColor = True
         '
@@ -813,34 +816,30 @@ Partial Class Form1
         'Button24
         '
         Me.Button24.Enabled = False
-        Me.Button24.Location = New System.Drawing.Point(906, 495)
+        Me.Button24.Location = New System.Drawing.Point(906, 531)
         Me.Button24.Name = "Button24"
         Me.Button24.Size = New System.Drawing.Size(140, 25)
-        Me.Button24.TabIndex = 63
+        Me.Button24.TabIndex = 73
         Me.Button24.Text = "Edit page-map.xml file"
         Me.Button24.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(906, 102)
+        Me.CheckBox1.Location = New System.Drawing.Point(906, 157)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(140, 17)
-        Me.CheckBox1.TabIndex = 54
+        Me.CheckBox1.TabIndex = 60
         Me.CheckBox1.Text = "Copy 'File as' to 'Creator'"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Checked = True
-        Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox2.Location = New System.Drawing.Point(906, 121)
+        Me.CheckBox2.Location = New System.Drawing.Point(1068, 102)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(141, 17)
-        Me.CheckBox2.TabIndex = 56
+        Me.CheckBox2.TabIndex = 55
         Me.CheckBox2.Text = "Apply Title Case to 'Title'"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
@@ -857,10 +856,10 @@ Partial Class Form1
         'CheckBox4
         '
         Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Location = New System.Drawing.Point(1068, 102)
+        Me.CheckBox4.Location = New System.Drawing.Point(1068, 139)
         Me.CheckBox4.Name = "CheckBox4"
         Me.CheckBox4.Size = New System.Drawing.Size(167, 17)
-        Me.CheckBox4.TabIndex = 55
+        Me.CheckBox4.TabIndex = 59
         Me.CheckBox4.Text = "Auto-generate Creator 'File as'"
         Me.CheckBox4.UseVisualStyleBackColor = True
         '
@@ -876,10 +875,10 @@ Partial Class Form1
         'Button26
         '
         Me.Button26.Enabled = False
-        Me.Button26.Location = New System.Drawing.Point(906, 526)
+        Me.Button26.Location = New System.Drawing.Point(906, 562)
         Me.Button26.Name = "Button26"
         Me.Button26.Size = New System.Drawing.Size(140, 25)
-        Me.Button26.TabIndex = 64
+        Me.Button26.TabIndex = 74
         Me.Button26.Text = "Edit file..."
         Me.Button26.UseVisualStyleBackColor = True
         '
@@ -1164,20 +1163,20 @@ Partial Class Form1
         'Button32
         '
         Me.Button32.Enabled = False
-        Me.Button32.Location = New System.Drawing.Point(1149, 144)
+        Me.Button32.Location = New System.Drawing.Point(1149, 180)
         Me.Button32.Name = "Button32"
         Me.Button32.Size = New System.Drawing.Size(90, 25)
-        Me.Button32.TabIndex = 60
+        Me.Button32.TabIndex = 64
         Me.Button32.Text = "Rename"
         Me.Button32.UseVisualStyleBackColor = True
         '
         'LinkLabel4
         '
         Me.LinkLabel4.AutoSize = True
-        Me.LinkLabel4.Location = New System.Drawing.Point(1093, 150)
+        Me.LinkLabel4.Location = New System.Drawing.Point(1093, 186)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(52, 13)
-        Me.LinkLabel4.TabIndex = 59
+        Me.LinkLabel4.TabIndex = 63
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Configure"
         '
@@ -1196,10 +1195,10 @@ Partial Class Form1
         'Button33
         '
         Me.Button33.Enabled = False
-        Me.Button33.Location = New System.Drawing.Point(907, 557)
+        Me.Button33.Location = New System.Drawing.Point(907, 593)
         Me.Button33.Name = "Button33"
         Me.Button33.Size = New System.Drawing.Size(140, 25)
-        Me.Button33.TabIndex = 65
+        Me.Button33.TabIndex = 75
         Me.Button33.Text = "View file..."
         Me.Button33.UseVisualStyleBackColor = True
         '
@@ -1217,10 +1216,10 @@ Partial Class Form1
         '
         'Button34
         '
-        Me.Button34.Location = New System.Drawing.Point(1052, 464)
+        Me.Button34.Location = New System.Drawing.Point(1052, 500)
         Me.Button34.Name = "Button34"
         Me.Button34.Size = New System.Drawing.Size(140, 25)
-        Me.Button34.TabIndex = 84
+        Me.Button34.TabIndex = 72
         Me.Button34.Text = "Edit toc.ncx file"
         Me.Button34.UseVisualStyleBackColor = True
         Me.Button34.Visible = False
@@ -1320,11 +1319,44 @@ Partial Class Form1
         '
         Me.OpenFileDialog6.FileName = "OpenFileDialog6"
         '
+        'CheckBox6
+        '
+        Me.CheckBox6.AutoSize = True
+        Me.CheckBox6.Location = New System.Drawing.Point(906, 121)
+        Me.CheckBox6.Name = "CheckBox6"
+        Me.CheckBox6.Size = New System.Drawing.Size(126, 17)
+        Me.CheckBox6.TabIndex = 56
+        Me.CheckBox6.Text = "Copy 'File as' to 'Title'"
+        Me.CheckBox6.UseVisualStyleBackColor = True
+        '
+        'CheckBox7
+        '
+        Me.CheckBox7.AutoSize = True
+        Me.CheckBox7.Location = New System.Drawing.Point(906, 102)
+        Me.CheckBox7.Name = "CheckBox7"
+        Me.CheckBox7.Size = New System.Drawing.Size(126, 17)
+        Me.CheckBox7.TabIndex = 54
+        Me.CheckBox7.Text = "Copy 'Title' to 'File as'"
+        Me.CheckBox7.UseVisualStyleBackColor = True
+        '
+        'CheckBox8
+        '
+        Me.CheckBox8.AutoSize = True
+        Me.CheckBox8.Location = New System.Drawing.Point(906, 139)
+        Me.CheckBox8.Name = "CheckBox8"
+        Me.CheckBox8.Size = New System.Drawing.Size(140, 17)
+        Me.CheckBox8.TabIndex = 58
+        Me.CheckBox8.Text = "Copy 'Creator' to 'File as'"
+        Me.CheckBox8.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.Controls.Add(Me.CheckBox8)
+        Me.Controls.Add(Me.CheckBox7)
+        Me.Controls.Add(Me.CheckBox6)
         Me.Controls.Add(Me.TextBox17)
         Me.Controls.Add(Me.Label26)
         Me.Controls.Add(Me.Label27)
@@ -1361,13 +1393,13 @@ Partial Class Form1
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Button26)
         Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.Button25)
+        Me.Controls.Add(Me.Button24)
         Me.Controls.Add(Me.CheckBox3)
         Me.Controls.Add(Me.CheckBox4)
-        Me.Controls.Add(Me.Button25)
+        Me.Controls.Add(Me.Button23)
         Me.Controls.Add(Me.CheckBox2)
         Me.Controls.Add(Me.CheckBox1)
-        Me.Controls.Add(Me.Button24)
-        Me.Controls.Add(Me.Button23)
         Me.Controls.Add(Me.Button22)
         Me.Controls.Add(Me.Button21)
         Me.Controls.Add(Me.Button20)
@@ -1557,5 +1589,8 @@ Partial Class Form1
     Friend WithEvents Button35 As System.Windows.Forms.Button
     Friend WithEvents OpenFileDialog6 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents UseExistingImageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CheckBox6 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBox7 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBox8 As System.Windows.Forms.CheckBox
 
 End Class

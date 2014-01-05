@@ -74,7 +74,8 @@ Partial Class Dialog3
         Me.LinkLabel1.TabIndex = 2
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "here"
-        Me.ToolTip1.SetToolTip(Me.LinkLabel1, "http://code.google.com/p/epub-metadata-editor/downloads/list")
+        Me.ToolTip1.SetToolTip(Me.LinkLabel1, "https://github.com/benchen71/epub-metadata-editor/blob/master/epubmetadataeditor/" & _
+                "bin/Release/Output/EPubMetadataEditorInstaller.exe")
         '
         'Label2
         '
