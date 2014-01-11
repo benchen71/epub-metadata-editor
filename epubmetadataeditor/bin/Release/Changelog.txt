@@ -1,3 +1,2 @@
-1.2.19
-[*] Fixed the tooltip on the update link.
-[*] Added more batch tasks (Copy 'Title' to 'File As', Copy 'File As' to 'Title', Copy 'Creator' to 'File As') and made none of them checked by default.
+1.2.20
+[*] Handle EPUBs containing MACOSX folders

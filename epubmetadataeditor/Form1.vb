@@ -278,150 +278,170 @@ founddirectory:
             Return
         Else
             opffile = searchResults(0)
+            If InStr(opffile, "_MACOSX") Then
+                If searchResults.Length > 1 Then
+                    opffile = searchResults(1)
+                End If
+            End If
             opfdirectory = Path.GetDirectoryName(opffile)
             RichTextBox1.Text = LoadUnicodeFile(opffile)
             Button19.Enabled = True
-        End If
-
-        'Process .opf file to determine EPUB version
-        Dim opffiletext As String
-        Dim packagepos, endpos, versionpos As Integer
-        opffiletext = RichTextBox1.Text
-        packagepos = InStr(opffiletext, "<package")
-        If packagepos <> 0 Then
-            endpos = InStr(packagepos, opffiletext, ">")
-            versionpos = InStr(packagepos, opffiletext, "version=")
-            If versionpos < endpos Then
-                versioninfo = Mid(opffiletext, versionpos + 9, 3)
             End If
-        End If
 
-        If versioninfo = "3.0" Then
-            'Search for toc.ncx file (included in some EPUB3 files for forward compatibility)
-            searchResults = Directory.GetFiles(ebookdirectory, "*.ncx", SearchOption.AllDirectories)
-            If searchResults.Length < 1 Then
-                Button34.Visible = False
-                LinkLabel5.Visible = False
-                tocncxfile = ""
-            Else
+            'Process .opf file to determine EPUB version
+            Dim opffiletext As String
+            Dim packagepos, endpos, versionpos As Integer
+            opffiletext = RichTextBox1.Text
+            packagepos = InStr(opffiletext, "<package")
+            If packagepos <> 0 Then
+                endpos = InStr(packagepos, opffiletext, ">")
+                versionpos = InStr(packagepos, opffiletext, "version=")
+                If versionpos < endpos Then
+                    versioninfo = Mid(opffiletext, versionpos + 9, 3)
+                End If
+            End If
+
+            If versioninfo = "3.0" Then
+                'Search for toc.ncx file (included in some EPUB3 files for forward compatibility)
+                searchResults = Directory.GetFiles(ebookdirectory, "*.ncx", SearchOption.AllDirectories)
+                If searchResults.Length < 1 Then
+                    Button34.Visible = False
+                    LinkLabel5.Visible = False
+                    tocncxfile = ""
+                Else
                 tocncxfile = searchResults(0)
-                Button34.Visible = True
-                LinkLabel5.Visible = True
-            End If
+                If InStr(tocncxfile, "_MACOSX") Then
+                    If searchResults.Length > 1 Then
+                        tocncxfile = searchResults(1)
+                    End If
+                End If
+                    Button34.Visible = True
+                    LinkLabel5.Visible = True
+                End If
 
-            'Search for nav file
-            Dim itempos, tocpos, hrefpos, itemend As Integer
-            itempos = InStr(opffiletext, "<item ")
-            While itempos <> 0
-                itemend = InStr(itempos, opffiletext, "/>")
-                tocpos = InStr(opffiletext, "properties=" + Chr(34) + "nav" + Chr(34))
-                If tocpos <> 0 Then
-                    If tocpos < itemend Then
-                        'Found nav file
-                        hrefpos = InStr(itempos, opffiletext, "href=")
-                        endpos = InStr(hrefpos + 6, opffiletext, Chr(34))
-                        tocfile = opfdirectory + "\" + Mid(opffiletext, hrefpos + 6, endpos - hrefpos - 6).Replace("/", "\")
-                        Button20.Enabled = True
-                        Button23.Enabled = True
+                'Search for nav file
+                Dim itempos, tocpos, hrefpos, itemend As Integer
+                itempos = InStr(opffiletext, "<item ")
+                While itempos <> 0
+                    itemend = InStr(itempos, opffiletext, "/>")
+                    tocpos = InStr(opffiletext, "properties=" + Chr(34) + "nav" + Chr(34))
+                    If tocpos <> 0 Then
+                        If tocpos < itemend Then
+                            'Found nav file
+                            hrefpos = InStr(itempos, opffiletext, "href=")
+                            endpos = InStr(hrefpos + 6, opffiletext, Chr(34))
+                            tocfile = opfdirectory + "\" + Mid(opffiletext, hrefpos + 6, endpos - hrefpos - 6).Replace("/", "\")
+                            Button20.Enabled = True
+                            Button23.Enabled = True
+                            Button20.Text = "Edit nav file"
+                            GoTo lookforpagemap
+                        Else
+                            'Go to next item
+                            itempos = InStr(itemend, opffiletext, "<item ")
+                        End If
+                    Else
+                        'No nav document
+                        DialogResult = MsgBox("Error: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPub Metadata Editor")
+                        Button20.Enabled = False
+                        Button23.Enabled = False
+                        tocfile = ""
                         Button20.Text = "Edit nav file"
                         GoTo lookforpagemap
-                    Else
-                        'Go to next item
-                        itempos = InStr(itemend, opffiletext, "<item ")
                     End If
-                Else
-                    'No nav document
+                End While
+            Else
+                'Search for toc.ncx file
+                searchResults = Directory.GetFiles(ebookdirectory, "*.ncx", SearchOption.AllDirectories)
+                If searchResults.Length < 1 Then
                     DialogResult = MsgBox("Error: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPub Metadata Editor")
                     Button20.Enabled = False
                     Button23.Enabled = False
                     tocfile = ""
-                    Button20.Text = "Edit nav file"
-                    GoTo lookforpagemap
-                End If
-            End While
-        Else
-            'Search for toc.ncx file
-            searchResults = Directory.GetFiles(ebookdirectory, "*.ncx", SearchOption.AllDirectories)
-            If searchResults.Length < 1 Then
-                DialogResult = MsgBox("Error: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPub Metadata Editor")
-                Button20.Enabled = False
-                Button23.Enabled = False
-                tocfile = ""
-            Else
+                Else
                 tocfile = searchResults(0)
-                Button20.Enabled = True
-                Button23.Enabled = True
+                If InStr(tocfile, "_MACOSX") Then
+                    If searchResults.Length > 1 Then
+                        tocfile = searchResults(1)
+                    End If
+                End If
+                    Button20.Enabled = True
+                    Button23.Enabled = True
+                End If
+                Button20.Text = "Edit toc.ncx file"
             End If
-            Button20.Text = "Edit toc.ncx file"
-        End If
 
 lookforpagemap:
-        'Search for page-map.xml file
-        searchResults = Directory.GetFiles(ebookdirectory, "page-map.xml", SearchOption.AllDirectories)
-        If searchResults.Length < 1 Then
-            Button24.Enabled = False
-            pagemapfile = ""
-        Else
+            'Search for page-map.xml file
+            searchResults = Directory.GetFiles(ebookdirectory, "page-map.xml", SearchOption.AllDirectories)
+            If searchResults.Length < 1 Then
+                Button24.Enabled = False
+                pagemapfile = ""
+            Else
             pagemapfile = searchResults(0)
-            Button24.Enabled = True
-        End If
+            If InStr(pagemapfile, "_MACOSX") Then
+                If searchResults.Length > 1 Then
+                    pagemapfile = searchResults(1)
+                End If
+            End If
+                Button24.Enabled = True
+            End If
 
-        Button26.Enabled = True
-        Button33.Enabled = True
+            Button26.Enabled = True
+            Button33.Enabled = True
 
-        'Extract metadata into textboxes
-        metadatafile = RichTextBox1.Text
-        ExtractMetadata(metadatafile, True)
+            'Extract metadata into textboxes
+            metadatafile = RichTextBox1.Text
+            ExtractMetadata(metadatafile, True)
 
-        'Update interface
-        Me.Text = IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPub Metadata Editor"
-        projectchanged = False
-        TextBox1.Enabled = True
-        TextBox2.Enabled = True
-        TextBox3.Enabled = True
-        TextBox4.Enabled = True
-        TextBox5.Enabled = True
-        TextBox6.Enabled = True
-        TextBox7.Enabled = True
-        TextBox8.Enabled = True
-        TextBox9.Enabled = True
-        TextBox10.Enabled = True
-        TextBox11.Enabled = True
-        TextBox12.Enabled = True
-        TextBox13.Enabled = True
-        TextBox14.Enabled = True
-        TextBox15.Enabled = True
-        TextBox16.Enabled = True
-        TextBox17.Enabled = True
-        ComboBox1.Enabled = True
-        ComboBox2.Enabled = True
-        PictureBox1.Enabled = True
-        Button5.Enabled = True
-        Button6.Enabled = True
-        Button7.Enabled = True
-        Button13.Enabled = True
-        Button14.Enabled = True
-        Button15.Enabled = True
-        Button18.Enabled = True
-        Button30.Enabled = True
-        Button31.Enabled = True
-        Button21.Enabled = True
-        Button22.Enabled = True
-        Button25.Enabled = True
-        Button28.Enabled = True
-        Button29.Enabled = True
-        LinkLabel3.Enabled = True
-        'SaveImageAsToolStripMenuItem.Enabled = True
-        If versioninfo = "3.0" Then
-            Label25.Visible = True
-            'Title cannot have 'file-as' apparently
-            TextBox16.Enabled = False
-            Button21.Enabled = False
-            Button22.Enabled = False
-            Button18.Enabled = False
-            Button28.Enabled = False
-            DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPub Metadata Editor")
-        End If
+            'Update interface
+            Me.Text = IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPub Metadata Editor"
+            projectchanged = False
+            TextBox1.Enabled = True
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            TextBox4.Enabled = True
+            TextBox5.Enabled = True
+            TextBox6.Enabled = True
+            TextBox7.Enabled = True
+            TextBox8.Enabled = True
+            TextBox9.Enabled = True
+            TextBox10.Enabled = True
+            TextBox11.Enabled = True
+            TextBox12.Enabled = True
+            TextBox13.Enabled = True
+            TextBox14.Enabled = True
+            TextBox15.Enabled = True
+            TextBox16.Enabled = True
+            TextBox17.Enabled = True
+            ComboBox1.Enabled = True
+            ComboBox2.Enabled = True
+            PictureBox1.Enabled = True
+            Button5.Enabled = True
+            Button6.Enabled = True
+            Button7.Enabled = True
+            Button13.Enabled = True
+            Button14.Enabled = True
+            Button15.Enabled = True
+            Button18.Enabled = True
+            Button30.Enabled = True
+            Button31.Enabled = True
+            Button21.Enabled = True
+            Button22.Enabled = True
+            Button25.Enabled = True
+            Button28.Enabled = True
+            Button29.Enabled = True
+            LinkLabel3.Enabled = True
+            'SaveImageAsToolStripMenuItem.Enabled = True
+            If versioninfo = "3.0" Then
+                Label25.Visible = True
+                'Title cannot have 'file-as' apparently
+                TextBox16.Enabled = False
+                Button21.Enabled = False
+                Button22.Enabled = False
+                Button18.Enabled = False
+                Button28.Enabled = False
+                DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPub Metadata Editor")
+            End If
     End Sub
     Private Sub ExtractMetadata(ByVal metadatafile As String, ByVal extractcover As Boolean)
         Dim startpos, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
@@ -1492,6 +1512,11 @@ errortext:
                 Return
             Else
                 opffile = searchResults(0)
+                If InStr(opffile, "_MACOSX") Then
+                    If searchResults.Length > 1 Then
+                        opffile = searchResults(1)
+                    End If
+                End If
                 opfdirectory = Path.GetDirectoryName(opffile)
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
             End If
@@ -1575,6 +1600,32 @@ errortext:
             Application.DoEvents()
 
             ' save file
+            'Output title
+            startpos = InStr(metadatafile, "<dc:title")
+            If startpos <> 0 Then
+                endpos = InStr(metadatafile, "</dc:title>")
+                lenheader = Len("<dc:title")
+
+                'If optional attributes
+                If TextBox16.Text <> "" Then
+                    optionaltext = " opf:file-as=" + Chr(34) + TextBox16.Text + Chr(34) + ">"
+                Else
+                    optionaltext = ">"
+                End If
+                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox1.Text + Mid(metadatafile, endpos)
+            Else
+                ' no title yet, so add it after <metadata... > tag
+                startpos = InStr(metadatafile, "<metadata")
+                startpos = InStr(startpos, metadatafile, ">") + 1
+                'If optional attributes
+                If TextBox16.Text <> "" Then
+                    optionaltext = " opf:file-as=" + Chr(34) + TextBox16.Text + Chr(34) + ">"
+                Else
+                    optionaltext = ">"
+                End If
+                metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + TextBox1.Text + "</dc:title>" + Mid(metadatafile, startpos)
+            End If
+
             'Output first creator
             startpos = InStr(metadatafile, "<dc:creator")
             If startpos <> 0 Then
@@ -3768,6 +3819,11 @@ redo:
                     Return
                 Else
                     opffile = searchResults(0)
+                    If InStr(opffile, "_MACOSX") Then
+                        If searchResults.Length > 1 Then
+                            opffile = searchResults(1)
+                        End If
+                    End If
                     opfdirectory = Path.GetDirectoryName(opffile)
                     RichTextBox1.Text = LoadUnicodeFile(opffile)
                 End If
