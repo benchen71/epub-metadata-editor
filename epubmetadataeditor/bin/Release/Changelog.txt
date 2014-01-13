@@ -1,2 +1,2 @@
-1.2.20
-[*] Handle EPUBs containing MACOSX folders
+1.2.21
+[*] Fix for empty tags with optional attributes.

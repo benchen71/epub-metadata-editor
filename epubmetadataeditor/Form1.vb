@@ -2864,7 +2864,9 @@ lookforrefines2:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:description>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</description>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox4.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox4.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:description>" + TextBox4.Text + "</dc:description>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
@@ -2894,7 +2896,9 @@ lookforrefines2:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:publisher>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</publisher>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox5.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox5.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:publisher>" + TextBox5.Text + "</dc:publisher>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
@@ -2935,7 +2939,9 @@ lookforrefines2:
                 endpos = InStr(metadatafile, "</dc:date>")
                 If endpos = 0 Then
                     endpos = InStr(metadatafile, "</date>")
-                    metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox6.Text + "</dc:date>" + Mid(metadatafile, endpos + 7)
+                    If endpos <> 0 Then
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox6.Text + "</dc:date>" + Mid(metadatafile, endpos + 7)
+                    End If
                 Else
                     metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox6.Text + Mid(metadatafile, endpos)
                 End If
@@ -2967,7 +2973,9 @@ lookforrefines2:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:subject>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</subject>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox17.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox17.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:subject>" + TextBox17.Text + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
@@ -2997,7 +3005,9 @@ lookforrefines2:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:type>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</type>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox7.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox7.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:type>" + TextBox7.Text + "</dc:type>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
@@ -3027,7 +3037,9 @@ lookforrefines2:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:format>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</format>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox8.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox8.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:format>" + TextBox8.Text + "</dc:format>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
@@ -3143,7 +3155,9 @@ lookforrefines5:
                     endpos = InStr(metadatafile, "</dc:identifier>")
                     If endpos = 0 Then
                         endpos = InStr(metadatafile, "</identifier>")
-                        metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox9.Text + "</dc:identifier>" + Mid(metadatafile, endpos + 13)
+                        If endpos <> 0 Then
+                            metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox9.Text + "</dc:identifier>" + Mid(metadatafile, endpos + 13)
+                        End If
                     Else
                         metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox9.Text + Mid(metadatafile, endpos)
                     End If
@@ -3178,7 +3192,9 @@ outputsource:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:source>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</source>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox10.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox10.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:source>" + TextBox10.Text + "</dc:source>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
@@ -3207,7 +3223,9 @@ outputsource:
                             lenheader = endtag - startpos + 1
                             endpos = InStr(metadatafile, "</dc:language>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</language>")
-                            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox11.Text + Mid(metadatafile, endpos)
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox11.Text + Mid(metadatafile, endpos)
+                            End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
                             metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:language>" + TextBox11.Text + "</dc:language>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
