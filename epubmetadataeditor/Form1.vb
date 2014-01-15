@@ -497,11 +497,11 @@ lookforpagemap:
                             For temploop = idpos + 4 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
-                                    GoTo lookforrefines
+                                    Exit For
                                 End If
                             Next
                         End If
-lookforrefines:
+
                         If idinfo <> "" Then
                             temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                             While temppos <> 0
@@ -540,11 +540,11 @@ lookforrefines:
                             For temploop = fileaspos + 13 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     TextBox12.Text = Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13)
-                                    GoTo findrole1
+                                    Exit For
                                 End If
                             Next
                         End If
-findrole1:
+
                         rolepos = InStr(startpos, metadatafile, "opf:role=")
                         If rolepos <> 0 Then
                             rolestring = Mid(metadatafile, rolepos + 10, 3)
@@ -597,11 +597,11 @@ findrole1:
                             For temploop = idpos + 4 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
-                                    GoTo lookforrefines2
+                                    Exit For
                                 End If
                             Next
                         End If
-lookforrefines2:
+
                         If idinfo <> "" Then
                             temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                             While temppos <> 0
@@ -640,11 +640,11 @@ lookforrefines2:
                             For temploop = fileaspos + 13 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     TextBox13.Text = Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13)
-                                    GoTo findrole2
+                                    Exit For
                                 End If
                             Next
                         End If
-findrole2:
+
                         rolepos = InStr(startpos, metadatafile, "opf:role=")
                         If rolepos <> 0 Then
                             rolestring = Mid(metadatafile, rolepos + 10, 3)
@@ -844,69 +844,109 @@ skipsecondcreator:
                 firsttaglength = 11
             End If
             If startpos <> 0 Then
+                Dim nocontent As Boolean
+                nocontent = False
                 endheader = InStr(startpos, metadatafile, ">")
                 lenheader = endheader - startpos + 1
                 endpos = InStr(metadatafile, "</dc:identifier>")
                 If endpos = 0 Then endpos = InStr(metadatafile, "</identifier>")
-                If (Mid(metadatafile, startpos + firsttaglength, 1) = ">") Then
-                    TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
-                    Label9.Text = "Identifier"
-                    TextBox9.Width = 333
-                    TextBox9.Left = 81
-                Else
-                    If versioninfo = "3.0" Then
-                        endheaderpos = InStr(startpos, metadatafile, ">")
-                        TextBox9.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
+                If endpos = 0 Then
+                    endpos = InStr(startpos, metadatafile, " />")
+                    If endpos <> 0 Then nocontent = True
+                End If
+                If endpos <> 0 Then
+                    If (Mid(metadatafile, startpos + firsttaglength, 1) = ">") Then
+                        TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                         Label9.Text = "Identifier"
                         TextBox9.Width = 333
                         TextBox9.Left = 81
-                        'Get id
-                        idpos = InStr(startpos, metadatafile, "id=")
-                        idinfo = ""
-                        If idpos <> 0 Then
-                            For temploop = idpos + 4 To endpos
-                                If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                                    idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
-                                    GoTo lookforrefines3
-                                End If
-                            Next
-                        End If
-lookforrefines3:
-                        If idinfo <> "" Then
-                            temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            While temppos <> 0
-                                endheaderpos = InStr(temppos, metadatafile, ">")
-                                endpos = InStr(temppos, metadatafile, "</meta>")
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "identifier-type")
-                                If refinespos <> 0 Then
-                                    If refinespos < endpos Then
-                                        refinespos = InStr(refinespos, metadatafile, "scheme=" + Chr(34))
-                                        If refinespos <> 0 Then
-                                            If refinespos < endpos Then
-                                                Label9.Text = "Identifier (" + Mid(metadatafile, refinespos + 8, endheaderpos - refinespos - 10) + "=" + Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1) + ")"
-                                                TextBox9.Width = 287
-                                                TextBox9.Left = 130
-                                            End If
-                                        End If
-                                    End If
-                                End If
-                                temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            End While
-                        End If
-
                     Else
-                        'Get optional attribute: scheme
-                        fileaspos = InStr(startpos, metadatafile, "opf:scheme=")
-                        If fileaspos <> 0 Then
-                            TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
-                            Label9.Text = "Identifier (" + Mid(metadatafile, fileaspos + 12, endheader - fileaspos - 13) + ")"
-                            TextBox9.Width = 287
-                            TextBox9.Left = 130
-                        Else
-                            TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        If versioninfo = "3.0" Then
+                            endheaderpos = InStr(startpos, metadatafile, ">")
+                            TextBox9.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
                             Label9.Text = "Identifier"
                             TextBox9.Width = 333
                             TextBox9.Left = 81
+                            'Get id
+                            idpos = InStr(startpos, metadatafile, "id=")
+                            idinfo = ""
+                            If idpos <> 0 Then
+                                For temploop = idpos + 4 To endpos
+                                    If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                        idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                        Exit For
+                                    End If
+                                Next
+                            End If
+                            If idinfo <> "" Then
+                                temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                While temppos <> 0
+                                    endheaderpos = InStr(temppos, metadatafile, ">")
+                                    endpos = InStr(temppos, metadatafile, "</meta>")
+                                    refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "identifier-type")
+                                    If refinespos <> 0 Then
+                                        If refinespos < endpos Then
+                                            refinespos = InStr(refinespos, metadatafile, "scheme=" + Chr(34))
+                                            If refinespos <> 0 Then
+                                                If refinespos < endpos Then
+                                                    Label9.Text = "Identifier (" + Mid(metadatafile, refinespos + 8, endheaderpos - refinespos - 10) + "=" + Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1) + ")"
+                                                    TextBox9.Width = 287
+                                                    TextBox9.Left = 130
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+                                    temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                End While
+                            End If
+
+                        Else
+                            'Get optional attribute: scheme
+                            fileaspos = InStr(startpos, metadatafile, "opf:scheme=")
+                            If fileaspos <> 0 Then
+                                For temploop = fileaspos + 13 To endpos
+                                    If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                        Label9.Text = "Identifier (" + Mid(metadatafile, fileaspos + 12, temploop - fileaspos - 12) + ")"
+                                        Exit For
+                                    End If
+                                Next
+                                If nocontent = False Then
+                                    TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                                Else
+                                    'Get id
+                                    idpos = InStr(startpos, metadatafile, "id=")
+                                    TextBox9.Text = ""
+                                    If idpos <> 0 Then
+                                        For temploop = idpos + 4 To endpos
+                                            If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                                TextBox9.Text = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                                Exit For
+                                            End If
+                                        Next
+                                    End If
+                                End If
+                                TextBox9.Width = 287
+                                TextBox9.Left = 130
+                            Else
+                                If nocontent = False Then
+                                    TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                                Else
+                                    'Get id
+                                    idpos = InStr(startpos, metadatafile, "id=")
+                                    TextBox9.Text = ""
+                                    If idpos <> 0 Then
+                                        For temploop = idpos + 4 To endpos
+                                            If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                                TextBox9.Text = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                                Exit For
+                                            End If
+                                        Next
+                                    End If
+                                End If
+                                Label9.Text = "Identifier"
+                                TextBox9.Width = 333
+                                TextBox9.Left = 81
+                            End If
                         End If
                     End If
                 End If
@@ -2866,6 +2906,11 @@ lookforrefines2:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</description>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox4.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox4.Text + "</dc:description>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
@@ -2898,6 +2943,11 @@ lookforrefines2:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</publisher>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox5.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox5.Text + "</dc:publisher>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
@@ -2941,6 +2991,11 @@ lookforrefines2:
                     endpos = InStr(metadatafile, "</date>")
                     If endpos <> 0 Then
                         metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox6.Text + "</dc:date>" + Mid(metadatafile, endpos + 7)
+                    Else
+                        endpos = InStr(startpos, metadatafile, " />")
+                        If endpos <> 0 Then
+                            metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox6.Text + "</dc:date>" + Mid(metadatafile, endpos + 3)
+                        End If
                     End If
                 Else
                     metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox6.Text + Mid(metadatafile, endpos)
@@ -2975,6 +3030,11 @@ lookforrefines2:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</subject>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox17.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox17.Text + "</dc:subject>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
@@ -3007,6 +3067,11 @@ lookforrefines2:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</type>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox7.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox7.Text + "</dc:type>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
@@ -3039,6 +3104,11 @@ lookforrefines2:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</format>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox8.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox8.Text + "</dc:format>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
@@ -3157,6 +3227,11 @@ lookforrefines5:
                         endpos = InStr(metadatafile, "</identifier>")
                         If endpos <> 0 Then
                             metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox9.Text + "</dc:identifier>" + Mid(metadatafile, endpos + 13)
+                        Else
+                            endpos = InStr(startpos, metadatafile, " />")
+                            If endpos <> 0 Then
+                                metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox9.Text + "</dc:identifier>" + Mid(metadatafile, endpos + 3)
+                            End If
                         End If
                     Else
                         metadatafile = Mid(metadatafile, 1, startpos - 1) + newheader + TextBox9.Text + Mid(metadatafile, endpos)
@@ -3194,6 +3269,11 @@ outputsource:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</source>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox10.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox10.Text + "</dc:source>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
@@ -3225,6 +3305,11 @@ outputsource:
                             If endpos = 0 Then endpos = InStr(metadatafile, "</language>")
                             If endpos <> 0 Then
                                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox11.Text + Mid(metadatafile, endpos)
+                            Else
+                                endpos = InStr(startpos, metadatafile, " />")
+                                If endpos <> 0 Then
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox11.Text + "</dc:language>" + Mid(metadatafile, endpos + 3)
+                                End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
