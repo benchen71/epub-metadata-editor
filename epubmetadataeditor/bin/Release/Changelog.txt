@@ -1,2 +1,2 @@
-1.2.22
-[*] Better handle empty tags with optional attributes.
+1.2.23
+[*] Fixed a bug when trying to use an existing image as the cover when there was no cover reference in the guide.

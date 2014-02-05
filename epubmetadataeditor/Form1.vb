@@ -4491,7 +4491,7 @@ errortext:
                     startpos = InStr(metadatafile, "<guide>")
                     endpos = InStr(startpos, metadatafile, "type=" + Chr(34) + "cover")
                     If endpos = 0 Then
-                        metadatafile = Mid(metadatafile, 1, endpos + 7) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, endpos + 8)
+                        metadatafile = Mid(metadatafile, 1, startpos + 7) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, startpos + 8)
                     Else
                         While (Mid(metadatafile, endpos, 5) <> "href=")
                             endpos = endpos - 1
