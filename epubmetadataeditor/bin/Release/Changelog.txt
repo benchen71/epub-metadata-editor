@@ -1,2 +1,3 @@
-1.2.23
-[*] Fixed a bug when trying to use an existing image as the cover when there was no cover reference in the guide.
+1.2.24
+[*] Added some instructions for downloading an update if the download doesn't start automatically.
+[*] Fix for EPUBs with two identifiers when the first one does not have an end field marker

@@ -3223,6 +3223,8 @@ lookforrefines5:
                         End If
                     End If
                     endpos = InStr(metadatafile, "</dc:identifier>")
+                    extracheck = InStr(startpos + 1, metadatafile, "<dc:")
+                    If (endpos > extracheck) Then endpos = 0 'look to see if field end is actually for a second identifier
                     If endpos = 0 Then
                         endpos = InStr(metadatafile, "</identifier>")
                         If endpos <> 0 Then
@@ -3288,7 +3290,8 @@ outputsource:
 
         'Output language
         metadatafile = metadatafile.Replace("<dc:language xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " />", "<dc:language />")
-        If ((InStr(metadatafile, "<dc:language />") <> 0) And (TextBox11.Text = "")) Then
+        testpos = InStr(metadatafile, "<dc:language />")
+        If ((testpos <> 0) And (TextBox11.Text = "")) Then
         Else
             startpos = InStr(metadatafile, "<dc:language/>")
             If startpos = 0 Then
