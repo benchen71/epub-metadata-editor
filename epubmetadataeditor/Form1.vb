@@ -444,10 +444,27 @@ lookforpagemap:
             End If
     End Sub
     Private Sub ExtractMetadata(ByVal metadatafile As String, ByVal extractcover As Boolean)
-        Dim startpos, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
-        Dim rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring As String
+        Dim startpos, namespacelen, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
+        Dim dcnamespace, rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring As String
         Dim idpos, endheaderpos, temppos, refinespos As Integer
         Dim idinfo As String
+
+        'Check for non-standard dc namespace tags
+        startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
+        If startpos <> 0 Then
+            ' work backwards to find the xmlns definition
+            namespacelen = 0
+            While (startpos - namespacelen <> 0)
+                namespacelen = namespacelen + 1
+                If Mid(metadatafile, startpos - namespacelen, 6) = "xmlns:" Then
+                    Exit While
+                End If
+            End While
+            If namespacelen < startpos Then
+                dcnamespace = Mid(metadatafile, startpos - namespacelen + 6, namespacelen - 6)
+                metadatafile = metadatafile.Replace(dcnamespace + ":", "dc:")
+            End If
+        End If
 
         'Get title
         Try
@@ -2505,8 +2522,8 @@ errortext:
         If CheckBox4.Checked = True Then CheckBox1.Checked = False
     End Sub
     Private Sub SaveEpub()
-        Dim metadatafile, optionaltext, optionaltext2 As String
-        Dim startpos, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
+        Dim metadatafile, dcnamespace, optionaltext, optionaltext2 As String
+        Dim startpos, namespacelen, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
         Dim idpos, temploop, temppos, endheaderpos, refinespos, testpos As Integer
         Dim idinfo, rolestring, identifierscheme As String
@@ -2522,9 +2539,28 @@ errortext:
         RichTextBox1.Text = LoadUnicodeFile(opffile)
         metadatafile = RichTextBox1.Text
 
+        'Check for non-standard dc namespace tags
+        startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
+        If startpos <> 0 Then
+            ' work backwards to find the xmlns definition
+            namespacelen = 0
+            While (startpos - namespacelen <> 0)
+                namespacelen = namespacelen + 1
+                If Mid(metadatafile, startpos - namespacelen, 6) = "xmlns:" Then
+                    Exit While
+                End If
+            End While
+            If namespacelen < startpos Then
+                dcnamespace = Mid(metadatafile, startpos - namespacelen + 6, namespacelen - 6)
+                metadatafile = metadatafile.Replace(dcnamespace + ":", "dc:")
+                metadatafile = metadatafile.Replace("xmlns:" + dcnamespace, "xmlns:dc")
+            End If
+        End If
+
         'Search for xmlns:opf="http://www.idpf.org/2007/opf"
         startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
-        If startpos = 0 Then
+        temppos = InStr(metadatafile, "<dc:")
+        If ((startpos = 0) Or (startpos > temppos)) Then
             'Add it to <metadata > tag
             startpos = InStr(metadatafile, "<metadata")
             startpos = InStr(startpos, metadatafile, ">") - 1
