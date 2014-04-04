@@ -148,9 +148,19 @@ Partial Class Form1
         Me.CheckBox6 = New System.Windows.Forms.CheckBox
         Me.CheckBox7 = New System.Windows.Forms.CheckBox
         Me.CheckBox8 = New System.Windows.Forms.CheckBox
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Label30 = New System.Windows.Forms.Label
+        Me.Button37 = New System.Windows.Forms.Button
+        Me.Button36 = New System.Windows.Forms.Button
+        Me.ListBox2 = New System.Windows.Forms.ListBox
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox
+        Me.Label29 = New System.Windows.Forms.Label
+        Me.Label28 = New System.Windows.Forms.Label
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -1151,7 +1161,7 @@ Partial Class Form1
         Me.Label24.BackColor = System.Drawing.SystemColors.Control
         Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label24.ForeColor = System.Drawing.Color.Red
-        Me.Label24.Location = New System.Drawing.Point(592, 87)
+        Me.Label24.Location = New System.Drawing.Point(581, 85)
         Me.Label24.MinimumSize = New System.Drawing.Size(240, 0)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(240, 17)
@@ -1349,11 +1359,94 @@ Partial Class Form1
         Me.CheckBox8.Text = "Copy 'Creator' to 'File as'"
         Me.CheckBox8.UseVisualStyleBackColor = True
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label30)
+        Me.GroupBox1.Controls.Add(Me.Button37)
+        Me.GroupBox1.Controls.Add(Me.Button36)
+        Me.GroupBox1.Controls.Add(Me.ListBox2)
+        Me.GroupBox1.Controls.Add(Me.PictureBox2)
+        Me.GroupBox1.Controls.Add(Me.Label29)
+        Me.GroupBox1.Controls.Add(Me.Label28)
+        Me.GroupBox1.Location = New System.Drawing.Point(515, 53)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(361, 487)
+        Me.GroupBox1.TabIndex = 90
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Visible = False
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label30.Location = New System.Drawing.Point(21, 216)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(61, 17)
+        Me.Label30.TabIndex = 7
+        Me.Label30.Text = "Preview:"
+        '
+        'Button37
+        '
+        Me.Button37.Location = New System.Drawing.Point(191, 451)
+        Me.Button37.Name = "Button37"
+        Me.Button37.Size = New System.Drawing.Size(164, 27)
+        Me.Button37.TabIndex = 6
+        Me.Button37.Text = "Add new image..."
+        Me.Button37.UseVisualStyleBackColor = True
+        '
+        'Button36
+        '
+        Me.Button36.Location = New System.Drawing.Point(18, 451)
+        Me.Button36.Name = "Button36"
+        Me.Button36.Size = New System.Drawing.Size(164, 27)
+        Me.Button36.TabIndex = 5
+        Me.Button36.Text = "Use selected image"
+        Me.Button36.UseVisualStyleBackColor = True
+        '
+        'ListBox2
+        '
+        Me.ListBox2.FormattingEnabled = True
+        Me.ListBox2.Location = New System.Drawing.Point(19, 65)
+        Me.ListBox2.Name = "ListBox2"
+        Me.ListBox2.Size = New System.Drawing.Size(296, 147)
+        Me.ListBox2.TabIndex = 4
+        '
+        'PictureBox2
+        '
+        Me.PictureBox2.Location = New System.Drawing.Point(18, 234)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(164, 207)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox2.TabIndex = 3
+        Me.PictureBox2.TabStop = False
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.Location = New System.Drawing.Point(15, 37)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(196, 17)
+        Me.Label29.TabIndex = 1
+        Me.Label29.Text = "are already part of the ebook:"
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(15, 20)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(328, 17)
+        Me.Label28.TabIndex = 0
+        Me.Label28.Text = "There is no cover image set.  The following images"
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.Controls.Add(Me.Label24)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.CheckBox8)
         Me.Controls.Add(Me.CheckBox7)
         Me.Controls.Add(Me.CheckBox6)
@@ -1370,7 +1463,6 @@ Partial Class Form1
         Me.Controls.Add(Me.LinkLabel6)
         Me.Controls.Add(Me.LinkLabel2)
         Me.Controls.Add(Me.Button31)
-        Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.Button30)
         Me.Controls.Add(Me.CheckBox5)
         Me.Controls.Add(Me.Button29)
@@ -1464,6 +1556,9 @@ Partial Class Form1
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ContextMenuStrip2.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1592,5 +1687,13 @@ Partial Class Form1
     Friend WithEvents CheckBox6 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox7 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox8 As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label29 As System.Windows.Forms.Label
+    Friend WithEvents Label28 As System.Windows.Forms.Label
+    Friend WithEvents Button37 As System.Windows.Forms.Button
+    Friend WithEvents Button36 As System.Windows.Forms.Button
+    Friend WithEvents ListBox2 As System.Windows.Forms.ListBox
+    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents Label30 As System.Windows.Forms.Label
 
 End Class

@@ -1,3 +1,3 @@
-1.2.25
-[*] Fix for EPUBs using non-standard dc namespace
-[*] Fix for EPUBs with non-standard opf namespace definition location
+1.3.0
+[*] New cover selection panel for when no cover is set but there are images in the EPUB.
+[*] Adding / changing / saving cover images now handles *.jpg, *.jpeg and *.png files.

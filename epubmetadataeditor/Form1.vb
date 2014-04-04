@@ -1089,17 +1089,7 @@ foundhref:
             endpos = InStr(coverfilepos + 6, metadatafile, Chr(34))
             coverfile = Path.GetDirectoryName(opffile) + "\" + Mid(metadatafile, coverfilepos + 6, endpos - coverfilepos - 6).Replace("/", "\")
 
-            If Path.GetExtension(coverfile) = ".jpg" Then
-                If System.IO.File.Exists(coverfile) Then
-                    coverimagefile = coverfile
-                    PictureBox1.ImageLocation = coverfile
-                    PictureBox1.Load()
-                    ChangeImageToolStripMenuItem.Enabled = True
-                    UseExistingImageToolStripMenuItem.Enabled = True
-                    AddImageToolStripMenuItem.Enabled = False
-                    GoTo updateinterface
-                End If
-            ElseIf Path.GetExtension(coverfile) = ".png" Then
+            If ((Path.GetExtension(coverfile) = ".jpg") Or (Path.GetExtension(coverfile) = ".jpeg") Or (Path.GetExtension(coverfile) = ".png")) Then
                 If System.IO.File.Exists(coverfile) Then
                     coverimagefile = coverfile
                     PictureBox1.ImageLocation = coverfile
@@ -1114,8 +1104,6 @@ foundhref:
 parsecoverfile:
                 'Parse coverfile for image information
                 If System.IO.File.Exists(coverfile) Then
-                    'RichTextBox1.LoadFile(coverfile, RichTextBoxStreamType.PlainText)
-                    'coverfiletext = RichTextBox1.Text
                     coverfiletext = LoadUnicodeFile(coverfile)
                     startpos = InStr(coverfiletext, "<svg")
                     If startpos <> 0 Then
@@ -1137,7 +1125,6 @@ parsecoverfile:
                                     ChangeImageToolStripMenuItem.Enabled = True
                                     UseExistingImageToolStripMenuItem.Enabled = True
                                     AddImageToolStripMenuItem.Enabled = False
-                                    'RichTextBox1.Text = LoadUnicodeFile(opffile)
                                     GoTo updateinterface
                                 End If
                             End If
@@ -1158,7 +1145,6 @@ parsecoverfile:
                                         ChangeImageToolStripMenuItem.Enabled = True
                                         UseExistingImageToolStripMenuItem.Enabled = True
                                         AddImageToolStripMenuItem.Enabled = False
-                                        'RichTextBox1.Text = LoadUnicodeFile(opffile)
                                         GoTo updateinterface
                                     End If
                                 End If
@@ -1179,7 +1165,6 @@ parsecoverfile:
                                             ChangeImageToolStripMenuItem.Enabled = True
                                             UseExistingImageToolStripMenuItem.Enabled = True
                                             AddImageToolStripMenuItem.Enabled = False
-                                            'RichTextBox1.Text = LoadUnicodeFile(opffile)
                                             GoTo updateinterface
                                         End If
                                     End If
@@ -1198,6 +1183,52 @@ didnotfindhref:
         ChangeImageToolStripMenuItem.Enabled = False
         UseExistingImageToolStripMenuItem.Enabled = True
         AddImageToolStripMenuItem.Enabled = True
+
+        'Look for existing images
+        startpos = InStr(metadatafile, "<manifest>")
+        endpos = InStr(metadatafile, "</manifest>")
+        Dim imgpos, hrefpos, endhrefpos, imgnum As Integer
+        Dim href, imgfilename As String
+        imgpos = startpos
+        imgnum = 0
+        While (imgpos < endpos)
+            imgpos = InStr(imgpos + 1, metadatafile, "media-type=" + Chr(34) + "image/jpeg")
+            If ((imgpos = 0) Or (imgpos > endpos)) Then
+                Exit While
+            End If
+
+            'Scan backwards looking for start of <item>
+            temppos = imgpos
+            While (temppos > startpos)
+                temppos = temppos - 1
+                If (Mid(metadatafile, temppos, 5) = "<item") Then
+                    Exit While
+                End If
+            End While
+            hrefpos = InStr(temppos, metadatafile, "href=")
+            endhrefpos = InStr(hrefpos + 6, metadatafile, Chr(34))
+            href = Mid(metadatafile, hrefpos + 6, endhrefpos - hrefpos - 6)
+            href = href.Replace("%20", " ")
+            ListBox2.Items.Add(href)
+            imgnum = imgnum + 1
+            If (InStr(href, "cover") <> 0) Then
+                ListBox2.SelectedIndex = imgnum - 1
+            End If
+        End While
+
+        If ListBox2.Items.Count > 0 Then
+            If ListBox2.SelectedIndex = -1 Then
+                ListBox2.SelectedIndex = 0
+            End If
+            'Show preview
+            imgfilename = Path.GetDirectoryName(opffile) + "\" + ListBox2.SelectedItem
+            If System.IO.File.Exists(imgfilename) Then
+                PictureBox2.ImageLocation = imgfilename
+                PictureBox2.Load()
+            End If
+            GroupBox1.Visible = True
+            Label24.Visible = False
+        End If
         GoTo exitsub
 
 
@@ -1252,6 +1283,63 @@ updateinterface:
 exitsub:
     End Sub
 
+    Private Sub ListBox2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox2.SelectedIndexChanged
+        Dim imgfilename As String
+        imgfilename = Path.GetDirectoryName(opffile) + "\" + ListBox2.SelectedItem
+        If System.IO.File.Exists(imgfilename) Then
+            PictureBox2.ImageLocation = imgfilename
+            PictureBox2.Load()
+        End If
+    End Sub
+    Private Sub Button36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button36.Click
+        Dim CoverFile, metadatafile As String
+        Dim startpos, endpos As Integer
+        CoverFile = ListBox2.SelectedItem
+        RichTextBox1.Text = LoadUnicodeFile(opffile)
+        metadatafile = RichTextBox1.Text
+
+        If (InStr(metadatafile, "<guide>") = 0) Then
+            endpos = InStr(metadatafile, "</package>")
+            If endpos <> 0 Then
+                metadatafile = Mid(metadatafile, 1, endpos - 1) + "<guide>" + Chr(10) + Chr(9) + "<reference href=" + Chr(34) + CoverFile + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + "</guide>" + Chr(10) + Mid(metadatafile, endpos)
+            End If
+        Else
+            startpos = InStr(metadatafile, "<guide>")
+            endpos = InStr(startpos, metadatafile, "type=" + Chr(34) + "cover")
+            If endpos = 0 Then
+                metadatafile = Mid(metadatafile, 1, startpos + 7) + Chr(9) + "<reference href=" + Chr(34) + CoverFile + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, startpos + 8)
+            Else
+                While (Mid(metadatafile, endpos, 5) <> "href=")
+                    endpos = endpos - 1
+                End While
+                startpos = endpos
+                endpos = InStr(startpos + 7, metadatafile, Chr(34))
+                metadatafile = Mid(metadatafile, 1, startpos + 5) + CoverFile + Mid(metadatafile, endpos)
+            End If
+        End If
+
+        RichTextBox1.Text = metadatafile
+        SaveUnicodeFile(opffile, RichTextBox1.Text)
+
+        SaveImageAsToolStripMenuItem.Enabled = True
+        AddImageToolStripMenuItem.Enabled = False
+        ChangeImageToolStripMenuItem.Enabled = True
+
+        GroupBox1.Visible = False
+
+        projectchanged = True
+        Button3.Enabled = True
+        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPub Metadata Editor"
+
+        ' Need to update metadata
+        RichTextBox1.Text = LoadUnicodeFile(opffile)
+        metadatafile = RichTextBox1.Text
+        ExtractMetadata(metadatafile, True)
+
+    End Sub
+    Private Sub Button37_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button37.Click
+        AddImageToolStripMenuItem.PerformClick()
+    End Sub
     Private Sub Form1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If Control.ModifierKeys = (Keys.Control Or Keys.Shift) Then
             If e.KeyCode = System.Windows.Forms.Keys.S Then
@@ -1802,9 +1890,9 @@ errortext:
     End Sub
 
     Private Sub SaveImageAsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveImageAsToolStripMenuItem.Click
-        SaveFileDialog1.Filter = "JPEG image (*.jpg)|*.jpg|All files (*.*)|*.*"
+        SaveFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png|All files (*.*)|*.*"
         SaveFileDialog1.FilterIndex = 1
-        SaveFileDialog1.FileName = "cover.jpg"
+        SaveFileDialog1.FileName = Path.GetFileName(coverimagefile)
         If SaveFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
             System.IO.File.Copy(coverimagefile, SaveFileDialog1.FileName, True)
         End If
@@ -1865,7 +1953,7 @@ errortext:
     End Sub
 
     Private Sub ChangeImageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeImageToolStripMenuItem.Click
-        OpenFileDialog2.Filter = "Image Files (*.jpg)|*.jpg|All files (*.*)|*.*"
+        OpenFileDialog2.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png|All files (*.*)|*.*"
         OpenFileDialog2.FilterIndex = 1
         OpenFileDialog2.FileName = ""
         If OpenFileDialog2.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -1884,7 +1972,7 @@ errortext:
         Dim outputfile, metadatafile, newlineandspace, insertion As String
         Dim startpos, insertpos As Integer
 
-        OpenFileDialog2.Filter = "Image Files (*.jpg)|*.jpg|All files (*.*)|*.*"
+        OpenFileDialog2.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png|All files (*.*)|*.*"
         OpenFileDialog2.FilterIndex = 1
         OpenFileDialog2.FileName = ""
         If OpenFileDialog2.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -1999,6 +2087,8 @@ errortext:
             ChangeImageToolStripMenuItem.Enabled = True
             AddImageToolStripMenuItem.Enabled = False
             Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPub Metadata Editor"
+
+            GroupBox1.Visible = False
         End If
     End Sub
 
@@ -4504,7 +4594,7 @@ errortext:
         Dim ImageDirectory, FileNameOnly, RelativeLocation, metadatafile As String
         Dim startpos, endpos As Integer
         OpenFileDialog6.InitialDirectory = opfdirectory
-        OpenFileDialog6.Filter = "Image files (*.jpg, *.png) | *.jpg; *.png"
+        OpenFileDialog6.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png"
         result = OpenFileDialog6.ShowDialog()
         If result = Windows.Forms.DialogResult.OK Then
             ImageDirectory = Path.GetDirectoryName(OpenFileDialog6.FileName)
@@ -4559,4 +4649,6 @@ errortext:
             End If
         End If
     End Sub
+
+
 End Class
