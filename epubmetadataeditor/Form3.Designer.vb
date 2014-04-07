@@ -83,7 +83,7 @@ Partial Class Form3
         Me.MaximizeBox = False
         Me.Name = "Form3"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
-        Me.Text = "EPub Metadata Editor - Table Of Contents"
+        Me.Text = "EPUB Metadata Editor - Table Of Contents"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 

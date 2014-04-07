@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("EPubMetadataEditor")> 
-<Assembly: AssemblyDescription("Edit the metadata of EPub files")> 
+<Assembly: AssemblyTitle("EPUB Metadata Editor")> 
+<Assembly: AssemblyDescription("Edit the metadata of EPUB files")> 
 <Assembly: AssemblyCompany("Ben Chenoweth")> 
-<Assembly: AssemblyProduct("EPubMetadataEditor")> 
+<Assembly: AssemblyProduct("EPUB Metadata Editor")> 
 <Assembly: AssemblyCopyright("Copyright © 2011-2014")> 
 <Assembly: AssemblyTrademark("")> 
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.3.0")> 
-<Assembly: AssemblyFileVersion("1.3.0")> 
+<Assembly: AssemblyVersion("1.3.1")> 
+<Assembly: AssemblyFileVersion("1.3.1")> 

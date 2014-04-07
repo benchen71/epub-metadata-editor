@@ -754,7 +754,7 @@ Partial Class Form1
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(121, 30)
         Me.Button8.TabIndex = 24
-        Me.Button8.Text = "View EPub"
+        Me.Button8.Text = "View EPUB"
         Me.Button8.UseVisualStyleBackColor = True
         '
         'LinkLabel1
@@ -1552,7 +1552,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
-        Me.Text = "EPub Metadata Editor"
+        Me.Text = "EPUB Metadata Editor"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ContextMenuStrip2.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()

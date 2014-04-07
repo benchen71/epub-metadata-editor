@@ -94,9 +94,9 @@ Partial Class Dialog3
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(4, 7)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(302, 13)
+        Me.Label3.Size = New System.Drawing.Size(305, 13)
         Me.Label3.TabIndex = 4
-        Me.Label3.Text = "A new version of EPub Metadata Editor is available!"
+        Me.Label3.Text = "A new version of EPUB Metadata Editor is available!"
         '
         'Label4
         '
@@ -145,7 +145,7 @@ Partial Class Dialog3
         Me.Name = "Dialog3"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "EPub Metadata Editor"
+        Me.Text = "EPUB Metadata Editor"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()

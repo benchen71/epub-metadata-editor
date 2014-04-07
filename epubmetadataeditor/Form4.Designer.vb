@@ -287,7 +287,7 @@ Partial Class Form4
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
         Me.Name = "Form4"
-        Me.Text = "EPub Metadata Editor - File Renamer"
+        Me.Text = "EPUB Metadata Editor - File Renamer"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

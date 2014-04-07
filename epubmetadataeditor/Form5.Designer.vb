@@ -48,7 +48,7 @@ Partial Class Form5
         Me.MinimizeBox = False
         Me.Name = "Form5"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
-        Me.Text = "EPub Metadata Editor - Table Of Contents"
+        Me.Text = "EPUB Metadata Editor - Table Of Contents"
         Me.ResumeLayout(False)
 
     End Sub

@@ -46,7 +46,7 @@ Partial Class Form6
         Me.Controls.Add(Me.WebBrowser1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form6"
-        Me.Text = "EPub Metadata Editor - "
+        Me.Text = "EPUB Metadata Editor - "
         Me.ResumeLayout(False)
 
     End Sub
