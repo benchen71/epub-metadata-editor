@@ -3350,7 +3350,7 @@ lookforrefines5:
                     End If
                     endpos = InStr(metadatafile, "</dc:identifier>")
                     extracheck = InStr(startpos + 1, metadatafile, "<dc:")
-                    If (endpos > extracheck) Then endpos = 0 'look to see if field end is actually for a second identifier
+                    If ((extracheck <> 0) And (endpos > extracheck)) Then endpos = 0 'look to see if field end is actually for a second identifier
                     If endpos = 0 Then
                         endpos = InStr(metadatafile, "</identifier>")
                         If endpos <> 0 Then
@@ -4651,4 +4651,7 @@ errortext:
     End Sub
 
 
+    Private Sub LinkLabel7_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel7.LinkClicked
+        System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KC9T4JCJ2MPZG")
+    End Sub
 End Class

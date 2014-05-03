@@ -1,3 +1,3 @@
-1.3.1
-[*] Added a donate button to the About dialog box.
-[*] Changed name to "EPUB Metadata Editor".
+1.3.2
+[*] Fixed a bug
+[*] Added a donate link (hey, a developer can dream!)

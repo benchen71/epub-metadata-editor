@@ -156,6 +156,7 @@ Partial Class Form1
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
         Me.Label29 = New System.Windows.Forms.Label
         Me.Label28 = New System.Windows.Forms.Label
+        Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1440,11 +1441,26 @@ Partial Class Form1
         Me.Label28.TabIndex = 0
         Me.Label28.Text = "There is no cover image set.  The following images"
         '
+        'LinkLabel7
+        '
+        Me.LinkLabel7.AutoSize = True
+        Me.LinkLabel7.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel7.LinkColor = System.Drawing.Color.Red
+        Me.LinkLabel7.Location = New System.Drawing.Point(759, 42)
+        Me.LinkLabel7.MinimumSize = New System.Drawing.Size(121, 0)
+        Me.LinkLabel7.Name = "LinkLabel7"
+        Me.LinkLabel7.Size = New System.Drawing.Size(121, 13)
+        Me.LinkLabel7.TabIndex = 91
+        Me.LinkLabel7.TabStop = True
+        Me.LinkLabel7.Text = "Donate!"
+        Me.LinkLabel7.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.Controls.Add(Me.LinkLabel7)
         Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.CheckBox8)
@@ -1695,5 +1711,6 @@ Partial Class Form1
     Friend WithEvents ListBox2 As System.Windows.Forms.ListBox
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents Label30 As System.Windows.Forms.Label
+    Friend WithEvents LinkLabel7 As System.Windows.Forms.LinkLabel
 
 End Class
