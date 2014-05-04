@@ -430,6 +430,7 @@ lookforpagemap:
         Button25.Enabled = True
         Button28.Enabled = True
         Button29.Enabled = True
+        Button38.Enabled = True
         LinkLabel3.Enabled = True
         'SaveImageAsToolStripMenuItem.Enabled = True
         If versioninfo = "3.0" Then
@@ -724,12 +725,15 @@ skipsecondcreator:
                         lenheader = endheader - startpos + 1
                         endpos = InStr(metadatafile, "</dc:description>")
                         If endpos = 0 Then endpos = InStr(metadatafile, "</description>")
-                        TextBox4.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        TextBox4.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                        WebBrowser1.DocumentText = TextBox4.Text
+                        WebBrowser1.Visible = True
                     End If
                 End If
             End If
         Catch ex As Exception
             TextBox4.Text = "ERROR"
+            WebBrowser1.Visible = False
         End Try
 
         'Get Publisher
@@ -3020,7 +3024,7 @@ lookforrefines2:
             startpos = InStr(metadatafile, "<dc:description/>")
             If startpos = 0 Then
                 If testpos <> 0 Then
-                    metadatafile = metadatafile.Replace("<dc:description />", "<dc:description>" + TextBox4.Text + "</dc:description>")
+                    metadatafile = metadatafile.Replace("<dc:description />", "<dc:description>" + XMLOutput(TextBox4.Text) + "</dc:description>")
                 Else
                     startpos = InStr(metadatafile, "<dc:description")
                     If startpos = 0 Then startpos = InStr(metadatafile, "<description")
@@ -3031,21 +3035,21 @@ lookforrefines2:
                             endpos = InStr(metadatafile, "</dc:description>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</description>")
                             If endpos <> 0 Then
-                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox4.Text + Mid(metadatafile, endpos)
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox4.Text) + Mid(metadatafile, endpos)
                             Else
                                 endpos = InStr(startpos, metadatafile, " />")
                                 If endpos <> 0 Then
-                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox4.Text + "</dc:description>" + Mid(metadatafile, endpos + 3)
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox4.Text) + "</dc:description>" + Mid(metadatafile, endpos + 3)
                                 End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
-                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:description>" + TextBox4.Text + "</dc:description>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
+                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:description>" + XMLOutput(TextBox4.Text) + "</dc:description>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
                         End If
                     End If
                 End If
             Else
-                metadatafile = metadatafile.Replace("<dc:description/>", "<dc:description>" + TextBox4.Text + "</dc:description>")
+                metadatafile = metadatafile.Replace("<dc:description/>", "<dc:description>" + XMLOutput(TextBox4.Text) + "</dc:description>")
             End If
         End If
 
@@ -4653,5 +4657,91 @@ errortext:
 
     Private Sub LinkLabel7_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel7.LinkClicked
         System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KC9T4JCJ2MPZG")
+    End Sub
+    Private Function XMLOutput(ByVal InputString As String) As String
+        Dim x As Integer
+        Dim OutputString, nextchar As String
+        OutputString = ""
+        For x = 1 To Len(InputString)
+            nextchar = Mid(InputString, x, 1)
+            If ((nextchar = "&") Or (nextchar = "<") Or (nextchar = ">") Or (nextchar = Chr(34)) Or (nextchar = "'")) Then
+                If (nextchar = "&") Then
+                    OutputString = OutputString + "&amp;"
+                ElseIf (nextchar = "<") Then
+                    OutputString = OutputString + "&lt;"
+                ElseIf (nextchar = ">") Then
+                    OutputString = OutputString + "&gt;"
+                ElseIf (nextchar = Chr(34)) Then
+                    OutputString = OutputString + "&quot;"
+                ElseIf (nextchar = "'") Then
+                    OutputString = OutputString + "&apos;"
+                End If
+            Else
+                OutputString = OutputString + nextchar
+            End If
+        Next
+        Return OutputString
+    End Function
+    Private Function XMLInput(ByVal InputString As String) As String
+        Dim x, length As Integer
+        Dim OutputString, nextchars As String
+        Dim DidSomething As Boolean
+        OutputString = ""
+        length = Len(InputString)
+        x = 1
+        While (x <= length)
+            DidSomething = False
+            If (x + 3 <= length) Then
+                nextchars = Mid(InputString, x, 4)
+                If (nextchars = "&lt;") Then
+                    OutputString = OutputString + "<"
+                    x = x + 4
+                    DidSomething = True
+                ElseIf (nextchars = "&gt;") Then
+                    OutputString = OutputString + ">"
+                    x = x + 4
+                    DidSomething = True
+                End If
+            End If
+            If (x + 4 <= length) Then
+                nextchars = Mid(InputString, x, 5)
+                If (nextchars = "&amp;") Then
+                    OutputString = OutputString + "&"
+                    x = x + 5
+                    DidSomething = True
+                End If
+            End If
+            If (x + 5 <= length) Then
+                nextchars = Mid(InputString, x, 6)
+                If (nextchars = "&quot;") Then
+                    OutputString = OutputString + Chr(34)
+                    x = x + 6
+                    DidSomething = True
+                ElseIf (nextchars = "&apos;") Then
+                    OutputString = OutputString + "'"
+                    x = x + 6
+                    DidSomething = True
+                End If
+            End If
+            If Not DidSomething Then
+                OutputString = OutputString + Mid(InputString, x, 1)
+                x = x + 1
+            End If
+        End While
+        Return OutputString
+    End Function
+
+    Private Sub Button38_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button38.Click
+        If (WebBrowser1.Visible = False) Then
+            WebBrowser1.DocumentText = TextBox4.Text
+            WebBrowser1.Visible = True
+            Button38.Text = "E"
+            ToolTip1.SetToolTip(Button38, "Edit Description")
+        Else
+            WebBrowser1.Visible = False
+            Button38.Text = "OK"
+            ToolTip1.SetToolTip(Button38, "Show Changes")
+        End If
+
     End Sub
 End Class

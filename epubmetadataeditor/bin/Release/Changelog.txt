@@ -1,3 +1,2 @@
-1.3.2
-[*] Fixed a bug
-[*] Added a donate link (hey, a developer can dream!)
+1.3.3
+[*] Description field now displays HTML properly.

@@ -157,6 +157,8 @@ Partial Class Form1
         Me.Label29 = New System.Windows.Forms.Label
         Me.Label28 = New System.Windows.Forms.Label
         Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
+        Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
+        Me.Button38 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -464,7 +466,7 @@ Partial Class Form1
         Me.Button28.Location = New System.Drawing.Point(422, 452)
         Me.Button28.Name = "Button28"
         Me.Button28.Size = New System.Drawing.Size(26, 20)
-        Me.Button28.TabIndex = 42
+        Me.Button28.TabIndex = 43
         Me.Button28.Text = "E"
         Me.Button28.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button28, "Edit event type")
@@ -478,7 +480,7 @@ Partial Class Form1
         Me.Button29.Location = New System.Drawing.Point(422, 556)
         Me.Button29.Name = "Button29"
         Me.Button29.Size = New System.Drawing.Size(26, 20)
-        Me.Button29.TabIndex = 43
+        Me.Button29.TabIndex = 44
         Me.Button29.Text = "E"
         Me.Button29.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button29, "Edit scheme type")
@@ -1455,11 +1457,36 @@ Partial Class Form1
         Me.LinkLabel7.Text = "Donate!"
         Me.LinkLabel7.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
+        'WebBrowser1
+        '
+        Me.WebBrowser1.Location = New System.Drawing.Point(84, 333)
+        Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.WebBrowser1.Name = "WebBrowser1"
+        Me.WebBrowser1.Size = New System.Drawing.Size(330, 85)
+        Me.WebBrowser1.TabIndex = 92
+        Me.WebBrowser1.Visible = False
+        '
+        'Button38
+        '
+        Me.Button38.Enabled = False
+        Me.Button38.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Button38.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button38.Location = New System.Drawing.Point(422, 331)
+        Me.Button38.Name = "Button38"
+        Me.Button38.Size = New System.Drawing.Size(26, 20)
+        Me.Button38.TabIndex = 42
+        Me.Button38.Text = "E"
+        Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
+        Me.Button38.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.Controls.Add(Me.Button38)
+        Me.Controls.Add(Me.WebBrowser1)
         Me.Controls.Add(Me.LinkLabel7)
         Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.GroupBox1)
@@ -1712,5 +1739,7 @@ Partial Class Form1
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents Label30 As System.Windows.Forms.Label
     Friend WithEvents LinkLabel7 As System.Windows.Forms.LinkLabel
+    Friend WithEvents WebBrowser1 As System.Windows.Forms.WebBrowser
+    Friend WithEvents Button38 As System.Windows.Forms.Button
 
 End Class
