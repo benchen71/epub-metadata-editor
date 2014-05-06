@@ -19,7 +19,6 @@ Public Class Form1
     Dim opffile As String
     Dim tocfile As String
     Dim pagemapfile As String
-    Dim searchResults As String()
     Dim m_MouseIsDown As Boolean
     Dim appdatafolder As String
     Dim versioninfo As String
@@ -27,6 +26,10 @@ Public Class Form1
     Dim updateinfo As String
     Dim fixcovermetadata As Boolean
     Dim fixcovermanifest As Boolean
+    Dim CaptionString As String
+    Dim searchResults As String()
+    Dim currentfilenumber As Integer
+    Dim refreshfilelist As Boolean = True
 
     Public Sub DeleteDirContents(ByVal dir As IO.DirectoryInfo)
         Dim fa() As IO.FileInfo
@@ -52,6 +55,7 @@ Public Class Form1
         TextBox2.Text = ""
         TextBox3.Text = ""
         TextBox4.Text = ""
+        WebBrowser1.DocumentText = ""
         TextBox5.Text = ""
         TextBox6.Text = ""
         TextBox7.Text = ""
@@ -78,13 +82,13 @@ Public Class Form1
     TextBox9.TextChanged, TextBox10.TextChanged, TextBox11.TextChanged, TextBox14.TextChanged, TextBox15.TextChanged, TextBox16.TextChanged, TextBox17.TextChanged
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
     End Sub
 
     Private Sub TextBox12_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox12.TextChanged
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
 
         If ComboBox1.SelectedIndex = -1 Then ComboBox1.SelectedIndex = 0
     End Sub
@@ -92,7 +96,7 @@ Public Class Form1
     Private Sub TextBox13_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox13.TextChanged
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
 
         If ComboBox2.SelectedIndex = -1 Then ComboBox2.SelectedIndex = 0
     End Sub
@@ -135,29 +139,7 @@ Public Class Form1
                         End If
                     End If
 
-                    TextBox1.Text = ""
-                    TextBox2.Text = ""
-                    TextBox3.Text = ""
-                    TextBox4.Text = ""
-                    TextBox5.Text = ""
-                    TextBox6.Text = ""
-                    TextBox7.Text = ""
-                    TextBox8.Text = ""
-                    TextBox9.Text = ""
-                    TextBox10.Text = ""
-                    TextBox11.Text = ""
-                    TextBox12.Text = ""
-                    TextBox13.Text = ""
-                    TextBox14.Text = ""
-                    TextBox15.Text = ""
-                    TextBox16.Text = ""
-                    TextBox17.Text = ""
-                    ComboBox1.SelectedIndex = -1
-                    ComboBox2.SelectedIndex = -1
-                    PictureBox1.Image = Nothing
-                    Label4.Visible = False
-                    Button1.Visible = False
-                    Label25.Visible = False
+                    ClearInterface()
                     SaveImageAsToolStripMenuItem.Enabled = False
                     AddImageToolStripMenuItem.Enabled = False
                     ChangeImageToolStripMenuItem.Enabled = False
@@ -234,7 +216,7 @@ Public Class Form1
             End If
         End Try
     End Sub
-    Private Sub OpenEPUB()
+    Public Sub OpenEPUB()
         Dim metadatafile As String
         Dim instance As Integer
 
@@ -393,8 +375,25 @@ lookforpagemap:
         metadatafile = RichTextBox1.Text
         ExtractMetadata(metadatafile, True)
 
+        'Process current folder to locate other EPUB files
+        searchResults = Directory.GetFiles(IO.Path.GetDirectoryName(OpenFileDialog1.FileName), "*.epub", SearchOption.AllDirectories)
+        refreshfilelist = True
+        ComboBox3.Items.Clear()
+        Dim fi As String
+        For Each fi In searchResults
+            ComboBox3.Items.Add(fi.Substring(fi.LastIndexOf("\") + 1, fi.Length - fi.LastIndexOf("\") - 1))
+        Next
+        Dim x As Integer = 0
+        While (searchResults(x) <> OpenFileDialog1.FileName)
+            x = x + 1
+        End While
+        currentfilenumber = x + 1 'searchResults is zero based
+        ComboBox3.SelectedIndex = x
+        ComboBox3.Enabled = True
+
         'Update interface
-        Me.Text = IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        CaptionString = IO.Path.GetFileName(OpenFileDialog1.FileName) + " [" + currentfilenumber.ToString + "/" + searchResults.Length.ToString + "] - EPUB Metadata Editor"
+        Me.Text = CaptionString
         projectchanged = False
         TextBox1.Enabled = True
         TextBox2.Enabled = True
@@ -467,6 +466,12 @@ lookforpagemap:
             End If
         End If
 
+        'Check for non-standard opf namespace tags
+        If (InStr(metadatafile, "<opf:metadata>") Or InStr(metadatafile, "<opf:manifest>")) Then
+            metadatafile = metadatafile.Replace("<opf:", "<")
+            metadatafile = metadatafile.Replace("</opf:", "</")
+        End If
+
         'Get title
         Try
             startpos = InStr(metadatafile, "<dc:title")
@@ -474,20 +479,20 @@ lookforpagemap:
                 endpos = InStr(metadatafile, "</dc:title>")
                 lenheader = Len("<dc:title")
                 If Mid(metadatafile, startpos + lenheader, 1) = ">" Then
-                    TextBox1.Text = Mid(metadatafile, startpos + lenheader + 1, endpos - startpos - lenheader - 1)
+                    TextBox1.Text = XMLInput(Mid(metadatafile, startpos + lenheader + 1, endpos - startpos - lenheader - 1))
                 Else
                     'Get optional attributes
                     fileaspos = InStr(startpos, metadatafile, "opf:file-as=")
                     If fileaspos <> 0 Then
                         For temploop = fileaspos + 13 To endpos
                             If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                                TextBox16.Text = Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13)
+                                TextBox16.Text = XMLInput(Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13))
                             End If
                         Next
                     End If
                     For temploop = startpos To endpos
                         If Mid(metadatafile, temploop, 1) = ">" Then
-                            TextBox1.Text = Mid(metadatafile, temploop + 1, endpos - temploop - 1)
+                            TextBox1.Text = XMLInput(Mid(metadatafile, temploop + 1, endpos - temploop - 1))
                         End If
                     Next
                 End If
@@ -694,7 +699,7 @@ skipsecondcreator:
                 If startpos <> 0 Then
                     endpos = InStr(startpos, metadatafile, "/>")
                     lenheader = Len("content=" & Chr(34))
-                    TextBox15.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader - 1)
+                    TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader - 1))
                 End If
 
                 startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
@@ -749,7 +754,7 @@ skipsecondcreator:
                         lenheader = endheader - startpos + 1
                         endpos = InStr(metadatafile, "</dc:publisher>")
                         If endpos = 0 Then endpos = InStr(metadatafile, "</publisher>")
-                        TextBox5.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        TextBox5.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
                     End If
                 End If
             End If
@@ -803,7 +808,7 @@ skipsecondcreator:
                         lenheader = endheader - startpos + 1
                         endpos = InStr(metadatafile, "</dc:subject>")
                         If endpos = 0 Then endpos = InStr(metadatafile, "</subject>")
-                        TextBox17.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        TextBox17.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
                     End If
                 End If
             End If
@@ -1333,7 +1338,7 @@ exitsub:
 
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
 
         ' Need to update metadata
         RichTextBox1.Text = LoadUnicodeFile(opffile)
@@ -1352,6 +1357,33 @@ exitsub:
             End If
         End If
     End Sub
+    Public Function DealWithPreviousFile() As String
+        If projectchanged Then
+            DialogResult = Dialog1.ShowDialog
+            If DialogResult = Windows.Forms.DialogResult.Cancel Then
+                Return ("cancel")
+            End If
+            If DialogResult = Windows.Forms.DialogResult.Yes Then
+                SaveEpub()
+            End If
+        End If
+
+        ' Delete previous temp directory (if it exists)
+        If tempdirectory <> "" Then
+            ChDir(tempdirectory)
+            If ebookdirectory <> "" Then
+                If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+            End If
+        End If
+
+        ClearInterface()
+        SaveImageAsToolStripMenuItem.Enabled = False
+        AddImageToolStripMenuItem.Enabled = False
+        ChangeImageToolStripMenuItem.Enabled = False
+        Return ("proceed")
+    End Function
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Check for Ionic.Zip.dll
         If Not System.IO.File.Exists(Application.StartupPath & "\Ionic.Zip.dll") Then
@@ -1459,29 +1491,7 @@ exitsub:
         OpenFileDialog1.FilterIndex = 1
         OpenFileDialog1.FileName = ""
         If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
-            TextBox1.Text = ""
-            TextBox2.Text = ""
-            TextBox3.Text = ""
-            TextBox4.Text = ""
-            TextBox5.Text = ""
-            TextBox6.Text = ""
-            TextBox7.Text = ""
-            TextBox8.Text = ""
-            TextBox9.Text = ""
-            TextBox10.Text = ""
-            TextBox11.Text = ""
-            TextBox12.Text = ""
-            TextBox13.Text = ""
-            TextBox14.Text = ""
-            TextBox15.Text = ""
-            TextBox16.Text = ""
-            TextBox17.Text = ""
-            ComboBox1.SelectedIndex = -1
-            ComboBox2.SelectedIndex = -1
-            PictureBox1.Image = Nothing
-            Label4.Visible = False
-            Button1.Visible = False
-            Label25.Visible = False
+            ClearInterface()
             SaveImageAsToolStripMenuItem.Enabled = False
             AddImageToolStripMenuItem.Enabled = False
             ChangeImageToolStripMenuItem.Enabled = False
@@ -1587,30 +1597,7 @@ errortext:
             Exit Sub
         End If
 
-        TextBox1.Text = ""
-        TextBox2.Text = ""
-        TextBox3.Text = ""
-        TextBox4.Text = ""
-        TextBox5.Text = ""
-        TextBox6.Text = ""
-        TextBox7.Text = ""
-        TextBox8.Text = ""
-        TextBox9.Text = ""
-        TextBox10.Text = ""
-        TextBox11.Text = ""
-        TextBox12.Text = ""
-        TextBox13.Text = ""
-        TextBox14.Text = ""
-        TextBox15.Text = ""
-        TextBox16.Text = ""
-        TextBox17.Text = ""
-        ComboBox1.SelectedIndex = -1
-        ComboBox2.SelectedIndex = -1
-        PictureBox1.Image = Nothing
-        SaveImageAsToolStripMenuItem.Enabled = False
-        Label4.Visible = False
-        Button1.Visible = False
-        Label25.Visible = False
+        ClearInterface()
         tempdirectory = System.IO.Path.GetTempPath
         ebookdirectory = tempdirectory + "EPUB"
 
@@ -1832,25 +1819,7 @@ errortext:
                 zip.Save(ListBox1.Items(x - 1))
             End Using
 
-            TextBox1.Text = ""
-            TextBox2.Text = ""
-            TextBox3.Text = ""
-            TextBox4.Text = ""
-            TextBox5.Text = ""
-            TextBox6.Text = ""
-            TextBox7.Text = ""
-            TextBox8.Text = ""
-            TextBox9.Text = ""
-            TextBox10.Text = ""
-            TextBox11.Text = ""
-            TextBox12.Text = ""
-            TextBox13.Text = ""
-            TextBox14.Text = ""
-            TextBox15.Text = ""
-            TextBox16.Text = ""
-            TextBox17.Text = ""
-            ComboBox1.SelectedIndex = -1
-            ComboBox2.SelectedIndex = -1
+            ClearInterface()
 
         Next
         ProgressBar1.Value = 0
@@ -1859,25 +1828,7 @@ errortext:
         projectchanged = False
         Button3.Enabled = False
         Me.Text = "EPUB Metadata Editor"
-        TextBox1.Text = ""
-        TextBox2.Text = ""
-        TextBox3.Text = ""
-        TextBox4.Text = ""
-        TextBox5.Text = ""
-        TextBox6.Text = ""
-        TextBox7.Text = ""
-        TextBox8.Text = ""
-        TextBox9.Text = ""
-        TextBox10.Text = ""
-        TextBox11.Text = ""
-        TextBox12.Text = ""
-        TextBox13.Text = ""
-        TextBox14.Text = ""
-        TextBox15.Text = ""
-        TextBox16.Text = ""
-        TextBox17.Text = ""
-        ComboBox1.SelectedIndex = -1
-        ComboBox2.SelectedIndex = -1
+        ClearInterface()
         DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
         Button10.Enabled = False
 
@@ -1968,7 +1919,7 @@ errortext:
             PictureBox1.Load()
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -2090,7 +2041,7 @@ errortext:
             SaveImageAsToolStripMenuItem.Enabled = True
             ChangeImageToolStripMenuItem.Enabled = True
             AddImageToolStripMenuItem.Enabled = False
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
 
             GroupBox1.Visible = False
         End If
@@ -2104,7 +2055,7 @@ errortext:
         Label4.Visible = False
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
     End Sub
     Private Function GetHTMLCoverFile(ByVal imagefile As String) As String
         Dim returnstring As String
@@ -2255,7 +2206,7 @@ errortext:
             SaveUnicodeFile(opffile, RichTextBox1.Text)
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
 
             ' Need to update metadata
             RichTextBox1.Text = LoadUnicodeFile(opffile)
@@ -2275,7 +2226,7 @@ errortext:
             SaveUnicodeFile(tocfile, RichTextBox1.Text)
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -2310,7 +2261,7 @@ errortext:
             RichTextBox1.SaveFile(pagemapfile, RichTextBoxStreamType.PlainText)
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -2455,7 +2406,7 @@ errortext:
                     AddImageToolStripMenuItem.Enabled = False
                     projectchanged = True
                     Button3.Enabled = True
-                    Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+                    Me.Text = "*" + CaptionString
                 End If
             End If
         Next
@@ -2604,7 +2555,7 @@ errortext:
             AddImageToolStripMenuItem.Enabled = False
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -2651,6 +2602,12 @@ errortext:
             End If
         End If
 
+        'Check for non-standard opf namespace tags
+        If (InStr(metadatafile, "<opf:metadata>") Or InStr(metadatafile, "<opf:manifest>")) Then
+            metadatafile = metadatafile.Replace("<opf:", "<")
+            metadatafile = metadatafile.Replace("</opf:", "</")
+        End If
+
         'Search for xmlns:opf="http://www.idpf.org/2007/opf"
         startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
         temppos = InStr(metadatafile, "<dc:")
@@ -2674,22 +2631,22 @@ errortext:
 
             'If optional attributes
             If TextBox16.Text <> "" Then
-                optionaltext = " opf:file-as=" + Chr(34) + TextBox16.Text + Chr(34) + ">"
+                optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
             Else
                 optionaltext = ">"
             End If
-            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox1.Text + Mid(metadatafile, endpos)
+            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox1.Text) + Mid(metadatafile, endpos)
         Else
             ' no title yet, so add it after <metadata... > tag
             startpos = InStr(metadatafile, "<metadata")
             startpos = InStr(startpos, metadatafile, ">") + 1
             'If optional attributes
             If TextBox16.Text <> "" Then
-                optionaltext = " opf:file-as=" + Chr(34) + TextBox16.Text + Chr(34) + ">"
+                optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
             Else
                 optionaltext = ">"
             End If
-            metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + TextBox1.Text + "</dc:title>" + Mid(metadatafile, startpos)
+            metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + XMLOutput(TextBox1.Text) + "</dc:title>" + Mid(metadatafile, startpos)
         End If
 
         'Output first creator
@@ -2998,10 +2955,10 @@ lookforrefines2:
             If startpos <> 0 Then
                 endpos = InStr(startpos, metadatafile, "/>")
                 lenheader = Len("<meta name=" & Chr(34) & "calibre:series" & Chr(34))
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + TextBox15.Text + Chr(34) + Mid(metadatafile, endpos)
+                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
             Else
                 endpos = InStr(metadatafile, "</dc:title>")
-                metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + TextBox15.Text + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
             End If
         End If
         startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
@@ -3061,7 +3018,7 @@ lookforrefines2:
             startpos = InStr(metadatafile, "<dc:publisher/>")
             If startpos = 0 Then
                 If testpos <> 0 Then
-                    metadatafile = metadatafile.Replace("<dc:publisher />", "<dc:publisher>" + TextBox5.Text + "</dc:publisher>")
+                    metadatafile = metadatafile.Replace("<dc:publisher />", "<dc:publisher>" + XMLOutput(TextBox5.Text) + "</dc:publisher>")
                 Else
                     startpos = InStr(metadatafile, "<dc:publisher")
                     If startpos = 0 Then startpos = InStr(metadatafile, "<publisher")
@@ -3072,21 +3029,21 @@ lookforrefines2:
                             endpos = InStr(metadatafile, "</dc:publisher>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</publisher>")
                             If endpos <> 0 Then
-                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox5.Text + Mid(metadatafile, endpos)
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox5.Text) + Mid(metadatafile, endpos)
                             Else
                                 endpos = InStr(startpos, metadatafile, " />")
                                 If endpos <> 0 Then
-                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox5.Text + "</dc:publisher>" + Mid(metadatafile, endpos + 3)
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox5.Text) + "</dc:publisher>" + Mid(metadatafile, endpos + 3)
                                 End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
-                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:publisher>" + TextBox5.Text + "</dc:publisher>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
+                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:publisher>" + XMLOutput(TextBox5.Text) + "</dc:publisher>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
                         End If
                     End If
                 End If
             Else
-                metadatafile = metadatafile.Replace("<dc:publisher/>", "<dc:publisher>" + TextBox5.Text + "</dc:publisher>")
+                metadatafile = metadatafile.Replace("<dc:publisher/>", "<dc:publisher>" + XMLOutput(TextBox5.Text) + "</dc:publisher>")
             End If
         End If
 
@@ -3148,7 +3105,7 @@ lookforrefines2:
             startpos = InStr(metadatafile, "<dc:subject/>")
             If startpos = 0 Then
                 If testpos <> 0 Then
-                    metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + TextBox17.Text + "</dc:subject>")
+                    metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + XMLOutput(TextBox17.Text) + "</dc:subject>")
                 Else
                     startpos = InStr(metadatafile, "<dc:subject")
                     If startpos = 0 Then startpos = InStr(metadatafile, "<subject")
@@ -3159,21 +3116,21 @@ lookforrefines2:
                             endpos = InStr(metadatafile, "</dc:subject>")
                             If endpos = 0 Then endpos = InStr(metadatafile, "</subject>")
                             If endpos <> 0 Then
-                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox17.Text + Mid(metadatafile, endpos)
+                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox17.Text) + Mid(metadatafile, endpos)
                             Else
                                 endpos = InStr(startpos, metadatafile, " />")
                                 If endpos <> 0 Then
-                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + TextBox17.Text + "</dc:subject>" + Mid(metadatafile, endpos + 3)
+                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox17.Text) + "</dc:subject>" + Mid(metadatafile, endpos + 3)
                                 End If
                             End If
                         Else
                             endpos = InStr(metadatafile, "</dc:title>")
-                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:subject>" + TextBox17.Text + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
+                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:subject>" + XMLOutput(TextBox17.Text) + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
                         End If
                     End If
                 End If
             Else
-                metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + TextBox17.Text + "</dc:subject>")
+                metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + XMLOutput(TextBox17.Text) + "</dc:subject>")
             End If
         End If
 
@@ -3481,7 +3438,7 @@ outputsource:
         End Using
 
         'Update interface
-        Me.Text = IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = CaptionString
         Button3.Enabled = False
         projectchanged = False
     End Sub
@@ -3529,7 +3486,7 @@ outputsource:
                 SaveUnicodeFile(OpenFileDialog5.FileName, RichTextBox1.Text)
                 projectchanged = True
                 Button3.Enabled = True
-                Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+                Me.Text = "*" + CaptionString
 
                 ' Possibly need to update metadata
                 ClearInterface()
@@ -3611,7 +3568,7 @@ outputsource:
         CheckBox5.Visible = False
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
     End Sub
 
     Private Sub Button28_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button28.Click
@@ -3637,7 +3594,7 @@ outputsource:
             End If
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -3669,7 +3626,7 @@ outputsource:
             End If
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -3848,9 +3805,9 @@ redo:
                     System.IO.File.Delete(OpenFileDialog1.FileName)
                     OpenFileDialog1.FileName = destFileName
                     If projectchanged Then
-                        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+                        Me.Text = "*" + CaptionString
                     Else
-                        Me.Text = IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+                        Me.Text = CaptionString
                     End If
                 End If
             End If
@@ -3981,30 +3938,7 @@ redo:
             Dim filenum, x As Integer
             Dim metadatafile As String
 
-            TextBox1.Text = ""
-            TextBox2.Text = ""
-            TextBox3.Text = ""
-            TextBox4.Text = ""
-            TextBox5.Text = ""
-            TextBox6.Text = ""
-            TextBox7.Text = ""
-            TextBox8.Text = ""
-            TextBox9.Text = ""
-            TextBox10.Text = ""
-            TextBox11.Text = ""
-            TextBox12.Text = ""
-            TextBox13.Text = ""
-            TextBox14.Text = ""
-            TextBox15.Text = ""
-            TextBox16.Text = ""
-            TextBox17.Text = ""
-            ComboBox1.SelectedIndex = -1
-            ComboBox2.SelectedIndex = -1
-            PictureBox1.Image = Nothing
-            SaveImageAsToolStripMenuItem.Enabled = False
-            Label4.Visible = False
-            Button1.Visible = False
-            Label25.Visible = False
+            ClearInterface()
             tempdirectory = System.IO.Path.GetTempPath
             ebookdirectory = tempdirectory + "EPUB"
 
@@ -4219,25 +4153,7 @@ errortext:
                     End If
                 End If
 
-                TextBox1.Text = ""
-                TextBox2.Text = ""
-                TextBox3.Text = ""
-                TextBox4.Text = ""
-                TextBox5.Text = ""
-                TextBox6.Text = ""
-                TextBox7.Text = ""
-                TextBox8.Text = ""
-                TextBox9.Text = ""
-                TextBox10.Text = ""
-                TextBox11.Text = ""
-                TextBox12.Text = ""
-                TextBox13.Text = ""
-                TextBox14.Text = ""
-                TextBox15.Text = ""
-                TextBox16.Text = ""
-                TextBox17.Text = ""
-                ComboBox1.SelectedIndex = -1
-                ComboBox2.SelectedIndex = -1
+                ClearInterface()
             Next
 
             ProgressBar1.Value = 0
@@ -4246,25 +4162,7 @@ errortext:
             projectchanged = False
             Button3.Enabled = False
             Me.Text = "EPUB Metadata Editor"
-            TextBox1.Text = ""
-            TextBox2.Text = ""
-            TextBox3.Text = ""
-            TextBox4.Text = ""
-            TextBox5.Text = ""
-            TextBox6.Text = ""
-            TextBox7.Text = ""
-            TextBox8.Text = ""
-            TextBox9.Text = ""
-            TextBox10.Text = ""
-            TextBox11.Text = ""
-            TextBox12.Text = ""
-            TextBox13.Text = ""
-            TextBox14.Text = ""
-            TextBox15.Text = ""
-            TextBox16.Text = ""
-            TextBox17.Text = ""
-            ComboBox1.SelectedIndex = -1
-            ComboBox2.SelectedIndex = -1
+            ClearInterface()
             DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
 
             If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
@@ -4438,7 +4336,7 @@ errortext:
             SaveUnicodeFile(tocncxfile, RichTextBox1.Text)
             projectchanged = True
             Button3.Enabled = True
-            Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+            Me.Text = "*" + CaptionString
         End If
     End Sub
 
@@ -4590,7 +4488,7 @@ errortext:
 
         projectchanged = True
         Button3.Enabled = True
-        Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+        Me.Text = "*" + CaptionString
     End Sub
 
     Private Sub UseExistingImageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseExistingImageToolStripMenuItem.Click
@@ -4644,7 +4542,7 @@ errortext:
 
                 projectchanged = True
                 Button3.Enabled = True
-                Me.Text = "*" + IO.Path.GetFileName(OpenFileDialog1.FileName) + " - EPUB Metadata Editor"
+                Me.Text = "*" + CaptionString
 
                 ' Need to update metadata
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
@@ -4743,5 +4641,17 @@ errortext:
             ToolTip1.SetToolTip(Button38, "Show Changes")
         End If
 
+    End Sub
+
+    Private Sub ComboBox3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox3.SelectedIndexChanged
+        If refreshfilelist Then
+            refreshfilelist = False
+        Else
+            If (DealWithPreviousFile() = "proceed") Then
+                OpenFileDialog1.FileName = searchResults(ComboBox3.SelectedIndex)
+                OpenEPUB()
+                Button3.Enabled = False
+            End If
+        End If
     End Sub
 End Class

@@ -73,6 +73,7 @@ Partial Class Form1
         Me.Button6 = New System.Windows.Forms.Button
         Me.Button5 = New System.Windows.Forms.Button
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
+        Me.Button38 = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -158,7 +159,7 @@ Partial Class Form1
         Me.Label28 = New System.Windows.Forms.Label
         Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
-        Me.Button38 = New System.Windows.Forms.Button
+        Me.ComboBox3 = New System.Windows.Forms.ComboBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -632,6 +633,20 @@ Partial Class Form1
         Me.LinkLabel3.Text = "Rename File"
         Me.LinkLabel3.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.LinkLabel3, "(Hold SHIFT to auto-rename using current template)")
+        '
+        'Button38
+        '
+        Me.Button38.Enabled = False
+        Me.Button38.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Button38.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button38.Location = New System.Drawing.Point(422, 331)
+        Me.Button38.Name = "Button38"
+        Me.Button38.Size = New System.Drawing.Size(26, 20)
+        Me.Button38.TabIndex = 42
+        Me.Button38.Text = "E"
+        Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
+        Me.Button38.UseVisualStyleBackColor = True
         '
         'Label4
         '
@@ -1164,7 +1179,7 @@ Partial Class Form1
         Me.Label24.BackColor = System.Drawing.SystemColors.Control
         Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label24.ForeColor = System.Drawing.Color.Red
-        Me.Label24.Location = New System.Drawing.Point(581, 85)
+        Me.Label24.Location = New System.Drawing.Point(74, 181)
         Me.Label24.MinimumSize = New System.Drawing.Size(240, 0)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(240, 17)
@@ -1220,9 +1235,9 @@ Partial Class Form1
         Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.PictureBox1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.PictureBox1.Enabled = False
-        Me.PictureBox1.Location = New System.Drawing.Point(515, 58)
+        Me.PictureBox1.Location = New System.Drawing.Point(515, 87)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(364, 482)
+        Me.PictureBox1.Size = New System.Drawing.Size(364, 453)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 26
         Me.PictureBox1.TabStop = False
@@ -1364,6 +1379,7 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label24)
         Me.GroupBox1.Controls.Add(Me.Label30)
         Me.GroupBox1.Controls.Add(Me.Button37)
         Me.GroupBox1.Controls.Add(Me.Button36)
@@ -1371,9 +1387,9 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.PictureBox2)
         Me.GroupBox1.Controls.Add(Me.Label29)
         Me.GroupBox1.Controls.Add(Me.Label28)
-        Me.GroupBox1.Location = New System.Drawing.Point(515, 53)
+        Me.GroupBox1.Location = New System.Drawing.Point(515, 86)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(361, 487)
+        Me.GroupBox1.Size = New System.Drawing.Size(364, 455)
         Me.GroupBox1.TabIndex = 90
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Visible = False
@@ -1382,7 +1398,7 @@ Partial Class Form1
         '
         Me.Label30.AutoSize = True
         Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(21, 216)
+        Me.Label30.Location = New System.Drawing.Point(15, 181)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(61, 17)
         Me.Label30.TabIndex = 7
@@ -1390,7 +1406,7 @@ Partial Class Form1
         '
         'Button37
         '
-        Me.Button37.Location = New System.Drawing.Point(191, 451)
+        Me.Button37.Location = New System.Drawing.Point(191, 416)
         Me.Button37.Name = "Button37"
         Me.Button37.Size = New System.Drawing.Size(164, 27)
         Me.Button37.TabIndex = 6
@@ -1399,7 +1415,7 @@ Partial Class Form1
         '
         'Button36
         '
-        Me.Button36.Location = New System.Drawing.Point(18, 451)
+        Me.Button36.Location = New System.Drawing.Point(18, 416)
         Me.Button36.Name = "Button36"
         Me.Button36.Size = New System.Drawing.Size(164, 27)
         Me.Button36.TabIndex = 5
@@ -1409,16 +1425,16 @@ Partial Class Form1
         'ListBox2
         '
         Me.ListBox2.FormattingEnabled = True
-        Me.ListBox2.Location = New System.Drawing.Point(19, 65)
+        Me.ListBox2.Location = New System.Drawing.Point(18, 62)
         Me.ListBox2.Name = "ListBox2"
-        Me.ListBox2.Size = New System.Drawing.Size(296, 147)
+        Me.ListBox2.Size = New System.Drawing.Size(296, 108)
         Me.ListBox2.TabIndex = 4
         '
         'PictureBox2
         '
-        Me.PictureBox2.Location = New System.Drawing.Point(18, 234)
+        Me.PictureBox2.Location = New System.Drawing.Point(18, 201)
         Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(164, 207)
+        Me.PictureBox2.Size = New System.Drawing.Size(164, 209)
         Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox2.TabIndex = 3
         Me.PictureBox2.TabStop = False
@@ -1427,7 +1443,7 @@ Partial Class Form1
         '
         Me.Label29.AutoSize = True
         Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.Location = New System.Drawing.Point(15, 37)
+        Me.Label29.Location = New System.Drawing.Point(15, 32)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(196, 17)
         Me.Label29.TabIndex = 1
@@ -1437,7 +1453,7 @@ Partial Class Form1
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(15, 20)
+        Me.Label28.Location = New System.Drawing.Point(15, 15)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(328, 17)
         Me.Label28.TabIndex = 0
@@ -1447,7 +1463,7 @@ Partial Class Form1
         '
         Me.LinkLabel7.AutoSize = True
         Me.LinkLabel7.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel7.LinkColor = System.Drawing.Color.Red
+        Me.LinkLabel7.LinkColor = System.Drawing.Color.Blue
         Me.LinkLabel7.Location = New System.Drawing.Point(759, 42)
         Me.LinkLabel7.MinimumSize = New System.Drawing.Size(121, 0)
         Me.LinkLabel7.Name = "LinkLabel7"
@@ -1466,29 +1482,26 @@ Partial Class Form1
         Me.WebBrowser1.TabIndex = 92
         Me.WebBrowser1.Visible = False
         '
-        'Button38
+        'ComboBox3
         '
-        Me.Button38.Enabled = False
-        Me.Button38.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.Button38.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button38.Location = New System.Drawing.Point(422, 331)
-        Me.Button38.Name = "Button38"
-        Me.Button38.Size = New System.Drawing.Size(26, 20)
-        Me.Button38.TabIndex = 42
-        Me.Button38.Text = "E"
-        Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
-        Me.Button38.UseVisualStyleBackColor = True
+        Me.ComboBox3.Enabled = False
+        Me.ComboBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBox3.FormattingEnabled = True
+        Me.ComboBox3.Location = New System.Drawing.Point(515, 61)
+        Me.ComboBox3.Name = "ComboBox3"
+        Me.ComboBox3.Size = New System.Drawing.Size(364, 21)
+        Me.ComboBox3.TabIndex = 93
+        Me.ToolTip1.SetToolTip(Me.ComboBox3, "File Selector")
         '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.Controls.Add(Me.ComboBox3)
         Me.Controls.Add(Me.Button38)
         Me.Controls.Add(Me.WebBrowser1)
         Me.Controls.Add(Me.LinkLabel7)
-        Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.CheckBox8)
         Me.Controls.Add(Me.CheckBox7)
@@ -1741,5 +1754,6 @@ Partial Class Form1
     Friend WithEvents LinkLabel7 As System.Windows.Forms.LinkLabel
     Friend WithEvents WebBrowser1 As System.Windows.Forms.WebBrowser
     Friend WithEvents Button38 As System.Windows.Forms.Button
+    Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
 
 End Class

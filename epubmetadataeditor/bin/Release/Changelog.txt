@@ -1,2 +1,6 @@
-1.3.3
-[*] Description field now displays HTML properly.
+1.3.4
+[*] The program now scans current directory for other EPUB files and you can move between them with CTRL-UP and CTRL-DOWN.  Title bar shows the number of the current file and how many EPUBS are present.
+[*] Properly handle XML special characters in relevant fields (Title, Calibre Series, Publisher and Subject).
+[*] Handle non-standard OPF namespace tags.
+[*] Bug fixes (like clearing new HTML description field between books).
+[*] Minor code-cleaning and "procedurisation".
