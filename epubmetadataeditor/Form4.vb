@@ -3,81 +3,57 @@ Public Class Form4
     Dim SelectionText As String
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         Dim insertText = "%Creator%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
         Dim insertText = "%CreatorFileAs%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel3_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
         Dim insertText = "%CreatorSurnameOnly%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel4_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel4.LinkClicked
         Dim insertText = "%Title%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel5_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel5.LinkClicked
         Dim insertText = "%TitleFileAs%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel6_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel6.LinkClicked
         Dim insertText = "%Date%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel7_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel7.LinkClicked
         Dim insertText = "%Series%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel8_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel8.LinkClicked
         Dim insertText = "%SeriesIndex%"
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        MakeInsertion(insertText)
     End Sub
 
     Private Sub LinkLabel9_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel9.LinkClicked
-        Dim insertText = "%CreatorFirstInitial%"
+        Dim insertText As String = "%CreatorFirstInitial%"
+        MakeInsertion(insertText)
+    End Sub
+    Private Sub MakeInsertion(ByVal insertText)
         Dim insertPos As Integer = TextBox1.SelectionStart
         TextBox1.SelectedText = ""
-        TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
+        If My.Computer.Keyboard.ShiftKeyDown Then
+            TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText.ToUpper)
+        Else
+            TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
+        End If
+
         TextBox1.SelectionStart = insertPos + insertText.Length
         TextBox1.Focus()
     End Sub
@@ -102,11 +78,6 @@ Public Class Form4
             Label5.Visible = True
         Else
             Label5.Visible = False
-        End If
-        If e.KeyChar = "\" Then
-            Label6.Visible = True
-        Else
-            Label6.Visible = False
         End If
     End Sub
 
@@ -149,17 +120,16 @@ Public Class Form4
     Private Sub Form4_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Label4.Text = "The following characters are not allowed:" + Chr(10) + charactersDisallowed
         Label5.Text = "To output a single '%' in the filename," + Chr(10) + "use '%%' in the Template."
-        Label6.Text = "The '\' character can be used to add" + Chr(10) + "subfolders.  For example," + Chr(10) + "%CreatorSurnameOnly%\%Title%"
         Label4.Visible = False
         Label5.Visible = False
-        Label6.Visible = False
         If TextBox1.Text <> "" Then
             UpdateFilename()
         End If
     End Sub
 
     Public Sub UpdateFilename()
-        Dim currpos, endpos, temppos, field, nextchar, insertText, newFileName
+        Dim currpos, endpos, temppos As Integer
+        Dim field, nextchar, insertText, newFileName As String
         newFileName = ""
         currpos = 0
         While (currpos < Len(TextBox1.Text))
@@ -180,9 +150,13 @@ Public Class Form4
                         insertText = ""
                         If field = "Creator" Then
                             insertText = Form1.TextBox2.Text
+                        ElseIf field = "CREATOR" Then
+                            insertText = Form1.TextBox2.Text.ToUpper
                         ElseIf field = "CreatorFileAs" Then
                             insertText = Form1.TextBox12.Text
-                        ElseIf field = "CreatorSurnameOnly" Then
+                        ElseIf field = "CREATORFILEAS" Then
+                            insertText = Form1.TextBox12.Text.ToUpper
+                        ElseIf ((field = "CreatorSurnameOnly") Or (field = "CREATORSURNAMEONLY")) Then
                             insertText = Form1.TextBox2.Text
                             If InStr(insertText, " ") <> 0 Then
                                 temppos = Len(insertText)
@@ -209,7 +183,10 @@ Public Class Form4
                                     insertText = Mid(insertText, 1, temppos - 1)
                                 End If
                             End If
-                        ElseIf field = "CreatorFirstInitial" Then
+                            If (field = "CREATORSURNAMEONLY") Then
+                                insertText = insertText.ToUpper
+                            End If
+                        ElseIf ((field = "CreatorFirstInitial") Or (field = "CREATORFIRSTINITIAL")) Then
                             insertText = Form1.TextBox2.Text
                             If InStr(insertText, " ") <> 0 Then
                                 temppos = Len(insertText)
@@ -239,16 +216,29 @@ Public Class Form4
                             If Len(insertText) > 1 Then
                                 insertText = Mid(insertText, 1, 1)
                             End If
+                            If (field = "CREATORFIRSTINITIAL") Then
+                                insertText = insertText.ToUpper
+                            End If
                         ElseIf field = "Title" Then
                             insertText = Form1.TextBox1.Text
+                        ElseIf field = "TITLE" Then
+                            insertText = Form1.TextBox1.Text.ToUpper
                         ElseIf field = "TitleFileAs" Then
                             insertText = Form1.TextBox16.Text
+                        ElseIf field = "TITLEFILEAS" Then
+                            insertText = Form1.TextBox16.Text.ToUpper
                         ElseIf field = "Series" Then
                             insertText = Form1.TextBox15.Text
+                        ElseIf field = "SERIES" Then
+                            insertText = Form1.TextBox15.Text.ToUpper
                         ElseIf field = "SeriesIndex" Then
                             insertText = Form1.TextBox14.Text
+                        ElseIf field = "SERIESINDEX" Then
+                            insertText = Form1.TextBox14.Text.ToUpper
                         ElseIf field = "Date" Then
                             insertText = Form1.TextBox6.Text
+                        ElseIf field = "DATE" Then
+                            insertText = Form1.TextBox6.Text.ToUpper
                         Else
                             insertText = ""
                         End If

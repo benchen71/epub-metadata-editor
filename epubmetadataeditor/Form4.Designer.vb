@@ -42,22 +42,23 @@ Partial Class Form4
         Me.LinkLabel8 = New System.Windows.Forms.LinkLabel
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
         Me.LinkLabel9 = New System.Windows.Forms.LinkLabel
         Me.Label7 = New System.Windows.Forms.Label
         Me.TextBox3 = New System.Windows.Forms.TextBox
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(65, 90)
+        Me.TextBox1.Location = New System.Drawing.Point(65, 124)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(545, 20)
         Me.TextBox1.TabIndex = 0
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(65, 142)
+        Me.TextBox2.Location = New System.Drawing.Point(65, 176)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(545, 20)
         Me.TextBox2.TabIndex = 1
@@ -66,7 +67,7 @@ Partial Class Form4
         '
         Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.Image = Global.EPubMetadataEditor.My.Resources.Resources.arrow_double_clockwise
-        Me.Button7.Location = New System.Drawing.Point(618, 103)
+        Me.Button7.Location = New System.Drawing.Point(618, 137)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(46, 46)
         Me.Button7.TabIndex = 32
@@ -75,7 +76,7 @@ Partial Class Form4
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(212, 176)
+        Me.Button3.Location = New System.Drawing.Point(212, 210)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(121, 29)
         Me.Button3.TabIndex = 33
@@ -84,7 +85,7 @@ Partial Class Form4
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(339, 176)
+        Me.Button1.Location = New System.Drawing.Point(339, 210)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(121, 29)
         Me.Button1.TabIndex = 34
@@ -94,7 +95,7 @@ Partial Class Form4
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(5, 93)
+        Me.Label1.Location = New System.Drawing.Point(5, 127)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(54, 13)
         Me.Label1.TabIndex = 35
@@ -103,7 +104,7 @@ Partial Class Form4
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(5, 145)
+        Me.Label2.Location = New System.Drawing.Point(5, 179)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(50, 13)
         Me.Label2.TabIndex = 36
@@ -114,10 +115,9 @@ Partial Class Form4
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(8, 6)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(512, 13)
+        Me.Label3.Size = New System.Drawing.Size(163, 13)
         Me.Label3.TabIndex = 37
-        Me.Label3.Text = "The following fields are available: (click links to insert at cursor position or " & _
-            "replace selected text in Template)"
+        Me.Label3.Text = "The following fields are available:"
         '
         'LinkLabel1
         '
@@ -203,7 +203,7 @@ Partial Class Form4
         '
         Me.Label4.AutoSize = True
         Me.Label4.ForeColor = System.Drawing.Color.Red
-        Me.Label4.Location = New System.Drawing.Point(8, 171)
+        Me.Label4.Location = New System.Drawing.Point(8, 205)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(201, 13)
         Me.Label4.TabIndex = 46
@@ -214,23 +214,12 @@ Partial Class Form4
         '
         Me.Label5.AutoSize = True
         Me.Label5.ForeColor = System.Drawing.Color.Red
-        Me.Label5.Location = New System.Drawing.Point(8, 171)
+        Me.Label5.Location = New System.Drawing.Point(8, 205)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(181, 13)
         Me.Label5.TabIndex = 47
         Me.Label5.Text = "To output a single '%' in the filename,"
         Me.Label5.Visible = False
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.ForeColor = System.Drawing.Color.Blue
-        Me.Label6.Location = New System.Drawing.Point(8, 171)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(187, 13)
-        Me.Label6.TabIndex = 48
-        Me.Label6.Text = "The ""\"" character can be used to add"
-        Me.Label6.Visible = False
         '
         'LinkLabel9
         '
@@ -245,7 +234,7 @@ Partial Class Form4
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(5, 119)
+        Me.Label7.Location = New System.Drawing.Point(5, 153)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(44, 13)
         Me.Label7.TabIndex = 50
@@ -253,21 +242,42 @@ Partial Class Form4
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(65, 116)
+        Me.TextBox3.Location = New System.Drawing.Point(65, 150)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(545, 20)
         Me.TextBox3.TabIndex = 49
         '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(8, 84)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(578, 13)
+        Me.Label8.TabIndex = 51
+        Me.Label8.Text = "Click links to insert at cursor position or replace selected text in Template. Sh" & _
+            "ift-click links to insert all UPPER CASE fields."
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(8, 100)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(564, 13)
+        Me.Label9.TabIndex = 52
+        Me.Label9.Text = "Use ""\"" to create subfolders.  For example, ""%CreatorFirstInitial%\%CreatorSurnam" & _
+            "eOnly%\%CreatorFileAs% - %Title%""."
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(673, 217)
+        Me.ClientSize = New System.Drawing.Size(673, 249)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.LinkLabel9)
-        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.LinkLabel8)
@@ -311,8 +321,9 @@ Partial Class Form4
     Friend WithEvents LinkLabel8 As System.Windows.Forms.LinkLabel
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents LinkLabel9 As System.Windows.Forms.LinkLabel
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
 End Class

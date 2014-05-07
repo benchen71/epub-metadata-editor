@@ -376,7 +376,7 @@ lookforpagemap:
         ExtractMetadata(metadatafile, True)
 
         'Process current folder to locate other EPUB files
-        searchResults = Directory.GetFiles(IO.Path.GetDirectoryName(OpenFileDialog1.FileName), "*.epub", SearchOption.AllDirectories)
+        searchResults = Directory.GetFiles(IO.Path.GetDirectoryName(OpenFileDialog1.FileName), "*.epub", SearchOption.TopDirectoryOnly)
         refreshfilelist = True
         ComboBox3.Items.Clear()
         Dim fi As String
@@ -3814,6 +3814,28 @@ redo:
 
             ' update ini file
             objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.TextBox1.Text + Chr(34))
+
+            ' update form caption and file selector (just in case rename action has created a subfolder and moved the file into it)
+            searchResults = Directory.GetFiles(IO.Path.GetDirectoryName(OpenFileDialog1.FileName), "*.epub", SearchOption.TopDirectoryOnly)
+            refreshfilelist = True
+            ComboBox3.Items.Clear()
+            Dim fi As String
+            For Each fi In searchResults
+                ComboBox3.Items.Add(fi.Substring(fi.LastIndexOf("\") + 1, fi.Length - fi.LastIndexOf("\") - 1))
+            Next
+            Dim x As Integer = 0
+            While (searchResults(x) <> OpenFileDialog1.FileName)
+                x = x + 1
+            End While
+            currentfilenumber = x + 1 'searchResults is zero based
+            ComboBox3.SelectedIndex = x
+            ComboBox3.Enabled = True
+            CaptionString = IO.Path.GetFileName(OpenFileDialog1.FileName) + " [" + currentfilenumber.ToString + "/" + searchResults.Length.ToString + "] - EPUB Metadata Editor"
+            If Mid(Me.Text, 1, 1) = "*" Then
+                Me.Text = "*" + CaptionString
+            Else
+                Me.Text = CaptionString
+            End If
         End If
     End Sub
 
