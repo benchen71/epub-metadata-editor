@@ -30,6 +30,7 @@ Public Class Form1
     Dim searchResults As String()
     Dim currentfilenumber As Integer
     Dim refreshfilelist As Boolean = True
+    Dim possibleDRM As Boolean = False
 
     Public Sub DeleteDirContents(ByVal dir As IO.DirectoryInfo)
         Dim fa() As IO.FileInfo
@@ -75,6 +76,8 @@ Public Class Form1
         Label4.Visible = False
         Button1.Visible = False
         Label25.Visible = False
+        GroupBox1.Visible = False
+        ListBox2.Items.Clear()
     End Sub
 
     Private Sub SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox1.SelectedIndexChanged, ComboBox2.SelectedIndexChanged, _
@@ -254,7 +257,7 @@ founddirectory:
 
         'Open .opf file into RichTextBox
         If searchResults.Length < 1 Then
-            DialogResult = MsgBox("Error: Metadata not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
             Button19.Enabled = False
             opffile = ""
             Return
@@ -323,7 +326,7 @@ founddirectory:
                     End If
                 Else
                     'No nav document
-                    DialogResult = MsgBox("Error: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    DialogResult = MsgBox("ERROR: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
                     Button20.Enabled = False
                     Button23.Enabled = False
                     tocfile = ""
@@ -335,7 +338,7 @@ founddirectory:
             'Search for toc.ncx file
             searchResults = Directory.GetFiles(ebookdirectory, "*.ncx", SearchOption.AllDirectories)
             If searchResults.Length < 1 Then
-                DialogResult = MsgBox("Error: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                DialogResult = MsgBox("ERROR: Table of Contents file not found." + Chr(10) + "This ebook is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
                 Button20.Enabled = False
                 Button23.Enabled = False
                 tocfile = ""
@@ -392,55 +395,70 @@ lookforpagemap:
         ComboBox3.Enabled = True
 
         'Update interface
-        CaptionString = IO.Path.GetFileName(OpenFileDialog1.FileName) + " [" + currentfilenumber.ToString + "/" + searchResults.Length.ToString + "] - EPUB Metadata Editor"
-        Me.Text = CaptionString
-        projectchanged = False
-        TextBox1.Enabled = True
-        TextBox2.Enabled = True
-        TextBox3.Enabled = True
-        TextBox4.Enabled = True
-        TextBox5.Enabled = True
-        TextBox6.Enabled = True
-        TextBox7.Enabled = True
-        TextBox8.Enabled = True
-        TextBox9.Enabled = True
-        TextBox10.Enabled = True
-        TextBox11.Enabled = True
-        TextBox12.Enabled = True
-        TextBox13.Enabled = True
-        TextBox14.Enabled = True
-        TextBox15.Enabled = True
-        TextBox16.Enabled = True
-        TextBox17.Enabled = True
-        ComboBox1.Enabled = True
-        ComboBox2.Enabled = True
-        PictureBox1.Enabled = True
-        Button5.Enabled = True
-        Button6.Enabled = True
-        Button7.Enabled = True
-        Button13.Enabled = True
-        Button14.Enabled = True
-        Button15.Enabled = True
-        Button18.Enabled = True
-        Button30.Enabled = True
-        Button31.Enabled = True
-        Button21.Enabled = True
-        Button22.Enabled = True
-        Button25.Enabled = True
-        Button28.Enabled = True
-        Button29.Enabled = True
-        Button38.Enabled = True
-        LinkLabel3.Enabled = True
-        'SaveImageAsToolStripMenuItem.Enabled = True
-        If versioninfo = "3.0" Then
-            Label25.Visible = True
-            'Title cannot have 'file-as' apparently
-            TextBox16.Enabled = False
-            Button21.Enabled = False
-            Button22.Enabled = False
-            Button18.Enabled = False
-            Button28.Enabled = False
-            DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPUB Metadata Editor")
+        If Not possibleDRM Then
+            CaptionString = IO.Path.GetFileName(OpenFileDialog1.FileName) + " [" + currentfilenumber.ToString + "/" + searchResults.Length.ToString + "] - EPUB Metadata Editor"
+            Me.Text = CaptionString
+            projectchanged = False
+            TextBox1.Enabled = True
+            TextBox2.Enabled = True
+            TextBox3.Enabled = True
+            TextBox4.Enabled = True
+            TextBox5.Enabled = True
+            TextBox6.Enabled = True
+            TextBox7.Enabled = True
+            TextBox8.Enabled = True
+            TextBox9.Enabled = True
+            TextBox10.Enabled = True
+            TextBox11.Enabled = True
+            TextBox12.Enabled = True
+            TextBox13.Enabled = True
+            TextBox14.Enabled = True
+            TextBox15.Enabled = True
+            TextBox16.Enabled = True
+            TextBox17.Enabled = True
+            ComboBox1.Enabled = True
+            ComboBox2.Enabled = True
+            PictureBox1.Enabled = True
+            Button5.Enabled = True
+            Button6.Enabled = True
+            Button7.Enabled = True
+            Button13.Enabled = True
+            Button14.Enabled = True
+            Button15.Enabled = True
+            Button18.Enabled = True
+            Button30.Enabled = True
+            Button31.Enabled = True
+            Button21.Enabled = True
+            Button22.Enabled = True
+            Button25.Enabled = True
+            Button28.Enabled = True
+            Button29.Enabled = True
+            Button38.Enabled = True
+            LinkLabel3.Enabled = True
+            'SaveImageAsToolStripMenuItem.Enabled = True
+            If versioninfo = "3.0" Then
+                Label25.Visible = True
+                'Title cannot have 'file-as' apparently
+                TextBox16.Enabled = False
+                Button21.Enabled = False
+                Button22.Enabled = False
+                Button18.Enabled = False
+                Button28.Enabled = False
+                DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPUB Metadata Editor")
+            End If
+        Else
+            Button34.Visible = False
+            LinkLabel5.Visible = False
+            Button20.Enabled = False
+            Button23.Enabled = False
+            Button24.Enabled = False
+            Button26.Enabled = False
+            Button33.Enabled = False
+            ClearInterface()
+            CaptionString = IO.Path.GetFileName(OpenFileDialog1.FileName) + " [" + currentfilenumber.ToString + "/" + searchResults.Length.ToString + "] - EPUB Metadata Editor"
+            Me.Text = CaptionString
+            projectchanged = False
+            DialogResult = MsgBox("ERROR: Image file corrupted or encrypted." + Chr(10) + "Note that EPUB Metadata Editor cannot handle" + Chr(10) + "EPUB files locked by DRM.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
         End If
     End Sub
     Private Sub ExtractMetadata(ByVal metadatafile As String, ByVal extractcover As Boolean)
@@ -1030,6 +1048,7 @@ skipsecondcreator:
 
         'Get Cover
         Try
+            possibleDRM = False
             Label24.Visible = False
             startpos = InStr(metadatafile, "<guide")
             If startpos = 0 Then
@@ -1102,10 +1121,15 @@ foundhref:
                 If System.IO.File.Exists(coverfile) Then
                     coverimagefile = coverfile
                     PictureBox1.ImageLocation = coverfile
-                    PictureBox1.Load()
-                    ChangeImageToolStripMenuItem.Enabled = True
-                    UseExistingImageToolStripMenuItem.Enabled = True
-                    AddImageToolStripMenuItem.Enabled = False
+                    Try
+                        PictureBox1.Load()
+                        ChangeImageToolStripMenuItem.Enabled = True
+                        UseExistingImageToolStripMenuItem.Enabled = True
+                        AddImageToolStripMenuItem.Enabled = False
+                    Catch ex As Exception
+                        possibleDRM = True
+                        GoTo exitsub
+                    End Try
                     GoTo updateinterface
                 End If
             Else
@@ -1130,10 +1154,15 @@ parsecoverfile:
                                 coverimagefile = Path.GetDirectoryName(coverfile) + "\" + Mid(coverfiletext, startpos + 1, endpos - startpos - 1).Replace("/", "\")
                                 If System.IO.File.Exists(coverimagefile) Then
                                     PictureBox1.ImageLocation = coverimagefile
-                                    PictureBox1.Load()
-                                    ChangeImageToolStripMenuItem.Enabled = True
-                                    UseExistingImageToolStripMenuItem.Enabled = True
-                                    AddImageToolStripMenuItem.Enabled = False
+                                    Try
+                                        PictureBox1.Load()
+                                        ChangeImageToolStripMenuItem.Enabled = True
+                                        UseExistingImageToolStripMenuItem.Enabled = True
+                                        AddImageToolStripMenuItem.Enabled = False
+                                    Catch ex As Exception
+                                        possibleDRM = True
+                                        GoTo exitsub
+                                    End Try
                                     GoTo updateinterface
                                 End If
                             End If
@@ -1150,10 +1179,15 @@ parsecoverfile:
                                     coverimagefile = Path.GetDirectoryName(coverfile) + "\" + Mid(coverfiletext, startpos + 1, endpos - startpos - 1).Replace("/", "\")
                                     If System.IO.File.Exists(coverimagefile) Then
                                         PictureBox1.ImageLocation = coverimagefile
-                                        PictureBox1.Load()
-                                        ChangeImageToolStripMenuItem.Enabled = True
-                                        UseExistingImageToolStripMenuItem.Enabled = True
-                                        AddImageToolStripMenuItem.Enabled = False
+                                        Try
+                                            PictureBox1.Load()
+                                            ChangeImageToolStripMenuItem.Enabled = True
+                                            UseExistingImageToolStripMenuItem.Enabled = True
+                                            AddImageToolStripMenuItem.Enabled = False
+                                        Catch ex As Exception
+                                            possibleDRM = True
+                                            GoTo exitsub
+                                        End Try
                                         GoTo updateinterface
                                     End If
                                 End If
@@ -1170,10 +1204,15 @@ parsecoverfile:
                                         coverimagefile = Path.GetDirectoryName(coverfile) + "\" + Mid(coverfiletext, startpos + 1, endpos - startpos - 1).Replace("/", "\")
                                         If System.IO.File.Exists(coverimagefile) Then
                                             PictureBox1.ImageLocation = coverimagefile
-                                            PictureBox1.Load()
-                                            ChangeImageToolStripMenuItem.Enabled = True
-                                            UseExistingImageToolStripMenuItem.Enabled = True
-                                            AddImageToolStripMenuItem.Enabled = False
+                                            Try
+                                                PictureBox1.Load()
+                                                ChangeImageToolStripMenuItem.Enabled = True
+                                                UseExistingImageToolStripMenuItem.Enabled = True
+                                                AddImageToolStripMenuItem.Enabled = False
+                                            Catch ex As Exception
+                                                possibleDRM = True
+                                                GoTo exitsub
+                                            End Try
                                             GoTo updateinterface
                                         End If
                                     End If
@@ -1193,53 +1232,59 @@ didnotfindhref:
         UseExistingImageToolStripMenuItem.Enabled = True
         AddImageToolStripMenuItem.Enabled = True
 
-        'Look for existing images
-        startpos = InStr(metadatafile, "<manifest")
-        endpos = InStr(metadatafile, "</manifest>")
-        Dim imgpos, hrefpos, endhrefpos, imgnum As Integer
-        Dim href, imgfilename As String
-        imgpos = startpos
-        imgnum = 0
-        While (imgpos < endpos)
-            imgpos = InStr(imgpos + 1, metadatafile, "media-type=" + Chr(34) + "image/jpeg")
-            If ((imgpos = 0) Or (imgpos > endpos)) Then
-                Exit While
-            End If
-
-            'Scan backwards looking for start of <item>
-            temppos = imgpos
-            While (temppos > startpos)
-                temppos = temppos - 1
-                If (Mid(metadatafile, temppos, 5) = "<item") Then
+        If extractcover Then
+            'Look for existing images
+            startpos = InStr(metadatafile, "<manifest")
+            endpos = InStr(metadatafile, "</manifest>")
+            Dim imgpos, hrefpos, endhrefpos, imgnum As Integer
+            Dim href, imgfilename As String
+            imgpos = startpos
+            imgnum = 0
+            While (imgpos < endpos)
+                imgpos = InStr(imgpos + 1, metadatafile, "media-type=" + Chr(34) + "image/jpeg")
+                If ((imgpos = 0) Or (imgpos > endpos)) Then
                     Exit While
                 End If
-            End While
-            hrefpos = InStr(temppos, metadatafile, "href=")
-            endhrefpos = InStr(hrefpos + 6, metadatafile, Chr(34))
-            href = Mid(metadatafile, hrefpos + 6, endhrefpos - hrefpos - 6)
-            href = href.Replace("%20", " ")
-            ListBox2.Items.Add(href)
-            imgnum = imgnum + 1
-            If (InStr(href, "cover") <> 0) Then
-                ListBox2.SelectedIndex = imgnum - 1
-            End If
-        End While
 
-        If ListBox2.Items.Count > 0 Then
-            If ListBox2.SelectedIndex = -1 Then
-                ListBox2.SelectedIndex = 0
+                'Scan backwards looking for start of <item>
+                temppos = imgpos
+                While (temppos > startpos)
+                    temppos = temppos - 1
+                    If (Mid(metadatafile, temppos, 5) = "<item") Then
+                        Exit While
+                    End If
+                End While
+                hrefpos = InStr(temppos, metadatafile, "href=")
+                endhrefpos = InStr(hrefpos + 6, metadatafile, Chr(34))
+                href = Mid(metadatafile, hrefpos + 6, endhrefpos - hrefpos - 6)
+                href = href.Replace("%20", " ")
+                ListBox2.Items.Add(href)
+                imgnum = imgnum + 1
+                If (InStr(href, "cover") <> 0) Then
+                    ListBox2.SelectedIndex = imgnum - 1
+                End If
+            End While
+
+            If ListBox2.Items.Count > 0 Then
+                If ListBox2.SelectedIndex = -1 Then
+                    ListBox2.SelectedIndex = 0
+                End If
+                'Show preview
+                imgfilename = Path.GetDirectoryName(opffile) + "\" + ListBox2.SelectedItem.ToString.Replace("/", "\")
+                If System.IO.File.Exists(imgfilename) Then
+                    PictureBox2.ImageLocation = imgfilename
+                    Try
+                        PictureBox2.Load()
+                    Catch ex As Exception
+                        possibleDRM = True
+                        GoTo exitsub
+                    End Try
+                End If
+                GroupBox1.Visible = True
+                Label24.Visible = False
             End If
-            'Show preview
-            imgfilename = Path.GetDirectoryName(opffile) + "\" + ListBox2.SelectedItem
-            If System.IO.File.Exists(imgfilename) Then
-                PictureBox2.ImageLocation = imgfilename
-                PictureBox2.Load()
-            End If
-            GroupBox1.Visible = True
-            Label24.Visible = False
         End If
         GoTo exitsub
-
 
 updateinterface:
         ' Check to see if cover has been prioritised already
@@ -1294,10 +1339,14 @@ exitsub:
 
     Private Sub ListBox2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox2.SelectedIndexChanged
         Dim imgfilename As String
-        imgfilename = Path.GetDirectoryName(opffile) + "\" + ListBox2.SelectedItem
+        imgfilename = Path.GetDirectoryName(opffile) + "\" + ListBox2.SelectedItem.ToString.Replace("/", "\")
         If System.IO.File.Exists(imgfilename) Then
             PictureBox2.ImageLocation = imgfilename
-            PictureBox2.Load()
+            Try
+                PictureBox2.Load()
+            Catch ex As Exception
+                possibleDRM = True
+            End Try
         End If
     End Sub
     Private Sub Button36_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button36.Click
@@ -1644,7 +1693,7 @@ errortext:
 
             'Open .opf file into RichTextBox
             If searchResults.Length < 1 Then
-                DialogResult = MsgBox("Error: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
                 Return
             Else
                 opffile = searchResults(0)
@@ -4007,7 +4056,7 @@ redo:
 
                 'Open .opf file into RichTextBox
                 If searchResults.Length < 1 Then
-                    DialogResult = MsgBox("Error: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
                     Return
                 Else
                     opffile = searchResults(0)
@@ -4523,7 +4572,7 @@ errortext:
         If result = Windows.Forms.DialogResult.OK Then
             ImageDirectory = Path.GetDirectoryName(OpenFileDialog6.FileName)
             If InStr(ImageDirectory, opfdirectory) = 0 Then
-                DialogResult = MsgBox("Error: You can only select an image that is already in the EPUB file." + Chr(10) + "If you want to select an image that is not already in the EPUB file, use 'Add image...' or 'Change image...'", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                DialogResult = MsgBox("ERROR: You can only select an image that is already in the EPUB file." + Chr(10) + "If you want to select an image that is not already in the EPUB file, use 'Add image...' or 'Change image...'", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
             Else
                 RelativeLocation = ImageDirectory.Replace(opfdirectory, "")
                 FileNameOnly = Path.GetFileName(OpenFileDialog6.FileName)

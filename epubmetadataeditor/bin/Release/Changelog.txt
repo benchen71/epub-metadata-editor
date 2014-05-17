@@ -1,3 +1,3 @@
-1.3.5
-[*] Rename template now has all CAPS option; also subfolder creation option made explicit.
-[*] File selector now does not show files in sub-folders of current folder.
+1.3.6
+[*] Fix for missing cover panel not being cleared between opening books.
+[*] Provide suitable error message if DRM encountered.
