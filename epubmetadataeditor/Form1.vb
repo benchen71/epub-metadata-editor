@@ -526,11 +526,11 @@ lookforpagemap:
                 endpos = InStr(metadatafile, "</dc:creator>")
                 lenheader = Len("<dc:creator")
                 If Mid(metadatafile, startpos + lenheader + 1) = ">" Then
-                    TextBox2.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                    TextBox2.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
                 Else
                     If versioninfo = "3.0" Then
                         endheaderpos = InStr(startpos, metadatafile, ">")
-                        TextBox2.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
+                        TextBox2.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
                         'Get id
                         idpos = InStr(startpos, metadatafile, "id=")
                         idinfo = ""
@@ -606,7 +606,7 @@ lookforpagemap:
 
                         For temploop = startpos To endpos
                             If Mid(metadatafile, temploop, 1) = ">" Then
-                                TextBox2.Text = Mid(metadatafile, temploop + 1, endpos - temploop - 1)
+                                TextBox2.Text = XMLInput(Mid(metadatafile, temploop + 1, endpos - temploop - 1))
                             End If
                         Next
                     End If
@@ -626,11 +626,11 @@ lookforpagemap:
                 endpos = InStr(startpos, metadatafile, "</dc:creator>")
                 lenheader = Len("<dc:creator")
                 If Mid(metadatafile, startpos + 1) = ">" Then
-                    TextBox3.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                    TextBox3.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
                 Else
                     If versioninfo = "3.0" Then
                         endheaderpos = InStr(startpos, metadatafile, ">")
-                        TextBox3.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
+                        TextBox3.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
                         ' get id
                         idpos = InStr(startpos, metadatafile, "id=")
                         idinfo = ""
@@ -697,7 +697,7 @@ lookforpagemap:
 
                         For temploop = startpos To endpos
                             If Mid(metadatafile, temploop, 1) = ">" Then
-                                TextBox3.Text = Mid(metadatafile, temploop + 1, endpos - temploop - 1)
+                                TextBox3.Text = XMLInput(Mid(metadatafile, temploop + 1, endpos - temploop - 1))
                             End If
                         Next
                     End If
@@ -749,7 +749,8 @@ skipsecondcreator:
                         endpos = InStr(metadatafile, "</dc:description>")
                         If endpos = 0 Then endpos = InStr(metadatafile, "</description>")
                         TextBox4.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
-                        WebBrowser1.DocumentText = TextBox4.Text
+                        Application.DoEvents()
+                        WebBrowser1.DocumentText = TextBox4.Text.Replace(Chr(10), "<br>")
                         WebBrowser1.Visible = True
                     End If
                 End If
@@ -2705,7 +2706,7 @@ errortext:
             endpos = InStr(startpos, metadatafile, "</dc:creator>")
             lenheader = Len("<dc:creator")
             If versioninfo = "3.0" Then
-                metadatafile = Mid(metadatafile, 1, endheaderpos) + TextBox2.Text + Mid(metadatafile, endpos)
+                metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                 ' get id
                 idpos = InStr(startpos, metadatafile, "id=")
                 idinfo = ""
@@ -2717,7 +2718,7 @@ errortext:
                         End If
                     Next
                 Else
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + TextBox2.Text + Mid(metadatafile, endpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                     idinfo = "creator"
                 End If
 lookforrefines:
@@ -2770,7 +2771,7 @@ lookforrefines:
                     If startpos <> 0 Then
                         endheaderpos = InStr(startpos, metadatafile, ">")
                         endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                        metadatafile = Mid(metadatafile, 1, endheaderpos) + TextBox3.Text + Mid(metadatafile, endpos)
+                        metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
 
                         ' get id
                         idpos = InStr(startpos, metadatafile, "id=")
@@ -2783,7 +2784,7 @@ lookforrefines:
                                 End If
                             Next
                         Else
-                            metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + TextBox3.Text + Mid(metadatafile, endpos)
+                            metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
                             idinfo = "creator2"
                         End If
 lookforrefines2:
@@ -2837,7 +2838,7 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + TextBox3.Text + "</dc:creator>" + Chr(10) + _
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox13.Text + "</meta>" + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                     End If
@@ -2889,7 +2890,7 @@ lookforrefines2:
                 Else
                     optionaltext = ">"
                 End If
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox2.Text + Mid(metadatafile, endpos)
+                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
 
                 'Output second creator?
                 endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
@@ -2909,10 +2910,10 @@ lookforrefines2:
                     If startpos <> 0 Then
                         endpos = InStr(startpos, metadatafile, "</dc:creator>")
                         lenheader = Len("<dc:creator")
-                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox3.Text + Mid(metadatafile, endpos)
+                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
                     Else
                         'Original file did not have second creator
-                        metadatafile = Mid(metadatafile, 1, endpos + 13) + Chr(13) + Chr(10) + Chr(9) + "<dc:creator" + optionaltext + TextBox3.Text + "</dc:creator>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 14)
+                        metadatafile = Mid(metadatafile, 1, endpos + 13) + Chr(13) + Chr(10) + Chr(9) + "<dc:creator" + optionaltext + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 14)
                     End If
                 End If
                 If TextBox3.Text = "" Then
@@ -2935,11 +2936,11 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
                     If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
                     If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + TextBox2.Text + "</dc:creator>" + Chr(10) + _
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(10) + _
                     "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox12.Text + "</meta>" + Chr(10) + _
                     "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                 Else
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + TextBox3.Text + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                 End If
 
                 'Check for second author
@@ -2953,11 +2954,11 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + TextBox3.Text + "</dc:creator>" + Chr(10) + _
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox13.Text + "</meta>" + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                     Else
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + TextBox3.Text + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                     End If
                 End If
             Else
@@ -2990,10 +2991,10 @@ lookforrefines2:
                         optionaltext2 = ">"
                     End If
                     ' output two creators
-                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + TextBox2.Text + "</dc:creator>" + Chr(10) + "  <dc:creator" + optionaltext2 + TextBox3.Text + "</dc:creator>" + Mid(metadatafile, startpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(10) + "  <dc:creator" + optionaltext2 + XMLOutput(TextBox3.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
                 Else
                     ' output only one creator
-                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + TextBox2.Text + "</dc:creator>" + Mid(metadatafile, startpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
                 End If
             End If
         End If
@@ -4633,7 +4634,7 @@ errortext:
         OutputString = ""
         For x = 1 To Len(InputString)
             nextchar = Mid(InputString, x, 1)
-            If ((nextchar = "&") Or (nextchar = "<") Or (nextchar = ">") Or (nextchar = Chr(34)) Or (nextchar = "'")) Then
+            If ((nextchar = "&") Or (nextchar = "<") Or (nextchar = ">") Or (nextchar = Chr(34)) Or (nextchar = "'") Or (nextchar = Chr(10))) Then
                 If (nextchar = "&") Then
                     OutputString = OutputString + "&amp;"
                 ElseIf (nextchar = "<") Then
@@ -4644,6 +4645,8 @@ errortext:
                     OutputString = OutputString + "&quot;"
                 ElseIf (nextchar = "'") Then
                     OutputString = OutputString + "&apos;"
+                ElseIf (nextchar = Chr(10)) Then
+                    OutputString = OutputString + "&#10;"
                 End If
             Else
                 OutputString = OutputString + nextchar
@@ -4678,6 +4681,10 @@ errortext:
                     OutputString = OutputString + "&"
                     x = x + 5
                     DidSomething = True
+                ElseIf (nextchars = "&#10;") Then
+                    OutputString = OutputString + Chr(10)
+                    x = x + 5
+                    DidSomething = True
                 End If
             End If
             If (x + 5 <= length) Then
@@ -4702,7 +4709,7 @@ errortext:
 
     Private Sub Button38_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button38.Click
         If (WebBrowser1.Visible = False) Then
-            WebBrowser1.DocumentText = TextBox4.Text
+            WebBrowser1.DocumentText = TextBox4.Text.Replace(Chr(10), "<br>")
             WebBrowser1.Visible = True
             Button38.Text = "E"
             ToolTip1.SetToolTip(Button38, "Edit Description")

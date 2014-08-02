@@ -74,6 +74,7 @@ Partial Class Form1
         Me.Button5 = New System.Windows.Forms.Button
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
         Me.Button38 = New System.Windows.Forms.Button
+        Me.ComboBox3 = New System.Windows.Forms.ComboBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -159,7 +160,6 @@ Partial Class Form1
         Me.Label28 = New System.Windows.Forms.Label
         Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
-        Me.ComboBox3 = New System.Windows.Forms.ComboBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -647,6 +647,17 @@ Partial Class Form1
         Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
         Me.Button38.UseVisualStyleBackColor = True
+        '
+        'ComboBox3
+        '
+        Me.ComboBox3.Enabled = False
+        Me.ComboBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBox3.FormattingEnabled = True
+        Me.ComboBox3.Location = New System.Drawing.Point(515, 61)
+        Me.ComboBox3.Name = "ComboBox3"
+        Me.ComboBox3.Size = New System.Drawing.Size(364, 21)
+        Me.ComboBox3.TabIndex = 93
+        Me.ToolTip1.SetToolTip(Me.ComboBox3, "File Selector")
         '
         'Label4
         '
@@ -1481,17 +1492,6 @@ Partial Class Form1
         Me.WebBrowser1.Size = New System.Drawing.Size(330, 85)
         Me.WebBrowser1.TabIndex = 92
         Me.WebBrowser1.Visible = False
-        '
-        'ComboBox3
-        '
-        Me.ComboBox3.Enabled = False
-        Me.ComboBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(515, 61)
-        Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(364, 21)
-        Me.ComboBox3.TabIndex = 93
-        Me.ToolTip1.SetToolTip(Me.ComboBox3, "File Selector")
         '
         'Form1
         '
