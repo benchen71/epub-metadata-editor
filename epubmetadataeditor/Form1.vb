@@ -551,7 +551,7 @@ lookforpagemap:
                                 refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
-                                        TextBox12.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
+                                        TextBox12.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
                                     End If
                                 End If
                                 refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "role")
@@ -580,7 +580,7 @@ lookforpagemap:
                         If fileaspos <> 0 Then
                             For temploop = fileaspos + 13 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                                    TextBox12.Text = Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13)
+                                    TextBox12.Text = XMLInput(Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13))
                                     Exit For
                                 End If
                             Next
@@ -651,7 +651,7 @@ lookforpagemap:
                                 refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
-                                        TextBox13.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
+                                        TextBox13.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
                                     End If
                                 End If
                                 refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "role")
@@ -680,7 +680,7 @@ lookforpagemap:
                         If fileaspos <> 0 Then
                             For temploop = fileaspos + 13 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                                    TextBox13.Text = Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13)
+                                    TextBox13.Text = XMLInput(Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13))
                                     Exit For
                                 End If
                             Next
@@ -2733,7 +2733,7 @@ lookforrefines:
                         refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
                         If refinespos <> 0 Then
                             If refinespos < endpos Then
-                                metadatafile = Mid(metadatafile, 1, endheaderpos) + TextBox12.Text + Mid(metadatafile, endpos)
+                                metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox12.Text) + Mid(metadatafile, endpos)
                                 creatorfileasplaced = True
                             End If
                         End If
@@ -2753,10 +2753,10 @@ lookforrefines:
                         startpos = InStr(metadatafile, "</dc:creator>") + 13 'end of creator
                         If ((creatorfileasplaced = False) And (creatorroleplaced = False)) Then
                             metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + _
-                            "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox12.Text + "</meta>" + Chr(10) + _
+                            "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(10) + _
                             "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                         ElseIf ((creatorfileasplaced = False) And (creatorroleplaced = True)) Then
-                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox12.Text + "</meta>" + Mid(metadatafile, startpos)
+                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Mid(metadatafile, startpos)
                         ElseIf ((creatorfileasplaced = True) And (creatorroleplaced = False)) Then
                             startpos = InStr(startpos, metadatafile, "</meta>")
                             metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
@@ -2799,7 +2799,7 @@ lookforrefines2:
                                 refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
-                                        metadatafile = Mid(metadatafile, 1, endheaderpos) + TextBox13.Text + Mid(metadatafile, endpos)
+                                        metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox13.Text) + Mid(metadatafile, endpos)
                                         creator2fileasplaced = True
                                     End If
                                 End If
@@ -2820,10 +2820,10 @@ lookforrefines2:
                                 startpos = InStr(startpos + 1, metadatafile, "</dc:creator>") + 13 'end of second creator
                                 If ((creator2fileasplaced = False) And (creator2roleplaced = False)) Then
                                     metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + _
-                                    "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox13.Text + "</meta>" + Chr(10) + _
+                                    "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
                                     "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                                 ElseIf ((creator2fileasplaced = False) And (creator2roleplaced = True)) Then
-                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox13.Text + "</meta>" + Mid(metadatafile, startpos)
+                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Mid(metadatafile, startpos)
                                 ElseIf ((creator2fileasplaced = True) And (creator2roleplaced = False)) Then
                                     startpos = InStr(startpos, metadatafile, "</meta>")
                                     metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
@@ -2839,7 +2839,7 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
                         metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox13.Text + "</meta>" + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                     End If
                 End If
@@ -2886,7 +2886,7 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
                     If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
                     If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + TextBox12.Text + Chr(34) + ">"
+                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + ">"
                 Else
                     optionaltext = ">"
                 End If
@@ -2903,7 +2903,7 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
                         If ComboBox2.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
                         If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext = optionaltext + " opf:file-as=" + Chr(34) + TextBox13.Text + Chr(34) + ">"
+                        optionaltext = optionaltext + " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + ">"
                     Else
                         optionaltext = ">"
                     End If
@@ -2937,7 +2937,7 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
                     If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
                     metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(10) + _
-                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox12.Text + "</meta>" + Chr(10) + _
+                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(10) + _
                     "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                 Else
                     metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
@@ -2955,7 +2955,7 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
                         metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + TextBox13.Text + "</meta>" + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
                     Else
                         metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
@@ -2972,7 +2972,7 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
                     If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
                     If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + TextBox12.Text + Chr(34) + ">"
+                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + ">"
                 Else
                     optionaltext = ">"
                 End If
@@ -2986,7 +2986,7 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then optionaltext2 = " opf:role=" + Chr(34) + "edt" + Chr(34)
                         If ComboBox2.SelectedIndex = 2 Then optionaltext2 = " opf:role=" + Chr(34) + "ill" + Chr(34)
                         If ComboBox2.SelectedIndex = 3 Then optionaltext2 = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext2 = optionaltext2 + " opf:file-as=" + Chr(34) + TextBox13.Text + Chr(34) + ">"
+                        optionaltext2 = optionaltext2 + " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + ">"
                     Else
                         optionaltext2 = ">"
                     End If
