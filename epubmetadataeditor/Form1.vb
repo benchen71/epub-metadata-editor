@@ -2442,16 +2442,15 @@ errortext:
 
                         'save opf file
                         SaveUnicodeFile(opffile, RichTextBox1.Text)
-
-                        ' Need to update metadata
-                        RichTextBox1.Text = LoadUnicodeFile(opffile)
-                        metadatafile = RichTextBox1.Text
-                        ExtractMetadata(metadatafile, True)
                     End If
+
                     IO.File.Copy(MyFiles(i), coverimagefile, True)
                     wait(500)
-                    PictureBox1.ImageLocation = coverimagefile
-                    PictureBox1.Load()
+
+                    ' update interface
+                    RichTextBox1.Text = LoadUnicodeFile(opffile)
+                    metadatafile = RichTextBox1.Text
+                    ExtractMetadata(metadatafile, True)
                     ChangeImageToolStripMenuItem.Enabled = True
                     AddImageToolStripMenuItem.Enabled = False
                     projectchanged = True
@@ -2515,19 +2514,6 @@ errortext:
                     End If
                 End If
 
-                'add item to metadata
-                metadatafile = RichTextBox1.Text
-                startpos = InStr(metadatafile, "</dc:title>")
-                If startpos <> 0 Then
-                    insertpos = InStr(startpos + 1, metadatafile, "<")
-                    If insertpos <> 0 Then
-                        newlineandspace = Mid(metadatafile, startpos + 11, insertpos - startpos - 11)
-                        insertion = newlineandspace + "<meta name=" + Chr(34) + "cover" + Chr(34) + " content=" + Chr(34) + "cover" + Chr(34) + "/>" + newlineandspace
-                        metadatafile = Mid(metadatafile, 1, startpos + 10) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                        RichTextBox1.Text = metadatafile
-                    End If
-                End If
-
                 'add items to manifest
                 metadatafile = RichTextBox1.Text
                 startpos = InStr(metadatafile, "<manifest")
@@ -2588,19 +2574,16 @@ errortext:
 
                 'save opf file
                 SaveUnicodeFile(opffile, RichTextBox1.Text)
-
-                ' Need to update metadata
-                RichTextBox1.Text = LoadUnicodeFile(opffile)
-                metadatafile = RichTextBox1.Text
-                ExtractMetadata(metadatafile, True)
             End If
 
             'save image to file
             pic.Save(coverimagefile)
+            wait(500)
 
             'update interface
-            PictureBox1.ImageLocation = coverimagefile
-            PictureBox1.Load()
+            RichTextBox1.Text = LoadUnicodeFile(opffile)
+            metadatafile = RichTextBox1.Text
+            ExtractMetadata(metadatafile, True)
             ChangeImageToolStripMenuItem.Enabled = True
             AddImageToolStripMenuItem.Enabled = False
             projectchanged = True
@@ -3949,6 +3932,14 @@ redo:
         Do While sw.ElapsedMilliseconds < interval
             ' Allows UI to remain responsive
             Application.DoEvents()
+        Loop
+        sw.Stop()
+    End Sub
+    Private Sub asyncwait(ByVal interval As Integer)
+        ' Loops for a specificied period of time (milliseconds)
+        Dim sw As New Stopwatch
+        sw.Start()
+        Do While sw.ElapsedMilliseconds < interval
         Loop
         sw.Stop()
     End Sub

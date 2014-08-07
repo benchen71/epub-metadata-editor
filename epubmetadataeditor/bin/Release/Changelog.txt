@@ -1,2 +1,2 @@
-1.3.8
-[*] Properly handle XML characters in Creator "file-as" fields, too.
+1.3.9
+[*] Minor fix for covers not appearing when adding cover using "paste image" in the context menu
