@@ -57,6 +57,7 @@ Public Class Form1
         TextBox3.Text = ""
         TextBox4.Text = ""
         WebBrowser1.DocumentText = ""
+        WebBrowser1.Visible = False
         TextBox5.Text = ""
         TextBox6.Text = ""
         TextBox7.Text = ""
@@ -72,12 +73,22 @@ Public Class Form1
         TextBox17.Text = ""
         ComboBox1.SelectedIndex = -1
         ComboBox2.SelectedIndex = -1
+        projectchanged = False
+        refreshfilelist = True
+        ComboBox3.SelectedIndex = -1
         PictureBox1.Image = Nothing
         Label4.Visible = False
         Button1.Visible = False
+        Button35.Visible = False
+        Button27.Visible = False
         Label25.Visible = False
         GroupBox1.Visible = False
         ListBox2.Items.Clear()
+        Label27.Visible = False
+        Label23.Visible = False
+        CheckBox5.Visible = False
+        CaptionString = "EPUB Metadata Editor"
+        Me.Text = CaptionString
     End Sub
 
     Private Sub SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox1.SelectedIndexChanged, ComboBox2.SelectedIndexChanged, _
@@ -1627,12 +1638,27 @@ errortext:
         OpenFileDialog3.FilterIndex = 1
         OpenFileDialog3.FileName = ""
         If OpenFileDialog3.ShowDialog = Windows.Forms.DialogResult.OK Then
+            If projectchanged Then
+                DialogResult = Dialog1.ShowDialog
+                If DialogResult = Windows.Forms.DialogResult.Cancel Then
+                    Exit Sub
+                End If
+                If DialogResult = Windows.Forms.DialogResult.Yes Then
+                    SaveEpub()
+                End If
+            End If
+
+            ClearInterface()
+
             Dim file As String
             For Each file In OpenFileDialog3.FileNames
                 ListBox1.Items.Add(file)
             Next
             Button10.Enabled = True
             Button32.Enabled = True
+            Button41.Enabled = True
+
+            DisableInterface()
         End If
     End Sub
 
@@ -1642,8 +1668,14 @@ errortext:
         Dim metadatafile, optionaltext, tempstring As String
 
         ' do some checks first
-        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False)) Then
+        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False)) Then
             MsgBox("You need to check one of the batch task boxes!")
+            Exit Sub
+        End If
+
+        If ((CheckBox9.Checked) And (TextBox18.Text = "")) Then
+            MsgBox("You need to enter the series title!")
+            TextBox18.Focus()
             Exit Sub
         End If
 
@@ -1783,6 +1815,12 @@ errortext:
                 If TextBox3.Text <> "" Then Button13.PerformClick()
             End If
 
+            If CheckBox9.Checked = True Then
+                ' Serialise
+                TextBox15.Text = TextBox18.Text
+                TextBox14.Text = x.ToString
+            End If
+
             Application.DoEvents()
 
             ' save file
@@ -1857,6 +1895,32 @@ errortext:
                 End If
             End If
 
+            If CheckBox9.Checked = True Then
+                'Output (Calibre) series and series index
+                startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+                If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
+                    If startpos <> 0 Then
+                        endpos = InStr(startpos, metadatafile, "/>")
+                        lenheader = Len("<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
+                    Else
+                        endpos = InStr(metadatafile, "</dc:title>")
+                        metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                    End If
+                End If
+                startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
+                    If startpos <> 0 Then
+                        endpos = InStr(startpos, metadatafile, "/>")
+                        lenheader = Len("<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
+                    Else
+                        endpos = InStr(metadatafile, "</dc:title>")
+                        metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) & " content=" + Chr(34) + TextBox14.Text + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                    End If
+                End If
+            End If
+
             RichTextBox1.Text = metadatafile
             SaveUnicodeFile(opffile, RichTextBox1.Text)
 
@@ -1877,21 +1941,27 @@ errortext:
         ProgressBar1.Visible = False
         projectchanged = False
         Button3.Enabled = False
-        Me.Text = "EPUB Metadata Editor"
         ClearInterface()
         DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
-        Button10.Enabled = False
 
         If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
             'delete contents of temp directory
             DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
         End If
+
+        projectchanged = False
+        CaptionString = "EPUB Metadata Editor"
+        Me.Text = CaptionString
     End Sub
 
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
         ListBox1.Items.Clear()
         Button10.Enabled = False
         Button32.Enabled = False
+        ClearInterface()
+        Button39.Enabled = False
+        Button40.Enabled = False
+        Button41.Enabled = False
     End Sub
 
     Private Sub SaveImageAsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveImageAsToolStripMenuItem.Click
@@ -2608,6 +2678,12 @@ errortext:
         Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
 
         Dim fi As New FileInfo(OpenFileDialog1.FileName)
+
+        If fi.IsReadOnly Then
+            MsgBox("ERROR: File is read-only!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
+            Exit Sub
+        End If
+
         If FileInUse(fi.FullName) Then
             MsgBox("ERROR: File in use!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
             Exit Sub
@@ -4722,5 +4798,159 @@ errortext:
                 Button3.Enabled = False
             End If
         End If
+    End Sub
+
+    Private Sub Button39_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button39.Click
+        ' move file up
+        'Make sure our item is not the first one on the list.
+        If ListBox1.SelectedIndex > 0 Then
+            Dim I = ListBox1.SelectedIndex - 1
+            ListBox1.Items.Insert(I, ListBox1.SelectedItem)
+            ListBox1.Items.RemoveAt(ListBox1.SelectedIndex)
+            ListBox1.SelectedIndex = I
+        End If
+    End Sub
+
+    Private Sub Button40_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button40.Click
+        ' move file down
+        'Make sure our item is not the last one on the list.
+        If ListBox1.SelectedIndex < ListBox1.Items.Count - 1 Then
+            'Insert places items above the index you supply, since we want
+            'to move it down the list we have to do + 2
+            Dim I = ListBox1.SelectedIndex + 2
+            ListBox1.Items.Insert(I, ListBox1.SelectedItem)
+            ListBox1.Items.RemoveAt(ListBox1.SelectedIndex)
+            ListBox1.SelectedIndex = I - 1
+        End If
+    End Sub
+
+    Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
+        Dim metadatafile As String
+        Button39.Enabled = True
+        Button40.Enabled = True
+        ' Load EPUB metadata
+        ' open file
+        'Unzip epub to temp directory
+        tempdirectory = System.IO.Path.GetTempPath
+        ebookdirectory = tempdirectory + "EPUB"
+
+        ChDir(tempdirectory)
+
+        If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+            Try
+                'delete contents of temp directory
+                DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+            Catch
+                wait(500)
+                'try again
+                DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+            End Try
+        Else
+            MkDir(ebookdirectory)
+        End If
+        ChDir(ebookdirectory)
+
+        Try
+            Using zip As ZipFile = ZipFile.Read(ListBox1.SelectedItem)
+                Dim item As ZipEntry
+                For Each item In zip
+                    item.Extract()
+                Next
+            End Using
+        Catch ex1 As Exception
+            Console.Error.WriteLine("exception: {0}", ex1.ToString)
+        End Try
+
+        'Search for .opf file
+        searchResults = Directory.GetFiles(ebookdirectory, "*.opf", SearchOption.AllDirectories)
+
+        'Open .opf file into RichTextBox
+        If searchResults.Length < 1 Then
+            DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ListBox1.SelectedItem + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            Return
+        Else
+            opffile = searchResults(0)
+            If InStr(opffile, "_MACOSX") Then
+                If searchResults.Length > 1 Then
+                    opffile = searchResults(1)
+                End If
+            End If
+            opfdirectory = Path.GetDirectoryName(opffile)
+            RichTextBox1.Text = LoadUnicodeFile(opffile)
+        End If
+
+        'Extract metadata into textboxes (but no need to extract cover)
+        metadatafile = RichTextBox1.Text
+        ExtractMetadata(metadatafile, True)
+
+        projectchanged = False
+        CaptionString = "EPUB Metadata Editor"
+        Me.Text = CaptionString
+    End Sub
+
+    Private Sub Button41_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button41.Click
+        ListBox1.Sorted = True
+        ListBox1.Sorted = False
+    End Sub
+
+    Private Sub DisableInterface()
+        TextBox1.Enabled = False
+        TextBox16.Enabled = False
+        TextBox2.Enabled = False
+        TextBox12.Enabled = False
+        ComboBox1.Enabled = False
+        TextBox3.Enabled = False
+        TextBox13.Enabled = False
+        ComboBox2.Enabled = False
+        TextBox15.Enabled = False
+        TextBox14.Enabled = False
+        WebBrowser1.Visible = False
+        TextBox4.Enabled = False
+        TextBox5.Enabled = False
+        TextBox6.Enabled = False
+        TextBox17.Enabled = False
+        TextBox7.Enabled = False
+        TextBox8.Enabled = False
+        TextBox9.Enabled = False
+        TextBox10.Enabled = False
+        TextBox11.Enabled = False
+        Button21.Enabled = False
+        Button25.Enabled = False
+        Button22.Enabled = False
+        Button18.Enabled = False
+        Button5.Enabled = False
+        Button6.Enabled = False
+        Button7.Enabled = False
+        Button15.Enabled = False
+        Button14.Enabled = False
+        Button13.Enabled = False
+        Button38.Enabled = False
+        Button28.Enabled = False
+        Button29.Enabled = False
+        Button35.Enabled = False
+        Button1.Enabled = False
+        Button27.Enabled = False
+        Label27.Visible = False
+        Label4.Visible = False
+        Label23.Visible = False
+        CheckBox5.Enabled = False
+        PictureBox1.Enabled = False
+        GroupBox1.Visible = False
+        ComboBox3.Enabled = False
+        Button3.Enabled = False
+        Button8.Enabled = False
+        Button23.Enabled = False
+        LinkLabel3.Enabled = False
+        LinkLabel5.Enabled = False
+        Button35.Visible = False
+        Button1.Visible = False
+        Button27.Visible = False
+        Button19.Enabled = False
+        Button20.Enabled = False
+        Button34.Enabled = False
+        Button24.Enabled = False
+        Button26.Enabled = False
+        Button33.Enabled = False
+        CheckBox5.Visible = False
     End Sub
 End Class

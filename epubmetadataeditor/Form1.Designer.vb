@@ -160,6 +160,11 @@ Partial Class Form1
         Me.Label28 = New System.Windows.Forms.Label
         Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
+        Me.CheckBox9 = New System.Windows.Forms.CheckBox
+        Me.TextBox18 = New System.Windows.Forms.TextBox
+        Me.Button39 = New System.Windows.Forms.Button
+        Me.Button40 = New System.Windows.Forms.Button
+        Me.Button41 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -678,10 +683,9 @@ Partial Class Form1
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.HorizontalScrollbar = True
-        Me.ListBox1.Location = New System.Drawing.Point(906, 212)
+        Me.ListBox1.Location = New System.Drawing.Point(906, 238)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(333, 186)
-        Me.ListBox1.Sorted = True
+        Me.ListBox1.Size = New System.Drawing.Size(303, 160)
         Me.ListBox1.TabIndex = 80
         Me.ListBox1.TabStop = False
         '
@@ -697,10 +701,10 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Enabled = False
-        Me.Button10.Location = New System.Drawing.Point(906, 180)
+        Me.Button10.Location = New System.Drawing.Point(906, 205)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 62
+        Me.Button10.TabIndex = 63
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -723,7 +727,7 @@ Partial Class Form1
         '
         Me.ProgressBar1.Location = New System.Drawing.Point(906, 404)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(333, 19)
+        Me.ProgressBar1.Size = New System.Drawing.Size(303, 19)
         Me.ProgressBar1.TabIndex = 81
         Me.ProgressBar1.Visible = False
         '
@@ -1202,20 +1206,20 @@ Partial Class Form1
         'Button32
         '
         Me.Button32.Enabled = False
-        Me.Button32.Location = New System.Drawing.Point(1149, 180)
+        Me.Button32.Location = New System.Drawing.Point(1149, 205)
         Me.Button32.Name = "Button32"
         Me.Button32.Size = New System.Drawing.Size(90, 25)
-        Me.Button32.TabIndex = 64
+        Me.Button32.TabIndex = 65
         Me.Button32.Text = "Rename"
         Me.Button32.UseVisualStyleBackColor = True
         '
         'LinkLabel4
         '
         Me.LinkLabel4.AutoSize = True
-        Me.LinkLabel4.Location = New System.Drawing.Point(1093, 186)
+        Me.LinkLabel4.Location = New System.Drawing.Point(1093, 211)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(52, 13)
-        Me.LinkLabel4.TabIndex = 63
+        Me.LinkLabel4.TabIndex = 64
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Configure"
         '
@@ -1493,11 +1497,71 @@ Partial Class Form1
         Me.WebBrowser1.TabIndex = 92
         Me.WebBrowser1.Visible = False
         '
+        'CheckBox9
+        '
+        Me.CheckBox9.AutoSize = True
+        Me.CheckBox9.Location = New System.Drawing.Point(1068, 157)
+        Me.CheckBox9.Name = "CheckBox9"
+        Me.CheckBox9.Size = New System.Drawing.Size(176, 17)
+        Me.CheckBox9.TabIndex = 61
+        Me.CheckBox9.Text = "Sequentialise all files into series:"
+        Me.CheckBox9.UseVisualStyleBackColor = True
+        '
+        'TextBox18
+        '
+        Me.TextBox18.Location = New System.Drawing.Point(1085, 177)
+        Me.TextBox18.Name = "TextBox18"
+        Me.TextBox18.Size = New System.Drawing.Size(153, 20)
+        Me.TextBox18.TabIndex = 62
+        '
+        'Button39
+        '
+        Me.Button39.Enabled = False
+        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
+        Me.Button39.Location = New System.Drawing.Point(1212, 238)
+        Me.Button39.Name = "Button39"
+        Me.Button39.Size = New System.Drawing.Size(26, 20)
+        Me.Button39.TabIndex = 66
+        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
+        Me.Button39.UseVisualStyleBackColor = True
+        '
+        'Button40
+        '
+        Me.Button40.Enabled = False
+        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
+        Me.Button40.Location = New System.Drawing.Point(1213, 264)
+        Me.Button40.Name = "Button40"
+        Me.Button40.Size = New System.Drawing.Size(26, 20)
+        Me.Button40.TabIndex = 67
+        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
+        Me.Button40.UseVisualStyleBackColor = True
+        '
+        'Button41
+        '
+        Me.Button41.Enabled = False
+        Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button41.Location = New System.Drawing.Point(1215, 378)
+        Me.Button41.Name = "Button41"
+        Me.Button41.Size = New System.Drawing.Size(26, 20)
+        Me.Button41.TabIndex = 68
+        Me.Button41.Text = "S"
+        Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
+        Me.Button41.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.Controls.Add(Me.Button41)
+        Me.Controls.Add(Me.Button40)
+        Me.Controls.Add(Me.Button39)
+        Me.Controls.Add(Me.TextBox18)
+        Me.Controls.Add(Me.CheckBox9)
         Me.Controls.Add(Me.ComboBox3)
         Me.Controls.Add(Me.Button38)
         Me.Controls.Add(Me.WebBrowser1)
@@ -1755,5 +1819,10 @@ Partial Class Form1
     Friend WithEvents WebBrowser1 As System.Windows.Forms.WebBrowser
     Friend WithEvents Button38 As System.Windows.Forms.Button
     Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
+    Friend WithEvents CheckBox9 As System.Windows.Forms.CheckBox
+    Friend WithEvents TextBox18 As System.Windows.Forms.TextBox
+    Friend WithEvents Button39 As System.Windows.Forms.Button
+    Friend WithEvents Button40 As System.Windows.Forms.Button
+    Friend WithEvents Button41 As System.Windows.Forms.Button
 
 End Class
