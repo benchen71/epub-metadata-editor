@@ -1,5 +1,2 @@
-1.3.10
-[*] Added appropriate error message if trying to save to a read-only file.
-[*] Main interface now disabled when working with files in batch operations.
-[*] Added new batch task: sequentialise all files into (Calibre) series.  Files in the list can be arranged using buttons located on the right of the listbox.  When file is selected, its metadata is loaded into the main interface.
-[*] Batch files list is no longer sorted upon adding files to list.  A sort button has been added.
+1.3.11
+[*] Preserve text in clipboard if user closes program using "Exit" button.

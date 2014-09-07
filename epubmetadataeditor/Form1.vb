@@ -1500,7 +1500,15 @@ exitsub:
         BackgroundWorker1.RunWorkerAsync()
     End Sub
 
+    Private Sub ProtectClipboard()
+        If Clipboard.ContainsText Then
+            Dim cliptext As String = Clipboard.GetText
+            Clipboard.SetDataObject(cliptext, True)
+        End If
+    End Sub
+
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
+        ProtectClipboard()
         If projectchanged Then
             DialogResult = Dialog1.ShowDialog
             If DialogResult = Windows.Forms.DialogResult.No Then
