@@ -1,2 +1,2 @@
-1.3.11
-[*] Preserve text in clipboard if user closes program using "Exit" button.
+1.3.12
+[*] Version info was wrong inside program.
