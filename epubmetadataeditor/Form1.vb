@@ -31,6 +31,7 @@ Public Class Form1
     Dim currentfilenumber As Integer
     Dim refreshfilelist As Boolean = True
     Dim possibleDRM As Boolean = False
+    Dim keepcombobox As Boolean = False
 
     Public Sub DeleteDirContents(ByVal dir As IO.DirectoryInfo)
         Dim fa() As IO.FileInfo
@@ -75,7 +76,9 @@ Public Class Form1
         ComboBox2.SelectedIndex = -1
         projectchanged = False
         refreshfilelist = True
-        ComboBox3.SelectedIndex = -1
+        If keepcombobox = False Then
+            ComboBox3.SelectedIndex = -1
+        End If
         PictureBox1.Image = Nothing
         Label4.Visible = False
         Button1.Visible = False
@@ -760,6 +763,8 @@ skipsecondcreator:
                         endpos = InStr(metadatafile, "</dc:description>")
                         If endpos = 0 Then endpos = InStr(metadatafile, "</description>")
                         TextBox4.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                        TextBox4.Text = TextBox4.Text.Replace("<![CDATA[", "")
+                        TextBox4.Text = TextBox4.Text.Replace("]]>", "")
                         Application.DoEvents()
                         WebBrowser1.DocumentText = TextBox4.Text.Replace(Chr(10), "<br>")
                         WebBrowser1.Visible = True
@@ -1439,7 +1444,9 @@ exitsub:
             End If
         End If
 
+        keepcombobox = True
         ClearInterface()
+        keepcombobox = False
         SaveImageAsToolStripMenuItem.Enabled = False
         AddImageToolStripMenuItem.Enabled = False
         ChangeImageToolStripMenuItem.Enabled = False
@@ -2723,6 +2730,12 @@ errortext:
         If (InStr(metadatafile, "<opf:metadata>") Or InStr(metadatafile, "<opf:manifest>")) Then
             metadatafile = metadatafile.Replace("<opf:", "<")
             metadatafile = metadatafile.Replace("</opf:", "</")
+        End If
+        If (InStr(metadatafile, "<ns0:metadata>") Or InStr(metadatafile, "<ns0:manifest>")) Then
+            metadatafile = metadatafile.Replace("<ns0:", "<")
+            metadatafile = metadatafile.Replace("<ns1:", "<dc:")
+            metadatafile = metadatafile.Replace("</ns0:", "</")
+            metadatafile = metadatafile.Replace("</ns1:", "</dc:")
         End If
 
         'Search for xmlns:opf="http://www.idpf.org/2007/opf"

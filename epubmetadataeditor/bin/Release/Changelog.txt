@@ -1,2 +1,4 @@
-1.3.12
-[*] Version info was wrong inside program.
+1.3.13
+[*] Fixed regression error that stopped the file selector drop-down menu from working.
+[*] Added a work-around for OPF files with "<ns0:metadata" tags.
+[*] Fixed an error with descriptions not appearing when "<![CDATA[ ... ]]>" is in the description content.
