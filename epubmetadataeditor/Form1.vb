@@ -818,11 +818,15 @@ skipsecondcreator:
                 Else
                     'Get optional attribute: event
                     fileaspos = InStr(startpos, metadatafile, "opf:event=")
-                    If fileaspos <> 0 Then
-                        TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
-                        Label6.Text = "Date (" + Mid(metadatafile, fileaspos + 11, endheader - fileaspos - 12) + ")"
-                        TextBox6.Width = 287
-                        TextBox6.Left = 130
+                    If (fileaspos <> 0) Then
+                        If (fileaspos < endpos) Then
+                            TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                            Label6.Text = "Date (" + Mid(metadatafile, fileaspos + 11, endheader - fileaspos - 12) + ")"
+                            TextBox6.Width = 287
+                            TextBox6.Left = 130
+                        Else
+                            TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        End If
                     End If
                 End If
             End If
@@ -3200,7 +3204,7 @@ lookforrefines2:
                         newheader = "<dc:date opf:event=" + Chr(34) + Mid(Label6.Text, 7, Len(Label6.Text) - 7) + Chr(34) + ">"
                     Else
                         ' leave things as they are
-                        newheader = "<dc:date>"
+                        newheader = Mid(metadatafile, startpos, endtag - startpos + 1)
                     End If
                 End If
                 endpos = InStr(metadatafile, "</dc:date>")
