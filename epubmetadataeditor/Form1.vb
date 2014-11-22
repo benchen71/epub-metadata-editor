@@ -2340,7 +2340,9 @@ errortext:
         Form2.RichTextBox1.Text = LoadUnicodeFile(opffile)
         Form2.ShowDialog()
         If fileeditorreturn = True Then
+            keepcombobox = True
             ClearInterface()
+            keepcombobox = False
             RichTextBox1.Text = filecontents
             SaveUnicodeFile(opffile, RichTextBox1.Text)
             projectchanged = True
@@ -3623,7 +3625,9 @@ outputsource:
                 Me.Text = "*" + CaptionString
 
                 ' Possibly need to update metadata
+                keepcombobox = True
                 ClearInterface()
+                keepcombobox = False
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
                 metadatafile = RichTextBox1.Text
                 ExtractMetadata(metadatafile, True)

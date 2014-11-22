@@ -62,4 +62,11 @@ Public Class Form2
     Private Sub UndoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UndoToolStripMenuItem.Click
         DirectCast(Me.ActiveControl, RichTextBox).Undo()
     End Sub
+
+    Private Sub RichTextBox1_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles RichTextBox1.PreviewKeyDown
+        If e.KeyCode = Keys.Tab Then
+            e.IsInputKey = True
+        End If
+    End Sub
+
 End Class
