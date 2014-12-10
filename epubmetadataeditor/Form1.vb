@@ -78,6 +78,8 @@ Public Class Form1
         refreshfilelist = True
         If keepcombobox = False Then
             ComboBox3.SelectedIndex = -1
+            CaptionString = "EPUB Metadata Editor"
+            Me.Text = CaptionString
         End If
         PictureBox1.Image = Nothing
         Label4.Visible = False
@@ -90,8 +92,6 @@ Public Class Form1
         Label27.Visible = False
         Label23.Visible = False
         CheckBox5.Visible = False
-        CaptionString = "EPUB Metadata Editor"
-        Me.Text = CaptionString
     End Sub
 
     Private Sub SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox1.SelectedIndexChanged, ComboBox2.SelectedIndexChanged, _
@@ -827,6 +827,8 @@ skipsecondcreator:
                         Else
                             TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                         End If
+                    Else
+                        TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                     End If
                 End If
             End If
@@ -2353,6 +2355,7 @@ errortext:
             RichTextBox1.Text = LoadUnicodeFile(opffile)
             metadatafile = RichTextBox1.Text
             ExtractMetadata(metadatafile, True)
+            refreshfilelist = False
         End If
     End Sub
 
@@ -3631,6 +3634,7 @@ outputsource:
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
                 metadatafile = RichTextBox1.Text
                 ExtractMetadata(metadatafile, True)
+                refreshfilelist = False
             End If
         End If
     End Sub
