@@ -75,6 +75,9 @@ Partial Class Form1
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
         Me.Button38 = New System.Windows.Forms.Button
         Me.ComboBox3 = New System.Windows.Forms.ComboBox
+        Me.Button39 = New System.Windows.Forms.Button
+        Me.Button40 = New System.Windows.Forms.Button
+        Me.Button41 = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -162,9 +165,6 @@ Partial Class Form1
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
         Me.CheckBox9 = New System.Windows.Forms.CheckBox
         Me.TextBox18 = New System.Windows.Forms.TextBox
-        Me.Button39 = New System.Windows.Forms.Button
-        Me.Button40 = New System.Windows.Forms.Button
-        Me.Button41 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -663,6 +663,44 @@ Partial Class Form1
         Me.ComboBox3.Size = New System.Drawing.Size(364, 21)
         Me.ComboBox3.TabIndex = 93
         Me.ToolTip1.SetToolTip(Me.ComboBox3, "File Selector")
+        '
+        'Button39
+        '
+        Me.Button39.Enabled = False
+        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
+        Me.Button39.Location = New System.Drawing.Point(1212, 238)
+        Me.Button39.Name = "Button39"
+        Me.Button39.Size = New System.Drawing.Size(26, 20)
+        Me.Button39.TabIndex = 66
+        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
+        Me.Button39.UseVisualStyleBackColor = True
+        '
+        'Button40
+        '
+        Me.Button40.Enabled = False
+        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
+        Me.Button40.Location = New System.Drawing.Point(1213, 264)
+        Me.Button40.Name = "Button40"
+        Me.Button40.Size = New System.Drawing.Size(26, 20)
+        Me.Button40.TabIndex = 67
+        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
+        Me.Button40.UseVisualStyleBackColor = True
+        '
+        'Button41
+        '
+        Me.Button41.Enabled = False
+        Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button41.Location = New System.Drawing.Point(1215, 378)
+        Me.Button41.Name = "Button41"
+        Me.Button41.Size = New System.Drawing.Size(26, 20)
+        Me.Button41.TabIndex = 68
+        Me.Button41.Text = "S"
+        Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
+        Me.Button41.UseVisualStyleBackColor = True
         '
         'Label4
         '
@@ -1332,6 +1370,7 @@ Partial Class Form1
         Me.TextBox17.Size = New System.Drawing.Size(335, 20)
         Me.TextBox17.TabIndex = 13
         Me.TextBox17.Text = ""
+        Me.ToolTip1.SetToolTip(Me.TextBox17, "Separate multiple subjects with commas")
         '
         'Label27
         '
@@ -1514,49 +1553,11 @@ Partial Class Form1
         Me.TextBox18.Size = New System.Drawing.Size(153, 20)
         Me.TextBox18.TabIndex = 62
         '
-        'Button39
-        '
-        Me.Button39.Enabled = False
-        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
-        Me.Button39.Location = New System.Drawing.Point(1212, 238)
-        Me.Button39.Name = "Button39"
-        Me.Button39.Size = New System.Drawing.Size(26, 20)
-        Me.Button39.TabIndex = 66
-        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
-        Me.Button39.UseVisualStyleBackColor = True
-        '
-        'Button40
-        '
-        Me.Button40.Enabled = False
-        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
-        Me.Button40.Location = New System.Drawing.Point(1213, 264)
-        Me.Button40.Name = "Button40"
-        Me.Button40.Size = New System.Drawing.Size(26, 20)
-        Me.Button40.TabIndex = 67
-        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
-        Me.Button40.UseVisualStyleBackColor = True
-        '
-        'Button41
-        '
-        Me.Button41.Enabled = False
-        Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button41.Location = New System.Drawing.Point(1215, 378)
-        Me.Button41.Name = "Button41"
-        Me.Button41.Size = New System.Drawing.Size(26, 20)
-        Me.Button41.TabIndex = 68
-        Me.Button41.Text = "S"
-        Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
-        Me.Button41.UseVisualStyleBackColor = True
-        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(1247, 638)
+        Me.ClientSize = New System.Drawing.Size(1247, 644)
         Me.Controls.Add(Me.Button41)
         Me.Controls.Add(Me.Button40)
         Me.Controls.Add(Me.Button39)

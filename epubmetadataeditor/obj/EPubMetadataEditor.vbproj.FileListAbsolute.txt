@@ -360,3 +360,29 @@ C:\Users\Greentree\Documents\GitHub\epub-metadata-editor\EPubMetadataEditor\obj\
 C:\Users\Greentree\Documents\GitHub\epub-metadata-editor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.exe
 C:\Users\Greentree\Documents\GitHub\epub-metadata-editor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.xml
 C:\Users\Greentree\Documents\GitHub\epub-metadata-editor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.pdb
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.exe
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.xml
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.pdb
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.exe
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.pdb
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.xml
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\Ionic.Zip.dll
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\Interop.Scripting.dll
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\ResolveAssemblyReference.cache
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\Interop.Scripting.dll
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.vbproj.ResolveComReference.cache
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.AboutBox1.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Dialog1.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Dialog2.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Dialog3.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form1.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form2.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form3.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form4.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form5.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form6.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Resources.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.vbproj.GenerateResource.Cache
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.exe
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.xml
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.pdb

@@ -1,4 +1,3 @@
-1.3.16
-[*] Fixed: filename was disappearing from window title if you edited the OPF file manually.
-[*] Fixed: file selector was unresponsive after editing the OPF file manually.
-[*] Fixed: date was not appearing if date tag had extra stuff in it (other than event type)
+1.3.17
+[*] Added ability to handle more than one subject (separated by commas)
+[*] Added button on OPF editor dialog to reformat OPF file (standardise newlines and tabs)

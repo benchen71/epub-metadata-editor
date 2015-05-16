@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Edit the metadata of EPUB files")> 
 <Assembly: AssemblyCompany("Ben Chenoweth")> 
 <Assembly: AssemblyProduct("EPUB Metadata Editor")> 
-<Assembly: AssemblyCopyright("Copyright © 2011-2014")> 
+<Assembly: AssemblyCopyright("Copyright © 2011-2015")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.3.16")> 
-<Assembly: AssemblyFileVersion("1.3.16")> 
+<Assembly: AssemblyVersion("1.3.17")> 
+<Assembly: AssemblyFileVersion("1.3.17")> 

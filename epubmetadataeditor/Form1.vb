@@ -478,7 +478,7 @@ lookforpagemap:
     Private Sub ExtractMetadata(ByVal metadatafile As String, ByVal extractcover As Boolean)
         Dim startpos, namespacelen, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
         Dim dcnamespace, rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring As String
-        Dim idpos, endheaderpos, temppos, refinespos As Integer
+        Dim idpos, endheaderpos, temppos, refinespos, oldstartpos As Integer
         Dim idinfo As String
 
         'Check for non-standard dc namespace tags
@@ -850,6 +850,19 @@ skipsecondcreator:
                         endpos = InStr(metadatafile, "</dc:subject>")
                         If endpos = 0 Then endpos = InStr(metadatafile, "</subject>")
                         TextBox17.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                        oldstartpos = startpos
+                        startpos = InStr(oldstartpos + 1, metadatafile, "<dc:subject")
+                        If startpos = 0 Then startpos = InStr(oldstartpos + 1, metadatafile, "<subject")
+                        While startpos <> 0
+                            endheader = InStr(startpos, metadatafile, ">")
+                            lenheader = endheader - startpos + 1
+                            endpos = InStr(startpos, metadatafile, "</dc:subject>")
+                            If endpos = 0 Then endpos = InStr(startpos, metadatafile, "</subject>")
+                            TextBox17.Text = TextBox17.Text + "," + XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                            oldstartpos = startpos
+                            startpos = InStr(oldstartpos + 1, metadatafile, "<dc:subject")
+                            If startpos = 0 Then startpos = InStr(oldstartpos + 1, metadatafile, "<subject")
+                        End While
                     End If
                 End If
             End If
@@ -2339,6 +2352,7 @@ errortext:
         fileeditorreturn = False
         filecontents = ""
         Form2.Button3.Visible = True
+        Form2.Button4.Visible = True
         Form2.RichTextBox1.Text = LoadUnicodeFile(opffile)
         Form2.ShowDialog()
         If fileeditorreturn = True Then
@@ -2357,6 +2371,7 @@ errortext:
             ExtractMetadata(metadatafile, True)
             refreshfilelist = False
         End If
+        Form2.Button4.Visible = False
     End Sub
 
     Private Sub Button20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button20.Click
@@ -2698,7 +2713,7 @@ errortext:
         Dim startpos, namespacelen, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
         Dim idpos, temploop, temppos, endheaderpos, refinespos, testpos As Integer
-        Dim idinfo, rolestring, identifierscheme As String
+        Dim idinfo, rolestring, identifierscheme, temptext As String
         Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
 
         Dim fi As New FileInfo(OpenFileDialog1.FileName)
@@ -3238,39 +3253,38 @@ lookforrefines2:
 
         'Output subject
         metadatafile = metadatafile.Replace("<dc:subject xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " />", "<dc:subject />")
+        temptext = TextBox17.Text
+        ' delete any subjects present
+        startpos = InStr(metadatafile, "<dc:subject>")
+        If startpos = 0 Then startpos = InStr(metadatafile, "<subject>")
+        While (startpos <> 0)
+            endtag = InStr(startpos + 1, metadatafile, "<")
+            endtag = InStr(endtag + 1, metadatafile, "<")
+            metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endtag)
+            startpos = InStr(metadatafile, "<dc:subject>")
+            If startpos = 0 Then startpos = InStr(metadatafile, "<subject>")
+        End While
+        If TextBox17.Text <> "" Then
+            If TextBox17.Text.Contains(",") Then
+                ' preformat TextBox17.text
+                temptext = temptext.Replace(",", "</dc:subject>" + Chr(10) + Chr(9) + Chr(9) + "<dc:subject>")
+            End If
+        End If
         testpos = InStr(metadatafile, "<dc:subject />")
         If ((testpos <> 0) And (TextBox17.Text = "")) Then
         Else
             startpos = InStr(metadatafile, "<dc:subject/>")
             If startpos = 0 Then
                 If testpos <> 0 Then
-                    metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + XMLOutput(TextBox17.Text) + "</dc:subject>")
+                    metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + temptext + "</dc:subject>")
                 Else
-                    startpos = InStr(metadatafile, "<dc:subject")
-                    If startpos = 0 Then startpos = InStr(metadatafile, "<subject")
-                    If ((TextBox17.Text <> "") Or (startpos <> 0)) Then
-                        If startpos <> 0 Then
-                            endtag = InStr(startpos, metadatafile, ">")
-                            lenheader = endtag - startpos + 1
-                            endpos = InStr(metadatafile, "</dc:subject>")
-                            If endpos = 0 Then endpos = InStr(metadatafile, "</subject>")
-                            If endpos <> 0 Then
-                                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox17.Text) + Mid(metadatafile, endpos)
-                            Else
-                                endpos = InStr(startpos, metadatafile, " />")
-                                If endpos <> 0 Then
-                                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + XMLOutput(TextBox17.Text) + "</dc:subject>" + Mid(metadatafile, endpos + 3)
-                                End If
-                            End If
-                        Else
-                            endpos = InStr(metadatafile, "</dc:title>")
-                            metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(13) + Chr(10) + Chr(9) + "<dc:subject>" + XMLOutput(TextBox17.Text) + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
-                        End If
-                    End If
+                    endpos = InStr(metadatafile, "</dc:title>")
+                    metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(9) + Chr(9) + "<dc:subject>" + temptext + "</dc:subject>" + Chr(10) + Mid(metadatafile, endpos + 12)
                 End If
             Else
-                metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + XMLOutput(TextBox17.Text) + "</dc:subject>")
+                metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + temptext + "</dc:subject>")
             End If
+            metadatafile = metadatafile.Replace("<dc:subject></dc:subject>", "<dc:subject/>")
         End If
 
         'Output type
