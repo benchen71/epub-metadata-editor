@@ -1501,6 +1501,9 @@ exitsub:
         ComboBox1.SelectedIndex = -1
         ComboBox2.SelectedIndex = -1
 
+        subjectseparator = "|"
+        ToolTip1.SetToolTip(Me.TextBox17, ToolTip1.GetToolTip(Me.TextBox17) + subjectseparator)
+
         OpenFileDialog1.FileName = Command()
         If OpenFileDialog1.FileName <> "" Then
             'Check for quotation marks at start and end of commandline and delete them if found
@@ -1522,9 +1525,6 @@ exitsub:
         End If
 
         PictureBox1.AllowDrop = True
-
-        subjectseparator = "|"
-        ToolTip1.SetToolTip(Me.TextBox17, ToolTip1.GetToolTip(Me.TextBox17) + subjectseparator)
 
         ' Start check for update as background task
         BackgroundWorker1.RunWorkerAsync()
