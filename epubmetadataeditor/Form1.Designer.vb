@@ -78,6 +78,15 @@ Partial Class Form1
         Me.Button39 = New System.Windows.Forms.Button
         Me.Button40 = New System.Windows.Forms.Button
         Me.Button41 = New System.Windows.Forms.Button
+        Me.TextBox17 = New System.Windows.Forms.RichTextBox
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.UndoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
+        Me.CutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
+        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -110,14 +119,6 @@ Partial Class Form1
         Me.Label23 = New System.Windows.Forms.Label
         Me.Button27 = New System.Windows.Forms.Button
         Me.TextBox1 = New System.Windows.Forms.RichTextBox
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.UndoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
-        Me.CutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
-        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TextBox16 = New System.Windows.Forms.RichTextBox
         Me.TextBox2 = New System.Windows.Forms.RichTextBox
         Me.TextBox12 = New System.Windows.Forms.RichTextBox
@@ -146,7 +147,6 @@ Partial Class Form1
         Me.LinkLabel6 = New System.Windows.Forms.LinkLabel
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
         Me.Label26 = New System.Windows.Forms.Label
-        Me.TextBox17 = New System.Windows.Forms.RichTextBox
         Me.Label27 = New System.Windows.Forms.Label
         Me.Button35 = New System.Windows.Forms.Button
         Me.OpenFileDialog6 = New System.Windows.Forms.OpenFileDialog
@@ -702,6 +702,64 @@ Partial Class Form1
         Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
         Me.Button41.UseVisualStyleBackColor = True
         '
+        'TextBox17
+        '
+        Me.TextBox17.ContextMenuStrip = Me.ContextMenuStrip2
+        Me.TextBox17.Enabled = False
+        Me.TextBox17.Location = New System.Drawing.Point(82, 478)
+        Me.TextBox17.Multiline = False
+        Me.TextBox17.Name = "TextBox17"
+        Me.TextBox17.Size = New System.Drawing.Size(335, 20)
+        Me.TextBox17.TabIndex = 13
+        Me.TextBox17.Text = ""
+        Me.ToolTip1.SetToolTip(Me.TextBox17, "Separate multiple subjects with ")
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.ToolStripMenuItem4, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ToolStripMenuItem3, Me.SelectAllToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(123, 126)
+        '
+        'UndoToolStripMenuItem
+        '
+        Me.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem"
+        Me.UndoToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.UndoToolStripMenuItem.Text = "Undo"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(119, 6)
+        '
+        'CutToolStripMenuItem
+        '
+        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
+        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.CutToolStripMenuItem.Text = "Cut"
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.CopyToolStripMenuItem.Text = "Copy"
+        '
+        'PasteToolStripMenuItem
+        '
+        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
+        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.PasteToolStripMenuItem.Text = "Paste"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(119, 6)
+        '
+        'SelectAllToolStripMenuItem
+        '
+        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
+        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.SelectAllToolStripMenuItem.Text = "Select All"
+        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -1002,52 +1060,6 @@ Partial Class Form1
         Me.TextBox1.Size = New System.Drawing.Size(335, 20)
         Me.TextBox1.TabIndex = 0
         Me.TextBox1.Text = ""
-        '
-        'ContextMenuStrip2
-        '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.ToolStripMenuItem4, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ToolStripMenuItem3, Me.SelectAllToolStripMenuItem})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(123, 126)
-        '
-        'UndoToolStripMenuItem
-        '
-        Me.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem"
-        Me.UndoToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.UndoToolStripMenuItem.Text = "Undo"
-        '
-        'ToolStripMenuItem4
-        '
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(119, 6)
-        '
-        'CutToolStripMenuItem
-        '
-        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
-        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.CutToolStripMenuItem.Text = "Cut"
-        '
-        'CopyToolStripMenuItem
-        '
-        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.CopyToolStripMenuItem.Text = "Copy"
-        '
-        'PasteToolStripMenuItem
-        '
-        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
-        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.PasteToolStripMenuItem.Text = "Paste"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(119, 6)
-        '
-        'SelectAllToolStripMenuItem
-        '
-        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
-        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.SelectAllToolStripMenuItem.Text = "Select All"
         '
         'TextBox16
         '
@@ -1359,18 +1371,6 @@ Partial Class Form1
         Me.Label26.Size = New System.Drawing.Size(43, 13)
         Me.Label26.TabIndex = 87
         Me.Label26.Text = "Subject"
-        '
-        'TextBox17
-        '
-        Me.TextBox17.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.TextBox17.Enabled = False
-        Me.TextBox17.Location = New System.Drawing.Point(82, 478)
-        Me.TextBox17.Multiline = False
-        Me.TextBox17.Name = "TextBox17"
-        Me.TextBox17.Size = New System.Drawing.Size(335, 20)
-        Me.TextBox17.TabIndex = 13
-        Me.TextBox17.Text = ""
-        Me.ToolTip1.SetToolTip(Me.TextBox17, "Separate multiple subjects with commas")
         '
         'Label27
         '

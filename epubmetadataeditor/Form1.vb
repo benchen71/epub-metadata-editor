@@ -32,6 +32,7 @@ Public Class Form1
     Dim refreshfilelist As Boolean = True
     Dim possibleDRM As Boolean = False
     Dim keepcombobox As Boolean = False
+    Dim subjectseparator As String
 
     Public Sub DeleteDirContents(ByVal dir As IO.DirectoryInfo)
         Dim fa() As IO.FileInfo
@@ -858,7 +859,7 @@ skipsecondcreator:
                             lenheader = endheader - startpos + 1
                             endpos = InStr(startpos, metadatafile, "</dc:subject>")
                             If endpos = 0 Then endpos = InStr(startpos, metadatafile, "</subject>")
-                            TextBox17.Text = TextBox17.Text + "," + XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                            TextBox17.Text = TextBox17.Text + subjectseparator + XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
                             oldstartpos = startpos
                             startpos = InStr(oldstartpos + 1, metadatafile, "<dc:subject")
                             If startpos = 0 Then startpos = InStr(oldstartpos + 1, metadatafile, "<subject")
@@ -1521,6 +1522,9 @@ exitsub:
         End If
 
         PictureBox1.AllowDrop = True
+
+        subjectseparator = "|"
+        ToolTip1.SetToolTip(Me.TextBox17, ToolTip1.GetToolTip(Me.TextBox17) + subjectseparator)
 
         ' Start check for update as background task
         BackgroundWorker1.RunWorkerAsync()
@@ -3265,9 +3269,9 @@ lookforrefines2:
             If startpos = 0 Then startpos = InStr(metadatafile, "<subject>")
         End While
         If TextBox17.Text <> "" Then
-            If TextBox17.Text.Contains(",") Then
+            If TextBox17.Text.Contains(subjectseparator) Then
                 ' preformat TextBox17.text
-                temptext = temptext.Replace(",", "</dc:subject>" + Chr(10) + Chr(9) + Chr(9) + "<dc:subject>")
+                temptext = temptext.Replace(subjectseparator, "</dc:subject>" + Chr(10) + Chr(9) + Chr(9) + "<dc:subject>")
             End If
         End If
         testpos = InStr(metadatafile, "<dc:subject />")
