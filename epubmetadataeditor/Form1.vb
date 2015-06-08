@@ -2770,12 +2770,13 @@ errortext:
         'Search for multiple xmlns:dc="http://purl.org/dc/elements/1.1/"
         metadatafile = metadatafile.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
         startpos = InStr(metadatafile, "<metadata")
-        metadatafile = Mid(metadatafile, 1, startpos + 9) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
+        metadatafile = Mid(metadatafile, 1, startpos + 8) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
 
         'Search for xmlns:opf="http://www.idpf.org/2007/opf"
         startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
         temppos = InStr(metadatafile, "<dc:")
         If ((startpos = 0) Or (startpos > temppos)) Then
+            metadatafile = metadatafile.Replace(" xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "")
             'Add it to <metadata > tag
             startpos = InStr(metadatafile, "<metadata")
             startpos = InStr(startpos, metadatafile, ">") - 1
