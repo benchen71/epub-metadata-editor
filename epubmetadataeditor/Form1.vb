@@ -459,7 +459,7 @@ lookforpagemap:
                 Button22.Enabled = False
                 Button18.Enabled = False
                 Button28.Enabled = False
-                DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPUB Metadata Editor")
+                'DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPUB Metadata Editor")
             End If
         Else
             Button34.Visible = False
@@ -2712,11 +2712,12 @@ errortext:
     Private Sub CheckBox4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox4.CheckedChanged
         If CheckBox4.Checked = True Then CheckBox1.Checked = False
     End Sub
+
     Private Sub SaveEpub()
         Dim metadatafile, dcnamespace, optionaltext, optionaltext2 As String
         Dim startpos, namespacelen, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
-        Dim idpos, temploop, temppos, endheaderpos, refinespos, testpos As Integer
+        Dim idpos, temploop, temppos, endheaderpos, refinespos, testpos, extrachars As Integer
         Dim idinfo, rolestring, identifierscheme, temptext As String
         Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
 
@@ -2766,6 +2767,11 @@ errortext:
             metadatafile = metadatafile.Replace("</ns1:", "</dc:")
         End If
 
+        'Search for multiple xmlns:dc="http://purl.org/dc/elements/1.1/"
+        metadatafile = metadatafile.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
+        startpos = InStr(metadatafile, "<metadata")
+        metadatafile = Mid(metadatafile, 1, startpos + 9) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
+
         'Search for xmlns:opf="http://www.idpf.org/2007/opf"
         startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
         temppos = InStr(metadatafile, "<dc:")
@@ -2785,6 +2791,20 @@ errortext:
         startpos = InStr(metadatafile, "<dc:title")
         If startpos <> 0 Then
             endpos = InStr(metadatafile, "</dc:title>")
+            If endpos = 0 Then
+                endpos = InStr(startpos, metadatafile, " />")
+                extrachars = 3
+                If endpos = 0 Then
+                    InStr(startpos, metadatafile, "/>")
+                    extrachars = 2
+                End If
+                If endpos <> 0 Then
+                    metadatafile = Mid(metadatafile, 1, endpos + 2 - extrachars) + "</dc:title>" + Mid(metadatafile, endpos + extrachars)
+                Else
+                    DialogResult = MsgBox("Badly formed OPF file.  EPUB Metadata Editor is unable to save this file.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Exit Sub
+                End If
+            End If
             lenheader = Len("<dc:title")
 
             'If optional attributes
@@ -2812,6 +2832,20 @@ errortext:
         If startpos <> 0 Then
             endheaderpos = InStr(startpos, metadatafile, ">")
             endpos = InStr(startpos, metadatafile, "</dc:creator>")
+            If endpos = 0 Then
+                endpos = InStr(startpos, metadatafile, " />")
+                extrachars = 3
+                If endpos = 0 Then
+                    InStr(startpos, metadatafile, "/>")
+                    extrachars = 2
+                End If
+                If endpos <> 0 Then
+                    metadatafile = Mid(metadatafile, 1, endpos + 2 - extrachars) + "</dc:creator>" + Mid(metadatafile, endpos + extrachars)
+                Else
+                    DialogResult = MsgBox("Badly formed OPF file.  EPUB Metadata Editor is unable to save this file.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Exit Sub
+                End If
+            End If
             lenheader = Len("<dc:creator")
             If versioninfo = "3.0" Then
                 metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
@@ -3371,6 +3405,20 @@ lookforrefines2:
             If startpos <> 0 Then
                 endheaderpos = InStr(startpos, metadatafile, ">")
                 endpos = InStr(startpos, metadatafile, "</dc:identifier>")
+                If endpos = 0 Then
+                    endpos = InStr(startpos, metadatafile, " />")
+                    extrachars = 3
+                    If endpos = 0 Then
+                        InStr(startpos, metadatafile, "/>")
+                        extrachars = 2
+                    End If
+                    If endpos <> 0 Then
+                        metadatafile = Mid(metadatafile, 1, endpos + 2 - extrachars) + "</dc:identifier>" + Mid(metadatafile, endpos + extrachars)
+                    Else
+                        DialogResult = MsgBox("Badly formed OPF file.  EPUB Metadata Editor is unable to save this file.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                        Exit Sub
+                    End If
+                End If
                 lenheader = Len("<dc:identifier")
                 metadatafile = Mid(metadatafile, 1, endheaderpos) + TextBox9.Text + Mid(metadatafile, endpos)
 
