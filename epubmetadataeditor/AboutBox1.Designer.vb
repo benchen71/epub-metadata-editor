@@ -93,6 +93,7 @@ Partial Class AboutBox1
         'LabelProductName
         '
         Me.LabelProductName.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelProductName.ForeColor = System.Drawing.Color.Black
         Me.LabelProductName.Location = New System.Drawing.Point(211, 0)
         Me.LabelProductName.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelProductName.MaximumSize = New System.Drawing.Size(0, 17)
@@ -105,6 +106,7 @@ Partial Class AboutBox1
         'LabelVersion
         '
         Me.LabelVersion.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelVersion.ForeColor = System.Drawing.Color.Black
         Me.LabelVersion.Location = New System.Drawing.Point(211, 24)
         Me.LabelVersion.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelVersion.MaximumSize = New System.Drawing.Size(0, 17)
@@ -117,6 +119,7 @@ Partial Class AboutBox1
         'LabelCopyright
         '
         Me.LabelCopyright.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelCopyright.ForeColor = System.Drawing.Color.Black
         Me.LabelCopyright.Location = New System.Drawing.Point(211, 48)
         Me.LabelCopyright.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelCopyright.MaximumSize = New System.Drawing.Size(0, 17)
@@ -129,6 +132,7 @@ Partial Class AboutBox1
         'LabelCompanyName
         '
         Me.LabelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelCompanyName.ForeColor = System.Drawing.Color.Black
         Me.LabelCompanyName.Location = New System.Drawing.Point(211, 72)
         Me.LabelCompanyName.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelCompanyName.MaximumSize = New System.Drawing.Size(0, 17)
@@ -142,6 +146,7 @@ Partial Class AboutBox1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.Black
         Me.Label1.Location = New System.Drawing.Point(211, 129)
         Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.Label1.Name = "Label1"
@@ -153,6 +158,7 @@ Partial Class AboutBox1
         '
         Me.TextBoxDescription.BackColor = System.Drawing.Color.White
         Me.TextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TextBoxDescription.ForeColor = System.Drawing.Color.Black
         Me.TextBoxDescription.Location = New System.Drawing.Point(215, 99)
         Me.TextBoxDescription.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.TextBoxDescription.Multiline = True

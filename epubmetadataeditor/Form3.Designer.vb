@@ -62,7 +62,7 @@ Partial Class Form3
         Me.VistaTreeView1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.VistaTreeView1.FontColorSelected = System.Drawing.Color.Black
         Me.VistaTreeView1.FontHotTracking = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.VistaTreeView1.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.VistaTreeView1.ForeColor = System.Drawing.Color.Black
         Me.VistaTreeView1.ItemHeight = 17
         Me.VistaTreeView1.Location = New System.Drawing.Point(9, 12)
         Me.VistaTreeView1.Name = "VistaTreeView1"

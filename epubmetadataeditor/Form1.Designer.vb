@@ -165,6 +165,8 @@ Partial Class Form1
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
         Me.CheckBox9 = New System.Windows.Forms.CheckBox
         Me.TextBox18 = New System.Windows.Forms.TextBox
+        Me.CheckBox10 = New System.Windows.Forms.CheckBox
+        Me.LinkLabel8 = New System.Windows.Forms.LinkLabel
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -450,7 +452,7 @@ Partial Class Form1
         Me.Button25.TabIndex = 31
         Me.Button25.Text = "T"
         Me.Button25.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ToolTip1.SetToolTip(Me.Button25, "Apply Title Case to 'Title'")
+        Me.ToolTip1.SetToolTip(Me.Button25, "Apply Title Case to 'Title'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to Capitalise Every Word)")
         Me.Button25.UseVisualStyleBackColor = True
         '
         'Button17
@@ -672,7 +674,7 @@ Partial Class Form1
         Me.Button39.Location = New System.Drawing.Point(1212, 238)
         Me.Button39.Name = "Button39"
         Me.Button39.Size = New System.Drawing.Size(26, 20)
-        Me.Button39.TabIndex = 66
+        Me.Button39.TabIndex = 67
         Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
         Me.Button39.UseVisualStyleBackColor = True
         '
@@ -684,7 +686,7 @@ Partial Class Form1
         Me.Button40.Location = New System.Drawing.Point(1213, 264)
         Me.Button40.Name = "Button40"
         Me.Button40.Size = New System.Drawing.Size(26, 20)
-        Me.Button40.TabIndex = 67
+        Me.Button40.TabIndex = 68
         Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
         Me.Button40.UseVisualStyleBackColor = True
         '
@@ -696,7 +698,7 @@ Partial Class Form1
         Me.Button41.Location = New System.Drawing.Point(1215, 378)
         Me.Button41.Name = "Button41"
         Me.Button41.Size = New System.Drawing.Size(26, 20)
-        Me.Button41.TabIndex = 68
+        Me.Button41.TabIndex = 69
         Me.Button41.Text = "S"
         Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
@@ -800,7 +802,7 @@ Partial Class Form1
         Me.Button10.Location = New System.Drawing.Point(906, 205)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 63
+        Me.Button10.TabIndex = 64
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -874,6 +876,8 @@ Partial Class Form1
         Me.Button1.Size = New System.Drawing.Size(116, 23)
         Me.Button1.TabIndex = 47
         Me.Button1.Text = "Remove SVG tags"
+        Me.ToolTip1.SetToolTip(Me.Button1, "Some EPUB readers do not correctly generate the thumbnail cover if SVG tags are i" & _
+                "nvolved")
         Me.Button1.UseVisualStyleBackColor = True
         Me.Button1.Visible = False
         '
@@ -1047,6 +1051,8 @@ Partial Class Form1
         Me.Button27.Size = New System.Drawing.Size(116, 23)
         Me.Button27.TabIndex = 48
         Me.Button27.Text = "Prioritise cover file"
+        Me.ToolTip1.SetToolTip(Me.Button27, "If EPUB thumbnails are enabled on your computer, click this button to make a copy" & _
+                " of the cover image that will then appear as the thumbnail")
         Me.Button27.UseVisualStyleBackColor = True
         Me.Button27.Visible = False
         '
@@ -1259,17 +1265,18 @@ Partial Class Form1
         Me.Button32.Location = New System.Drawing.Point(1149, 205)
         Me.Button32.Name = "Button32"
         Me.Button32.Size = New System.Drawing.Size(90, 25)
-        Me.Button32.TabIndex = 65
+        Me.Button32.TabIndex = 66
         Me.Button32.Text = "Rename"
         Me.Button32.UseVisualStyleBackColor = True
         '
         'LinkLabel4
         '
         Me.LinkLabel4.AutoSize = True
-        Me.LinkLabel4.Location = New System.Drawing.Point(1093, 211)
+        Me.LinkLabel4.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel4.Location = New System.Drawing.Point(1096, 210)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(52, 13)
-        Me.LinkLabel4.TabIndex = 64
+        Me.LinkLabel4.TabIndex = 65
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Configure"
         '
@@ -1306,6 +1313,7 @@ Partial Class Form1
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 26
         Me.PictureBox1.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1, "Right-click image for context menu")
         '
         'Button34
         '
@@ -1394,6 +1402,7 @@ Partial Class Form1
         Me.Button35.Size = New System.Drawing.Size(116, 23)
         Me.Button35.TabIndex = 46
         Me.Button35.Text = "Auto-fix .opf file"
+        Me.ToolTip1.SetToolTip(Me.Button35, "If thumbnail does not appear in iBook, try clicking this button")
         Me.Button35.UseVisualStyleBackColor = True
         Me.Button35.Visible = False
         '
@@ -1551,13 +1560,38 @@ Partial Class Form1
         Me.TextBox18.Location = New System.Drawing.Point(1085, 177)
         Me.TextBox18.Name = "TextBox18"
         Me.TextBox18.Size = New System.Drawing.Size(153, 20)
-        Me.TextBox18.TabIndex = 62
+        Me.TextBox18.TabIndex = 63
+        Me.ToolTip1.SetToolTip(Me.TextBox18, "Series Title")
+        '
+        'CheckBox10
+        '
+        Me.CheckBox10.AutoSize = True
+        Me.CheckBox10.Location = New System.Drawing.Point(906, 177)
+        Me.CheckBox10.Name = "CheckBox10"
+        Me.CheckBox10.Size = New System.Drawing.Size(142, 17)
+        Me.CheckBox10.TabIndex = 62
+        Me.CheckBox10.Text = "Swap 'Title' and 'Creator'"
+        Me.ToolTip1.SetToolTip(Me.CheckBox10, "Uncheck all other batch tasks if this task is checked")
+        Me.CheckBox10.UseVisualStyleBackColor = True
+        '
+        'LinkLabel8
+        '
+        Me.LinkLabel8.AutoSize = True
+        Me.LinkLabel8.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel8.Location = New System.Drawing.Point(480, 62)
+        Me.LinkLabel8.Name = "LinkLabel8"
+        Me.LinkLabel8.Size = New System.Drawing.Size(25, 13)
+        Me.LinkLabel8.TabIndex = 95
+        Me.LinkLabel8.TabStop = True
+        Me.LinkLabel8.Text = "Edit"
+        Me.ToolTip1.SetToolTip(Me.LinkLabel8, "Edit list of words not to capitalise (separate using commas)")
         '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.CheckBox10)
         Me.Controls.Add(Me.Button41)
         Me.Controls.Add(Me.Button40)
         Me.Controls.Add(Me.Button39)
@@ -1578,7 +1612,6 @@ Partial Class Form1
         Me.Controls.Add(Me.LinkLabel5)
         Me.Controls.Add(Me.Button34)
         Me.Controls.Add(Me.Button33)
-        Me.Controls.Add(Me.LinkLabel4)
         Me.Controls.Add(Me.Button32)
         Me.Controls.Add(Me.LinkLabel3)
         Me.Controls.Add(Me.LinkLabel6)
@@ -1666,6 +1699,8 @@ Partial Class Form1
         Me.Controls.Add(Me.Label23)
         Me.Controls.Add(Me.Button27)
         Me.Controls.Add(Me.Label25)
+        Me.Controls.Add(Me.LinkLabel8)
+        Me.Controls.Add(Me.LinkLabel4)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1825,5 +1860,7 @@ Partial Class Form1
     Friend WithEvents Button39 As System.Windows.Forms.Button
     Friend WithEvents Button40 As System.Windows.Forms.Button
     Friend WithEvents Button41 As System.Windows.Forms.Button
+    Friend WithEvents CheckBox10 As System.Windows.Forms.CheckBox
+    Friend WithEvents LinkLabel8 As System.Windows.Forms.LinkLabel
 
 End Class

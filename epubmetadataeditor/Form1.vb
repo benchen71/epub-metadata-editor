@@ -33,6 +33,7 @@ Public Class Form1
     Dim possibleDRM As Boolean = False
     Dim keepcombobox As Boolean = False
     Dim subjectseparator As String
+    Dim WordsNotToCapitalise As String
 
     Public Sub DeleteDirContents(ByVal dir As IO.DirectoryInfo)
         Dim fa() As IO.FileInfo
@@ -500,7 +501,7 @@ lookforpagemap:
         End If
 
         'Check for non-standard opf namespace tags
-        If (InStr(metadatafile, "<opf:metadata>") Or InStr(metadatafile, "<opf:manifest>")) Then
+        If (InStr(metadatafile, "<opf:metadata") Or InStr(metadatafile, "<opf:manifest")) Then
             metadatafile = metadatafile.Replace("<opf:", "<")
             metadatafile = metadatafile.Replace("</opf:", "</")
         End If
@@ -1302,6 +1303,32 @@ didnotfindhref:
                 End If
             End While
 
+            imgpos = startpos
+            While (imgpos < endpos)
+                imgpos = InStr(imgpos + 1, metadatafile, "media-type=" + Chr(34) + "image/png")
+                If ((imgpos = 0) Or (imgpos > endpos)) Then
+                    Exit While
+                End If
+
+                'Scan backwards looking for start of <item>
+                temppos = imgpos
+                While (temppos > startpos)
+                    temppos = temppos - 1
+                    If (Mid(metadatafile, temppos, 5) = "<item") Then
+                        Exit While
+                    End If
+                End While
+                hrefpos = InStr(temppos, metadatafile, "href=")
+                endhrefpos = InStr(hrefpos + 6, metadatafile, Chr(34))
+                href = Mid(metadatafile, hrefpos + 6, endhrefpos - hrefpos - 6)
+                href = href.Replace("%20", " ")
+                ListBox2.Items.Add(href)
+                imgnum = imgnum + 1
+                If (InStr(href, "cover") <> 0) Then
+                    ListBox2.SelectedIndex = imgnum - 1
+                End If
+            End While
+
             If ListBox2.Items.Count > 0 Then
                 If ListBox2.SelectedIndex = -1 Then
                     ListBox2.SelectedIndex = 0
@@ -1487,6 +1514,7 @@ exitsub:
         End If
         Dim objIniFile As New IniFile(fileCheck)
         Dim ViewerPath As String = objIniFile.GetString("Viewer", "Path", "(none)")
+        WordsNotToCapitalise = objIniFile.GetString("Editor", "Words", "a,an,the,at,by,for,in,of,on,to,up,and,as,but,or,nor")
         If ViewerPath <> "(none)" Then
             LinkLabel1.Text = "Change external viewer"
         End If
@@ -1839,7 +1867,7 @@ errortext:
 
             If CheckBox2.Checked = True Then
                 ' apply Title Case to 'title'
-                TextBox1.Text = StrConv(TextBox1.Text, VbStrConv.ProperCase)
+                TextBox1.Text = TitleCase(TextBox1.Text)
             End If
 
             If CheckBox3.Checked = True Then
@@ -1857,6 +1885,13 @@ errortext:
                 ' Serialise
                 TextBox15.Text = TextBox18.Text
                 TextBox14.Text = x.ToString
+            End If
+
+            If CheckBox10.Checked = True Then
+                ' Swap Title and Creator
+                tempstring = TextBox1.Text
+                TextBox1.Text = TextBox2.Text
+                TextBox2.Text = tempstring
             End If
 
             Application.DoEvents()
@@ -2429,7 +2464,11 @@ errortext:
     End Sub
 
     Private Sub Button25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button25.Click
-        TextBox1.Text = StrConv(TextBox1.Text, VbStrConv.ProperCase)
+        If My.Computer.Keyboard.ShiftKeyDown Then
+            TextBox1.Text = StrConv(TextBox1.Text, VbStrConv.ProperCase)
+        Else
+            TextBox1.Text = TitleCase(TextBox1.Text)
+        End If
     End Sub
 
     Private Sub PictureBox1_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles PictureBox1.DragEnter
@@ -2756,11 +2795,11 @@ errortext:
         End If
 
         'Check for non-standard opf namespace tags
-        If (InStr(metadatafile, "<opf:metadata>") Or InStr(metadatafile, "<opf:manifest>")) Then
+        If (InStr(metadatafile, "<opf:metadata") Or InStr(metadatafile, "<opf:manifest")) Then
             metadatafile = metadatafile.Replace("<opf:", "<")
             metadatafile = metadatafile.Replace("</opf:", "</")
         End If
-        If (InStr(metadatafile, "<ns0:metadata>") Or InStr(metadatafile, "<ns0:manifest>")) Then
+        If (InStr(metadatafile, "<ns0:metadata") Or InStr(metadatafile, "<ns0:manifest")) Then
             metadatafile = metadatafile.Replace("<ns0:", "<")
             metadatafile = metadatafile.Replace("<ns1:", "<dc:")
             metadatafile = metadatafile.Replace("</ns0:", "</")
@@ -3292,7 +3331,7 @@ lookforrefines2:
 
         'Output subject
         metadatafile = metadatafile.Replace("<dc:subject xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " />", "<dc:subject />")
-        temptext = TextBox17.Text
+        temptext = XMLOutput(TextBox17.Text)
         ' delete any subjects present
         startpos = InStr(metadatafile, "<dc:subject>")
         If startpos = 0 Then startpos = InStr(metadatafile, "<subject>")
@@ -5052,5 +5091,75 @@ errortext:
         Button26.Enabled = False
         Button33.Enabled = False
         CheckBox5.Visible = False
+    End Sub
+    Private Function TitleCase(ByVal stringtext As String) As String
+        ' Capitalise according to The U.S. Government Printing Office Style Manual (http://www.gpoaccess.gov/stylemanual/browse.html)
+
+        Dim words() As String = Split(WordsNotToCapitalise, ",")
+        Dim result() As String = Split(stringtext, " ")
+        Dim wordnum, num, x, y As Integer
+        Dim inthelist As Boolean
+        Dim returnstring As String
+        wordnum = words.Length
+        num = result.Length
+        returnstring = ""
+        If num > 0 Then
+            ' Capitalise first word
+            result(0) = StrConv(result(0), VbStrConv.ProperCase)
+
+            ' Captilise if not in the list of words or after a colon
+            For x = 1 To num - 2
+                inthelist = False
+                For y = 0 To wordnum - 1
+                    If StrConv(result(x), VbStrConv.Lowercase) = words(y) Then
+                        inthelist = True
+                        Exit For
+                    End If
+                Next
+                If (inthelist And (Mid(result(x - 1), result(x - 1).Length, 1) <> ":")) Then
+                    result(x) = StrConv(result(x), VbStrConv.Lowercase)
+                Else
+                    result(x) = StrConv(result(x), VbStrConv.ProperCase)
+                End If
+            Next
+
+            ' Capitalise last word
+            result(num - 1) = StrConv(result(num - 1), VbStrConv.ProperCase)
+
+            returnstring = result(0)
+            For x = 1 To num - 1
+                returnstring = returnstring + " " + result(x)
+            Next
+        Else
+            returnstring = StrConv(stringtext, VbStrConv.ProperCase)
+        End If
+        Return returnstring
+    End Function
+
+    Private Sub LinkLabel8_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel8.LinkClicked
+        Dim NewWordsNotToCapitalise As String
+        Dim inidirectory, inifilename As String
+        Dialog2.TextBox1.Text = WordsNotToCapitalise
+        Dialog2.ShowDialog()
+        NewWordsNotToCapitalise = Dialog2.TextBox1.Text
+        If ((Dialog2.DialogResult = Windows.Forms.DialogResult.OK) And (WordsNotToCapitalise <> NewWordsNotToCapitalise)) Then
+            WordsNotToCapitalise = NewWordsNotToCapitalise
+
+            inidirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\EPubMetadataEditor"
+            inifilename = inidirectory + "\EPubMetadataEditor.ini"
+            If System.IO.File.Exists(inifilename) = False Then
+                If System.IO.Directory.Exists(inidirectory) = False Then
+                    System.IO.Directory.CreateDirectory(inidirectory)
+                End If
+                Dim fs As New FileStream(inifilename, FileMode.Create, FileAccess.Write)
+                Dim s As New StreamWriter(fs)
+                s.WriteLine("[Viewer]")
+                s.WriteLine("Path=" + Chr(34) + "(none)" + Chr(34))
+                s.Close()
+            End If
+
+            Dim objIniFile As New IniFile(inifilename)
+            objIniFile.WriteString("Editor", "Words", WordsNotToCapitalise)
+        End If
     End Sub
 End Class
