@@ -83,19 +83,20 @@ Public Class Form2
         End While
 
         ' add stuff back
-        opffiletext = opffiletext.Replace("><", ">" + Chr(10) + "<")
-        opffiletext = opffiletext.Replace("<metadata", Chr(9) + "<metadata")
-        opffiletext = opffiletext.Replace("</metadata", Chr(9) + "</metadata")
-        opffiletext = opffiletext.Replace("<manifest", Chr(9) + "<manifest")
-        opffiletext = opffiletext.Replace("</manifest", Chr(9) + "</manifest")
-        opffiletext = opffiletext.Replace("<spine", Chr(9) + "<spine")
-        opffiletext = opffiletext.Replace("</spine", Chr(9) + "</spine")
-        opffiletext = opffiletext.Replace("<guide", Chr(9) + "<guide")
-        opffiletext = opffiletext.Replace("</guide", Chr(9) + "</guide")
-        opffiletext = opffiletext.Replace("<dc:", Chr(9) + Chr(9) + "<dc:")
-        opffiletext = opffiletext.Replace("<meta ", Chr(9) + Chr(9) + "<meta ")
-        opffiletext = opffiletext.Replace("<item", Chr(9) + Chr(9) + "<item")
-        opffiletext = opffiletext.Replace("<reference", Chr(9) + Chr(9) + "<reference")
+        opffiletext = opffiletext.Replace("><", ">" + Chr(13) + Chr(10) + "<")
+        opffiletext = opffiletext.Replace("<metadata", "  <metadata")
+        opffiletext = opffiletext.Replace("</metadata", "  </metadata")
+        opffiletext = opffiletext.Replace("<manifest", "  <manifest")
+        opffiletext = opffiletext.Replace("</manifest", "  </manifest")
+        opffiletext = opffiletext.Replace("<spine", "  <spine")
+        opffiletext = opffiletext.Replace("</spine", "  </spine")
+        opffiletext = opffiletext.Replace("<guide", "  <guide")
+        opffiletext = opffiletext.Replace("</guide", "  </guide")
+        opffiletext = opffiletext.Replace("<dc:", "    <dc:")
+        opffiletext = opffiletext.Replace("<meta ", "    <meta ")
+        opffiletext = opffiletext.Replace("<item", "    <item")
+        opffiletext = opffiletext.Replace("<reference", "    <reference")
+        opffiletext = opffiletext.Replace("<!--", "    <!--")
         RichTextBox1.Text = opffiletext
     End Sub
 End Class

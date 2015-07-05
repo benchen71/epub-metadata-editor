@@ -1,7 +1,4 @@
-1.3.22
-[*] Fix for yet another OPF schema variant
-[*] Subject fields are now handled according to XML specifications
-[*] If cover file not set, the program now provides a list of PNG files not just JPEG files
-[*] Added batch task: swap Title and Creator
-[*] Apply Title Case button now does not capitalise certain words (hold down SHIFT to capitalise all words).  Note that the list of words not to capitalise is editable.
-[*] Fixes for text that did not appear in some dialogs if system text colour was white.
+1.3.23
+[*] Regularise whitespace in OPF file when saving
+[*] Updated ZIP library (to 1.9.1.8) so EPUBs now open correctly in FBReader
+[*] Minor code optimisations

@@ -292,7 +292,7 @@ founddirectory:
         'Process .opf file to determine EPUB version
         Dim opffiletext As String
         Dim packagepos, endpos, versionpos As Integer
-        opffiletext = RichTextBox1.Text
+        opffiletext = LoadUnicodeFile(opffile)
         packagepos = InStr(opffiletext, "<package")
         If packagepos <> 0 Then
             endpos = InStr(packagepos, opffiletext, ">")
@@ -391,7 +391,7 @@ lookforpagemap:
         Button33.Enabled = True
 
         'Extract metadata into textboxes
-        metadatafile = RichTextBox1.Text
+        metadatafile = LoadUnicodeFile(opffile)
         ExtractMetadata(metadatafile, True)
 
         'Process current folder to locate other EPUB files
@@ -1418,18 +1418,18 @@ exitsub:
         Dim startpos, endpos As Integer
         CoverFile = ListBox2.SelectedItem
         RichTextBox1.Text = LoadUnicodeFile(opffile)
-        metadatafile = RichTextBox1.Text
+        metadatafile = LoadUnicodeFile(opffile)
 
         If (InStr(metadatafile, "<guide>") = 0) Then
             endpos = InStr(metadatafile, "</package>")
             If endpos <> 0 Then
-                metadatafile = Mid(metadatafile, 1, endpos - 1) + "<guide>" + Chr(10) + Chr(9) + "<reference href=" + Chr(34) + CoverFile + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + "</guide>" + Chr(10) + Mid(metadatafile, endpos)
+                metadatafile = Mid(metadatafile, 1, endpos - 1) + "<guide>" + Chr(13) + Chr(10) + Chr(9) + "<reference href=" + Chr(34) + CoverFile + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(13) + Chr(10) + "</guide>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos)
             End If
         Else
             startpos = InStr(metadatafile, "<guide>")
             endpos = InStr(startpos, metadatafile, "type=" + Chr(34) + "cover")
             If endpos = 0 Then
-                metadatafile = Mid(metadatafile, 1, startpos + 7) + Chr(9) + "<reference href=" + Chr(34) + CoverFile + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, startpos + 8)
+                metadatafile = Mid(metadatafile, 1, startpos + 7) + Chr(9) + "<reference href=" + Chr(34) + CoverFile + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, startpos + 8)
             Else
                 While (Mid(metadatafile, endpos, 5) <> "href=")
                     endpos = endpos - 1
@@ -1441,7 +1441,7 @@ exitsub:
         End If
 
         RichTextBox1.Text = metadatafile
-        SaveUnicodeFile(opffile, RichTextBox1.Text)
+        SaveUnicodeFile(opffile, metadatafile)
 
         SaveImageAsToolStripMenuItem.Enabled = True
         AddImageToolStripMenuItem.Enabled = False
@@ -1455,7 +1455,7 @@ exitsub:
 
         ' Need to update metadata
         RichTextBox1.Text = LoadUnicodeFile(opffile)
-        metadatafile = RichTextBox1.Text
+        metadatafile = LoadUnicodeFile(opffile)
         ExtractMetadata(metadatafile, True)
 
     End Sub
@@ -1806,7 +1806,7 @@ errortext:
             End If
 
             'Extract metadata into textboxes (but no need to extract cover)
-            metadatafile = RichTextBox1.Text
+            metadatafile = LoadUnicodeFile(opffile)
             ExtractMetadata(metadatafile, False)
 
             'Do the processing
@@ -1995,7 +1995,7 @@ errortext:
             End If
 
             RichTextBox1.Text = metadatafile
-            SaveUnicodeFile(opffile, RichTextBox1.Text)
+            SaveUnicodeFile(opffile, metadatafile)
 
             'Zip temp directory (after deleting original file)
             Dim fi As New FileInfo(ListBox1.Items(x - 1))
@@ -2138,12 +2138,12 @@ errortext:
 
             'make changes to opf file
             RichTextBox1.Text = LoadUnicodeFile(opffile)
+            metadatafile = LoadUnicodeFile(opffile)
             newlineandspace = Chr(10)
 
             If versioninfo = "3.0" Then
             Else
                 'add item to metadata
-                metadatafile = RichTextBox1.Text
                 startpos = InStr(metadatafile, "</dc:title>")
                 If startpos <> 0 Then
                     insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2151,13 +2151,11 @@ errortext:
                         newlineandspace = Mid(metadatafile, startpos + 11, insertpos - startpos - 11)
                         insertion = newlineandspace + "<meta name=" + Chr(34) + "cover" + Chr(34) + " content=" + Chr(34) + "cover" + Chr(34) + "/>" + newlineandspace
                         metadatafile = Mid(metadatafile, 1, startpos + 10) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                        RichTextBox1.Text = metadatafile
                     End If
                 End If
             End If
 
             'add items to manifest
-            metadatafile = RichTextBox1.Text
             startpos = InStr(metadatafile, "<manifest")
             If startpos <> 0 Then
                 insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2166,12 +2164,10 @@ errortext:
                     insertion = newlineandspace + "<item href=" + Chr(34) + outputfile + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
                     insertion = insertion + "<item href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " id=" + Chr(34) + "coverpage" + Chr(34) + " media-type=" + Chr(34) + "application/xhtml+xml" + Chr(34) + "/>" + newlineandspace
                     metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                    RichTextBox1.Text = metadatafile
                 End If
             End If
 
             'add item to spine
-            metadatafile = RichTextBox1.Text
             startpos = InStr(metadatafile, "<spine")
             If startpos <> 0 Then
                 insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2189,14 +2185,12 @@ errortext:
                     End If
                     insertion = "<itemref idref=" + Chr(34) + "coverpage" + Chr(34) + "/>"
                     metadatafile = Mid(metadatafile, 1, startpos - 1) + newlineandspace + insertion + newlineandspace + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                    RichTextBox1.Text = metadatafile
                 End If
             End If
 
             If versioninfo = "3.0" Then
             Else
                 'add reference to guide
-                metadatafile = RichTextBox1.Text
                 startpos = InStr(metadatafile, "<guide>")
                 If startpos <> 0 Then
                     insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2204,7 +2198,6 @@ errortext:
                         newlineandspace = Mid(metadatafile, startpos + 7, insertpos - startpos - 7)
                         insertion = newlineandspace + "<reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + newlineandspace
                         metadatafile = Mid(metadatafile, 1, startpos + 6) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                        RichTextBox1.Text = metadatafile
                     End If
                 Else
                     'look for <guide/> and delete it
@@ -2215,17 +2208,16 @@ errortext:
                     If startpos <> 0 Then
                         insertion = "<guide>" + newlineandspace + "<reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + newlineandspace + "</guide>" + newlineandspace
                         metadatafile = Mid(metadatafile, 1, startpos - 1) + insertion + Mid(metadatafile, startpos, Len(metadatafile) - startpos + 1)
-                        RichTextBox1.Text = metadatafile
                     End If
                 End If
             End If
 
             'save opf file
-            SaveUnicodeFile(opffile, RichTextBox1.Text)
+            SaveUnicodeFile(opffile, metadatafile)
 
             ' Need to update metadata
             RichTextBox1.Text = LoadUnicodeFile(opffile)
-            metadatafile = RichTextBox1.Text
+            metadatafile = LoadUnicodeFile(opffile)
             ExtractMetadata(metadatafile, True)
 
             'update interface
@@ -2252,24 +2244,24 @@ errortext:
     End Sub
     Private Function GetHTMLCoverFile(ByVal imagefile As String) As String
         Dim returnstring As String
-        returnstring = "<?xml version='1.0' encoding='utf-8'?>" + Chr(10)
-        returnstring = returnstring + "<html xmlns=" + Chr(34) + "http://www.w3.org/1999/xhtml" + Chr(34) + " xml:lang=" + Chr(34) + "en" + Chr(34) + ">" + Chr(10)
-        returnstring = returnstring + "   <head>" + Chr(10)
-        returnstring = returnstring + "       <meta http-equiv=" + Chr(34) + "Content-Type" + Chr(34) + " content=" + Chr(34) + "text/html; charset=UTF-8" + Chr(34) + "/>" + Chr(10)
-        returnstring = returnstring + "       <meta name=" + Chr(34) + "calibre:cover" + Chr(34) + " content=" + Chr(34) + "true" + Chr(34) + "/>" + Chr(10)
-        returnstring = returnstring + "       <title>Cover</title>" + Chr(10)
-        returnstring = returnstring + "       <style type=" + Chr(34) + "text/css" + Chr(34) + " title=" + Chr(34) + "override_css" + Chr(34) + ">" + Chr(10)
-        returnstring = returnstring + "           @page {padding: 0pt; margin:0pt}" + Chr(10)
-        returnstring = returnstring + "           body { text-align: center; padding:0pt; margin: 0pt }" + Chr(10)
-        returnstring = returnstring + "           div { padding:0pt; margin: 0pt }" + Chr(10)
-        returnstring = returnstring + "           img { padding:0pt; margin: 0pt }" + Chr(10)
-        returnstring = returnstring + "       </style>" + Chr(10)
-        returnstring = returnstring + "   </head>" + Chr(10)
-        returnstring = returnstring + "   <body>" + Chr(10)
-        returnstring = returnstring + "       <div>" + Chr(10)
-        returnstring = returnstring + "           <img src=" + Chr(34) + imagefile + Chr(34) + " alt=" + Chr(34) + "cover" + Chr(34) + " style=" + Chr(34) + "height: 100%" + Chr(34) + "/>" + Chr(10)
-        returnstring = returnstring + "       </div>" + Chr(10)
-        returnstring = returnstring + "   </body>" + Chr(10)
+        returnstring = "<?xml version='1.0' encoding='utf-8'?>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "<html xmlns=" + Chr(34) + "http://www.w3.org/1999/xhtml" + Chr(34) + " xml:lang=" + Chr(34) + "en" + Chr(34) + ">" + Chr(13) + Chr(10)
+        returnstring = returnstring + "   <head>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       <meta http-equiv=" + Chr(34) + "Content-Type" + Chr(34) + " content=" + Chr(34) + "text/html; charset=UTF-8" + Chr(34) + "/>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       <meta name=" + Chr(34) + "calibre:cover" + Chr(34) + " content=" + Chr(34) + "true" + Chr(34) + "/>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       <title>Cover</title>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       <style type=" + Chr(34) + "text/css" + Chr(34) + " title=" + Chr(34) + "override_css" + Chr(34) + ">" + Chr(13) + Chr(10)
+        returnstring = returnstring + "           @page {padding: 0pt; margin:0pt}" + Chr(13) + Chr(10)
+        returnstring = returnstring + "           body { text-align: center; padding:0pt; margin: 0pt }" + Chr(13) + Chr(10)
+        returnstring = returnstring + "           div { padding:0pt; margin: 0pt }" + Chr(13) + Chr(10)
+        returnstring = returnstring + "           img { padding:0pt; margin: 0pt }" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       </style>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "   </head>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "   <body>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       <div>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "           <img src=" + Chr(34) + imagefile + Chr(34) + " alt=" + Chr(34) + "cover" + Chr(34) + " style=" + Chr(34) + "height: 100%" + Chr(34) + "/>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "       </div>" + Chr(13) + Chr(10)
+        returnstring = returnstring + "   </body>" + Chr(13) + Chr(10)
         returnstring = returnstring + "</html>"
         Return returnstring
     End Function
@@ -2406,7 +2398,7 @@ errortext:
 
             ' Need to update metadata
             RichTextBox1.Text = LoadUnicodeFile(opffile)
-            metadatafile = RichTextBox1.Text
+            metadatafile = LoadUnicodeFile(opffile)
             ExtractMetadata(metadatafile, True)
             refreshfilelist = False
         End If
@@ -2510,12 +2502,12 @@ errortext:
 
                         'make changes to opf file
                         RichTextBox1.Text = LoadUnicodeFile(opffile)
+                        metadatafile = LoadUnicodeFile(opffile)
                         newlineandspace = Chr(10)
 
                         If versioninfo = "3.0" Then
                         Else
                             'add item to metadata
-                            metadatafile = RichTextBox1.Text
                             startpos = InStr(metadatafile, "</dc:title>")
                             If startpos <> 0 Then
                                 insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2523,13 +2515,11 @@ errortext:
                                     newlineandspace = Mid(metadatafile, startpos + 11, insertpos - startpos - 11)
                                     insertion = newlineandspace + "<meta name=" + Chr(34) + "cover" + Chr(34) + " content=" + Chr(34) + "cover" + Chr(34) + "/>" + newlineandspace
                                     metadatafile = Mid(metadatafile, 1, startpos + 10) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                                    RichTextBox1.Text = metadatafile
                                 End If
                             End If
                         End If
 
                         'add items to manifest
-                        metadatafile = RichTextBox1.Text
                         startpos = InStr(metadatafile, "<manifest")
                         If startpos <> 0 Then
                             insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2538,12 +2528,10 @@ errortext:
                                 insertion = newlineandspace + "<item href=" + Chr(34) + "cover.jpg" + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
                                 insertion = insertion + "<item href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " id=" + Chr(34) + "coverpage" + Chr(34) + " media-type=" + Chr(34) + "application/xhtml+xml" + Chr(34) + "/>" + newlineandspace
                                 metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                                RichTextBox1.Text = metadatafile
                             End If
                         End If
 
                         'add item to spine
-                        metadatafile = RichTextBox1.Text
                         startpos = InStr(metadatafile, "<spine")
                         If startpos <> 0 Then
                             insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2561,14 +2549,12 @@ errortext:
                                 End If
                                 insertion = "<itemref idref=" + Chr(34) + "coverpage" + Chr(34) + "/>"
                                 metadatafile = Mid(metadatafile, 1, startpos - 1) + newlineandspace + insertion + newlineandspace + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                                RichTextBox1.Text = metadatafile
                             End If
                         End If
 
                         If versioninfo = "3.0" Then
                         Else
                             'add reference to guide
-                            metadatafile = RichTextBox1.Text
                             startpos = InStr(metadatafile, "<guide>")
                             If startpos <> 0 Then
                                 insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2576,7 +2562,6 @@ errortext:
                                     newlineandspace = Mid(metadatafile, startpos + 7, insertpos - startpos - 7)
                                     insertion = newlineandspace + "<reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + newlineandspace
                                     metadatafile = Mid(metadatafile, 1, startpos + 6) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                                    RichTextBox1.Text = metadatafile
                                 End If
                             Else
                                 'look for <guide/> and delete it
@@ -2587,13 +2572,12 @@ errortext:
                                 If startpos <> 0 Then
                                     insertion = "<guide>" + newlineandspace + "<reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + newlineandspace + "</guide>" + newlineandspace
                                     metadatafile = Mid(metadatafile, 1, startpos - 1) + insertion + Mid(metadatafile, startpos, Len(metadatafile) - startpos + 1)
-                                    RichTextBox1.Text = metadatafile
                                 End If
                             End If
                         End If
 
                         'save opf file
-                        SaveUnicodeFile(opffile, RichTextBox1.Text)
+                        SaveUnicodeFile(opffile, metadatafile)
                     End If
 
                     IO.File.Copy(MyFiles(i), coverimagefile, True)
@@ -2601,7 +2585,7 @@ errortext:
 
                     ' update interface
                     RichTextBox1.Text = LoadUnicodeFile(opffile)
-                    metadatafile = RichTextBox1.Text
+                    metadatafile = LoadUnicodeFile(opffile)
                     ExtractMetadata(metadatafile, True)
                     ChangeImageToolStripMenuItem.Enabled = True
                     AddImageToolStripMenuItem.Enabled = False
@@ -2649,11 +2633,11 @@ errortext:
 
                 'make changes to opf file
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
+                metadatafile = LoadUnicodeFile(opffile)
 
                 If versioninfo = "3.0" Then
                 Else
                     'add item to metadata
-                    metadatafile = RichTextBox1.Text
                     startpos = InStr(metadatafile, "</dc:title>")
                     If startpos <> 0 Then
                         insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2661,13 +2645,11 @@ errortext:
                             newlineandspace = Mid(metadatafile, startpos + 11, insertpos - startpos - 11)
                             insertion = newlineandspace + "<meta name=" + Chr(34) + "cover" + Chr(34) + " content=" + Chr(34) + "cover" + Chr(34) + "/>" + newlineandspace
                             metadatafile = Mid(metadatafile, 1, startpos + 10) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                            RichTextBox1.Text = metadatafile
                         End If
                     End If
                 End If
 
                 'add items to manifest
-                metadatafile = RichTextBox1.Text
                 startpos = InStr(metadatafile, "<manifest")
                 If startpos <> 0 Then
                     insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2676,12 +2658,10 @@ errortext:
                         insertion = newlineandspace + "<item href=" + Chr(34) + "cover.jpg" + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
                         insertion = insertion + "<item href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " id=" + Chr(34) + "coverpage" + Chr(34) + " media-type=" + Chr(34) + "application/xhtml+xml" + Chr(34) + "/>" + newlineandspace
                         metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                        RichTextBox1.Text = metadatafile
                     End If
                 End If
 
                 'add item to spine
-                metadatafile = RichTextBox1.Text
                 startpos = InStr(metadatafile, "<spine")
                 If startpos <> 0 Then
                     insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2693,14 +2673,12 @@ errortext:
                         newlineandspace = Mid(metadatafile, startpos, insertpos - startpos)
                         insertion = "<itemref idref=" + Chr(34) + "coverpage" + Chr(34) + "/>"
                         metadatafile = Mid(metadatafile, 1, startpos - 1) + newlineandspace + insertion + newlineandspace + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                        RichTextBox1.Text = metadatafile
                     End If
                 End If
 
                 If versioninfo = "3.0" Then
                 Else
                     'add reference to guide
-                    metadatafile = RichTextBox1.Text
                     startpos = InStr(metadatafile, "<guide>")
                     If startpos <> 0 Then
                         insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -2708,7 +2686,6 @@ errortext:
                             newlineandspace = Mid(metadatafile, startpos + 7, insertpos - startpos - 7)
                             insertion = newlineandspace + "<reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + newlineandspace
                             metadatafile = Mid(metadatafile, 1, startpos + 6) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                            RichTextBox1.Text = metadatafile
                         End If
                     Else
                         'look for <guide/> and delete it
@@ -2717,15 +2694,14 @@ errortext:
                         'now create <guide>
                         startpos = InStr(metadatafile, "</package>")
                         If startpos <> 0 Then
-                            insertion = "<guide>" + Chr(10) + "    <reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + "</guide>" + Chr(10)
+                            insertion = "<guide>" + Chr(13) + Chr(10) + "    <reference href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(13) + Chr(10) + "</guide>" + Chr(13) + Chr(10)
                             metadatafile = Mid(metadatafile, 1, startpos - 1) + insertion + Mid(metadatafile, startpos, Len(metadatafile) - startpos + 1)
-                            RichTextBox1.Text = metadatafile
                         End If
                     End If
                 End If
 
                 'save opf file
-                SaveUnicodeFile(opffile, RichTextBox1.Text)
+                SaveUnicodeFile(opffile, metadatafile)
             End If
 
             'save image to file
@@ -2734,7 +2710,7 @@ errortext:
 
             'update interface
             RichTextBox1.Text = LoadUnicodeFile(opffile)
-            metadatafile = RichTextBox1.Text
+            metadatafile = LoadUnicodeFile(opffile)
             ExtractMetadata(metadatafile, True)
             ChangeImageToolStripMenuItem.Enabled = True
             AddImageToolStripMenuItem.Enabled = False
@@ -2774,7 +2750,15 @@ errortext:
 
         'Rewrite .opf file (just the metadata section)
         RichTextBox1.Text = LoadUnicodeFile(opffile)
-        metadatafile = RichTextBox1.Text
+        metadatafile = LoadUnicodeFile(opffile)
+
+        'Check for corrupted xml first line
+        endpos = InStr(metadatafile, Chr(10))
+        Dim tempstring As String = Mid(metadatafile, 1, endpos)
+        If InStr(tempstring, " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34)) Then
+            tempstring = tempstring.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
+            metadatafile = tempstring + Mid(metadatafile, endpos + 1)
+        End If
 
         'Check for non-standard dc namespace tags
         startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
@@ -2934,14 +2918,14 @@ lookforrefines:
                     If (((creatorroleplaced = False) Or (creatorfileasplaced = False)) And (TextBox12.Text <> "")) Then
                         startpos = InStr(metadatafile, "</dc:creator>") + 13 'end of creator
                         If ((creatorfileasplaced = False) And (creatorroleplaced = False)) Then
-                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + _
-                            "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(10) + _
+                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
+                            "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(13) + Chr(10) + _
                             "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                         ElseIf ((creatorfileasplaced = False) And (creatorroleplaced = True)) Then
-                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Mid(metadatafile, startpos)
+                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Mid(metadatafile, startpos)
                         ElseIf ((creatorfileasplaced = True) And (creatorroleplaced = False)) Then
                             startpos = InStr(startpos, metadatafile, "</meta>")
-                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
+                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                         End If
                     End If
                 End If
@@ -3001,14 +2985,14 @@ lookforrefines2:
                                 startpos = InStr(metadatafile, "</dc:creator>")
                                 startpos = InStr(startpos + 1, metadatafile, "</dc:creator>") + 13 'end of second creator
                                 If ((creator2fileasplaced = False) And (creator2roleplaced = False)) Then
-                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + _
+                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
                                     "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
                                     "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                                 ElseIf ((creator2fileasplaced = False) And (creator2roleplaced = True)) Then
-                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Mid(metadatafile, startpos)
+                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Mid(metadatafile, startpos)
                                 ElseIf ((creator2fileasplaced = True) And (creator2roleplaced = False)) Then
                                     startpos = InStr(startpos, metadatafile, "</meta>")
-                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
+                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                                 End If
                             End If
                         End If
@@ -3020,9 +3004,9 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(13) + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                     End If
                 End If
                 If TextBox3.Text = "" Then
@@ -3068,7 +3052,7 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
                     If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
                     If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + ">"
+                    optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + optionaltext + ">"
                 Else
                     optionaltext = ">"
                 End If
@@ -3085,7 +3069,7 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
                         If ComboBox2.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
                         If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext = optionaltext + " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + ">"
+                        optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + optionaltext + ">"
                     Else
                         optionaltext = ">"
                     End If
@@ -3118,11 +3102,11 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
                     If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
                     If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(10) + _
-                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(10) + _
-                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
+                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(13) + Chr(10) + _
+                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                 Else
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                 End If
 
                 'Check for second author
@@ -3136,11 +3120,11 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(13) + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                     Else
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(10) + "    " + Mid(metadatafile, startpos)
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                     End If
                 End If
             Else
@@ -3154,7 +3138,7 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
                     If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
                     If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + ">"
+                    optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + optionaltext + ">"
                 Else
                     optionaltext = ">"
                 End If
@@ -3168,12 +3152,12 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 1 Then optionaltext2 = " opf:role=" + Chr(34) + "edt" + Chr(34)
                         If ComboBox2.SelectedIndex = 2 Then optionaltext2 = " opf:role=" + Chr(34) + "ill" + Chr(34)
                         If ComboBox2.SelectedIndex = 3 Then optionaltext2 = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext2 = optionaltext2 + " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + ">"
+                        optionaltext2 = " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + optionaltext2 + ">"
                     Else
                         optionaltext2 = ">"
                     End If
                     ' output two creators
-                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(10) + "  <dc:creator" + optionaltext2 + XMLOutput(TextBox3.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
+                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(13) + Chr(10) + "  <dc:creator" + optionaltext2 + XMLOutput(TextBox3.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
                 Else
                     ' output only one creator
                     metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
@@ -3345,7 +3329,7 @@ lookforrefines2:
         If TextBox17.Text <> "" Then
             If TextBox17.Text.Contains(subjectseparator) Then
                 ' preformat TextBox17.text
-                temptext = temptext.Replace(subjectseparator, "</dc:subject>" + Chr(10) + Chr(9) + Chr(9) + "<dc:subject>")
+                temptext = temptext.Replace(subjectseparator, "</dc:subject>" + Chr(13) + Chr(10) + Chr(9) + Chr(9) + "<dc:subject>")
             End If
         End If
         testpos = InStr(metadatafile, "<dc:subject />")
@@ -3357,7 +3341,7 @@ lookforrefines2:
                     metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + temptext + "</dc:subject>")
                 Else
                     endpos = InStr(metadatafile, "</dc:title>")
-                    metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(9) + Chr(9) + "<dc:subject>" + temptext + "</dc:subject>" + Chr(10) + Mid(metadatafile, endpos + 12)
+                    metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(9) + Chr(9) + "<dc:subject>" + temptext + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
                 End If
             Else
                 metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + temptext + "</dc:subject>")
@@ -3500,7 +3484,7 @@ lookforrefines5:
                     End While
                     If (schemeplaced = False) Then
                         startpos = InStr(metadatafile, "</dc:identifier>") + 16 'end of identifier
-                        metadatafile = Mid(metadatafile, 1, startpos) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "identifier-type" + Chr(34) + " scheme=" + Chr(34) + identifierscheme.Replace("=", Chr(34) + ">") + "</meta>" + Mid(metadatafile, startpos)
+                        metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "identifier-type" + Chr(34) + " scheme=" + Chr(34) + identifierscheme.Replace("=", Chr(34) + ">") + "</meta>" + Mid(metadatafile, startpos)
                     End If
                 End If
             End If
@@ -3657,8 +3641,33 @@ outputsource:
             End If
         End If
 
+        'Regularise whitespace
+        ' delete stuff
+        metadatafile = metadatafile.Replace(Chr(13), "")
+        metadatafile = metadatafile.Replace(Chr(10), "")
+        metadatafile = metadatafile.Replace(Chr(9), "")
+        While (metadatafile.Contains("> "))
+            metadatafile = metadatafile.Replace("> ", ">")
+        End While
+
+        ' add stuff back
+        metadatafile = metadatafile.Replace("><", ">" + Chr(13) + Chr(10) + "<")
+        metadatafile = metadatafile.Replace("<metadata", "  <metadata")
+        metadatafile = metadatafile.Replace("</metadata", "  </metadata")
+        metadatafile = metadatafile.Replace("<manifest", "  <manifest")
+        metadatafile = metadatafile.Replace("</manifest", "  </manifest")
+        metadatafile = metadatafile.Replace("<spine", "  <spine")
+        metadatafile = metadatafile.Replace("</spine", "  </spine")
+        metadatafile = metadatafile.Replace("<guide", "  <guide")
+        metadatafile = metadatafile.Replace("</guide", "  </guide")
+        metadatafile = metadatafile.Replace("<dc:", "    <dc:")
+        metadatafile = metadatafile.Replace("<meta ", "    <meta ")
+        metadatafile = metadatafile.Replace("<item", "    <item")
+        metadatafile = metadatafile.Replace("<reference", "    <reference")
+        metadatafile = metadatafile.Replace("<!--", "    <!--")
+
         RichTextBox1.Text = metadatafile
-        SaveUnicodeFile(opffile, RichTextBox1.Text)
+        SaveUnicodeFile(opffile, metadatafile)
 
         'Zip temp directory (after deleting original file)
         fi.Delete()
@@ -3738,7 +3747,7 @@ outputsource:
                 ClearInterface()
                 keepcombobox = False
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
-                metadatafile = RichTextBox1.Text
+                metadatafile = LoadUnicodeFile(opffile)
                 ExtractMetadata(metadatafile, True)
                 refreshfilelist = False
             End If
@@ -3793,9 +3802,9 @@ outputsource:
 
         ' Add file to opf
         RichTextBox1.Text = LoadUnicodeFile(opffile)
+        metadatafile = LoadUnicodeFile(opffile)
         newlineandspace = Chr(10)
         insertion = ""
-        metadatafile = RichTextBox1.Text
         startpos = InStr(metadatafile, "<manifest")
         If startpos <> 0 Then
             insertpos = InStr(startpos + 1, metadatafile, "<")
@@ -3803,12 +3812,11 @@ outputsource:
                 newlineandspace = Mid(metadatafile, startpos + 10, insertpos - startpos - 10)
                 insertion = newlineandspace + "<item href=" + Chr(34) + newcoverimagefilename + Chr(34) + " id=" + Chr(34) + "prioritorised_cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
                 metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
-                RichTextBox1.Text = metadatafile
             End If
         End If
 
         'save opf file
-        SaveUnicodeFile(opffile, RichTextBox1.Text)
+        SaveUnicodeFile(opffile, metadatafile)
 
         'update interface
         Button27.Visible = False
@@ -4277,7 +4285,7 @@ redo:
                 End If
 
                 'Extract metadata into textboxes (but no need to extract cover)
-                metadatafile = RichTextBox1.Text
+                metadatafile = LoadUnicodeFile(opffile)
                 ExtractMetadata(metadatafile, False)
 
                 'Convert metadata into new filename
@@ -4726,14 +4734,14 @@ errortext:
         Dim startpos, endpos, pos As Integer
 
         RichTextBox1.Text = LoadUnicodeFile(opffile)
-        metadatafile = RichTextBox1.Text
+        metadatafile = LoadUnicodeFile(opffile)
         newrelativecoverimagefile = relativecoverimagefile
 
         If fixcovermetadata Then
             ' Add cover image information to metadata
             ' e.g. <meta content="cover.jpg" name="cover" />
             pos = InStr(metadatafile, "</metadata>")
-            metadatafile = Mid(metadatafile, 1, pos - 1) + "<meta content=" + Chr(34) + coverimagefilename + Chr(34) + " name=" + Chr(34) + "cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, pos)
+            metadatafile = Mid(metadatafile, 1, pos - 1) + "<meta content=" + Chr(34) + coverimagefilename + Chr(34) + " name=" + Chr(34) + "cover" + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, pos)
             fixcovermetadata = False
         End If
 
@@ -4754,12 +4762,12 @@ errortext:
             End If
 
             pos = InStr(metadatafile, "</manifest>")
-            metadatafile = Mid(metadatafile, 1, pos - 1) + "<item href=" + Chr(34) + newrelativecoverimagefile + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, pos)
+            metadatafile = Mid(metadatafile, 1, pos - 1) + "<item href=" + Chr(34) + newrelativecoverimagefile + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, pos)
             fixcovermanifest = False
         End If
 
         RichTextBox1.Text = metadatafile
-        SaveUnicodeFile(opffile, RichTextBox1.Text)
+        SaveUnicodeFile(opffile, metadatafile)
 
         Button35.Visible = False
         Label27.Visible = False
@@ -4789,18 +4797,18 @@ errortext:
                 RelativeLocation = RelativeLocation.Replace("\", "/")
 
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
-                metadatafile = RichTextBox1.Text
+                metadatafile = LoadUnicodeFile(opffile)
 
                 If (InStr(metadatafile, "<guide>") = 0) Then
                     endpos = InStr(metadatafile, "</package>")
                     If endpos <> 0 Then
-                        metadatafile = Mid(metadatafile, 1, endpos - 1) + "<guide>" + Chr(10) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + "</guide>" + Chr(10) + Mid(metadatafile, endpos)
+                        metadatafile = Mid(metadatafile, 1, endpos - 1) + "<guide>" + Chr(13) + Chr(10) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(13) + Chr(10) + "</guide>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos)
                     End If
                 Else
                     startpos = InStr(metadatafile, "<guide>")
                     endpos = InStr(startpos, metadatafile, "type=" + Chr(34) + "cover")
                     If endpos = 0 Then
-                        metadatafile = Mid(metadatafile, 1, startpos + 7) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(10) + Mid(metadatafile, startpos + 8)
+                        metadatafile = Mid(metadatafile, 1, startpos + 7) + Chr(9) + "<reference href=" + Chr(34) + RelativeLocation + "/" + FileNameOnly + Chr(34) + " type=" + Chr(34) + "cover" + Chr(34) + " title=" + Chr(34) + "Cover" + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, startpos + 8)
                     Else
                         While (Mid(metadatafile, endpos, 5) <> "href=")
                             endpos = endpos - 1
@@ -4812,7 +4820,7 @@ errortext:
                 End If
 
                 RichTextBox1.Text = metadatafile
-                SaveUnicodeFile(opffile, RichTextBox1.Text)
+                SaveUnicodeFile(opffile, metadatafile)
 
                 SaveImageAsToolStripMenuItem.Enabled = True
                 AddImageToolStripMenuItem.Enabled = False
@@ -4824,7 +4832,7 @@ errortext:
 
                 ' Need to update metadata
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
-                metadatafile = RichTextBox1.Text
+                metadatafile = LoadUnicodeFile(opffile)
                 ExtractMetadata(metadatafile, True)
             End If
         End If
@@ -5019,7 +5027,7 @@ errortext:
         End If
 
         'Extract metadata into textboxes (but no need to extract cover)
-        metadatafile = RichTextBox1.Text
+        metadatafile = LoadUnicodeFile(opffile)
         ExtractMetadata(metadatafile, True)
 
         projectchanged = False
