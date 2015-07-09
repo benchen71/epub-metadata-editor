@@ -2814,7 +2814,7 @@ errortext:
         'Search for xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata"
         startpos = InStr(metadatafile, "xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34))
         temppos = InStr(metadatafile, "calibre:series")
-        If ((startpos = 0) And (temppos > 0)) Then
+        If ((startpos = 0) And ((temppos > 0) Or (TextBox15.Text <> ""))) Then
             'Add it to <metadata > tag
             startpos = InStr(metadatafile, "<metadata")
             startpos = InStr(startpos, metadatafile, ">") - 1

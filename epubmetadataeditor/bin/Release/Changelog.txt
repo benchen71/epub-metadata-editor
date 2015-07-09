@@ -1,2 +1,2 @@
-1.3.24
-[*] Fix for Series info not appearing in FBReader
+1.3.25
+[*] Fix for Series info not appearing in FBReader when adding Series info
