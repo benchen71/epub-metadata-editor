@@ -2811,6 +2811,16 @@ errortext:
             End If
         End If
 
+        'Search for xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata"
+        startpos = InStr(metadatafile, "xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34))
+        temppos = InStr(metadatafile, "calibre:series")
+        If ((startpos = 0) And (temppos > 0)) Then
+            'Add it to <metadata > tag
+            startpos = InStr(metadatafile, "<metadata")
+            startpos = InStr(startpos, metadatafile, ">") - 1
+            metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34) + Mid(metadatafile, startpos + 1)
+        End If
+
         'Output title
         startpos = InStr(metadatafile, "<dc:title")
         If startpos <> 0 Then

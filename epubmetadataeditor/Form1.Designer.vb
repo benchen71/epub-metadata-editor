@@ -87,6 +87,13 @@ Partial Class Form1
         Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
         Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.Button1 = New System.Windows.Forms.Button
+        Me.Button27 = New System.Windows.Forms.Button
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox
+        Me.Button35 = New System.Windows.Forms.Button
+        Me.TextBox18 = New System.Windows.Forms.TextBox
+        Me.CheckBox10 = New System.Windows.Forms.CheckBox
+        Me.LinkLabel8 = New System.Windows.Forms.LinkLabel
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -99,7 +106,6 @@ Partial Class Form1
         Me.Button12 = New System.Windows.Forms.Button
         Me.Label13 = New System.Windows.Forms.Label
         Me.Label19 = New System.Windows.Forms.Label
-        Me.Button1 = New System.Windows.Forms.Button
         Me.Button8 = New System.Windows.Forms.Button
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
         Me.OpenFileDialog4 = New System.Windows.Forms.OpenFileDialog
@@ -117,7 +123,6 @@ Partial Class Form1
         Me.Button26 = New System.Windows.Forms.Button
         Me.OpenFileDialog5 = New System.Windows.Forms.OpenFileDialog
         Me.Label23 = New System.Windows.Forms.Label
-        Me.Button27 = New System.Windows.Forms.Button
         Me.TextBox1 = New System.Windows.Forms.RichTextBox
         Me.TextBox16 = New System.Windows.Forms.RichTextBox
         Me.TextBox2 = New System.Windows.Forms.RichTextBox
@@ -140,7 +145,6 @@ Partial Class Form1
         Me.LinkLabel4 = New System.Windows.Forms.LinkLabel
         Me.Label25 = New System.Windows.Forms.Label
         Me.Button33 = New System.Windows.Forms.Button
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Button34 = New System.Windows.Forms.Button
         Me.LinkLabel5 = New System.Windows.Forms.LinkLabel
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker
@@ -148,7 +152,6 @@ Partial Class Form1
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
         Me.Label26 = New System.Windows.Forms.Label
         Me.Label27 = New System.Windows.Forms.Label
-        Me.Button35 = New System.Windows.Forms.Button
         Me.OpenFileDialog6 = New System.Windows.Forms.OpenFileDialog
         Me.CheckBox6 = New System.Windows.Forms.CheckBox
         Me.CheckBox7 = New System.Windows.Forms.CheckBox
@@ -164,9 +167,6 @@ Partial Class Form1
         Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
         Me.CheckBox9 = New System.Windows.Forms.CheckBox
-        Me.TextBox18 = New System.Windows.Forms.TextBox
-        Me.CheckBox10 = New System.Windows.Forms.CheckBox
-        Me.LinkLabel8 = New System.Windows.Forms.LinkLabel
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -474,7 +474,7 @@ Partial Class Form1
         Me.Button28.Location = New System.Drawing.Point(422, 452)
         Me.Button28.Name = "Button28"
         Me.Button28.Size = New System.Drawing.Size(26, 20)
-        Me.Button28.TabIndex = 43
+        Me.Button28.TabIndex = 44
         Me.Button28.Text = "E"
         Me.Button28.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button28, "Edit event type")
@@ -488,7 +488,7 @@ Partial Class Form1
         Me.Button29.Location = New System.Drawing.Point(422, 556)
         Me.Button29.Name = "Button29"
         Me.Button29.Size = New System.Drawing.Size(26, 20)
-        Me.Button29.TabIndex = 44
+        Me.Button29.TabIndex = 45
         Me.Button29.Text = "E"
         Me.Button29.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button29, "Edit scheme type")
@@ -502,7 +502,7 @@ Partial Class Form1
         Me.Button31.Location = New System.Drawing.Point(15, 145)
         Me.Button31.Name = "Button31"
         Me.Button31.Size = New System.Drawing.Size(26, 20)
-        Me.Button31.TabIndex = 38
+        Me.Button31.TabIndex = 39
         Me.ToolTip1.SetToolTip(Me.Button31, "Swap Creators")
         Me.Button31.UseVisualStyleBackColor = True
         '
@@ -514,7 +514,7 @@ Partial Class Form1
         Me.Button30.Location = New System.Drawing.Point(15, 83)
         Me.Button30.Name = "Button30"
         Me.Button30.Size = New System.Drawing.Size(26, 20)
-        Me.Button30.TabIndex = 34
+        Me.Button30.TabIndex = 35
         Me.ToolTip1.SetToolTip(Me.Button30, "Swap 'Title' and 'Creator'")
         Me.Button30.UseVisualStyleBackColor = True
         '
@@ -526,7 +526,7 @@ Partial Class Form1
         Me.Button22.Location = New System.Drawing.Point(422, 84)
         Me.Button22.Name = "Button22"
         Me.Button22.Size = New System.Drawing.Size(26, 20)
-        Me.Button22.TabIndex = 32
+        Me.Button22.TabIndex = 33
         Me.ToolTip1.SetToolTip(Me.Button22, "Copy 'File as' to 'Title'")
         Me.Button22.UseVisualStyleBackColor = True
         '
@@ -550,7 +550,7 @@ Partial Class Form1
         Me.Button18.Location = New System.Drawing.Point(454, 84)
         Me.Button18.Name = "Button18"
         Me.Button18.Size = New System.Drawing.Size(26, 20)
-        Me.Button18.TabIndex = 33
+        Me.Button18.TabIndex = 34
         Me.ToolTip1.SetToolTip(Me.Button18, "Clear Title 'File as'")
         Me.Button18.UseVisualStyleBackColor = True
         '
@@ -562,7 +562,7 @@ Partial Class Form1
         Me.Button13.Location = New System.Drawing.Point(454, 193)
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(46, 46)
-        Me.Button13.TabIndex = 41
+        Me.Button13.TabIndex = 42
         Me.ToolTip1.SetToolTip(Me.Button13, "Auto-generate 'File as'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to reverse ""Surname, Firstname"" in Creator)")
         Me.Button13.UseVisualStyleBackColor = True
         '
@@ -574,7 +574,7 @@ Partial Class Form1
         Me.Button14.Location = New System.Drawing.Point(422, 219)
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(26, 20)
-        Me.Button14.TabIndex = 40
+        Me.Button14.TabIndex = 41
         Me.ToolTip1.SetToolTip(Me.Button14, "Copy 'File as' to 'Creator'")
         Me.Button14.UseVisualStyleBackColor = True
         '
@@ -586,7 +586,7 @@ Partial Class Form1
         Me.Button15.Location = New System.Drawing.Point(422, 193)
         Me.Button15.Name = "Button15"
         Me.Button15.Size = New System.Drawing.Size(26, 20)
-        Me.Button15.TabIndex = 39
+        Me.Button15.TabIndex = 40
         Me.ToolTip1.SetToolTip(Me.Button15, "Copy 'Creator' to 'File as'")
         Me.Button15.UseVisualStyleBackColor = True
         '
@@ -598,7 +598,7 @@ Partial Class Form1
         Me.Button7.Location = New System.Drawing.Point(454, 110)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(46, 46)
-        Me.Button7.TabIndex = 37
+        Me.Button7.TabIndex = 38
         Me.ToolTip1.SetToolTip(Me.Button7, "Auto-generate 'File as'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to reverse ""Surname, Firstname"" in Creator)")
         Me.Button7.UseVisualStyleBackColor = True
         '
@@ -610,7 +610,7 @@ Partial Class Form1
         Me.Button6.Location = New System.Drawing.Point(422, 136)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(26, 20)
-        Me.Button6.TabIndex = 36
+        Me.Button6.TabIndex = 37
         Me.ToolTip1.SetToolTip(Me.Button6, "Copy 'File as' to 'Creator'")
         Me.Button6.UseVisualStyleBackColor = True
         '
@@ -622,7 +622,7 @@ Partial Class Form1
         Me.Button5.Location = New System.Drawing.Point(422, 110)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(26, 20)
-        Me.Button5.TabIndex = 35
+        Me.Button5.TabIndex = 36
         Me.ToolTip1.SetToolTip(Me.Button5, "Copy 'Creator' to 'File as'")
         Me.Button5.UseVisualStyleBackColor = True
         '
@@ -649,7 +649,7 @@ Partial Class Form1
         Me.Button38.Location = New System.Drawing.Point(422, 331)
         Me.Button38.Name = "Button38"
         Me.Button38.Size = New System.Drawing.Size(26, 20)
-        Me.Button38.TabIndex = 42
+        Me.Button38.TabIndex = 43
         Me.Button38.Text = "E"
         Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
@@ -762,6 +762,85 @@ Partial Class Form1
         Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
         Me.SelectAllToolStripMenuItem.Text = "Select All"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(758, 572)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(116, 23)
+        Me.Button1.TabIndex = 47
+        Me.Button1.Text = "Remove SVG tags"
+        Me.ToolTip1.SetToolTip(Me.Button1, "Some EPUB readers do not correctly generate the thumbnail cover if SVG tags are i" & _
+                "nvolved")
+        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
+        '
+        'Button27
+        '
+        Me.Button27.Location = New System.Drawing.Point(758, 598)
+        Me.Button27.Name = "Button27"
+        Me.Button27.Size = New System.Drawing.Size(116, 23)
+        Me.Button27.TabIndex = 48
+        Me.Button27.Text = "Prioritise cover file"
+        Me.ToolTip1.SetToolTip(Me.Button27, "If EPUB thumbnails are enabled on your computer, click this button to make a copy" & _
+                " of the cover image that will then appear as the thumbnail")
+        Me.Button27.UseVisualStyleBackColor = True
+        Me.Button27.Visible = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.PictureBox1.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.PictureBox1.Enabled = False
+        Me.PictureBox1.Location = New System.Drawing.Point(515, 87)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(364, 453)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 26
+        Me.PictureBox1.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1, "Right-click image for context menu")
+        '
+        'Button35
+        '
+        Me.Button35.Location = New System.Drawing.Point(758, 546)
+        Me.Button35.Name = "Button35"
+        Me.Button35.Size = New System.Drawing.Size(116, 23)
+        Me.Button35.TabIndex = 46
+        Me.Button35.Text = "Auto-fix .opf file"
+        Me.ToolTip1.SetToolTip(Me.Button35, "If thumbnail does not appear in iBook, try clicking this button")
+        Me.Button35.UseVisualStyleBackColor = True
+        Me.Button35.Visible = False
+        '
+        'TextBox18
+        '
+        Me.TextBox18.Location = New System.Drawing.Point(1085, 177)
+        Me.TextBox18.Name = "TextBox18"
+        Me.TextBox18.Size = New System.Drawing.Size(153, 20)
+        Me.TextBox18.TabIndex = 63
+        Me.ToolTip1.SetToolTip(Me.TextBox18, "Series Title")
+        '
+        'CheckBox10
+        '
+        Me.CheckBox10.AutoSize = True
+        Me.CheckBox10.Location = New System.Drawing.Point(906, 177)
+        Me.CheckBox10.Name = "CheckBox10"
+        Me.CheckBox10.Size = New System.Drawing.Size(142, 17)
+        Me.CheckBox10.TabIndex = 62
+        Me.CheckBox10.Text = "Swap 'Title' and 'Creator'"
+        Me.ToolTip1.SetToolTip(Me.CheckBox10, "Uncheck all other batch tasks if this task is checked")
+        Me.CheckBox10.UseVisualStyleBackColor = True
+        '
+        'LinkLabel8
+        '
+        Me.LinkLabel8.AutoSize = True
+        Me.LinkLabel8.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel8.Location = New System.Drawing.Point(480, 62)
+        Me.LinkLabel8.Name = "LinkLabel8"
+        Me.LinkLabel8.Size = New System.Drawing.Size(25, 13)
+        Me.LinkLabel8.TabIndex = 32
+        Me.LinkLabel8.TabStop = True
+        Me.LinkLabel8.Text = "Edit"
+        Me.ToolTip1.SetToolTip(Me.LinkLabel8, "Edit list of words not to capitalise (separate using commas)")
+        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -868,18 +947,6 @@ Partial Class Form1
         Me.Label19.Size = New System.Drawing.Size(36, 13)
         Me.Label19.TabIndex = 56
         Me.Label19.Text = "Series"
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(758, 572)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(116, 23)
-        Me.Button1.TabIndex = 47
-        Me.Button1.Text = "Remove SVG tags"
-        Me.ToolTip1.SetToolTip(Me.Button1, "Some EPUB readers do not correctly generate the thumbnail cover if SVG tags are i" & _
-                "nvolved")
-        Me.Button1.UseVisualStyleBackColor = True
-        Me.Button1.Visible = False
         '
         'Button8
         '
@@ -1043,18 +1110,6 @@ Partial Class Form1
         Me.Label23.Text = "Cover image not prioritised"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Label23.Visible = False
-        '
-        'Button27
-        '
-        Me.Button27.Location = New System.Drawing.Point(758, 598)
-        Me.Button27.Name = "Button27"
-        Me.Button27.Size = New System.Drawing.Size(116, 23)
-        Me.Button27.TabIndex = 48
-        Me.Button27.Text = "Prioritise cover file"
-        Me.ToolTip1.SetToolTip(Me.Button27, "If EPUB thumbnails are enabled on your computer, click this button to make a copy" & _
-                " of the cover image that will then appear as the thumbnail")
-        Me.Button27.UseVisualStyleBackColor = True
-        Me.Button27.Visible = False
         '
         'TextBox1
         '
@@ -1302,19 +1357,6 @@ Partial Class Form1
         Me.Button33.Text = "View file..."
         Me.Button33.UseVisualStyleBackColor = True
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.PictureBox1.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.PictureBox1.Enabled = False
-        Me.PictureBox1.Location = New System.Drawing.Point(515, 87)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(364, 453)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 26
-        Me.PictureBox1.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox1, "Right-click image for context menu")
-        '
         'Button34
         '
         Me.Button34.Location = New System.Drawing.Point(1052, 500)
@@ -1394,17 +1436,6 @@ Partial Class Form1
         Me.Label27.Text = "Cover thumbnail info missing"
         Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Label27.Visible = False
-        '
-        'Button35
-        '
-        Me.Button35.Location = New System.Drawing.Point(758, 546)
-        Me.Button35.Name = "Button35"
-        Me.Button35.Size = New System.Drawing.Size(116, 23)
-        Me.Button35.TabIndex = 46
-        Me.Button35.Text = "Auto-fix .opf file"
-        Me.ToolTip1.SetToolTip(Me.Button35, "If thumbnail does not appear in iBook, try clicking this button")
-        Me.Button35.UseVisualStyleBackColor = True
-        Me.Button35.Visible = False
         '
         'OpenFileDialog6
         '
@@ -1554,37 +1585,6 @@ Partial Class Form1
         Me.CheckBox9.TabIndex = 61
         Me.CheckBox9.Text = "Sequentialise all files into series:"
         Me.CheckBox9.UseVisualStyleBackColor = True
-        '
-        'TextBox18
-        '
-        Me.TextBox18.Location = New System.Drawing.Point(1085, 177)
-        Me.TextBox18.Name = "TextBox18"
-        Me.TextBox18.Size = New System.Drawing.Size(153, 20)
-        Me.TextBox18.TabIndex = 63
-        Me.ToolTip1.SetToolTip(Me.TextBox18, "Series Title")
-        '
-        'CheckBox10
-        '
-        Me.CheckBox10.AutoSize = True
-        Me.CheckBox10.Location = New System.Drawing.Point(906, 177)
-        Me.CheckBox10.Name = "CheckBox10"
-        Me.CheckBox10.Size = New System.Drawing.Size(142, 17)
-        Me.CheckBox10.TabIndex = 62
-        Me.CheckBox10.Text = "Swap 'Title' and 'Creator'"
-        Me.ToolTip1.SetToolTip(Me.CheckBox10, "Uncheck all other batch tasks if this task is checked")
-        Me.CheckBox10.UseVisualStyleBackColor = True
-        '
-        'LinkLabel8
-        '
-        Me.LinkLabel8.AutoSize = True
-        Me.LinkLabel8.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel8.Location = New System.Drawing.Point(480, 62)
-        Me.LinkLabel8.Name = "LinkLabel8"
-        Me.LinkLabel8.Size = New System.Drawing.Size(25, 13)
-        Me.LinkLabel8.TabIndex = 95
-        Me.LinkLabel8.TabStop = True
-        Me.LinkLabel8.Text = "Edit"
-        Me.ToolTip1.SetToolTip(Me.LinkLabel8, "Edit list of words not to capitalise (separate using commas)")
         '
         'Form1
         '
