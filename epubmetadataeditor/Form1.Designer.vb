@@ -167,6 +167,7 @@ Partial Class Form1
         Me.LinkLabel7 = New System.Windows.Forms.LinkLabel
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
         Me.CheckBox9 = New System.Windows.Forms.CheckBox
+        Me.Button42 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -355,7 +356,7 @@ Partial Class Form1
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(121, 29)
         Me.Button2.TabIndex = 22
-        Me.Button2.Text = "Open"
+        Me.Button2.Text = "&Open"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Button3
@@ -365,7 +366,7 @@ Partial Class Form1
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(121, 29)
         Me.Button3.TabIndex = 23
-        Me.Button3.Text = "Save"
+        Me.Button3.Text = "&Save"
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Button4
@@ -374,7 +375,7 @@ Partial Class Form1
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(121, 29)
         Me.Button4.TabIndex = 27
-        Me.Button4.Text = "Exit"
+        Me.Button4.Text = "E&xit"
         Me.Button4.UseVisualStyleBackColor = True
         '
         'ContextMenuStrip1
@@ -764,11 +765,11 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(758, 572)
+        Me.Button1.Location = New System.Drawing.Point(685, 572)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(116, 23)
         Me.Button1.TabIndex = 47
-        Me.Button1.Text = "Remove SVG tags"
+        Me.Button1.Text = "&Remove SVG tags"
         Me.ToolTip1.SetToolTip(Me.Button1, "Some EPUB readers do not correctly generate the thumbnail cover if SVG tags are i" & _
                 "nvolved")
         Me.Button1.UseVisualStyleBackColor = True
@@ -776,11 +777,11 @@ Partial Class Form1
         '
         'Button27
         '
-        Me.Button27.Location = New System.Drawing.Point(758, 598)
+        Me.Button27.Location = New System.Drawing.Point(685, 598)
         Me.Button27.Name = "Button27"
         Me.Button27.Size = New System.Drawing.Size(116, 23)
         Me.Button27.TabIndex = 48
-        Me.Button27.Text = "Prioritise cover file"
+        Me.Button27.Text = "Prioritise &cover file"
         Me.ToolTip1.SetToolTip(Me.Button27, "If EPUB thumbnails are enabled on your computer, click this button to make a copy" & _
                 " of the cover image that will then appear as the thumbnail")
         Me.Button27.UseVisualStyleBackColor = True
@@ -801,11 +802,11 @@ Partial Class Form1
         '
         'Button35
         '
-        Me.Button35.Location = New System.Drawing.Point(758, 546)
+        Me.Button35.Location = New System.Drawing.Point(685, 546)
         Me.Button35.Name = "Button35"
         Me.Button35.Size = New System.Drawing.Size(116, 23)
         Me.Button35.TabIndex = 46
-        Me.Button35.Text = "Auto-fix .opf file"
+        Me.Button35.Text = "&Auto-fix .opf file"
         Me.ToolTip1.SetToolTip(Me.Button35, "If thumbnail does not appear in iBook, try clicking this button")
         Me.Button35.UseVisualStyleBackColor = True
         Me.Button35.Visible = False
@@ -847,7 +848,7 @@ Partial Class Form1
         Me.Label4.BackColor = System.Drawing.SystemColors.Control
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label4.Location = New System.Drawing.Point(512, 575)
+        Me.Label4.Location = New System.Drawing.Point(439, 575)
         Me.Label4.MinimumSize = New System.Drawing.Size(240, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(240, 15)
@@ -1102,7 +1103,7 @@ Partial Class Form1
         Me.Label23.BackColor = System.Drawing.SystemColors.Control
         Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label23.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label23.Location = New System.Drawing.Point(512, 601)
+        Me.Label23.Location = New System.Drawing.Point(439, 601)
         Me.Label23.MinimumSize = New System.Drawing.Size(240, 0)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(240, 15)
@@ -1291,7 +1292,7 @@ Partial Class Form1
         '
         Me.CheckBox5.AutoSize = True
         Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox5.Location = New System.Drawing.Point(761, 622)
+        Me.CheckBox5.Location = New System.Drawing.Point(688, 622)
         Me.CheckBox5.Name = "CheckBox5"
         Me.CheckBox5.Size = New System.Drawing.Size(119, 17)
         Me.CheckBox5.TabIndex = 49
@@ -1428,7 +1429,7 @@ Partial Class Form1
         Me.Label27.BackColor = System.Drawing.SystemColors.Control
         Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label27.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label27.Location = New System.Drawing.Point(512, 549)
+        Me.Label27.Location = New System.Drawing.Point(439, 549)
         Me.Label27.MinimumSize = New System.Drawing.Size(240, 0)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(240, 15)
@@ -1586,11 +1587,22 @@ Partial Class Form1
         Me.CheckBox9.Text = "Sequentialise all files into series:"
         Me.CheckBox9.UseVisualStyleBackColor = True
         '
+        'Button42
+        '
+        Me.Button42.Location = New System.Drawing.Point(807, 546)
+        Me.Button42.Name = "Button42"
+        Me.Button42.Size = New System.Drawing.Size(72, 75)
+        Me.Button42.TabIndex = 94
+        Me.Button42.Text = "Apply all cover fixes and Save EPUB"
+        Me.Button42.UseVisualStyleBackColor = True
+        Me.Button42.Visible = False
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.Button42)
         Me.Controls.Add(Me.CheckBox10)
         Me.Controls.Add(Me.Button41)
         Me.Controls.Add(Me.Button40)
@@ -1607,7 +1619,6 @@ Partial Class Form1
         Me.Controls.Add(Me.CheckBox6)
         Me.Controls.Add(Me.TextBox17)
         Me.Controls.Add(Me.Label26)
-        Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Button35)
         Me.Controls.Add(Me.LinkLabel5)
         Me.Controls.Add(Me.Button34)
@@ -1655,7 +1666,6 @@ Partial Class Form1
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.Button8)
-        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label19)
         Me.Controls.Add(Me.Button13)
@@ -1696,11 +1706,13 @@ Partial Class Form1
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Button17)
-        Me.Controls.Add(Me.Label23)
         Me.Controls.Add(Me.Button27)
         Me.Controls.Add(Me.Label25)
         Me.Controls.Add(Me.LinkLabel8)
         Me.Controls.Add(Me.LinkLabel4)
+        Me.Controls.Add(Me.Label27)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label23)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1862,5 +1874,6 @@ Partial Class Form1
     Friend WithEvents Button41 As System.Windows.Forms.Button
     Friend WithEvents CheckBox10 As System.Windows.Forms.CheckBox
     Friend WithEvents LinkLabel8 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Button42 As System.Windows.Forms.Button
 
 End Class

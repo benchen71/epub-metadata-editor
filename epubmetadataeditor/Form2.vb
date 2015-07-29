@@ -70,33 +70,6 @@ Public Class Form2
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        Dim opffiletext As String
-
-        opffiletext = RichTextBox1.Text
-
-        ' delete stuff
-        opffiletext = opffiletext.Replace(Chr(13), "")
-        opffiletext = opffiletext.Replace(Chr(10), "")
-        opffiletext = opffiletext.Replace(Chr(9), "")
-        While (opffiletext.Contains("> "))
-            opffiletext = opffiletext.Replace("> ", ">")
-        End While
-
-        ' add stuff back
-        opffiletext = opffiletext.Replace("><", ">" + Chr(13) + Chr(10) + "<")
-        opffiletext = opffiletext.Replace("<metadata", "  <metadata")
-        opffiletext = opffiletext.Replace("</metadata", "  </metadata")
-        opffiletext = opffiletext.Replace("<manifest", "  <manifest")
-        opffiletext = opffiletext.Replace("</manifest", "  </manifest")
-        opffiletext = opffiletext.Replace("<spine", "  <spine")
-        opffiletext = opffiletext.Replace("</spine", "  </spine")
-        opffiletext = opffiletext.Replace("<guide", "  <guide")
-        opffiletext = opffiletext.Replace("</guide", "  </guide")
-        opffiletext = opffiletext.Replace("<dc:", "    <dc:")
-        opffiletext = opffiletext.Replace("<meta ", "    <meta ")
-        opffiletext = opffiletext.Replace("<item", "    <item")
-        opffiletext = opffiletext.Replace("<reference", "    <reference")
-        opffiletext = opffiletext.Replace("<!--", "    <!--")
-        RichTextBox1.Text = opffiletext
+        RichTextBox1.Text = Form1.Regularise(RichTextBox1.Text)
     End Sub
 End Class

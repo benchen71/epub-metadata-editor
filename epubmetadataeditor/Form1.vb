@@ -86,6 +86,7 @@ Public Class Form1
         PictureBox1.Image = Nothing
         Label4.Visible = False
         Button1.Visible = False
+        Button42.Visible = False
         Button35.Visible = False
         Button27.Visible = False
         Label25.Visible = False
@@ -480,7 +481,7 @@ lookforpagemap:
     Private Sub ExtractMetadata(ByVal metadatafile As String, ByVal extractcover As Boolean)
         Dim startpos, namespacelen, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
         Dim dcnamespace, rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring As String
-        Dim idpos, endheaderpos, temppos, refinespos, oldstartpos As Integer
+        Dim idpos, endheaderpos, startheaderpos, temppos, refinespos, oldstartpos As Integer
         Dim idinfo As String
 
         'Check for non-standard dc namespace tags
@@ -559,37 +560,38 @@ lookforpagemap:
                             Next
                         End If
 
-                        If idinfo <> "" Then
-                            temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            While temppos <> 0
-                                endheaderpos = InStr(temppos, metadatafile, ">")
-                                endpos = InStr(temppos, metadatafile, "</meta>")
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
-                                If refinespos <> 0 Then
-                                    If refinespos < endpos Then
-                                        TextBox12.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
+                        If idinfo = "" Then idinfo = "creator"
+
+                        temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        While temppos <> 0
+                            endheaderpos = InStr(temppos, metadatafile, ">")
+                            startheaderpos = InStrRev(metadatafile, "<", temppos)
+                            endpos = InStr(temppos, metadatafile, "</meta>")
+                            refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
+                            If refinespos <> 0 Then
+                                If refinespos < endpos Then
+                                    TextBox12.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
+                                End If
+                            End If
+                            refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "role")
+                            If refinespos <> 0 Then
+                                If refinespos < endpos Then
+                                    rolestring = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
+                                    If rolestring = "aut" Then
+                                        ComboBox1.SelectedIndex = 0
+                                    ElseIf rolestring = "edt" Then
+                                        ComboBox1.SelectedIndex = 1
+                                    ElseIf rolestring = "ill" Then
+                                        ComboBox1.SelectedIndex = 2
+                                    ElseIf rolestring = "trl" Then
+                                        ComboBox1.SelectedIndex = 3
+                                    Else
+                                        ComboBox1.SelectedIndex = 0
                                     End If
                                 End If
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "role")
-                                If refinespos <> 0 Then
-                                    If refinespos < endpos Then
-                                        rolestring = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
-                                        If rolestring = "aut" Then
-                                            ComboBox1.SelectedIndex = 0
-                                        ElseIf rolestring = "edt" Then
-                                            ComboBox1.SelectedIndex = 1
-                                        ElseIf rolestring = "ill" Then
-                                            ComboBox1.SelectedIndex = 2
-                                        ElseIf rolestring = "trl" Then
-                                            ComboBox1.SelectedIndex = 3
-                                        Else
-                                            ComboBox1.SelectedIndex = 0
-                                        End If
-                                    End If
-                                End If
-                                temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            End While
-                        End If
+                            End If
+                            temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        End While
                     Else
                         'Get optional attributes
                         fileaspos = InStr(startpos, metadatafile, "opf:file-as=")
@@ -1180,6 +1182,7 @@ parsecoverfile:
                     If startpos <> 0 Then
                         Label4.Visible = True
                         Button1.Visible = True
+                        Button42.Visible = True
                     End If
                     startpos = InStr(coverfiletext, "<img")
                     If startpos <> 0 Then
@@ -1298,7 +1301,7 @@ didnotfindhref:
                 href = href.Replace("%20", " ")
                 ListBox2.Items.Add(href)
                 imgnum = imgnum + 1
-                If (InStr(href, "cover") <> 0) Then
+                If ((InStr(href.ToLower, "cover") <> 0) And (InStr(href.ToLower, "backcover") = 0)) Then
                     ListBox2.SelectedIndex = imgnum - 1
                 End If
             End While
@@ -1356,16 +1359,23 @@ updateinterface:
             Button27.Visible = False
             Label23.Visible = False
             CheckBox5.Visible = False
+            If ((Button1.Visible = False) And (Button35.Visible = False)) Then
+                Button42.Visible = False
+            End If
         Else
             Button27.Visible = True
             Label23.Visible = True
             CheckBox5.Visible = True
+            Button42.Visible = True
         End If
 
         fixcovermetadata = False
         fixcovermanifest = False
         Button35.Visible = False
         Label27.Visible = False
+        If ((Button27.Visible = False) And (Button1.Visible = False)) Then
+            Button42.Visible = False
+        End If
 
         If relativecoverimagefile <> "" Then
             Dim pos As Integer
@@ -1379,6 +1389,7 @@ updateinterface:
                 Button35.Visible = True
                 Label27.Visible = True
                 fixcovermetadata = True
+                Button42.Visible = True
             End If
 
             ' Check to see if cover image information is in manifest
@@ -1389,12 +1400,14 @@ updateinterface:
                 Button35.Visible = True
                 Label27.Visible = True
                 fixcovermanifest = True
+                Button42.Visible = True
             Else
                 endpos = InStr(metadatafile, "</manifest>")
                 If ((pos < startpos) Or (pos > endpos)) Then
                     Button35.Visible = True
                     Label27.Visible = True
                     fixcovermanifest = True
+                    Button42.Visible = True
                 End If
             End If
         End If
@@ -2112,6 +2125,9 @@ errortext:
             PictureBox1.Load()
             projectchanged = True
             Button3.Enabled = True
+            Button27.Visible = True
+            Label23.Visible = True
+            Button42.Visible = True
             Me.Text = "*" + CaptionString
         End If
     End Sub
@@ -2223,6 +2239,9 @@ errortext:
             'update interface
             projectchanged = True
             Button3.Enabled = True
+            Button27.Visible = True
+            Label23.Visible = True
+            Button42.Visible = True
             SaveImageAsToolStripMenuItem.Enabled = True
             ChangeImageToolStripMenuItem.Enabled = True
             AddImageToolStripMenuItem.Enabled = False
@@ -2238,6 +2257,9 @@ errortext:
         RichTextBox1.SaveFile(coverfile, RichTextBoxStreamType.PlainText)
         Button1.Visible = False
         Label4.Visible = False
+        If ((Button27.Visible = False) And (Button35.Visible = False)) Then
+            Button42.Visible = False
+        End If
         projectchanged = True
         Button3.Enabled = True
         Me.Text = "*" + CaptionString
@@ -2591,6 +2613,9 @@ errortext:
                     AddImageToolStripMenuItem.Enabled = False
                     projectchanged = True
                     Button3.Enabled = True
+                    Button27.Visible = True
+                    Label23.Visible = True
+                    Button42.Visible = True
                     Me.Text = "*" + CaptionString
                 End If
             End If
@@ -2716,6 +2741,9 @@ errortext:
             AddImageToolStripMenuItem.Enabled = False
             projectchanged = True
             Button3.Enabled = True
+            Button27.Visible = True
+            Label23.Visible = True
+            Button42.Visible = True
             Me.Text = "*" + CaptionString
         End If
     End Sub
@@ -3652,29 +3680,7 @@ outputsource:
         End If
 
         'Regularise whitespace
-        ' delete stuff
-        metadatafile = metadatafile.Replace(Chr(13), "")
-        metadatafile = metadatafile.Replace(Chr(10), "")
-        metadatafile = metadatafile.Replace(Chr(9), "")
-        While (metadatafile.Contains("> "))
-            metadatafile = metadatafile.Replace("> ", ">")
-        End While
-
-        ' add stuff back
-        metadatafile = metadatafile.Replace("><", ">" + Chr(13) + Chr(10) + "<")
-        metadatafile = metadatafile.Replace("<metadata", "  <metadata")
-        metadatafile = metadatafile.Replace("</metadata", "  </metadata")
-        metadatafile = metadatafile.Replace("<manifest", "  <manifest")
-        metadatafile = metadatafile.Replace("</manifest", "  </manifest")
-        metadatafile = metadatafile.Replace("<spine", "  <spine")
-        metadatafile = metadatafile.Replace("</spine", "  </spine")
-        metadatafile = metadatafile.Replace("<guide", "  <guide")
-        metadatafile = metadatafile.Replace("</guide", "  </guide")
-        metadatafile = metadatafile.Replace("<dc:", "    <dc:")
-        metadatafile = metadatafile.Replace("<meta ", "    <meta ")
-        metadatafile = metadatafile.Replace("<item", "    <item")
-        metadatafile = metadatafile.Replace("<reference", "    <reference")
-        metadatafile = metadatafile.Replace("<!--", "    <!--")
+        metadatafile = Regularise(metadatafile)
 
         RichTextBox1.Text = metadatafile
         SaveUnicodeFile(opffile, metadatafile)
@@ -3731,7 +3737,33 @@ outputsource:
             End Using
         Next
     End Sub
+    Public Function Regularise(ByVal metadatatext As String) As String
+        'Regularise whitespace
+        ' delete stuff
+        metadatatext = metadatatext.Replace(Chr(13), "")
+        metadatatext = metadatatext.Replace(Chr(10), "")
+        metadatatext = metadatatext.Replace(Chr(9), "")
+        While (metadatatext.Contains("> "))
+            metadatatext = metadatatext.Replace("> ", ">")
+        End While
 
+        ' add stuff back
+        metadatatext = metadatatext.Replace("><", ">" + Chr(13) + Chr(10) + "<")
+        metadatatext = metadatatext.Replace("<metadata", "  <metadata")
+        metadatatext = metadatatext.Replace("</metadata", "  </metadata")
+        metadatatext = metadatatext.Replace("<manifest", "  <manifest")
+        metadatatext = metadatatext.Replace("</manifest", "  </manifest")
+        metadatatext = metadatatext.Replace("<spine", "  <spine")
+        metadatatext = metadatatext.Replace("</spine", "  </spine")
+        metadatatext = metadatatext.Replace("<guide", "  <guide")
+        metadatatext = metadatatext.Replace("</guide", "  </guide")
+        metadatatext = metadatatext.Replace("<dc:", "    <dc:")
+        metadatatext = metadatatext.Replace("<meta ", "    <meta ")
+        metadatatext = metadatatext.Replace("<item", "    <item")
+        metadatatext = metadatatext.Replace("<reference", "    <reference")
+        metadatatext = metadatatext.Replace("<!--", "    <!--")
+        Return metadatatext
+    End Function
     Private Sub Button26_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button26.Click
         Dim metadatafile As String
 
@@ -3769,7 +3801,21 @@ outputsource:
         ' See: http://wiki.mobileread.com/wiki/Thumbnails and http://www.mobileread.com/forums/showthread.php?t=35505
 
         Dim currentcoverimageextension, newcoverimagefilename, newlineandspace, metadatafile, insertion, rest As String
-        Dim startpos, insertpos, count, x As Integer
+        Dim startpos, insertpos, endpos, count, x As Integer
+
+        RichTextBox1.Text = LoadUnicodeFile(opffile)
+        metadatafile = LoadUnicodeFile(opffile)
+
+        ' If 0000Cover file exists, then delete it
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles(ebookdirectory, FileIO.SearchOption.SearchTopLevelOnly, "0000Cover.*")
+            My.Computer.FileSystem.DeleteFile(foundFile)
+
+            ' Delete the item from the opf file
+            insertpos = InStr(metadatafile, "id=" + Chr(34) + "prioritorised_cover" + Chr(34))
+            startpos = InStrRev(metadatafile, "<", insertpos)
+            endpos = InStr(insertpos, metadatafile, ">")
+            metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 1)
+        Next
 
         currentcoverimageextension = Path.GetExtension(coverimagefile)
         newcoverimagefilename = "0000Cover" + currentcoverimageextension
@@ -3811,8 +3857,6 @@ outputsource:
         End If
 
         ' Add file to opf
-        RichTextBox1.Text = LoadUnicodeFile(opffile)
-        metadatafile = LoadUnicodeFile(opffile)
         newlineandspace = Chr(10)
         insertion = ""
         startpos = InStr(metadatafile, "<manifest")
@@ -3831,6 +3875,9 @@ outputsource:
         'update interface
         Button27.Visible = False
         Label23.Visible = False
+        If ((Button1.Visible = False) And (Button35.Visible = False)) Then
+            Button42.Visible = False
+        End If
         CheckBox5.Visible = False
         projectchanged = True
         Button3.Enabled = True
@@ -4781,6 +4828,9 @@ errortext:
 
         Button35.Visible = False
         Label27.Visible = False
+        If ((Button27.Visible = False) And (Button1.Visible = False)) Then
+            Button42.Visible = False
+        End If
 
         projectchanged = True
         Button3.Enabled = True
@@ -4838,6 +4888,9 @@ errortext:
 
                 projectchanged = True
                 Button3.Enabled = True
+                Button27.Visible = True
+                Label23.Visible = True
+                Button42.Visible = True
                 Me.Text = "*" + CaptionString
 
                 ' Need to update metadata
@@ -5099,6 +5152,7 @@ errortext:
         Button23.Enabled = False
         LinkLabel3.Enabled = False
         LinkLabel5.Enabled = False
+        Button42.Visible = False
         Button35.Visible = False
         Button1.Visible = False
         Button27.Visible = False
@@ -5179,5 +5233,19 @@ errortext:
             Dim objIniFile As New IniFile(inifilename)
             objIniFile.WriteString("Editor", "Words", WordsNotToCapitalise)
         End If
+    End Sub
+
+    Private Sub Button42_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button42.Click
+        If Button35.Visible Then
+            Button35_Click(sender, e)
+        End If
+        If Button1.Visible Then
+            Button1_Click(sender, e)
+        End If
+        If Button27.Visible Then
+            Button27_Click(sender, e)
+        End If
+        SaveEpub()
+        Button42.Visible = False
     End Sub
 End Class
