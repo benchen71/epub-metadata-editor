@@ -1,7 +1,5 @@
-1.4.0
-[*] Added "Apply all cover fixes and save EPUB" button [requested]
-[*] Added shortcut keys (using ALT) to some buttons [requested]
-[*] When adding or changing cover, the "Prioritise cover file" button now appears [requested]
-[*] Fix for better handling of optional meta info of creators in EPUB3
-[*] Fix so that existing back cover not automatically chosen if no cover nominated in OPF file
-[*] Some code cleaning
+1.4.1
+[*] Added shortcut key to "Apply all Cover Fixes and Save EPUB" button
+[*] Added batch operation "Apply all Cover Fixes"
+[*] Fixed tab stop order for quite a few items
+[*] Minor bug fixes

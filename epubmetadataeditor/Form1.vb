@@ -1163,6 +1163,7 @@ foundhref:
                     PictureBox1.ImageLocation = coverfile
                     Try
                         PictureBox1.Load()
+                        SaveImageAsToolStripMenuItem.Enabled = True
                         ChangeImageToolStripMenuItem.Enabled = True
                         UseExistingImageToolStripMenuItem.Enabled = True
                         AddImageToolStripMenuItem.Enabled = False
@@ -1197,6 +1198,7 @@ parsecoverfile:
                                     PictureBox1.ImageLocation = coverimagefile
                                     Try
                                         PictureBox1.Load()
+                                        SaveImageAsToolStripMenuItem.Enabled = True
                                         ChangeImageToolStripMenuItem.Enabled = True
                                         UseExistingImageToolStripMenuItem.Enabled = True
                                         AddImageToolStripMenuItem.Enabled = False
@@ -1747,7 +1749,7 @@ errortext:
         Dim metadatafile, optionaltext, tempstring As String
 
         ' do some checks first
-        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False)) Then
+        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False)) Then
             MsgBox("You need to check one of the batch task boxes!")
             Exit Sub
         End If
@@ -1818,9 +1820,16 @@ errortext:
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
             End If
 
-            'Extract metadata into textboxes (but no need to extract cover)
+            'Extract metadata into textboxes
             metadatafile = LoadUnicodeFile(opffile)
-            ExtractMetadata(metadatafile, False)
+            If CheckBox11.Checked = True Then
+                ' Need to extract cover
+                ExtractMetadata(metadatafile, True)
+            Else
+                ' No need to extract cover
+                ExtractMetadata(metadatafile, False)
+            End If
+
 
             'Do the processing
             If ((CheckBox1.Checked = True) And (CheckBox8.Checked = True)) Then
@@ -2009,6 +2018,19 @@ errortext:
 
             RichTextBox1.Text = metadatafile
             SaveUnicodeFile(opffile, metadatafile)
+
+            ' Do the cover fixes now
+            If CheckBox11.Checked = True Then
+                If Button35.Visible Then
+                    Button35_Click(sender, e)
+                End If
+                If Button1.Visible Then
+                    Button1_Click(sender, e)
+                End If
+                If Button27.Visible Then
+                    Button27_Click(sender, e)
+                End If
+            End If
 
             'Zip temp directory (after deleting original file)
             Dim fi As New FileInfo(ListBox1.Items(x - 1))
