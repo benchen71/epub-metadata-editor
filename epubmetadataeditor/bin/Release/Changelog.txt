@@ -1,5 +1,4 @@
-1.4.1
-[*] Added shortcut key to "Apply all Cover Fixes and Save EPUB" button
-[*] Added batch operation "Apply all Cover Fixes"
-[*] Fixed tab stop order for quite a few items
-[*] Minor bug fixes
+1.4.2
+[*] Added batch task: Replace field.
+[*] Changed the way files were being saved during batch processing.
+[*] Fix for "Auto-fix .opf file" button when href info comes after id in the cover item.

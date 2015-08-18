@@ -145,7 +145,7 @@ Public Class Form1
                             Exit Sub
                         End If
                         If DialogResult = Windows.Forms.DialogResult.Yes Then
-                            SaveEpub()
+                            SaveEpub(OpenFileDialog1.FileName)
                         End If
                     End If
 
@@ -192,7 +192,7 @@ Public Class Form1
                 End If
                 End
             ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub()
+                SaveEpub(OpenFileDialog1.FileName)
             Else
                 e.Cancel = True
             End If
@@ -1492,7 +1492,7 @@ exitsub:
                 Return ("cancel")
             End If
             If DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub()
+                SaveEpub(OpenFileDialog1.FileName)
             End If
         End If
 
@@ -1591,7 +1591,7 @@ exitsub:
                 End If
                 End
             ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub()
+                SaveEpub(OpenFileDialog1.FileName)
                 ChDir(tempdirectory)
                 If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
                     My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -1614,7 +1614,7 @@ exitsub:
                 Exit Sub
             End If
             If DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub()
+                SaveEpub(OpenFileDialog1.FileName)
             End If
         End If
 
@@ -1663,7 +1663,7 @@ exitsub:
     End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        SaveEpub()
+        SaveEpub(OpenFileDialog1.FileName)
     End Sub
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
@@ -1725,7 +1725,7 @@ errortext:
                     Exit Sub
                 End If
                 If DialogResult = Windows.Forms.DialogResult.Yes Then
-                    SaveEpub()
+                    SaveEpub(OpenFileDialog1.FileName)
                 End If
             End If
 
@@ -1745,11 +1745,11 @@ errortext:
 
     Private Sub Button10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button10.Click
         Dim filenum, x As Integer
-        Dim startpos, endpos, lenheader As Integer
-        Dim metadatafile, optionaltext, tempstring As String
+        Dim metadatafile, tempstring As String
+        Dim temp As DialogResult
 
         ' do some checks first
-        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False)) Then
+        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False) And (CheckBox12.Checked = False)) Then
             MsgBox("You need to check one of the batch task boxes!")
             Exit Sub
         End If
@@ -1758,6 +1758,19 @@ errortext:
             MsgBox("You need to enter the series title!")
             TextBox18.Focus()
             Exit Sub
+        End If
+
+        If ((CheckBox12.Checked) And (Form7.CheckedListBox1.CheckedItems.Count = 0)) Then
+            MsgBox("You need to select a field to replace!")
+            Form7.ShowDialog()
+            Exit Sub
+        End If
+
+        If ((CheckBox12.Checked) And (Form7.TextBox1.Text = "")) Then
+            temp = MsgBox("Are you sure you want to replace that field with an empty string?", MsgBoxStyle.YesNo)
+            If temp = Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
         End If
 
         ClearInterface()
@@ -1830,6 +1843,7 @@ errortext:
                 ExtractMetadata(metadatafile, False)
             End If
 
+            WebBrowser1.Visible = False
 
             'Do the processing
             If ((CheckBox1.Checked = True) And (CheckBox8.Checked = True)) Then
@@ -1916,108 +1930,82 @@ errortext:
                 TextBox2.Text = tempstring
             End If
 
+            If CheckBox12.Checked = True Then
+                ' Replace contents of selected field with text
+                Dim indexChecked As Integer
+                For Each indexChecked In Form7.CheckedListBox1.CheckedIndices
+                    If indexChecked = 0 Then
+                        ' Title
+                        TextBox1.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 1 Then
+                        ' Title File as
+                        TextBox16.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 2 Then
+                        ' Creator1
+                        TextBox2.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 3 Then
+                        ' Creator1 File as
+                        TextBox12.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 4 Then
+                        ' Creator2
+                        TextBox3.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 5 Then
+                        ' Creator2 File as
+                        TextBox13.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 6 Then
+                        ' Series
+                        TextBox15.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 7 Then
+                        ' Series index
+                        TextBox14.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 8 Then
+                        ' Description
+                        TextBox4.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 9 Then
+                        ' Publisher
+                        TextBox5.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 10 Then
+                        ' Date
+                        TextBox6.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 11 Then
+                        ' Subject
+                        TextBox17.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 12 Then
+                        ' Type
+                        TextBox7.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 13 Then
+                        ' Format
+                        TextBox8.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 14 Then
+                        ' Identifier
+                        TextBox9.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 15 Then
+                        ' Source
+                        TextBox10.Text = Form7.TextBox1.Text
+                    End If
+                    If indexChecked = 16 Then
+                        ' Language
+                        TextBox11.Text = Form7.TextBox1.Text
+                    End If
+                Next
+            End If
+
             Application.DoEvents()
-
-            ' save file
-            'Output title
-            startpos = InStr(metadatafile, "<dc:title")
-            If startpos <> 0 Then
-                endpos = InStr(metadatafile, "</dc:title>")
-                lenheader = Len("<dc:title")
-
-                'If optional attributes
-                If TextBox16.Text <> "" Then
-                    optionaltext = " opf:file-as=" + Chr(34) + TextBox16.Text + Chr(34) + ">"
-                Else
-                    optionaltext = ">"
-                End If
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox1.Text + Mid(metadatafile, endpos)
-            Else
-                ' no title yet, so add it after <metadata... > tag
-                startpos = InStr(metadatafile, "<metadata")
-                startpos = InStr(startpos, metadatafile, ">") + 1
-                'If optional attributes
-                If TextBox16.Text <> "" Then
-                    optionaltext = " opf:file-as=" + Chr(34) + TextBox16.Text + Chr(34) + ">"
-                Else
-                    optionaltext = ">"
-                End If
-                metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + TextBox1.Text + "</dc:title>" + Mid(metadatafile, startpos)
-            End If
-
-            'Output first creator
-            startpos = InStr(metadatafile, "<dc:creator")
-            If startpos <> 0 Then
-                endpos = InStr(metadatafile, "</dc:creator>")
-                lenheader = Len("<dc:creator")
-
-                'If optional attributes
-                If TextBox12.Text <> "" Then
-                    optionaltext = ""
-                    If ((ComboBox1.SelectedIndex = 0) Or (ComboBox1.SelectedIndex = -1)) Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34)
-                    If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
-                    If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
-                    If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = optionaltext + " opf:file-as=" + Chr(34) + TextBox12.Text + Chr(34) + ">"
-                Else
-                    optionaltext = ">"
-                End If
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox2.Text + Mid(metadatafile, endpos)
-
-                'Output second creator?
-                If TextBox3.Text <> "" Then
-                    endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
-                    startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
-                    'Get optional attributes
-                    If TextBox13.Text <> "" Then
-                        optionaltext = ""
-                        If ((ComboBox2.SelectedIndex = 0) Or (ComboBox2.SelectedIndex = -1)) Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34)
-                        If ComboBox2.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
-                        If ComboBox2.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
-                        If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext = optionaltext + " opf:file-as=" + Chr(34) + TextBox13.Text + Chr(34) + ">"
-                    Else
-                        optionaltext = ">"
-                    End If
-                    If startpos <> 0 Then
-                        endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                        lenheader = Len("<dc:creator")
-                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + TextBox3.Text + Mid(metadatafile, endpos)
-                    Else
-                        'Original file did not have second creator
-                        metadatafile = Mid(metadatafile, 1, endpos + 13) + Chr(13) + Chr(10) + Chr(9) + "<dc:creator" + optionaltext + TextBox3.Text + "</dc:creator>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 14)
-                    End If
-                End If
-            End If
-
-            If CheckBox9.Checked = True Then
-                'Output (Calibre) series and series index
-                startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series" & Chr(34))
-                If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
-                    If startpos <> 0 Then
-                        endpos = InStr(startpos, metadatafile, "/>")
-                        lenheader = Len("<meta name=" & Chr(34) & "calibre:series" & Chr(34))
-                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
-                    Else
-                        endpos = InStr(metadatafile, "</dc:title>")
-                        metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
-                    End If
-                End If
-                startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
-                If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
-                    If startpos <> 0 Then
-                        endpos = InStr(startpos, metadatafile, "/>")
-                        lenheader = Len("<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
-                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
-                    Else
-                        endpos = InStr(metadatafile, "</dc:title>")
-                        metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) & " content=" + Chr(34) + TextBox14.Text + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
-                    End If
-                End If
-            End If
-
-            RichTextBox1.Text = metadatafile
-            SaveUnicodeFile(opffile, metadatafile)
 
             ' Do the cover fixes now
             If CheckBox11.Checked = True Then
@@ -2032,14 +2020,10 @@ errortext:
                 End If
             End If
 
-            'Zip temp directory (after deleting original file)
-            Dim fi As New FileInfo(ListBox1.Items(x - 1))
-            fi.Delete()
+            Application.DoEvents()
 
-            Using zip As ZipFile = New ZipFile
-                zip.AddDirectory(ebookdirectory)
-                zip.Save(ListBox1.Items(x - 1))
-            End Using
+            ' Save file
+            SaveEpub(ListBox1.Items(x - 1))
 
             ClearInterface()
 
@@ -2778,7 +2762,7 @@ errortext:
         If CheckBox4.Checked = True Then CheckBox1.Checked = False
     End Sub
 
-    Private Sub SaveEpub()
+    Private Sub SaveEpub(ByVal EpubFileName As String)
         Dim metadatafile, dcnamespace, optionaltext, optionaltext2 As String
         Dim startpos, namespacelen, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
@@ -2786,7 +2770,7 @@ errortext:
         Dim idinfo, rolestring, identifierscheme, temptext As String
         Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
 
-        Dim fi As New FileInfo(OpenFileDialog1.FileName)
+        Dim fi As New FileInfo(EpubFileName)
 
         If fi.IsReadOnly Then
             MsgBox("ERROR: File is read-only!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
@@ -3716,7 +3700,7 @@ outputsource:
         IO.File.Delete("mimetype")
         ChDir(temporarydirectory)
 
-        Using zip As ZipOutputStream = New ZipOutputStream(OpenFileDialog1.FileName)
+        Using zip As ZipOutputStream = New ZipOutputStream(EpubFileName)
             'Add mimetype file first
             zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
             zip.PutNextEntry("mimetype")
@@ -4810,7 +4794,7 @@ errortext:
 
     Private Sub Button35_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button35.Click
         Dim metadatafile, newrelativecoverimagefile As String
-        Dim startpos, endpos, pos As Integer
+        Dim startpos, endpos, pos, temppos As Integer
 
         RichTextBox1.Text = LoadUnicodeFile(opffile)
         metadatafile = LoadUnicodeFile(opffile)
@@ -4832,12 +4816,13 @@ errortext:
             startpos = InStr(metadatafile, "<manifest")
             pos = InStr(startpos, metadatafile, coverimagefilename)
             If pos <> 0 Then
-                endpos = pos
-                pos = pos - 1
-                While (Mid(metadatafile, pos, 5) <> "href=")
-                    pos = pos - 1
-                End While
-                newrelativecoverimagefile = Mid(metadatafile, pos + 6, endpos + Len(coverimagefilename) - pos - 6)
+                startpos = InStrRev(metadatafile, "<", pos)
+                temppos = InStrRev(metadatafile, "href=", pos)
+                If temppos < startpos Then
+                    temppos = InStr(pos, metadatafile, "href=")
+                End If
+                endpos = InStr(temppos + 6, metadatafile, Chr(34))
+                newrelativecoverimagefile = Mid(metadatafile, temppos + 6, endpos - temppos - 6)
             End If
 
             pos = InStr(metadatafile, "</manifest>")
@@ -5267,7 +5252,11 @@ errortext:
         If Button27.Visible Then
             Button27_Click(sender, e)
         End If
-        SaveEpub()
+        SaveEpub(OpenFileDialog1.FileName)
         Button42.Visible = False
+    End Sub
+
+    Private Sub LinkLabel9_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel9.LinkClicked
+        Form7.ShowDialog()
     End Sub
 End Class

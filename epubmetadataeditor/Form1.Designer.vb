@@ -61,22 +61,9 @@ Partial Class Form1
         Me.Button17 = New System.Windows.Forms.Button
         Me.Button28 = New System.Windows.Forms.Button
         Me.Button29 = New System.Windows.Forms.Button
-        Me.Button31 = New System.Windows.Forms.Button
-        Me.Button30 = New System.Windows.Forms.Button
-        Me.Button22 = New System.Windows.Forms.Button
-        Me.Button21 = New System.Windows.Forms.Button
-        Me.Button18 = New System.Windows.Forms.Button
-        Me.Button13 = New System.Windows.Forms.Button
-        Me.Button14 = New System.Windows.Forms.Button
-        Me.Button15 = New System.Windows.Forms.Button
-        Me.Button7 = New System.Windows.Forms.Button
-        Me.Button6 = New System.Windows.Forms.Button
-        Me.Button5 = New System.Windows.Forms.Button
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
         Me.Button38 = New System.Windows.Forms.Button
         Me.ComboBox3 = New System.Windows.Forms.ComboBox
-        Me.Button39 = New System.Windows.Forms.Button
-        Me.Button40 = New System.Windows.Forms.Button
         Me.Button41 = New System.Windows.Forms.Button
         Me.TextBox17 = New System.Windows.Forms.RichTextBox
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -89,11 +76,24 @@ Partial Class Form1
         Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Button1 = New System.Windows.Forms.Button
         Me.Button27 = New System.Windows.Forms.Button
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Button35 = New System.Windows.Forms.Button
         Me.TextBox18 = New System.Windows.Forms.TextBox
         Me.CheckBox10 = New System.Windows.Forms.CheckBox
         Me.LinkLabel8 = New System.Windows.Forms.LinkLabel
+        Me.Button40 = New System.Windows.Forms.Button
+        Me.Button39 = New System.Windows.Forms.Button
+        Me.Button31 = New System.Windows.Forms.Button
+        Me.Button30 = New System.Windows.Forms.Button
+        Me.Button22 = New System.Windows.Forms.Button
+        Me.Button21 = New System.Windows.Forms.Button
+        Me.Button18 = New System.Windows.Forms.Button
+        Me.Button13 = New System.Windows.Forms.Button
+        Me.Button14 = New System.Windows.Forms.Button
+        Me.Button15 = New System.Windows.Forms.Button
+        Me.Button7 = New System.Windows.Forms.Button
+        Me.Button6 = New System.Windows.Forms.Button
+        Me.Button5 = New System.Windows.Forms.Button
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -169,6 +169,8 @@ Partial Class Form1
         Me.CheckBox9 = New System.Windows.Forms.CheckBox
         Me.Button42 = New System.Windows.Forms.Button
         Me.CheckBox11 = New System.Windows.Forms.CheckBox
+        Me.CheckBox12 = New System.Windows.Forms.CheckBox
+        Me.LinkLabel9 = New System.Windows.Forms.LinkLabel
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -496,6 +498,208 @@ Partial Class Form1
         Me.ToolTip1.SetToolTip(Me.Button29, "Edit scheme type")
         Me.Button29.UseVisualStyleBackColor = True
         '
+        'LinkLabel3
+        '
+        Me.LinkLabel3.AutoSize = True
+        Me.LinkLabel3.Enabled = False
+        Me.LinkLabel3.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel3.Location = New System.Drawing.Point(144, 42)
+        Me.LinkLabel3.MinimumSize = New System.Drawing.Size(121, 0)
+        Me.LinkLabel3.Name = "LinkLabel3"
+        Me.LinkLabel3.Size = New System.Drawing.Size(121, 13)
+        Me.LinkLabel3.TabIndex = 100
+        Me.LinkLabel3.TabStop = True
+        Me.LinkLabel3.Text = "Rename File"
+        Me.LinkLabel3.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.LinkLabel3, "(Hold SHIFT to auto-rename using current template)")
+        '
+        'Button38
+        '
+        Me.Button38.Enabled = False
+        Me.Button38.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Button38.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button38.Location = New System.Drawing.Point(422, 331)
+        Me.Button38.Name = "Button38"
+        Me.Button38.Size = New System.Drawing.Size(26, 20)
+        Me.Button38.TabIndex = 43
+        Me.Button38.Text = "E"
+        Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
+        Me.Button38.UseVisualStyleBackColor = True
+        '
+        'ComboBox3
+        '
+        Me.ComboBox3.Enabled = False
+        Me.ComboBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBox3.FormattingEnabled = True
+        Me.ComboBox3.Location = New System.Drawing.Point(515, 61)
+        Me.ComboBox3.Name = "ComboBox3"
+        Me.ComboBox3.Size = New System.Drawing.Size(364, 21)
+        Me.ComboBox3.TabIndex = 28
+        Me.ToolTip1.SetToolTip(Me.ComboBox3, "File Selector")
+        '
+        'Button41
+        '
+        Me.Button41.Enabled = False
+        Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button41.Location = New System.Drawing.Point(1215, 378)
+        Me.Button41.Name = "Button41"
+        Me.Button41.Size = New System.Drawing.Size(26, 20)
+        Me.Button41.TabIndex = 88
+        Me.Button41.Text = "S"
+        Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
+        Me.Button41.UseVisualStyleBackColor = True
+        '
+        'TextBox17
+        '
+        Me.TextBox17.ContextMenuStrip = Me.ContextMenuStrip2
+        Me.TextBox17.Enabled = False
+        Me.TextBox17.Location = New System.Drawing.Point(82, 478)
+        Me.TextBox17.Multiline = False
+        Me.TextBox17.Name = "TextBox17"
+        Me.TextBox17.Size = New System.Drawing.Size(335, 20)
+        Me.TextBox17.TabIndex = 13
+        Me.TextBox17.Text = ""
+        Me.ToolTip1.SetToolTip(Me.TextBox17, "Separate multiple subjects with ")
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.ToolStripMenuItem4, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ToolStripMenuItem3, Me.SelectAllToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(123, 126)
+        '
+        'UndoToolStripMenuItem
+        '
+        Me.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem"
+        Me.UndoToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.UndoToolStripMenuItem.Text = "Undo"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(119, 6)
+        '
+        'CutToolStripMenuItem
+        '
+        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
+        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.CutToolStripMenuItem.Text = "Cut"
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.CopyToolStripMenuItem.Text = "Copy"
+        '
+        'PasteToolStripMenuItem
+        '
+        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
+        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.PasteToolStripMenuItem.Text = "Paste"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(119, 6)
+        '
+        'SelectAllToolStripMenuItem
+        '
+        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
+        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.SelectAllToolStripMenuItem.Text = "Select All"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(685, 572)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(116, 23)
+        Me.Button1.TabIndex = 52
+        Me.Button1.Text = "&Remove SVG tags"
+        Me.ToolTip1.SetToolTip(Me.Button1, "Some EPUB readers do not correctly generate the thumbnail cover if SVG tags are i" & _
+                "nvolved")
+        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
+        '
+        'Button27
+        '
+        Me.Button27.Location = New System.Drawing.Point(685, 598)
+        Me.Button27.Name = "Button27"
+        Me.Button27.Size = New System.Drawing.Size(116, 23)
+        Me.Button27.TabIndex = 53
+        Me.Button27.Text = "Prioritise &cover file"
+        Me.ToolTip1.SetToolTip(Me.Button27, "If EPUB thumbnails are enabled on your computer, click this button to make a copy" & _
+                " of the cover image that will then appear as the thumbnail")
+        Me.Button27.UseVisualStyleBackColor = True
+        Me.Button27.Visible = False
+        '
+        'Button35
+        '
+        Me.Button35.Location = New System.Drawing.Point(685, 546)
+        Me.Button35.Name = "Button35"
+        Me.Button35.Size = New System.Drawing.Size(116, 23)
+        Me.Button35.TabIndex = 51
+        Me.Button35.Text = "&Auto-fix .opf file"
+        Me.ToolTip1.SetToolTip(Me.Button35, "If thumbnail does not appear in iBook, try clicking this button")
+        Me.Button35.UseVisualStyleBackColor = True
+        Me.Button35.Visible = False
+        '
+        'TextBox18
+        '
+        Me.TextBox18.Location = New System.Drawing.Point(1085, 172)
+        Me.TextBox18.Name = "TextBox18"
+        Me.TextBox18.Size = New System.Drawing.Size(153, 20)
+        Me.TextBox18.TabIndex = 76
+        Me.ToolTip1.SetToolTip(Me.TextBox18, "Series Title")
+        '
+        'CheckBox10
+        '
+        Me.CheckBox10.AutoSize = True
+        Me.CheckBox10.Location = New System.Drawing.Point(906, 176)
+        Me.CheckBox10.Name = "CheckBox10"
+        Me.CheckBox10.Size = New System.Drawing.Size(142, 17)
+        Me.CheckBox10.TabIndex = 75
+        Me.CheckBox10.Text = "Swap 'Title' and 'Creator'"
+        Me.ToolTip1.SetToolTip(Me.CheckBox10, "Uncheck all other batch tasks if this task is checked")
+        Me.CheckBox10.UseVisualStyleBackColor = True
+        '
+        'LinkLabel8
+        '
+        Me.LinkLabel8.AutoSize = True
+        Me.LinkLabel8.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel8.Location = New System.Drawing.Point(480, 62)
+        Me.LinkLabel8.Name = "LinkLabel8"
+        Me.LinkLabel8.Size = New System.Drawing.Size(25, 13)
+        Me.LinkLabel8.TabIndex = 32
+        Me.LinkLabel8.TabStop = True
+        Me.LinkLabel8.Text = "Edit"
+        Me.ToolTip1.SetToolTip(Me.LinkLabel8, "Edit list of words not to capitalise (separate using commas)")
+        '
+        'Button40
+        '
+        Me.Button40.Enabled = False
+        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
+        Me.Button40.Location = New System.Drawing.Point(1213, 278)
+        Me.Button40.Name = "Button40"
+        Me.Button40.Size = New System.Drawing.Size(26, 20)
+        Me.Button40.TabIndex = 87
+        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
+        Me.Button40.UseVisualStyleBackColor = True
+        '
+        'Button39
+        '
+        Me.Button39.Enabled = False
+        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
+        Me.Button39.Location = New System.Drawing.Point(1212, 252)
+        Me.Button39.Name = "Button39"
+        Me.Button39.Size = New System.Drawing.Size(26, 20)
+        Me.Button39.TabIndex = 86
+        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
+        Me.Button39.UseVisualStyleBackColor = True
+        '
         'Button31
         '
         Me.Button31.Enabled = False
@@ -628,166 +832,6 @@ Partial Class Form1
         Me.ToolTip1.SetToolTip(Me.Button5, "Copy 'Creator' to 'File as'")
         Me.Button5.UseVisualStyleBackColor = True
         '
-        'LinkLabel3
-        '
-        Me.LinkLabel3.AutoSize = True
-        Me.LinkLabel3.Enabled = False
-        Me.LinkLabel3.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel3.Location = New System.Drawing.Point(144, 42)
-        Me.LinkLabel3.MinimumSize = New System.Drawing.Size(121, 0)
-        Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(121, 13)
-        Me.LinkLabel3.TabIndex = 100
-        Me.LinkLabel3.TabStop = True
-        Me.LinkLabel3.Text = "Rename File"
-        Me.LinkLabel3.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ToolTip1.SetToolTip(Me.LinkLabel3, "(Hold SHIFT to auto-rename using current template)")
-        '
-        'Button38
-        '
-        Me.Button38.Enabled = False
-        Me.Button38.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.Button38.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button38.Location = New System.Drawing.Point(422, 331)
-        Me.Button38.Name = "Button38"
-        Me.Button38.Size = New System.Drawing.Size(26, 20)
-        Me.Button38.TabIndex = 43
-        Me.Button38.Text = "E"
-        Me.Button38.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ToolTip1.SetToolTip(Me.Button38, "Edit Description")
-        Me.Button38.UseVisualStyleBackColor = True
-        '
-        'ComboBox3
-        '
-        Me.ComboBox3.Enabled = False
-        Me.ComboBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(515, 61)
-        Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(364, 21)
-        Me.ComboBox3.TabIndex = 28
-        Me.ToolTip1.SetToolTip(Me.ComboBox3, "File Selector")
-        '
-        'Button39
-        '
-        Me.Button39.Enabled = False
-        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
-        Me.Button39.Location = New System.Drawing.Point(1212, 252)
-        Me.Button39.Name = "Button39"
-        Me.Button39.Size = New System.Drawing.Size(26, 20)
-        Me.Button39.TabIndex = 86
-        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
-        Me.Button39.UseVisualStyleBackColor = True
-        '
-        'Button40
-        '
-        Me.Button40.Enabled = False
-        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
-        Me.Button40.Location = New System.Drawing.Point(1213, 278)
-        Me.Button40.Name = "Button40"
-        Me.Button40.Size = New System.Drawing.Size(26, 20)
-        Me.Button40.TabIndex = 87
-        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
-        Me.Button40.UseVisualStyleBackColor = True
-        '
-        'Button41
-        '
-        Me.Button41.Enabled = False
-        Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button41.Location = New System.Drawing.Point(1215, 378)
-        Me.Button41.Name = "Button41"
-        Me.Button41.Size = New System.Drawing.Size(26, 20)
-        Me.Button41.TabIndex = 88
-        Me.Button41.Text = "S"
-        Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
-        Me.Button41.UseVisualStyleBackColor = True
-        '
-        'TextBox17
-        '
-        Me.TextBox17.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.TextBox17.Enabled = False
-        Me.TextBox17.Location = New System.Drawing.Point(82, 478)
-        Me.TextBox17.Multiline = False
-        Me.TextBox17.Name = "TextBox17"
-        Me.TextBox17.Size = New System.Drawing.Size(335, 20)
-        Me.TextBox17.TabIndex = 13
-        Me.TextBox17.Text = ""
-        Me.ToolTip1.SetToolTip(Me.TextBox17, "Separate multiple subjects with ")
-        '
-        'ContextMenuStrip2
-        '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.ToolStripMenuItem4, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ToolStripMenuItem3, Me.SelectAllToolStripMenuItem})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(123, 126)
-        '
-        'UndoToolStripMenuItem
-        '
-        Me.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem"
-        Me.UndoToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.UndoToolStripMenuItem.Text = "Undo"
-        '
-        'ToolStripMenuItem4
-        '
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(119, 6)
-        '
-        'CutToolStripMenuItem
-        '
-        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
-        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.CutToolStripMenuItem.Text = "Cut"
-        '
-        'CopyToolStripMenuItem
-        '
-        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.CopyToolStripMenuItem.Text = "Copy"
-        '
-        'PasteToolStripMenuItem
-        '
-        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
-        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.PasteToolStripMenuItem.Text = "Paste"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(119, 6)
-        '
-        'SelectAllToolStripMenuItem
-        '
-        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
-        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-        Me.SelectAllToolStripMenuItem.Text = "Select All"
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(685, 572)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(116, 23)
-        Me.Button1.TabIndex = 52
-        Me.Button1.Text = "&Remove SVG tags"
-        Me.ToolTip1.SetToolTip(Me.Button1, "Some EPUB readers do not correctly generate the thumbnail cover if SVG tags are i" & _
-                "nvolved")
-        Me.Button1.UseVisualStyleBackColor = True
-        Me.Button1.Visible = False
-        '
-        'Button27
-        '
-        Me.Button27.Location = New System.Drawing.Point(685, 598)
-        Me.Button27.Name = "Button27"
-        Me.Button27.Size = New System.Drawing.Size(116, 23)
-        Me.Button27.TabIndex = 53
-        Me.Button27.Text = "Prioritise &cover file"
-        Me.ToolTip1.SetToolTip(Me.Button27, "If EPUB thumbnails are enabled on your computer, click this button to make a copy" & _
-                " of the cover image that will then appear as the thumbnail")
-        Me.Button27.UseVisualStyleBackColor = True
-        Me.Button27.Visible = False
-        '
         'PictureBox1
         '
         Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -800,48 +844,6 @@ Partial Class Form1
         Me.PictureBox1.TabIndex = 26
         Me.PictureBox1.TabStop = False
         Me.ToolTip1.SetToolTip(Me.PictureBox1, "Right-click image for context menu")
-        '
-        'Button35
-        '
-        Me.Button35.Location = New System.Drawing.Point(685, 546)
-        Me.Button35.Name = "Button35"
-        Me.Button35.Size = New System.Drawing.Size(116, 23)
-        Me.Button35.TabIndex = 51
-        Me.Button35.Text = "&Auto-fix .opf file"
-        Me.ToolTip1.SetToolTip(Me.Button35, "If thumbnail does not appear in iBook, try clicking this button")
-        Me.Button35.UseVisualStyleBackColor = True
-        Me.Button35.Visible = False
-        '
-        'TextBox18
-        '
-        Me.TextBox18.Location = New System.Drawing.Point(1085, 177)
-        Me.TextBox18.Name = "TextBox18"
-        Me.TextBox18.Size = New System.Drawing.Size(153, 20)
-        Me.TextBox18.TabIndex = 76
-        Me.ToolTip1.SetToolTip(Me.TextBox18, "Series Title")
-        '
-        'CheckBox10
-        '
-        Me.CheckBox10.AutoSize = True
-        Me.CheckBox10.Location = New System.Drawing.Point(906, 176)
-        Me.CheckBox10.Name = "CheckBox10"
-        Me.CheckBox10.Size = New System.Drawing.Size(142, 17)
-        Me.CheckBox10.TabIndex = 75
-        Me.CheckBox10.Text = "Swap 'Title' and 'Creator'"
-        Me.ToolTip1.SetToolTip(Me.CheckBox10, "Uncheck all other batch tasks if this task is checked")
-        Me.CheckBox10.UseVisualStyleBackColor = True
-        '
-        'LinkLabel8
-        '
-        Me.LinkLabel8.AutoSize = True
-        Me.LinkLabel8.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel8.Location = New System.Drawing.Point(480, 62)
-        Me.LinkLabel8.Name = "LinkLabel8"
-        Me.LinkLabel8.Size = New System.Drawing.Size(25, 13)
-        Me.LinkLabel8.TabIndex = 32
-        Me.LinkLabel8.TabStop = True
-        Me.LinkLabel8.Text = "Edit"
-        Me.ToolTip1.SetToolTip(Me.LinkLabel8, "Edit list of words not to capitalise (separate using commas)")
         '
         'Label4
         '
@@ -1608,11 +1610,33 @@ Partial Class Form1
         Me.CheckBox11.Text = "Apply all Cover Fixes"
         Me.CheckBox11.UseVisualStyleBackColor = True
         '
+        'CheckBox12
+        '
+        Me.CheckBox12.AutoSize = True
+        Me.CheckBox12.Location = New System.Drawing.Point(1068, 195)
+        Me.CheckBox12.Name = "CheckBox12"
+        Me.CheckBox12.Size = New System.Drawing.Size(75, 17)
+        Me.CheckBox12.TabIndex = 78
+        Me.CheckBox12.Text = "Replace..."
+        Me.CheckBox12.UseVisualStyleBackColor = True
+        '
+        'LinkLabel9
+        '
+        Me.LinkLabel9.AutoSize = True
+        Me.LinkLabel9.Location = New System.Drawing.Point(1138, 196)
+        Me.LinkLabel9.Name = "LinkLabel9"
+        Me.LinkLabel9.Size = New System.Drawing.Size(29, 13)
+        Me.LinkLabel9.TabIndex = 79
+        Me.LinkLabel9.TabStop = True
+        Me.LinkLabel9.Text = "Field"
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.LinkLabel9)
+        Me.Controls.Add(Me.CheckBox12)
         Me.Controls.Add(Me.CheckBox11)
         Me.Controls.Add(Me.Button42)
         Me.Controls.Add(Me.CheckBox10)
@@ -1623,9 +1647,9 @@ Partial Class Form1
         Me.Controls.Add(Me.CheckBox9)
         Me.Controls.Add(Me.ComboBox3)
         Me.Controls.Add(Me.Button38)
-        Me.Controls.Add(Me.WebBrowser1)
         Me.Controls.Add(Me.LinkLabel7)
         Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.WebBrowser1)
         Me.Controls.Add(Me.CheckBox8)
         Me.Controls.Add(Me.CheckBox7)
         Me.Controls.Add(Me.CheckBox6)
@@ -1888,5 +1912,7 @@ Partial Class Form1
     Friend WithEvents LinkLabel8 As System.Windows.Forms.LinkLabel
     Friend WithEvents Button42 As System.Windows.Forms.Button
     Friend WithEvents CheckBox11 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBox12 As System.Windows.Forms.CheckBox
+    Friend WithEvents LinkLabel9 As System.Windows.Forms.LinkLabel
 
 End Class
