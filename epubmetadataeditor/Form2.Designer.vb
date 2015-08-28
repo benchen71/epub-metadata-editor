@@ -37,6 +37,7 @@ Partial Class Form2
         Me.Button2 = New System.Windows.Forms.Button
         Me.Button3 = New System.Windows.Forms.Button
         Me.Button4 = New System.Windows.Forms.Button
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -109,7 +110,7 @@ Partial Class Form2
         Me.Button2.Location = New System.Drawing.Point(644, 582)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(117, 28)
-        Me.Button2.TabIndex = 2
+        Me.Button2.TabIndex = 10
         Me.Button2.Text = "Cancel"
         Me.Button2.UseVisualStyleBackColor = True
         '
@@ -118,7 +119,7 @@ Partial Class Form2
         Me.Button3.Location = New System.Drawing.Point(139, 583)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(254, 27)
-        Me.Button3.TabIndex = 3
+        Me.Button3.TabIndex = 2
         Me.Button3.Text = "Copy sample <Guide>...</Guide> into Clipboard"
         Me.Button3.UseVisualStyleBackColor = True
         '
@@ -127,16 +128,28 @@ Partial Class Form2
         Me.Button4.Location = New System.Drawing.Point(399, 584)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(180, 24)
-        Me.Button4.TabIndex = 4
+        Me.Button4.TabIndex = 3
         Me.Button4.Text = "Format OPF file"
         Me.Button4.UseVisualStyleBackColor = True
         Me.Button4.Visible = False
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(585, 585)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(23, 23)
+        Me.CheckBox1.TabIndex = 4
+        Me.CheckBox1.Text = "¶"
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(776, 620)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
@@ -150,6 +163,7 @@ Partial Class Form2
         Me.Text = "EPUB Metadata Editor - File Editor"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
@@ -165,4 +179,5 @@ Partial Class Form2
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SelectAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
 End Class

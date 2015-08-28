@@ -1,4 +1,10 @@
-1.4.2
-[*] Added batch task: Replace field.
-[*] Changed the way files were being saved during batch processing.
-[*] Fix for "Auto-fix .opf file" button when href info comes after id in the cover item.
+1.4.3
+[*] Fix for handling creator refines in EPUB3.
+[*] Fix for handling identifier refines in EPUB3.
+[*] Use Calibre's title_sort meta tag for Title file as in EPUB3.
+[*] Added "show/hide paragraph marks" button in file editor.
+[*] Added "Find EPUB3" (in current folder) button in Batch Operations.
+[*] Code cleaning.
+[*] Minor bug fixes.
+
+NOTE: EPUB3 handling now at Beta level.

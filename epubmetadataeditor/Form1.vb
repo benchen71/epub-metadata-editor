@@ -456,10 +456,10 @@ lookforpagemap:
             If versioninfo = "3.0" Then
                 Label25.Visible = True
                 'Title cannot have 'file-as' apparently
-                TextBox16.Enabled = False
-                Button21.Enabled = False
-                Button22.Enabled = False
-                Button18.Enabled = False
+                'TextBox16.Enabled = False
+                'Button21.Enabled = False
+                'Button22.Enabled = False
+                'Button18.Enabled = False
                 Button28.Enabled = False
                 'DialogResult = MsgBox("Warning: You are opening an EPUB3 file." + Chr(10) + "EPUB3 handing is in alpha-release only.", MsgBoxStyle.Exclamation, "EPUB Metadata Editor")
             End If
@@ -522,14 +522,27 @@ lookforpagemap:
                         For temploop = fileaspos + 13 To endpos
                             If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                 TextBox16.Text = XMLInput(Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13))
+                                Exit For
                             End If
                         Next
                     End If
                     For temploop = startpos To endpos
                         If Mid(metadatafile, temploop, 1) = ">" Then
                             TextBox1.Text = XMLInput(Mid(metadatafile, temploop + 1, endpos - temploop - 1))
+                            Exit For
                         End If
                     Next
+                End If
+                If versioninfo = "3.0" Then
+                    ' Look for Calibre's title_sort meta tag
+                    startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
+                    If startpos <> 0 Then
+                        endpos = InStr(startpos, metadatafile, "/>")
+                        startpos = InStr(startpos, metadatafile, "content=")
+                        If ((startpos <> 0) And (startpos < endpos)) Then
+                            TextBox16.Text = XMLInput(Mid(metadatafile, startpos + 9, endpos - startpos - 10))
+                        End If
+                    End If
                 End If
             End If
         Catch ex As Exception
@@ -562,7 +575,7 @@ lookforpagemap:
 
                         If idinfo = "" Then idinfo = "creator"
 
-                        temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                         While temppos <> 0
                             endheaderpos = InStr(temppos, metadatafile, ">")
                             startheaderpos = InStrRev(metadatafile, "<", temppos)
@@ -590,12 +603,12 @@ lookforpagemap:
                                     End If
                                 End If
                             End If
-                            temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                            temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                         End While
                     Else
                         'Get optional attributes
                         fileaspos = InStr(startpos, metadatafile, "opf:file-as=")
-                        If fileaspos <> 0 Then
+                        If ((fileaspos <> 0) And (fileaspos < endpos)) Then
                             For temploop = fileaspos + 13 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     TextBox12.Text = XMLInput(Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13))
@@ -605,7 +618,7 @@ lookforpagemap:
                         End If
 
                         rolepos = InStr(startpos, metadatafile, "opf:role=")
-                        If rolepos <> 0 Then
+                        If ((rolepos <> 0) And (rolepos < endpos)) Then
                             rolestring = Mid(metadatafile, rolepos + 10, 3)
                             If rolestring = "aut" Then
                                 ComboBox1.SelectedIndex = 0
@@ -625,6 +638,7 @@ lookforpagemap:
                         For temploop = startpos To endpos
                             If Mid(metadatafile, temploop, 1) = ">" Then
                                 TextBox2.Text = XMLInput(Mid(metadatafile, temploop + 1, endpos - temploop - 1))
+                                Exit For
                             End If
                         Next
                     End If
@@ -662,17 +676,18 @@ lookforpagemap:
                         End If
 
                         If idinfo <> "" Then
-                            temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                            temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                             While temppos <> 0
                                 endheaderpos = InStr(temppos, metadatafile, ">")
+                                startheaderpos = InStrRev(metadatafile, "<", temppos)
                                 endpos = InStr(temppos, metadatafile, "</meta>")
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
+                                refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
                                         TextBox13.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
                                     End If
                                 End If
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "role")
+                                refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "role")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
                                         rolestring = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
@@ -689,13 +704,13 @@ lookforpagemap:
                                         End If
                                     End If
                                 End If
-                                temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                             End While
                         End If
                     Else
                         'Get optional attributes
                         fileaspos = InStr(startpos, metadatafile, "opf:file-as=")
-                        If fileaspos <> 0 Then
+                        If ((fileaspos <> 0) And (fileaspos < endpos)) Then
                             For temploop = fileaspos + 13 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     TextBox13.Text = XMLInput(Mid(metadatafile, fileaspos + 13, temploop - fileaspos - 13))
@@ -705,7 +720,7 @@ lookforpagemap:
                         End If
 
                         rolepos = InStr(startpos, metadatafile, "opf:role=")
-                        If rolepos <> 0 Then
+                        If ((rolepos <> 0) And (rolepos < endpos)) Then
                             rolestring = Mid(metadatafile, rolepos + 10, 3)
                             If rolestring = "aut" Then ComboBox2.SelectedIndex = 0
                             If rolestring = "edt" Then ComboBox2.SelectedIndex = 1
@@ -716,6 +731,7 @@ lookforpagemap:
                         For temploop = startpos To endpos
                             If Mid(metadatafile, temploop, 1) = ">" Then
                                 TextBox3.Text = XMLInput(Mid(metadatafile, temploop + 1, endpos - temploop - 1))
+                                Exit For
                             End If
                         Next
                     End If
@@ -963,11 +979,12 @@ skipsecondcreator:
                                 Next
                             End If
                             If idinfo <> "" Then
-                                temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                                 While temppos <> 0
                                     endheaderpos = InStr(temppos, metadatafile, ">")
+                                    startheaderpos = InStrRev(metadatafile, "<", temppos)
                                     endpos = InStr(temppos, metadatafile, "</meta>")
-                                    refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "identifier-type")
+                                    refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "identifier-type")
                                     If refinespos <> 0 Then
                                         If refinespos < endpos Then
                                             refinespos = InStr(refinespos, metadatafile, "scheme=" + Chr(34))
@@ -980,10 +997,9 @@ skipsecondcreator:
                                             End If
                                         End If
                                     End If
-                                    temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                    temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                                 End While
                             End If
-
                         Else
                             'Get optional attribute: scheme
                             fileaspos = InStr(startpos, metadatafile, "opf:scheme=")
@@ -1658,6 +1674,9 @@ exitsub:
 
             ' Put cursor in Title box
             TextBox1.Focus()
+
+            ' Enable "Find EPUB3" button
+            Button44.Enabled = True
         End If
 
     End Sub
@@ -1734,10 +1753,10 @@ errortext:
             Dim file As String
             For Each file In OpenFileDialog3.FileNames
                 ListBox1.Items.Add(file)
+                Button10.Enabled = True
+                Button32.Enabled = True
+                Button41.Enabled = True
             Next
-            Button10.Enabled = True
-            Button32.Enabled = True
-            Button41.Enabled = True
 
             DisableInterface()
         End If
@@ -2766,7 +2785,7 @@ errortext:
         Dim metadatafile, dcnamespace, optionaltext, optionaltext2 As String
         Dim startpos, namespacelen, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
-        Dim idpos, temploop, temppos, endheaderpos, refinespos, testpos, extrachars As Integer
+        Dim idpos, temploop, temppos, startheaderpos, endheaderpos, refinespos, testpos, extrachars As Integer
         Dim idinfo, rolestring, identifierscheme, temptext As String
         Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
 
@@ -2876,7 +2895,7 @@ errortext:
             lenheader = Len("<dc:title")
 
             'If optional attributes
-            If TextBox16.Text <> "" Then
+            If ((TextBox16.Text <> "") And (versioninfo <> "3.0")) Then
                 optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
             Else
                 optionaltext = ">"
@@ -2887,12 +2906,55 @@ errortext:
             startpos = InStr(metadatafile, "<metadata")
             startpos = InStr(startpos, metadatafile, ">") + 1
             'If optional attributes
-            If TextBox16.Text <> "" Then
+            If ((TextBox16.Text <> "") And (versioninfo <> "3.0")) Then
                 optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
             Else
                 optionaltext = ">"
             End If
             metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + XMLOutput(TextBox1.Text) + "</dc:title>" + Mid(metadatafile, startpos)
+        End If
+        ' Handle Title file as in EPUB3
+        If ((TextBox16.Text <> "") And (versioninfo = "3.0")) Then
+            ' Look for Calibre's title_sort meta tag
+            startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
+            If startpos <> 0 Then
+                endpos = InStr(startpos, metadatafile, "/>")
+                startpos = InStr(startpos, metadatafile, "content=")
+                If ((startpos <> 0) And (startpos < endpos)) Then
+                    metadatafile = Mid(metadatafile, 1, startpos + 8) + XMLOutput(TextBox16.Text) + Mid(metadatafile, endpos - 1)
+                Else
+                    ' Need a new metatag
+                    startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre")
+                    If startpos <> 0 Then
+                        endpos = InStr(startpos, metadatafile, "/>") + Len("/>")
+                    Else
+                        endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
+                    End If
+                    If endpos <> 0 Then
+                        metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
+                    End If
+                End If
+            Else
+                ' Need a new metatag
+                startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre")
+                If startpos <> 0 Then
+                    endpos = InStr(startpos, metadatafile, "/>") + Len("/>")
+                Else
+                    endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
+                End If
+                If endpos <> 0 Then
+                    metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
+                End If
+            End If
+        End If
+        If ((TextBox16.Text = "") And (versioninfo = "3.0")) Then
+            ' Look for Calibre's title_sort meta tag
+            startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
+            If startpos <> 0 Then
+                ' Need to delete tag
+                endpos = InStr(startpos, metadatafile, "/>")
+                metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 3)
+            End If
         End If
 
         'Output first creator
@@ -2921,33 +2983,39 @@ errortext:
                 idpos = InStr(startpos, metadatafile, "id=")
                 idinfo = ""
                 If idpos <> 0 Then
-                    For temploop = idpos + 4 To endpos
-                        If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                            idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
-                            GoTo lookforrefines
-                        End If
-                    Next
+                    If idpos < endpos Then
+                        For temploop = idpos + 4 To endpos
+                            If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                GoTo lookforrefines
+                            End If
+                        Next
+                    Else
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
+                        idinfo = "creator"
+                    End If
                 Else
                     metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                     idinfo = "creator"
                 End If
 lookforrefines:
                 If idinfo <> "" Then
-                    temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                    temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                     creatorfileasplaced = False
                     creatorroleplaced = False
                     rolestring = "aut"
                     While temppos <> 0
+                        startheaderpos = InStrRev(metadatafile, "<", temppos)
                         endheaderpos = InStr(temppos, metadatafile, ">")
                         endpos = InStr(temppos, metadatafile, "</meta>")
-                        refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
+                        refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
                         If refinespos <> 0 Then
                             If refinespos < endpos Then
                                 metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox12.Text) + Mid(metadatafile, endpos)
                                 creatorfileasplaced = True
                             End If
                         End If
-                        refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "role")
+                        refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "role")
                         If refinespos <> 0 Then
                             If refinespos < endpos Then
                                 If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
@@ -2957,7 +3025,7 @@ lookforrefines:
                                 creatorroleplaced = True
                             End If
                         End If
-                        temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
                     End While
                     If (((creatorroleplaced = False) Or (creatorfileasplaced = False)) And (TextBox12.Text <> "")) Then
                         startpos = InStr(metadatafile, "</dc:creator>") + 13 'end of creator
@@ -3768,6 +3836,7 @@ outputsource:
         metadatatext = metadatatext.Replace("<item", "    <item")
         metadatatext = metadatatext.Replace("<reference", "    <reference")
         metadatatext = metadatatext.Replace("<!--", "    <!--")
+        metadatatext = metadatatext.Replace(Chr(10) + "</dc:", Chr(10) + "    </dc:")
         Return metadatatext
     End Function
     Private Sub Button26_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button26.Click
@@ -5258,5 +5327,110 @@ errortext:
 
     Private Sub LinkLabel9_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel9.LinkClicked
         Form7.ShowDialog()
+    End Sub
+
+    Private Sub Button44_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button44.Click
+        Dim filenum, x As Integer
+
+        tempdirectory = System.IO.Path.GetTempPath
+        ebookdirectory = tempdirectory + "EPUB"
+
+        filenum = ComboBox3.Items.Count
+        ProgressBar1.Maximum = filenum - 1
+        ProgressBar1.Visible = True
+        ListBox1.Items.Clear()
+        ClearInterface()
+
+        For x = 1 To filenum
+            ChDir(tempdirectory)
+            ProgressBar1.Value = x - 1
+            ProgressBar1.Update()
+            Application.DoEvents()
+
+            ' open file
+            'Unzip epub to temp directory
+
+            If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                Try
+                    'delete contents of temp directory
+                    DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+                Catch
+                    wait(500)
+                    'try again
+                    DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+                End Try
+            Else
+                MkDir(ebookdirectory)
+            End If
+            ChDir(ebookdirectory)
+
+            Try
+                Using zip As ZipFile = ZipFile.Read(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
+                    Dim item As ZipEntry
+                    For Each item In zip
+                        item.Extract()
+                    Next
+                End Using
+            Catch ex1 As Exception
+                Console.Error.WriteLine("exception: {0}", ex1.ToString)
+            End Try
+
+            'Search for .opf file
+            searchResults = Directory.GetFiles(ebookdirectory, "*.opf", SearchOption.AllDirectories)
+
+            'Open .opf file into RichTextBox
+            If searchResults.Length < 1 Then
+                DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ComboBox3.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                Return
+            Else
+                opffile = searchResults(0)
+                If InStr(opffile, "_MACOSX") Then
+                    If searchResults.Length > 1 Then
+                        opffile = searchResults(1)
+                    End If
+                End If
+                opfdirectory = Path.GetDirectoryName(opffile)
+                RichTextBox1.Text = LoadUnicodeFile(opffile)
+            End If
+
+            'Process .opf file to determine EPUB version
+            Dim opffiletext As String
+            Dim packagepos, endpos, versionpos As Integer
+            opffiletext = LoadUnicodeFile(opffile)
+            packagepos = InStr(opffiletext, "<package")
+            If packagepos <> 0 Then
+                endpos = InStr(packagepos, opffiletext, ">")
+                versionpos = InStr(packagepos, opffiletext, "version=")
+                If versionpos < endpos Then
+                    versioninfo = Mid(opffiletext, versionpos + 9, 3)
+                End If
+            End If
+
+            If versioninfo = "3.0" Then
+                ListBox1.Items.Add(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
+                Button10.Enabled = True
+                Button32.Enabled = True
+                Button41.Enabled = True
+            End If
+
+            Application.DoEvents()
+
+        Next
+        ProgressBar1.Value = 0
+        ProgressBar1.Update()
+        ProgressBar1.Visible = False
+        projectchanged = False
+        Button3.Enabled = False
+        ClearInterface()
+        DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+
+        If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+            'delete contents of temp directory
+            DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+        End If
+
+        projectchanged = False
+        CaptionString = "EPUB Metadata Editor"
+        Me.Text = CaptionString
     End Sub
 End Class

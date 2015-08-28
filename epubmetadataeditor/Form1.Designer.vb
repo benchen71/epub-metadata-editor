@@ -171,6 +171,7 @@ Partial Class Form1
         Me.CheckBox11 = New System.Windows.Forms.CheckBox
         Me.CheckBox12 = New System.Windows.Forms.CheckBox
         Me.LinkLabel9 = New System.Windows.Forms.LinkLabel
+        Me.Button44 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1343,7 +1344,7 @@ Partial Class Form1
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.ForeColor = System.Drawing.Color.Red
+        Me.Label25.ForeColor = System.Drawing.Color.Blue
         Me.Label25.Location = New System.Drawing.Point(267, 19)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(58, 17)
@@ -1630,11 +1631,24 @@ Partial Class Form1
         Me.LinkLabel9.TabStop = True
         Me.LinkLabel9.Text = "Field"
         '
+        'Button44
+        '
+        Me.Button44.Enabled = False
+        Me.Button44.Location = New System.Drawing.Point(1149, 53)
+        Me.Button44.Name = "Button44"
+        Me.Button44.Size = New System.Drawing.Size(89, 25)
+        Me.Button44.TabIndex = 66
+        Me.Button44.Text = "Find EPUB3"
+        Me.ToolTip1.SetToolTip(Me.Button44, "Find EPUB3 files (in current folder)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "NOTE: This will replace the contents of the" & _
+                " Batch Operations file list.")
+        Me.Button44.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.Button44)
         Me.Controls.Add(Me.LinkLabel9)
         Me.Controls.Add(Me.CheckBox12)
         Me.Controls.Add(Me.CheckBox11)
@@ -1914,5 +1928,6 @@ Partial Class Form1
     Friend WithEvents CheckBox11 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox12 As System.Windows.Forms.CheckBox
     Friend WithEvents LinkLabel9 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Button44 As System.Windows.Forms.Button
 
 End Class

@@ -7,7 +7,7 @@ Public Class Form2
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         fileeditorreturn = True
-        filecontents = RichTextBox1.Text
+        filecontents = RichTextBox1.Text.Replace("¶", "")
         Me.Hide()
     End Sub
 
@@ -63,6 +63,18 @@ Public Class Form2
         DirectCast(Me.ActiveControl, RichTextBox).Undo()
     End Sub
 
+    Private Sub RichTextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles RichTextBox1.KeyPress
+        If ((e.KeyChar = Chr(13)) And (CheckBox1.Checked)) Then
+            Dim position = RichTextBox1.SelectionStart
+            Dim cnt As Integer = 0
+            For Each c As Char In Mid(RichTextBox1.Text, 1, position)
+                If c = "¶" Then cnt += 1
+            Next
+            CheckBox1.Checked = False
+            RichTextBox1.SelectionStart = position - cnt
+        End If
+    End Sub
+
     Private Sub RichTextBox1_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles RichTextBox1.PreviewKeyDown
         If e.KeyCode = Keys.Tab Then
             e.IsInputKey = True
@@ -70,6 +82,18 @@ Public Class Form2
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        RichTextBox1.Text = Form1.Regularise(RichTextBox1.Text)
+        RichTextBox1.Text = Form1.Regularise(RichTextBox1.Text.Replace("¶", ""))
+        If CheckBox1.Checked Then
+            RichTextBox1.Text = RichTextBox1.Text.Replace(Chr(10), "¶" + Chr(10))
+        End If
     End Sub
+
+    Private Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked Then
+            RichTextBox1.Text = RichTextBox1.Text.Replace(Chr(10), "¶" + Chr(10))
+        Else
+            RichTextBox1.Text = RichTextBox1.Text.Replace("¶", "")
+        End If
+    End Sub
+
 End Class
