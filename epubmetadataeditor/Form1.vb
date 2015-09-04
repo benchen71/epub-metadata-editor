@@ -1598,29 +1598,33 @@ exitsub:
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         ProtectClipboard()
-        If projectchanged Then
-            DialogResult = Dialog1.ShowDialog
-            If DialogResult = Windows.Forms.DialogResult.No Then
-                ChDir(tempdirectory)
-                If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        Try
+            If projectchanged Then
+                DialogResult = Dialog1.ShowDialog
+                If DialogResult = Windows.Forms.DialogResult.No Then
+                    ChDir(tempdirectory)
+                    If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    End If
+                    End
+                ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
+                    SaveEpub(OpenFileDialog1.FileName)
+                    ChDir(tempdirectory)
+                    If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    End If
+                    End
                 End If
-                End
-            ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub(OpenFileDialog1.FileName)
+            Else
                 ChDir(tempdirectory)
                 If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
                     My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
                 End If
                 End
             End If
-        Else
-            ChDir(tempdirectory)
-            If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
+        Catch ex As Exception
             End
-        End If
+        End Try
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -2431,6 +2435,8 @@ errortext:
         filecontents = ""
         Form2.Button3.Visible = True
         Form2.Button4.Visible = True
+        Form2.Button5.Visible = True
+        Form2.CheckBox2.Visible = True
         Form2.RichTextBox1.Text = LoadUnicodeFile(opffile)
         Form2.ShowDialog()
         If fileeditorreturn = True Then
@@ -2450,6 +2456,8 @@ errortext:
             refreshfilelist = False
         End If
         Form2.Button4.Visible = False
+        Form2.Button5.Visible = False
+        Form2.CheckBox2.Visible = False
     End Sub
 
     Private Sub Button20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button20.Click
