@@ -1,2 +1,4 @@
-1.4.4
-[*] Added "Remove <meta /> tags" button to OPF file editor.
+1.4.5
+[*] Added Find capability to File edit window (button and CTRL-F activation).
+[*] "View File" button now shows html and xhtml files at the same time.
+[*] Fixed a bug whereby saved EPUBs were failing ePubCheck because of mimetype error.

@@ -3779,6 +3779,8 @@ outputsource:
         Using zip As ZipOutputStream = New ZipOutputStream(EpubFileName)
             'Add mimetype file first
             zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
+            zip.Encryption = EncryptionAlgorithm.None
+            zip.CompressionMethod = CompressionMethod.None
             zip.PutNextEntry("mimetype")
             Dim buffer As Byte() = New Byte(2048) {}
             buffer = System.Text.Encoding.ASCII.GetBytes("application/epub+zip")
@@ -3786,6 +3788,7 @@ outputsource:
 
             'Add all other files next
             zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
+            zip.CompressionMethod = CompressionMethod.BZip2
             AddDirectoryToZip(zip, ebookdirectory)
         End Using
 
@@ -4599,7 +4602,7 @@ errortext:
     End Sub
 
     Private Sub Button33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button33.Click
-        OpenFileDialog5.Filter = "HTML files (*.html)|*.html|XHTML files (*.xhtml)|*.xhtml"
+        OpenFileDialog5.Filter = "(X)HTML files|*.html;*.xhtml"
         OpenFileDialog5.FilterIndex = 1
         OpenFileDialog5.FileName = ""
         OpenFileDialog5.InitialDirectory = ebookdirectory

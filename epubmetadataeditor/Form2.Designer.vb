@@ -40,7 +40,15 @@ Partial Class Form2
         Me.CheckBox1 = New System.Windows.Forms.CheckBox
         Me.Button5 = New System.Windows.Forms.Button
         Me.CheckBox2 = New System.Windows.Forms.CheckBox
+        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Button8 = New System.Windows.Forms.Button
+        Me.Button7 = New System.Windows.Forms.Button
+        Me.txtSearch = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Button6 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'RichTextBox1
@@ -139,7 +147,7 @@ Partial Class Form2
         '
         Me.CheckBox1.Appearance = System.Windows.Forms.Appearance.Button
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(608, 585)
+        Me.CheckBox1.Location = New System.Drawing.Point(597, 585)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(23, 23)
         Me.CheckBox1.TabIndex = 5
@@ -169,17 +177,86 @@ Partial Class Form2
         Me.CheckBox2.UseVisualStyleBackColor = True
         Me.CheckBox2.Visible = False
         '
+        'Panel1
+        '
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.Label2)
+        Me.Panel1.Controls.Add(Me.Button8)
+        Me.Panel1.Controls.Add(Me.Button7)
+        Me.Panel1.Controls.Add(Me.txtSearch)
+        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Location = New System.Drawing.Point(479, 527)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(260, 40)
+        Me.Panel1.TabIndex = 13
+        Me.Panel1.Visible = False
+        '
+        'Label2
+        '
+        Me.Label2.Location = New System.Drawing.Point(107, 1)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(96, 13)
+        Me.Label2.TabIndex = 4
+        Me.Label2.Text = "Label2"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.Label2.Visible = False
+        '
+        'Button8
+        '
+        Me.Button8.Image = Global.EPubMetadataEditor.My.Resources.Resources.close
+        Me.Button8.Location = New System.Drawing.Point(245, -1)
+        Me.Button8.Name = "Button8"
+        Me.Button8.Size = New System.Drawing.Size(14, 14)
+        Me.Button8.TabIndex = 3
+        Me.Button8.UseVisualStyleBackColor = True
+        '
+        'Button7
+        '
+        Me.Button7.Location = New System.Drawing.Point(206, 13)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(50, 22)
+        Me.Button7.TabIndex = 2
+        Me.Button7.Text = "Go"
+        Me.Button7.UseVisualStyleBackColor = True
+        '
+        'txtSearch
+        '
+        Me.txtSearch.Location = New System.Drawing.Point(3, 14)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(200, 20)
+        Me.txtSearch.TabIndex = 1
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(1, 1)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(30, 13)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Find:"
+        '
+        'Button6
+        '
+        Me.Button6.Image = Global.EPubMetadataEditor.My.Resources.Resources.search
+        Me.Button6.Location = New System.Drawing.Point(620, 585)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(23, 23)
+        Me.Button6.TabIndex = 12
+        Me.Button6.UseVisualStyleBackColor = True
+        '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(776, 627)
+        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.CheckBox2)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button4)
-        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.RichTextBox1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
@@ -189,6 +266,8 @@ Partial Class Form2
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.Text = "EPUB Metadata Editor - File Editor"
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -209,4 +288,11 @@ Partial Class Form2
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents Button5 As System.Windows.Forms.Button
     Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
+    Friend WithEvents Button6 As System.Windows.Forms.Button
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Button7 As System.Windows.Forms.Button
+    Friend WithEvents txtSearch As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Button8 As System.Windows.Forms.Button
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 End Class
