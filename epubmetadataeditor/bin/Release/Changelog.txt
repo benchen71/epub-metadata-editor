@@ -1,4 +1,2 @@
-1.4.5
-[*] Added Find capability to File edit window (button and CTRL-F activation).
-[*] "View File" button now shows html and xhtml files at the same time.
-[*] Fixed a bug whereby saved EPUBs were failing ePubCheck because of mimetype error.
+1.4.6
+[*] Changed compression method so epubs open in ADE, etc.

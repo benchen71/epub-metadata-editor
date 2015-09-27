@@ -3788,7 +3788,7 @@ outputsource:
 
             'Add all other files next
             zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
-            zip.CompressionMethod = CompressionMethod.BZip2
+            zip.CompressionMethod = CompressionMethod.Deflate
             AddDirectoryToZip(zip, ebookdirectory)
         End Using
 
