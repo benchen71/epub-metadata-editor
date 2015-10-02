@@ -2,6 +2,8 @@ Public Class Form2
     Dim start As Integer
     Dim indexOfSearchText As Integer = 0
     Dim newsearch As Boolean = True
+    Dim mytempfile As String
+
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         fileeditorreturn = False
         Me.Close()
@@ -270,6 +272,8 @@ Public Class Form2
         newsearch = True
         Panel1.Visible = False
         Label2.Visible = False
+        If (System.IO.File.Exists(mytempfile)) Then System.IO.File.Delete(mytempfile)
+        Form6.Button7.Visible = False
     End Sub
 
     Private Sub Form2_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
@@ -329,6 +333,26 @@ Public Class Form2
     End Sub
 
     Private Sub Button7_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Button7.KeyUp
+        If e.Modifiers = Keys.Control Then
+            If e.KeyCode = Keys.F Then
+                Button6_Click(sender, e)
+            End If
+        End If
+    End Sub
+
+    Public Sub Button9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button9.Click
+        If (System.IO.File.Exists(mytempfile)) Then System.IO.File.Delete(mytempfile)
+        mytempfile = IO.Path.GetDirectoryName(Form1.OpenFileDialog5.FileName) + "\mytempfile" + IO.Path.GetFileName(Form1.OpenFileDialog5.FileName)
+        Form1.SaveUnicodeFile(mytempfile, RichTextBox1.Text)
+        Dim myuri As New Uri(mytempfile)
+        Form6.WebBrowser1.Url = myuri
+        Form6.WebBrowser1.Refresh()
+        Form6.Button7.Visible = True
+        Form6.Text = "EPUB Metadata Editor - Preview of " + IO.Path.GetFileName(Form1.OpenFileDialog5.FileName)
+        Form6.Show()
+    End Sub
+
+    Private Sub Button9_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Button9.KeyUp
         If e.Modifiers = Keys.Control Then
             If e.KeyCode = Keys.F Then
                 Button6_Click(sender, e)

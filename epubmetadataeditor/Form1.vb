@@ -222,7 +222,7 @@ Public Class Form1
         End Try
         Return UnicodeText
     End Function
-    Private Sub SaveUnicodeFile(ByVal filename, ByVal UnicodeText)
+    Public Sub SaveUnicodeFile(ByVal filename, ByVal UnicodeText)
         Dim sw As StreamWriter
         Try
             sw = New StreamWriter(filename, False)
@@ -390,6 +390,7 @@ lookforpagemap:
 
         Button26.Enabled = True
         Button33.Enabled = True
+        Button43.Enabled = True
 
         'Extract metadata into textboxes
         metadatafile = LoadUnicodeFile(opffile)
@@ -470,6 +471,7 @@ lookforpagemap:
             Button23.Enabled = False
             Button24.Enabled = False
             Button26.Enabled = False
+            Button33.Enabled = False
             Button33.Enabled = False
             ClearInterface()
             CaptionString = IO.Path.GetFileName(OpenFileDialog1.FileName) + " [" + currentfilenumber.ToString + "/" + searchResults.Length.ToString + "] - EPUB Metadata Editor"
@@ -2436,6 +2438,7 @@ errortext:
         Form2.Button3.Visible = True
         Form2.Button4.Visible = True
         Form2.Button5.Visible = True
+        Form2.Button9.Visible = False
         Form2.CheckBox2.Visible = True
         Form2.RichTextBox1.Text = LoadUnicodeFile(opffile)
         Form2.ShowDialog()
@@ -2464,6 +2467,7 @@ errortext:
         fileeditorreturn = False
         filecontents = ""
         Form2.Button3.Visible = False
+        Form2.Button9.Visible = False
         Form2.RichTextBox1.Text = LoadUnicodeFile(tocfile)
         Form2.ShowDialog()
         If fileeditorreturn = True Then
@@ -2498,7 +2502,8 @@ errortext:
     Private Sub Button24_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button24.Click
         fileeditorreturn = False
         filecontents = ""
-        Form2.Button3.Visible = True
+        Form2.Button3.Visible = False
+        Form2.Button9.Visible = False
         Form2.RichTextBox1.LoadFile(pagemapfile, RichTextBoxStreamType.PlainText)
         Form2.ShowDialog()
         If fileeditorreturn = True Then
@@ -3860,7 +3865,17 @@ outputsource:
         If OpenFileDialog5.ShowDialog = Windows.Forms.DialogResult.OK Then
             fileeditorreturn = False
             filecontents = ""
-            Form2.Button3.Visible = True
+            Dim fileextension = System.IO.Path.GetExtension(OpenFileDialog5.FileName).ToLower
+            If ((fileextension = ".xhtml") Or (fileextension = ".html")) Then
+                Form2.Button9.Visible = True
+            Else
+                Form2.Button9.Visible = False
+            End If
+            If (fileextension = ".opf") Then
+                Form2.Button3.Visible = True
+            Else
+                Form2.Button3.Visible = False
+            End If
             Form2.RichTextBox1.Text = LoadUnicodeFile(OpenFileDialog5.FileName)
             Form2.ShowDialog()
             If fileeditorreturn = True Then
@@ -4758,6 +4773,7 @@ errortext:
         fileeditorreturn = False
         filecontents = ""
         Form2.Button3.Visible = False
+        Form2.Button9.Visible = False
         Form2.RichTextBox1.Text = LoadUnicodeFile(tocncxfile)
         Form2.ShowDialog()
         If fileeditorreturn = True Then
@@ -5443,5 +5459,9 @@ errortext:
         projectchanged = False
         CaptionString = "EPUB Metadata Editor"
         Me.Text = CaptionString
+    End Sub
+
+    Private Sub Button43_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button43.Click
+        Process.Start(ebookdirectory)
     End Sub
 End Class

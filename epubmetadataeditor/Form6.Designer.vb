@@ -22,8 +22,11 @@ Partial Class Form6
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form6))
         Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
+        Me.Button7 = New System.Windows.Forms.Button
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'WebBrowser1
@@ -38,11 +41,24 @@ Partial Class Form6
         Me.WebBrowser1.TabIndex = 0
         Me.WebBrowser1.WebBrowserShortcutsEnabled = False
         '
+        'Button7
+        '
+        Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button7.Image = CType(resources.GetObject("Button7.Image"), System.Drawing.Image)
+        Me.Button7.Location = New System.Drawing.Point(833, 12)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(33, 35)
+        Me.Button7.TabIndex = 39
+        Me.ToolTip1.SetToolTip(Me.Button7, "Refresh")
+        Me.Button7.UseVisualStyleBackColor = True
+        Me.Button7.Visible = False
+        '
         'Form6
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(897, 612)
+        Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.WebBrowser1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form6"
@@ -51,4 +67,6 @@ Partial Class Form6
 
     End Sub
     Friend WithEvents WebBrowser1 As System.Windows.Forms.WebBrowser
+    Friend WithEvents Button7 As System.Windows.Forms.Button
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 End Class

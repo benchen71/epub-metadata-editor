@@ -47,6 +47,7 @@ Partial Class Form2
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.Button6 = New System.Windows.Forms.Button
+        Me.Button9 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -120,7 +121,7 @@ Partial Class Form2
         Me.Button2.Location = New System.Drawing.Point(644, 582)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(117, 28)
-        Me.Button2.TabIndex = 10
+        Me.Button2.TabIndex = 8
         Me.Button2.Text = "Cancel"
         Me.Button2.UseVisualStyleBackColor = True
         '
@@ -150,7 +151,7 @@ Partial Class Form2
         Me.CheckBox1.Location = New System.Drawing.Point(597, 585)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(23, 23)
-        Me.CheckBox1.TabIndex = 5
+        Me.CheckBox1.TabIndex = 6
         Me.CheckBox1.Text = "¶"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
@@ -172,7 +173,7 @@ Partial Class Form2
         Me.CheckBox2.Location = New System.Drawing.Point(470, 610)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(99, 17)
-        Me.CheckBox2.TabIndex = 11
+        Me.CheckBox2.TabIndex = 5
         Me.CheckBox2.Text = "Keep cover tag"
         Me.CheckBox2.UseVisualStyleBackColor = True
         Me.CheckBox2.Visible = False
@@ -215,7 +216,7 @@ Partial Class Form2
         Me.Button7.Location = New System.Drawing.Point(206, 13)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(50, 22)
-        Me.Button7.TabIndex = 2
+        Me.Button7.TabIndex = 11
         Me.Button7.Text = "Go"
         Me.Button7.UseVisualStyleBackColor = True
         '
@@ -224,7 +225,7 @@ Partial Class Form2
         Me.txtSearch.Location = New System.Drawing.Point(3, 14)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.Size = New System.Drawing.Size(200, 20)
-        Me.txtSearch.TabIndex = 1
+        Me.txtSearch.TabIndex = 10
         '
         'Label1
         '
@@ -241,14 +242,25 @@ Partial Class Form2
         Me.Button6.Location = New System.Drawing.Point(620, 585)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(23, 23)
-        Me.Button6.TabIndex = 12
+        Me.Button6.TabIndex = 7
         Me.Button6.UseVisualStyleBackColor = True
+        '
+        'Button9
+        '
+        Me.Button9.Location = New System.Drawing.Point(135, 582)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(117, 28)
+        Me.Button9.TabIndex = 2
+        Me.Button9.Text = "Preview"
+        Me.Button9.UseVisualStyleBackColor = True
+        Me.Button9.Visible = False
         '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(776, 627)
+        Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.CheckBox2)
@@ -295,4 +307,5 @@ Partial Class Form2
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Button8 As System.Windows.Forms.Button
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Button9 As System.Windows.Forms.Button
 End Class
