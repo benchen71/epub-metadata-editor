@@ -1,3 +1,2 @@
-1.4.7
-[*] Added "Preview" button when editing (x)html files.
-[*] Added "Show EPUB contents in Windows Explorer" button.
+1.4.8
+[*] "Show EPUB contents in Windows Explorer" button was not visible.
