@@ -1,2 +1,2 @@
-1.4.8
-[*] "Show EPUB contents in Windows Explorer" button was not visible.
+1.4.9
+[*] Removed margins/padding in description box.

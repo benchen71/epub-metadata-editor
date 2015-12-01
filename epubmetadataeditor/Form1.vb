@@ -788,7 +788,7 @@ skipsecondcreator:
                         TextBox4.Text = TextBox4.Text.Replace("<![CDATA[", "")
                         TextBox4.Text = TextBox4.Text.Replace("]]>", "")
                         Application.DoEvents()
-                        WebBrowser1.DocumentText = TextBox4.Text.Replace(Chr(10), "<br>")
+                        WebBrowser1.DocumentText = "<head><style type=" + Chr(34) + "text/css" + Chr(34) + ">" + "body {margin:0;padding:0}" + "</style></head>" + TextBox4.Text.Replace(Chr(10), "<br>")
                         WebBrowser1.Visible = True
                     End If
                 End If
@@ -5089,7 +5089,7 @@ errortext:
 
     Private Sub Button38_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button38.Click
         If (WebBrowser1.Visible = False) Then
-            WebBrowser1.DocumentText = TextBox4.Text.Replace(Chr(10), "<br>")
+            WebBrowser1.DocumentText = "<head><style type=" + Chr(34) + "text/css" + Chr(34) + ">" + "body {margin:0;padding:0}" + "</style></head>" + TextBox4.Text.Replace(Chr(10), "<br>")
             WebBrowser1.Visible = True
             Button38.Text = "E"
             ToolTip1.SetToolTip(Button38, "Edit Description")
