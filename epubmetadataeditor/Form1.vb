@@ -398,6 +398,7 @@ lookforpagemap:
 
         'Process current folder to locate other EPUB files
         searchResults = Directory.GetFiles(IO.Path.GetDirectoryName(OpenFileDialog1.FileName), "*.epub", SearchOption.TopDirectoryOnly)
+        Array.Sort(searchResults)
         refreshfilelist = True
         ComboBox3.Items.Clear()
         Dim fi As String
@@ -577,7 +578,7 @@ lookforpagemap:
 
                         If idinfo = "" Then idinfo = "creator"
 
-                        temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
+                        temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                         While temppos <> 0
                             endheaderpos = InStr(temppos, metadatafile, ">")
                             startheaderpos = InStrRev(metadatafile, "<", temppos)
@@ -605,7 +606,7 @@ lookforpagemap:
                                     End If
                                 End If
                             End If
-                            temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
+                            temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                         End While
                     Else
                         'Get optional attributes
@@ -678,7 +679,7 @@ lookforpagemap:
                         End If
 
                         If idinfo <> "" Then
-                            temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
+                            temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                             While temppos <> 0
                                 endheaderpos = InStr(temppos, metadatafile, ">")
                                 startheaderpos = InStrRev(metadatafile, "<", temppos)
@@ -706,7 +707,7 @@ lookforpagemap:
                                         End If
                                     End If
                                 End If
-                                temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
+                                temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                             End While
                         End If
                     Else
@@ -2991,7 +2992,7 @@ errortext:
             End If
             lenheader = Len("<dc:creator")
             If versioninfo = "3.0" Then
-                metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
+                'metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                 ' get id
                 idpos = InStr(startpos, metadatafile, "id=")
                 idinfo = ""
@@ -3004,11 +3005,11 @@ errortext:
                             End If
                         Next
                     Else
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                         idinfo = "creator"
                     End If
                 Else
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                     idinfo = "creator"
                 End If
 lookforrefines:
@@ -5138,9 +5139,15 @@ errortext:
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
+        If ListBox1.SelectedItem = Nothing Then
+            Exit Sub
+        End If
+
         Dim metadatafile As String
         Button39.Enabled = True
         Button40.Enabled = True
+        Button45.Enabled = True
+
         ' Load EPUB metadata
         ' open file
         'Unzip epub to temp directory
@@ -5172,6 +5179,7 @@ errortext:
             End Using
         Catch ex1 As Exception
             Console.Error.WriteLine("exception: {0}", ex1.ToString)
+            Exit Sub
         End Try
 
         'Search for .opf file
@@ -5463,5 +5471,12 @@ errortext:
 
     Private Sub Button43_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button43.Click
         Process.Start(ebookdirectory)
+    End Sub
+
+    Private Sub Button45_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button45.Click
+        If ListBox1.SelectedIndex >= 0 Then
+            ListBox1.Items.RemoveAt(ListBox1.SelectedIndex)
+            ClearInterface()
+        End If
     End Sub
 End Class

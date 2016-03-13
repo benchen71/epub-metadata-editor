@@ -1,2 +1,6 @@
-1.4.9
-[*] Removed margins/padding in description box.
+1.4.10
+[*] Drop down menu of EPUBs in current folder now sorted
+[*] Added "Delete selected item" button to Batch Operations file list
+[*] Better handle selection errors when using Batch Operations file list
+[*] Fix for bug while saving creator information in EPUB3.
+[*] Fix for second creator information appearing as part of first creator in EPUB3.

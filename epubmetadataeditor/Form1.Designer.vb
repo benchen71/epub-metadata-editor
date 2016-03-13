@@ -173,6 +173,7 @@ Partial Class Form1
         Me.CheckBox12 = New System.Windows.Forms.CheckBox
         Me.LinkLabel9 = New System.Windows.Forms.LinkLabel
         Me.Button43 = New System.Windows.Forms.Button
+        Me.Button45 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -545,10 +546,10 @@ Partial Class Form1
         Me.Button41.Enabled = False
         Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button41.Location = New System.Drawing.Point(1215, 378)
+        Me.Button41.Location = New System.Drawing.Point(1213, 378)
         Me.Button41.Name = "Button41"
         Me.Button41.Size = New System.Drawing.Size(26, 20)
-        Me.Button41.TabIndex = 88
+        Me.Button41.TabIndex = 89
         Me.Button41.Text = "S"
         Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
@@ -695,7 +696,7 @@ Partial Class Form1
         Me.Button39.Enabled = False
         Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
-        Me.Button39.Location = New System.Drawing.Point(1212, 252)
+        Me.Button39.Location = New System.Drawing.Point(1213, 252)
         Me.Button39.Name = "Button39"
         Me.Button39.Size = New System.Drawing.Size(26, 20)
         Me.Button39.TabIndex = 86
@@ -1654,11 +1655,24 @@ Partial Class Form1
         Me.Button43.Text = "Show EPUB contents in Windows Explorer"
         Me.Button43.UseVisualStyleBackColor = True
         '
+        'Button45
+        '
+        Me.Button45.Enabled = False
+        Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
+        Me.Button45.Location = New System.Drawing.Point(1213, 352)
+        Me.Button45.Name = "Button45"
+        Me.Button45.Size = New System.Drawing.Size(26, 20)
+        Me.Button45.TabIndex = 88
+        Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
+        Me.Button45.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.Button45)
         Me.Controls.Add(Me.Button43)
         Me.Controls.Add(Me.Button44)
         Me.Controls.Add(Me.LinkLabel9)
@@ -1942,5 +1956,6 @@ Partial Class Form1
     Friend WithEvents LinkLabel9 As System.Windows.Forms.LinkLabel
     Friend WithEvents Button44 As System.Windows.Forms.Button
     Friend WithEvents Button43 As System.Windows.Forms.Button
+    Friend WithEvents Button45 As System.Windows.Forms.Button
 
 End Class
