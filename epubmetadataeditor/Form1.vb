@@ -2794,30 +2794,9 @@ errortext:
     Private Sub CheckBox4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox4.CheckedChanged
         If CheckBox4.Checked = True Then CheckBox1.Checked = False
     End Sub
-
-    Private Sub SaveEpub(ByVal EpubFileName As String)
-        Dim metadatafile, dcnamespace, optionaltext, optionaltext2 As String
-        Dim startpos, namespacelen, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
-        Dim temporarydirectory, newheader, ID As String
-        Dim idpos, temploop, temppos, startheaderpos, endheaderpos, refinespos, testpos, extrachars As Integer
-        Dim idinfo, rolestring, identifierscheme, temptext As String
-        Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
-
-        Dim fi As New FileInfo(EpubFileName)
-
-        If fi.IsReadOnly Then
-            MsgBox("ERROR: File is read-only!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
-            Exit Sub
-        End If
-
-        If FileInUse(fi.FullName) Then
-            MsgBox("ERROR: File in use!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
-            Exit Sub
-        End If
-
-        'Rewrite .opf file (just the metadata section)
-        RichTextBox1.Text = LoadUnicodeFile(opffile)
-        metadatafile = LoadUnicodeFile(opffile)
+    Private Function CleanOPF(ByVal metadatafile As String) As String
+        Dim dcnamespace As String
+        Dim startpos, namespacelen, endpos, extracheck, temppos As Integer
 
         'Check for corrupted xml first line
         endpos = InStr(metadatafile, Chr(10))
@@ -2829,7 +2808,7 @@ errortext:
 
         'Check for non-standard dc namespace tags
         startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
-        If startpos <> 0 Then
+        If ((startpos <> 0) And (startpos < endpos)) Then
             ' work backwards to find the xmlns definition
             namespacelen = 0
             While (startpos - namespacelen <> 0)
@@ -2843,6 +2822,8 @@ errortext:
                 metadatafile = metadatafile.Replace(dcnamespace + ":", "dc:")
                 metadatafile = metadatafile.Replace("xmlns:" + dcnamespace, "xmlns:dc")
             End If
+        Else
+            metadatafile = metadatafile.Replace(" xmlns=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
         End If
 
         'Check for non-standard opf namespace tags
@@ -2887,6 +2868,32 @@ errortext:
             startpos = InStr(startpos, metadatafile, ">") - 1
             metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34) + Mid(metadatafile, startpos + 1)
         End If
+
+        Return metadatafile
+    End Function
+    Private Sub SaveEpub(ByVal EpubFileName As String)
+        Dim metadatafile, optionaltext, optionaltext2 As String
+        Dim startpos, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
+        Dim temporarydirectory, newheader, ID As String
+        Dim idpos, temploop, temppos, startheaderpos, endheaderpos, refinespos, testpos, extrachars As Integer
+        Dim idinfo, rolestring, identifierscheme, temptext As String
+        Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
+
+        Dim fi As New FileInfo(EpubFileName)
+
+        If fi.IsReadOnly Then
+            MsgBox("ERROR: File is read-only!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
+            Exit Sub
+        End If
+
+        If FileInUse(fi.FullName) Then
+            MsgBox("ERROR: File in use!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
+            Exit Sub
+        End If
+
+        RichTextBox1.Text = LoadUnicodeFile(opffile)
+        metadatafile = LoadUnicodeFile(opffile)
+        metadatafile = CleanOPF(metadatafile)
 
         'Output title
         startpos = InStr(metadatafile, "<dc:title")
@@ -5347,6 +5354,13 @@ errortext:
     End Sub
 
     Private Sub Button42_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button42.Click
+        Dim metadatafile As String
+
+        metadatafile = LoadUnicodeFile(opffile)
+        metadatafile = CleanOPF(metadatafile)
+        metadatafile = Regularise(metadatafile)
+        SaveUnicodeFile(opffile, metadatafile)
+
         If Button35.Visible Then
             Button35_Click(sender, e)
         End If
