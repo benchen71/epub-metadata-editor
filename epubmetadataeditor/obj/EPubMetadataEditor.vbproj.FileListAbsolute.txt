@@ -456,3 +456,7 @@ C:\Users\Ben\Ben\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Re
 C:\Users\Ben\Ben\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.vbproj.GenerateResource.Cache
 L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form7.resources
 L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form7.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form8.resources
+L:\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form8.resources
+C:\Users\Ben\Ben\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form8.resources
+C:\Users\Ben\Ben\Source Code\VB2005\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form8.resources

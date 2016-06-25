@@ -95,6 +95,7 @@ Partial Class Form1
         Me.Button5 = New System.Windows.Forms.Button
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Button44 = New System.Windows.Forms.Button
+        Me.Button45 = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -173,7 +174,6 @@ Partial Class Form1
         Me.CheckBox12 = New System.Windows.Forms.CheckBox
         Me.LinkLabel9 = New System.Windows.Forms.LinkLabel
         Me.Button43 = New System.Windows.Forms.Button
-        Me.Button45 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -851,14 +851,26 @@ Partial Class Form1
         'Button44
         '
         Me.Button44.Enabled = False
-        Me.Button44.Location = New System.Drawing.Point(1149, 53)
+        Me.Button44.Location = New System.Drawing.Point(1115, 53)
         Me.Button44.Name = "Button44"
-        Me.Button44.Size = New System.Drawing.Size(89, 25)
+        Me.Button44.Size = New System.Drawing.Size(123, 25)
         Me.Button44.TabIndex = 66
-        Me.Button44.Text = "Find EPUB3"
-        Me.ToolTip1.SetToolTip(Me.Button44, "Find EPUB3 files (in current folder)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "NOTE: This will replace the contents of the" & _
-                " Batch Operations file list.")
+        Me.Button44.Text = "Find in current folder..."
+        Me.ToolTip1.SetToolTip(Me.Button44, "Find files (in current folder)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "NOTE: This will replace the contents of the Batch" & _
+                " Operations file list.")
         Me.Button44.UseVisualStyleBackColor = True
+        '
+        'Button45
+        '
+        Me.Button45.Enabled = False
+        Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
+        Me.Button45.Location = New System.Drawing.Point(1213, 352)
+        Me.Button45.Name = "Button45"
+        Me.Button45.Size = New System.Drawing.Size(26, 20)
+        Me.Button45.TabIndex = 88
+        Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
+        Me.Button45.UseVisualStyleBackColor = True
         '
         'Label4
         '
@@ -1654,18 +1666,6 @@ Partial Class Form1
         Me.Button43.TabIndex = 96
         Me.Button43.Text = "Show EPUB contents in Windows Explorer"
         Me.Button43.UseVisualStyleBackColor = True
-        '
-        'Button45
-        '
-        Me.Button45.Enabled = False
-        Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
-        Me.Button45.Location = New System.Drawing.Point(1213, 352)
-        Me.Button45.Name = "Button45"
-        Me.Button45.Size = New System.Drawing.Size(26, 20)
-        Me.Button45.TabIndex = 88
-        Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
-        Me.Button45.UseVisualStyleBackColor = True
         '
         'Form1
         '

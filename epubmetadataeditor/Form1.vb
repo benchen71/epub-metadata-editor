@@ -2894,6 +2894,7 @@ errortext:
         RichTextBox1.Text = LoadUnicodeFile(opffile)
         metadatafile = LoadUnicodeFile(opffile)
         metadatafile = CleanOPF(metadatafile)
+        metadatafile = Regularise(metadatafile)
 
         'Output title
         startpos = InStr(metadatafile, "<dc:title")
@@ -3474,7 +3475,7 @@ lookforrefines2:
                     metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + temptext + "</dc:subject>")
                 Else
                     endpos = InStr(metadatafile, "</dc:title>")
-                    metadatafile = Mid(metadatafile, 1, endpos + 11) + Chr(9) + Chr(9) + "<dc:subject>" + temptext + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 12)
+                    metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(9) + Chr(9) + "<dc:subject>" + temptext + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
                 End If
             Else
                 metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + temptext + "</dc:subject>")
@@ -3843,6 +3844,9 @@ outputsource:
         metadatatext = metadatatext.Replace(Chr(9), "")
         While (metadatatext.Contains("> "))
             metadatatext = metadatatext.Replace("> ", ">")
+        End While
+        While (metadatatext.Contains("< "))
+            metadatatext = metadatatext.Replace("< ", "<")
         End While
 
         ' add stuff back
@@ -5379,6 +5383,9 @@ errortext:
     End Sub
 
     Private Sub Button44_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button44.Click
+        Form8.ShowDialog()
+    End Sub
+    Public Sub FindFilesInCurrentFolder()
         Dim filenum, x As Integer
 
         tempdirectory = System.IO.Path.GetTempPath
@@ -5442,24 +5449,96 @@ errortext:
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
             End If
 
-            'Process .opf file to determine EPUB version
-            Dim opffiletext As String
-            Dim packagepos, endpos, versionpos As Integer
-            opffiletext = LoadUnicodeFile(opffile)
-            packagepos = InStr(opffiletext, "<package")
-            If packagepos <> 0 Then
-                endpos = InStr(packagepos, opffiletext, ">")
-                versionpos = InStr(packagepos, opffiletext, "version=")
-                If versionpos < endpos Then
-                    versioninfo = Mid(opffiletext, versionpos + 9, 3)
+            If Form8.RadioButton1.Checked Then
+                'Process .opf file to determine EPUB version
+                Dim opffiletext As String
+                Dim packagepos, endpos, versionpos As Integer
+                opffiletext = LoadUnicodeFile(opffile)
+                packagepos = InStr(opffiletext, "<package")
+                If packagepos <> 0 Then
+                    endpos = InStr(packagepos, opffiletext, ">")
+                    versionpos = InStr(packagepos, opffiletext, "version=")
+                    If versionpos < endpos Then
+                        versioninfo = Mid(opffiletext, versionpos + 9, 3)
+                    End If
                 End If
-            End If
 
-            If versioninfo = "3.0" Then
-                ListBox1.Items.Add(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
-                Button10.Enabled = True
-                Button32.Enabled = True
-                Button41.Enabled = True
+                If versioninfo = "3.0" Then
+                    ListBox1.Items.Add(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
+                    Button10.Enabled = True
+                    Button32.Enabled = True
+                    Button41.Enabled = True
+                End If
+            ElseIf Form8.RadioButton2.Checked Then
+                'Look for << and >> in OPF file
+                Dim opffiletext As String
+                opffiletext = LoadUnicodeFile(opffile)
+                ' delete whitespace
+                opffiletext = opffiletext.Replace(Chr(13), "")
+                opffiletext = opffiletext.Replace(Chr(10), "")
+                opffiletext = opffiletext.Replace(Chr(9), "")
+                While (opffiletext.Contains("> "))
+                    opffiletext = opffiletext.Replace("> ", ">")
+                End While
+                While (opffiletext.Contains("< "))
+                    opffiletext = opffiletext.Replace("< ", "<")
+                End While
+
+                If ((opffiletext.Contains(">>")) Or (opffiletext.Contains("<<"))) Then
+                    ListBox1.Items.Add(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
+                    If Form8.CheckBox1.Checked Then
+                        'fix file
+                        opffiletext = opffiletext.Replace(">>", ">")
+                        opffiletext = opffiletext.Replace("<<", "<")
+                        opffiletext = Regularise(opffiletext)
+
+                        'save opf file
+                        SaveUnicodeFile(opffile, opffiletext)
+
+                        'save EPUB file
+                        Dim EPUBfilename As String
+                        EPUBfilename = Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1)
+                        Dim fi As New FileInfo(EPUBfilename)
+
+                        'Zip temp directory (after deleting original file)
+                        fi.Delete()
+
+                        'Delete mimetype file
+                        Dim temporarydirectory = CurDir()
+                        ChDir(ebookdirectory)
+                        IO.File.Delete("mimetype")
+                        ChDir(temporarydirectory)
+
+                        Using zip As ZipOutputStream = New ZipOutputStream(EPUBfilename)
+                            'Add mimetype file first
+                            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
+                            zip.Encryption = EncryptionAlgorithm.None
+                            zip.CompressionMethod = CompressionMethod.None
+                            zip.PutNextEntry("mimetype")
+                            Dim buffer As Byte() = New Byte(2048) {}
+                            buffer = System.Text.Encoding.ASCII.GetBytes("application/epub+zip")
+                            zip.Write(buffer, 0, buffer.Length)
+
+                            'Add all other files next
+                            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
+                            zip.CompressionMethod = CompressionMethod.Deflate
+                            AddDirectoryToZip(zip, ebookdirectory)
+                        End Using
+                    End If
+                    Button10.Enabled = True
+                    Button32.Enabled = True
+                    Button41.Enabled = True
+                End If
+            ElseIf Form8.RadioButton3.Checked Then
+                'Look for text in OPF file
+                Dim opffiletext As String
+                opffiletext = LoadUnicodeFile(opffile)
+                If (opffiletext.Contains(Form8.TextBox1.Text)) Then
+                    ListBox1.Items.Add(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
+                    Button10.Enabled = True
+                    Button32.Enabled = True
+                    Button41.Enabled = True
+                End If
             End If
 
             Application.DoEvents()
@@ -5482,7 +5561,6 @@ errortext:
         CaptionString = "EPUB Metadata Editor"
         Me.Text = CaptionString
     End Sub
-
     Private Sub Button43_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button43.Click
         Process.Start(ebookdirectory)
     End Sub
