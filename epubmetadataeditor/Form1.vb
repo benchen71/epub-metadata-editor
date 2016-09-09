@@ -145,7 +145,7 @@ Public Class Form1
                             Exit Sub
                         End If
                         If DialogResult = Windows.Forms.DialogResult.Yes Then
-                            SaveEpub(OpenFileDialog1.FileName)
+                            SaveEpub(OpenFileDialog1.FileName, False)
                         End If
                     End If
 
@@ -192,7 +192,7 @@ Public Class Form1
                 End If
                 End
             ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub(OpenFileDialog1.FileName)
+                SaveEpub(OpenFileDialog1.FileName, False)
             Else
                 e.Cancel = True
             End If
@@ -1511,7 +1511,7 @@ exitsub:
                 Return ("cancel")
             End If
             If DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub(OpenFileDialog1.FileName)
+                SaveEpub(OpenFileDialog1.FileName, False)
             End If
         End If
 
@@ -1611,7 +1611,7 @@ exitsub:
                     End If
                     End
                 ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
-                    SaveEpub(OpenFileDialog1.FileName)
+                    SaveEpub(OpenFileDialog1.FileName, False)
                     ChDir(tempdirectory)
                     If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
                         My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -1637,7 +1637,7 @@ exitsub:
                 Exit Sub
             End If
             If DialogResult = Windows.Forms.DialogResult.Yes Then
-                SaveEpub(OpenFileDialog1.FileName)
+                SaveEpub(OpenFileDialog1.FileName, False)
             End If
         End If
 
@@ -1689,7 +1689,7 @@ exitsub:
     End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        SaveEpub(OpenFileDialog1.FileName)
+        SaveEpub(OpenFileDialog1.FileName, False)
     End Sub
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
@@ -1751,7 +1751,7 @@ errortext:
                     Exit Sub
                 End If
                 If DialogResult = Windows.Forms.DialogResult.Yes Then
-                    SaveEpub(OpenFileDialog1.FileName)
+                    SaveEpub(OpenFileDialog1.FileName, False)
                 End If
             End If
 
@@ -2049,7 +2049,7 @@ errortext:
             Application.DoEvents()
 
             ' Save file
-            SaveEpub(ListBox1.Items(x - 1))
+            SaveEpub(ListBox1.Items(x - 1), False)
 
             ClearInterface()
 
@@ -2342,22 +2342,37 @@ errortext:
         Dim ViewerPath As String = _
             objIniFile.GetString("Viewer", "Path", "(none)")
         If ViewerPath <> "(none)" Then
+            If My.Computer.Keyboard.ShiftKeyDown Then
+                Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
+                myProcess.StartInfo.FileName = ViewerPath
+                myProcess.StartInfo.Arguments = Chr(34) + OpenFileDialog1.FileName + Chr(34)
+                myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
+                myProcess.Start()
+            Else
+                'store current content of OPF file
+                Dim tempstring = LoadUnicodeFile(opffile)
 
-            Using zip As ZipFile = New ZipFile
-                zip.AddDirectory(ebookdirectory)
-                tempfilename = tempdirectory & "\" & System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-                zip.Save(tempfilename)
-            End Using
+                'save any OPF changes to OPF file
+                SaveEpub(OpenFileDialog1.FileName, True)
 
-            Dim myProcess As System.Diagnostics.Process = _
-                  New System.Diagnostics.Process()
-            myProcess.StartInfo.FileName = ViewerPath
-            myProcess.StartInfo.Arguments = Chr(34) + tempfilename + Chr(34)
-            myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
-            myProcess.Start()
-            myProcess.WaitForExit()
-            myProcess.Close()
-            System.IO.File.Delete(tempfilename)
+                Using zip As ZipFile = New ZipFile
+                    zip.AddDirectory(ebookdirectory)
+                    tempfilename = tempdirectory & "\" & System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+                    zip.Save(tempfilename)
+                End Using
+
+                Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
+                myProcess.StartInfo.FileName = ViewerPath
+                myProcess.StartInfo.Arguments = Chr(34) + tempfilename + Chr(34)
+                myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
+                myProcess.Start()
+                myProcess.WaitForExit()
+                myProcess.Close()
+                System.IO.File.Delete(tempfilename)
+
+                'restore current content of OPF file
+                SaveUnicodeFile(opffile, tempstring)
+            End If
         End If
     End Sub
 
@@ -2871,7 +2886,7 @@ errortext:
 
         Return metadatafile
     End Function
-    Private Sub SaveEpub(ByVal EpubFileName As String)
+    Private Sub SaveEpub(ByVal EpubFileName As String, ByVal SaveOPFOnly As Boolean)
         Dim metadatafile, optionaltext, optionaltext2 As String
         Dim startpos, endtag, endpos, extracheck, lenheader, checktag, lookforID, endID As Integer
         Dim temporarydirectory, newheader, ID As String
@@ -2881,14 +2896,16 @@ errortext:
 
         Dim fi As New FileInfo(EpubFileName)
 
-        If fi.IsReadOnly Then
-            MsgBox("ERROR: File is read-only!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
-            Exit Sub
-        End If
+        If Not SaveOPFOnly Then
+            If fi.IsReadOnly Then
+                MsgBox("ERROR: File is read-only!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
+                Exit Sub
+            End If
 
-        If FileInUse(fi.FullName) Then
-            MsgBox("ERROR: File in use!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
-            Exit Sub
+            If FileInUse(fi.FullName) Then
+                MsgBox("ERROR: File in use!  Cannot save changes.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
+                Exit Sub
+            End If
         End If
 
         RichTextBox1.Text = LoadUnicodeFile(opffile)
@@ -3781,35 +3798,37 @@ outputsource:
         RichTextBox1.Text = metadatafile
         SaveUnicodeFile(opffile, metadatafile)
 
-        'Zip temp directory (after deleting original file)
-        fi.Delete()
+        If Not SaveOPFOnly Then
+            'Zip temp directory (after deleting original file)
+            fi.Delete()
 
-        'Delete mimetype file
-        temporarydirectory = CurDir()
-        ChDir(ebookdirectory)
-        IO.File.Delete("mimetype")
-        ChDir(temporarydirectory)
+            'Delete mimetype file
+            temporarydirectory = CurDir()
+            ChDir(ebookdirectory)
+            IO.File.Delete("mimetype")
+            ChDir(temporarydirectory)
 
-        Using zip As ZipOutputStream = New ZipOutputStream(EpubFileName)
-            'Add mimetype file first
-            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
-            zip.Encryption = EncryptionAlgorithm.None
-            zip.CompressionMethod = CompressionMethod.None
-            zip.PutNextEntry("mimetype")
-            Dim buffer As Byte() = New Byte(2048) {}
-            buffer = System.Text.Encoding.ASCII.GetBytes("application/epub+zip")
-            zip.Write(buffer, 0, buffer.Length)
+            Using zip As ZipOutputStream = New ZipOutputStream(EpubFileName)
+                'Add mimetype file first
+                zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
+                zip.Encryption = EncryptionAlgorithm.None
+                zip.CompressionMethod = CompressionMethod.None
+                zip.PutNextEntry("mimetype")
+                Dim buffer As Byte() = New Byte(2048) {}
+                buffer = System.Text.Encoding.ASCII.GetBytes("application/epub+zip")
+                zip.Write(buffer, 0, buffer.Length)
 
-            'Add all other files next
-            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
-            zip.CompressionMethod = CompressionMethod.Deflate
-            AddDirectoryToZip(zip, ebookdirectory)
-        End Using
+                'Add all other files next
+                zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
+                zip.CompressionMethod = CompressionMethod.Deflate
+                AddDirectoryToZip(zip, ebookdirectory)
+            End Using
 
-        'Update interface
-        Me.Text = CaptionString
-        Button3.Enabled = False
-        projectchanged = False
+            'Update interface
+            Me.Text = CaptionString
+            Button3.Enabled = False
+            projectchanged = False
+        End If
     End Sub
     Private Sub AddDirectoryToZip(ByVal zip As ZipOutputStream, ByVal directoryToAdd As String)
         Dim filesToZip As String() = Directory.GetFiles(directoryToAdd)
@@ -5374,7 +5393,7 @@ errortext:
         If Button27.Visible Then
             Button27_Click(sender, e)
         End If
-        SaveEpub(OpenFileDialog1.FileName)
+        SaveEpub(OpenFileDialog1.FileName, False)
         Button42.Visible = False
     End Sub
 

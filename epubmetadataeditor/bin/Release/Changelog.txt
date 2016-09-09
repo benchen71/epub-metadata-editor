@@ -1,7 +1,2 @@
-1.5.0
-[*] Changed "Find EPUB3" button into a more general "Find in current folder..." button that opens a dialog with options to find 1) EPUB3 files, 2) OPF files with tag errors (and the option to fix those errors if found), or 3) OPF files containing a user-defined string.  Any files found will then be listed in the batch file list.  Clicking on an entry in the list will open those files in the main window.
-[*] Bug fixes.
-
-Note: the reason for looking for tag errors is that it appears that EPUB Metadata Editor has at some point in the past and possibly for quite a few versions made changes to the OPF file that left it with ">>" when adding or possibly replacing a cover image.  A more recent version introduced "<<" as well!  Most EPUB readers cannot handle these sorts of errors in an XML file.  So using the new "Find in current folder" dialog, you can search a single folder for any EPUBs with these sorts of errors and fix them.
-
-Note, too: it may not be too difficult to extend the searching capabilities so that the entire contents of all the EPUB files in the current folder could be searched for a user-defined string.  I am not sure if this is something people would like to be able to do.  For a large number of EPUB files, this would take a very long time to perform.
+1.5.1
+[*] Added SHIFT action to "View EPUB" button allowing the user to open the original file in the external viewer.  (In this mode, the external viewer can stay open, so the user can return to EPUB Metadata Editor and can even quit.  Note that problems may result if the external viewer is still open when changes are saved to the original file, depending on whether opening the file in the external viewer causes the original file to become read-only.  In the default mode, because the EPUB that is opened is a temporary version of the EPUB file including any unsaved changes, the user cannot return to EPUB Metadata Editor until they close the external viewer.)

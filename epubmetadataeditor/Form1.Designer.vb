@@ -986,6 +986,7 @@ Partial Class Form1
         Me.Button8.Size = New System.Drawing.Size(121, 30)
         Me.Button8.TabIndex = 24
         Me.Button8.Text = "View EPUB"
+        Me.ToolTip1.SetToolTip(Me.Button8, "View current EPUB in external viewer" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to open original file)")
         Me.Button8.UseVisualStyleBackColor = True
         '
         'LinkLabel1
