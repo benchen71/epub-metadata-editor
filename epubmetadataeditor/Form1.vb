@@ -539,6 +539,7 @@ lookforpagemap:
                 If versioninfo = "3.0" Then
                     ' Look for Calibre's title_sort meta tag
                     startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
+                    If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre:title_sort")
                     If startpos <> 0 Then
                         endpos = InStr(startpos, metadatafile, "/>")
                         startpos = InStr(startpos, metadatafile, "content=")
@@ -583,6 +584,7 @@ lookforpagemap:
                             endheaderpos = InStr(temppos, metadatafile, ">")
                             startheaderpos = InStrRev(metadatafile, "<", temppos)
                             endpos = InStr(temppos, metadatafile, "</meta>")
+                            If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                             refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
                             If refinespos <> 0 Then
                                 If refinespos < endpos Then
@@ -684,6 +686,7 @@ lookforpagemap:
                                 endheaderpos = InStr(temppos, metadatafile, ">")
                                 startheaderpos = InStrRev(metadatafile, "<", temppos)
                                 endpos = InStr(temppos, metadatafile, "</meta>")
+                                If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                                 refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
@@ -749,6 +752,7 @@ skipsecondcreator:
         'Get (Calibre) Series and Series Index
         Try
             startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+            If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34))
             If startpos <> 0 Then
                 startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
                 If startpos <> 0 Then
@@ -758,6 +762,7 @@ skipsecondcreator:
                 End If
 
                 startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
                 If startpos <> 0 Then
                     startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
                     If startpos <> 0 Then
@@ -987,6 +992,7 @@ skipsecondcreator:
                                     endheaderpos = InStr(temppos, metadatafile, ">")
                                     startheaderpos = InStrRev(metadatafile, "<", temppos)
                                     endpos = InStr(temppos, metadatafile, "</meta>")
+                                    If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                                     refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "identifier-type")
                                     If refinespos <> 0 Then
                                         If refinespos < endpos Then
@@ -2956,6 +2962,7 @@ errortext:
         If ((TextBox16.Text <> "") And (versioninfo = "3.0")) Then
             ' Look for Calibre's title_sort meta tag
             startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
+            If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre:title_sort")
             If startpos <> 0 Then
                 endpos = InStr(startpos, metadatafile, "/>")
                 startpos = InStr(startpos, metadatafile, "content=")
@@ -2964,6 +2971,7 @@ errortext:
                 Else
                     ' Need a new metatag
                     startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre")
+                    If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre")
                     If startpos <> 0 Then
                         endpos = InStr(startpos, metadatafile, "/>") + Len("/>")
                     Else
@@ -2976,6 +2984,7 @@ errortext:
             Else
                 ' Need a new metatag
                 startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre")
+                If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre")
                 If startpos <> 0 Then
                     endpos = InStr(startpos, metadatafile, "/>") + Len("/>")
                 Else
@@ -2989,6 +2998,7 @@ errortext:
         If ((TextBox16.Text = "") And (versioninfo = "3.0")) Then
             ' Look for Calibre's title_sort meta tag
             startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
+            If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre:title_sort")
             If startpos <> 0 Then
                 ' Need to delete tag
                 endpos = InStr(startpos, metadatafile, "/>")
@@ -3026,6 +3036,7 @@ errortext:
                         For temploop = idpos + 4 To endpos
                             If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                 idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + idinfo + Chr(34) + ">" + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
                                 GoTo lookforrefines
                             End If
                         Next
@@ -3047,6 +3058,7 @@ lookforrefines:
                         startheaderpos = InStrRev(metadatafile, "<", temppos)
                         endheaderpos = InStr(temppos, metadatafile, ">")
                         endpos = InStr(temppos, metadatafile, "</meta>")
+                        If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                         refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
                         If refinespos <> 0 Then
                             If refinespos < endpos Then
@@ -3097,6 +3109,7 @@ lookforrefines:
                             For temploop = idpos + 4 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + idinfo + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
                                     GoTo lookforrefines2
                                 End If
                             Next
@@ -3107,12 +3120,14 @@ lookforrefines:
 lookforrefines2:
                         If idinfo <> "" Then
                             temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                            If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                             creator2fileasplaced = False
                             creator2roleplaced = False
                             rolestring = "aut"
                             While temppos <> 0
                                 endheaderpos = InStr(temppos, metadatafile, ">")
                                 endpos = InStr(temppos, metadatafile, "</meta>")
+                                If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                                 refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
                                 If refinespos <> 0 Then
                                     If refinespos < endpos Then
@@ -3131,6 +3146,7 @@ lookforrefines2:
                                     End If
                                 End If
                                 temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                If temppos = 0 Then temppos = InStr(endpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                             End While
                             If (((creator2roleplaced = False) Or (creator2fileasplaced = False)) And (TextBox13.Text <> "")) Then
                                 startpos = InStr(metadatafile, "</dc:creator>")
@@ -3175,12 +3191,15 @@ lookforrefines2:
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
                                     temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                    If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                                     While temppos <> 0
                                         endpos = InStr(temppos, metadatafile, "</meta>")
+                                        If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                                         metadatafile = Mid(metadatafile, 1, temppos - 1) + Mid(metadatafile, endpos + 8)
                                         startpos = InStr(metadatafile, "</dc:creator>")
                                         startpos = InStr(startpos, metadatafile, "<dc:creator")
                                         temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                        If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                                     End While
                                     startpos = InStr(metadatafile, "</dc:creator>")
                                     startpos = InStr(startpos, metadatafile, "<dc:creator")
@@ -3318,10 +3337,15 @@ lookforrefines2:
 
         'Output (Calibre) series and series index
         startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+        If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34))
         If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
             If startpos <> 0 Then
                 endpos = InStr(startpos, metadatafile, "/>")
-                lenheader = Len("<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+                If (InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34)) <> 0) Then
+                    lenheader = Len("<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34))
+                Else
+                    lenheader = Len("<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+                End If
                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
             Else
                 endpos = InStr(metadatafile, "</dc:title>")
@@ -3329,10 +3353,15 @@ lookforrefines2:
             End If
         End If
         startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+        If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
         If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
             If startpos <> 0 Then
                 endpos = InStr(startpos, metadatafile, "/>")
-                lenheader = Len("<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                If (InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34)) <> 0) Then
+                    lenheader = Len("<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                Else
+                    lenheader = Len("<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                End If
                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
             Else
                 endpos = InStr(metadatafile, "</dc:title>")
@@ -3620,10 +3649,12 @@ lookforrefines2:
 lookforrefines5:
                 If idinfo <> "" Then
                     temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                    If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                     schemeplaced = False
                     While temppos <> 0
                         endheaderpos = InStr(temppos, metadatafile, ">")
                         endpos = InStr(temppos, metadatafile, "</meta>")
+                        If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
                         refinespos = InStr(temppos, metadatafile, "scheme=" + Chr(34))
                         If refinespos <> 0 Then
                             If refinespos < endpos Then
@@ -3632,6 +3663,7 @@ lookforrefines5:
                             End If
                         End If
                         temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        If temppos = 0 Then temppos = InStr(endpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
                     End While
                     If (schemeplaced = False) Then
                         startpos = InStr(metadatafile, "</dc:identifier>") + 16 'end of identifier
@@ -3880,6 +3912,7 @@ outputsource:
         metadatatext = metadatatext.Replace("</guide", "  </guide")
         metadatatext = metadatatext.Replace("<dc:", "    <dc:")
         metadatatext = metadatatext.Replace("<meta ", "    <meta ")
+        metadatatext = metadatatext.Replace("<opf:meta ", "    <opf:meta ")
         metadatatext = metadatatext.Replace("<item", "    <item")
         metadatatext = metadatatext.Replace("<reference", "    <reference")
         metadatatext = metadatatext.Replace("<!--", "    <!--")

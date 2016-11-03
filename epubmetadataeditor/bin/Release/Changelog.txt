@@ -1,2 +1,3 @@
-1.5.1
-[*] Added SHIFT action to "View EPUB" button allowing the user to open the original file in the external viewer.  (In this mode, the external viewer can stay open, so the user can return to EPUB Metadata Editor and can even quit.  Note that problems may result if the external viewer is still open when changes are saved to the original file, depending on whether opening the file in the external viewer causes the original file to become read-only.  In the default mode, because the EPUB that is opened is a temporary version of the EPUB file including any unsaved changes, the user cannot return to EPUB Metadata Editor until they close the external viewer.)
+1.5.2
+[*] Better handle Calibre meta tags in EPUB3 files.
+[*] Fixed bug where creator was not being updated correctly in EPUB3 files when creator had a specified id.
