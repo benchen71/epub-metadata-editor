@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Basic Express 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Basic Express 2008
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EPubMetadataEditor", "EPubMetadataEditor\EPubMetadataEditor.vbproj", "{CEA6CCB2-5C88-4CD4-A7D3-BB76358B8A31}"
 EndProject
 Global

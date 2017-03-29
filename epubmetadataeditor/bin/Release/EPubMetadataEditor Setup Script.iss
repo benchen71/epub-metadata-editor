@@ -4,8 +4,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{C093DB2B-F7B8-4E5A-8E98-626F5486A44B}
 AppName=EPUB Metadata Editor
-AppVerName=EPUB Metadata Editor 1.5.2
-VersionInfoVersion=1.5.2
+AppVerName=EPUB Metadata Editor 1.6.0
+VersionInfoVersion=1.6.0
 AppPublisher=Ben Chenoweth
 AppPublisherURL=http://code.google.com/p/epub-metadata-editor/
 AppSupportURL=http://code.google.com/p/epub-metadata-editor/wiki/FAQ
@@ -34,7 +34,6 @@ Name: associate; Description: &Associate EPUB files; GroupDescription: Other tas
 [Files]
 Source: EPubMetadataEditor.exe; DestDir: {app}; Flags: ignoreversion
 Source: EPubMetadataEditorConsole.exe; DestDir: {app}; Flags: ignoreversion
-Source: Ionic.Zip.dll; DestDir: {app}; Flags: ignoreversion
 Source: EPubMetadataEditor License.txt; DestDir: {app}; Flags: ignoreversion
 Source: btn_donateCC_LG.bmp; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

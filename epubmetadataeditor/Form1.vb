@@ -2,9 +2,9 @@ Imports System
 Imports System.IO
 Imports System.IO.File
 Imports System.Net
-Imports Ionic.Zip
 Imports System.Xml
 Imports Microsoft.Win32
+Imports System.Drawing.Imaging
 
 
 Public Class Form1
@@ -258,13 +258,14 @@ founddirectory:
         ChDir(ebookdirectory)
 
         Try
-            Using zip As ZipFile = ZipFile.Read(OpenFileDialog1.FileName)
-                Dim item As ZipEntry
-                For Each item In zip
-                    item.Extract()
-                Next
-                zip.Dispose()
-            End Using
+            Dim zip As ZipStorer
+            zip = ZipStorer.Open(OpenFileDialog1.FileName, FileAccess.Read)
+            Dim dir = zip.ReadCentralDir()
+            Dim item As ZipStorer.ZipFileEntry
+            For Each item In dir
+                zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+            Next
+            zip.Close()
         Catch ex1 As Exception
             Console.Error.WriteLine("exception: {0}", ex1.ToString)
         End Try
@@ -1540,12 +1541,6 @@ exitsub:
         Return ("proceed")
     End Function
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Check for Ionic.Zip.dll
-        If Not System.IO.File.Exists(Application.StartupPath & "\Ionic.Zip.dll") Then
-            MsgBox("Library file missing: Ionic.Zip.dll" + Chr(13) + "Please reinstall application.")
-            End
-        End If
-
         ' Check for external viewer
         Dim fileCheck As String
         fileCheck = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\EPubMetadataEditor\EPubMetadataEditor.ini"
@@ -1837,12 +1832,14 @@ errortext:
             ChDir(ebookdirectory)
 
             Try
-                Using zip As ZipFile = ZipFile.Read(ListBox1.Items(x - 1))
-                    Dim item As ZipEntry
-                    For Each item In zip
-                        item.Extract()
-                    Next
-                End Using
+                Dim zip As ZipStorer
+                zip = ZipStorer.Open(ListBox1.Items(x - 1).ToString, FileAccess.Read)
+                Dim dir = zip.ReadCentralDir()
+                Dim item As ZipStorer.ZipFileEntry
+                For Each item In dir
+                    zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+                Next
+                zip.Close()
             Catch ex1 As Exception
                 Console.Error.WriteLine("exception: {0}", ex1.ToString)
             End Try
@@ -1945,7 +1942,7 @@ errortext:
 
             If CheckBox4.Checked = True Then
                 ' Autogenerate Creator's 'File as'
-                Button7.PerformClick()
+                Button7_Click(sender, e)
                 If TextBox3.Text <> "" Then Button13.PerformClick()
             End If
 
@@ -2152,13 +2149,33 @@ errortext:
     End Sub
 
     Private Sub ChangeImageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeImageToolStripMenuItem.Click
+        Dim oldextension, extension As String
         OpenFileDialog2.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png|All files (*.*)|*.*"
         OpenFileDialog2.FilterIndex = 1
         OpenFileDialog2.FileName = ""
         If OpenFileDialog2.ShowDialog = Windows.Forms.DialogResult.OK Then
+            oldextension = Path.GetExtension(coverimagefile)
             IO.File.Delete(coverimagefile)
-            IO.File.Copy(OpenFileDialog2.FileName, coverimagefile, True)
-            wait(500)
+
+            'find extension of new cover image
+            extension = Path.GetExtension(OpenFileDialog2.FileName)
+
+            If (extension <> oldextension) Then
+                'convert new cover image to filetype of previous cover
+                System.IO.File.Copy(OpenFileDialog2.FileName, coverimagefile, True)
+                Dim image As Bitmap = Drawing.Image.FromFile(OpenFileDialog2.FileName)
+                Dim encoderParameters As New EncoderParameters(1)
+                encoderParameters.Param(0) = New EncoderParameter(Encoder.Quality, 100L)
+                If oldextension = ".png" Then
+                    image.Save(coverimagefile, System.Drawing.Imaging.ImageFormat.Png)
+                Else
+                    image.Save(coverimagefile, System.Drawing.Imaging.ImageFormat.Jpeg)
+                End If
+            Else
+                IO.File.Copy(OpenFileDialog2.FileName, coverimagefile, True)
+                wait(500)
+            End If
+
             PictureBox1.ImageLocation = coverimagefile
             PictureBox1.Load()
             projectchanged = True
@@ -2171,7 +2188,7 @@ errortext:
     End Sub
 
     Private Sub AddImageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddImageToolStripMenuItem.Click
-        Dim outputfile, metadatafile, newlineandspace, insertion As String
+        Dim outputfile, metadatafile, newlineandspace, insertion, extension As String
         Dim startpos, insertpos As Integer
 
         OpenFileDialog2.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png|All files (*.*)|*.*"
@@ -2179,7 +2196,8 @@ errortext:
         OpenFileDialog2.FileName = ""
         If OpenFileDialog2.ShowDialog = Windows.Forms.DialogResult.OK Then
             'copy to outputfile
-            outputfile = "cover" + Path.GetExtension(OpenFileDialog2.FileName)
+            extension = Path.GetExtension(OpenFileDialog2.FileName)
+            outputfile = "cover" + extension
             coverimagefile = outputfile
             System.IO.File.Copy(OpenFileDialog2.FileName, opfdirectory + "\" + outputfile, True)
             wait(500)
@@ -2215,7 +2233,11 @@ errortext:
                 insertpos = InStr(startpos + 1, metadatafile, "<")
                 If insertpos <> 0 Then
                     newlineandspace = Mid(metadatafile, startpos + 10, insertpos - startpos - 10)
-                    insertion = newlineandspace + "<item href=" + Chr(34) + outputfile + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
+                    If extension = ".png" Then
+                        insertion = newlineandspace + "<item href=" + Chr(34) + outputfile + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/png" + Chr(34) + "/>" + newlineandspace
+                    Else
+                        insertion = newlineandspace + "<item href=" + Chr(34) + outputfile + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
+                    End If
                     insertion = insertion + "<item href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " id=" + Chr(34) + "coverpage" + Chr(34) + " media-type=" + Chr(34) + "application/xhtml+xml" + Chr(34) + "/>" + newlineandspace
                     metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
                 End If
@@ -2361,11 +2383,19 @@ errortext:
                 'save any OPF changes to OPF file
                 SaveEpub(OpenFileDialog1.FileName, True)
 
-                Using zip As ZipFile = New ZipFile
-                    zip.AddDirectory(ebookdirectory)
-                    tempfilename = tempdirectory & "\" & System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-                    zip.Save(tempfilename)
-                End Using
+                Dim zip As ZipStorer
+                tempfilename = tempdirectory & "\" & System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+                zip = ZipStorer.Create(tempfilename, "")
+                Dim dir = Directory.GetDirectories(ebookdirectory)
+                Dim item As String
+                For Each item In dir
+                    zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
+                Next
+                Dim files = Directory.GetFiles(ebookdirectory)
+                For Each item In files
+                    zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
+                Next
+                zip.Close()
 
                 Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
                 myProcess.StartInfo.FileName = ViewerPath
@@ -2556,7 +2586,7 @@ errortext:
     Private Sub PictureBox1_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles PictureBox1.DragDrop
         Dim MyFiles() As String
         Dim i As Integer
-        Dim metadatafile, newlineandspace, insertion As String
+        Dim metadatafile, newlineandspace, insertion, oldextension, extension As String
         Dim startpos, insertpos As Integer
         Dim mime As String
 
@@ -2573,13 +2603,36 @@ errortext:
             If (mime.StartsWith("image")) Then
                 If (MyFiles(i) <> coverimagefile) Then
                     If IO.File.Exists(coverimagefile) Then
+                        oldextension = Path.GetExtension(coverimagefile)
                         IO.File.Delete(coverimagefile)
+
+                        'find extension of new cover image
+                        extension = Path.GetExtension(MyFiles(i))
+
+                        If (extension <> oldextension) Then
+                            'convert new cover image to filetype of previous cover
+                            System.IO.File.Copy(MyFiles(i), coverimagefile, True)
+                            Dim image As Bitmap = Drawing.Image.FromFile(MyFiles(i))
+                            Dim encoderParameters As New EncoderParameters(1)
+                            encoderParameters.Param(0) = New EncoderParameter(Encoder.Quality, 100L)
+                            If oldextension = ".png" Then
+                                image.Save(coverimagefile, System.Drawing.Imaging.ImageFormat.Png)
+                            Else
+                                image.Save(coverimagefile, System.Drawing.Imaging.ImageFormat.Jpeg)
+                            End If
+                        Else
+                            IO.File.Copy(MyFiles(i), coverimagefile, True)
+                            wait(500)
+                        End If
                     Else
+                        'find extension of new cover image
+                        extension = Path.GetExtension(MyFiles(i))
+
                         'need to create a new cover file
-                        coverimagefile = opfdirectory + "\cover.jpg"
+                        coverimagefile = opfdirectory + "\cover" + extension
 
                         'output html file
-                        RichTextBox1.Text = GetHTMLCoverFile("cover.jpg")
+                        RichTextBox1.Text = GetHTMLCoverFile("cover" + extension)
                         RichTextBox1.SaveFile(opfdirectory + "\coverpage.xhtml", RichTextBoxStreamType.PlainText)
 
                         'make changes to opf file
@@ -2607,7 +2660,11 @@ errortext:
                             insertpos = InStr(startpos + 1, metadatafile, "<")
                             If insertpos <> 0 Then
                                 newlineandspace = Mid(metadatafile, startpos + 10, insertpos - startpos - 10)
-                                insertion = newlineandspace + "<item href=" + Chr(34) + "cover.jpg" + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
+                                If extension = ".png" Then
+                                    insertion = newlineandspace + "<item href=" + Chr(34) + "cover" + extension + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/png" + Chr(34) + "/>" + newlineandspace
+                                Else
+                                    insertion = newlineandspace + "<item href=" + Chr(34) + "cover" + extension + Chr(34) + " id=" + Chr(34) + "cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
+                                End If
                                 insertion = insertion + "<item href=" + Chr(34) + "coverpage.xhtml" + Chr(34) + " id=" + Chr(34) + "coverpage" + Chr(34) + " media-type=" + Chr(34) + "application/xhtml+xml" + Chr(34) + "/>" + newlineandspace
                                 metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
                             End If
@@ -2660,10 +2717,11 @@ errortext:
 
                         'save opf file
                         SaveUnicodeFile(opffile, metadatafile)
+
+                        IO.File.Copy(MyFiles(i), coverimagefile, True)
+                        wait(500)
                     End If
 
-                    IO.File.Copy(MyFiles(i), coverimagefile, True)
-                    wait(500)
 
                     ' update interface
                     RichTextBox1.Text = LoadUnicodeFile(opffile)
@@ -3840,21 +3898,21 @@ outputsource:
             IO.File.Delete("mimetype")
             ChDir(temporarydirectory)
 
-            Using zip As ZipOutputStream = New ZipOutputStream(EpubFileName)
-                'Add mimetype file first
-                zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
-                zip.Encryption = EncryptionAlgorithm.None
-                zip.CompressionMethod = CompressionMethod.None
-                zip.PutNextEntry("mimetype")
-                Dim buffer As Byte() = New Byte(2048) {}
-                buffer = System.Text.Encoding.ASCII.GetBytes("application/epub+zip")
-                zip.Write(buffer, 0, buffer.Length)
-
-                'Add all other files next
-                zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
-                zip.CompressionMethod = CompressionMethod.Deflate
-                AddDirectoryToZip(zip, ebookdirectory)
-            End Using
+            Dim zip As ZipStorer
+            zip = ZipStorer.Create(EpubFileName, "")
+            Dim mimetype As New MemoryStream(System.Text.Encoding.UTF8.GetBytes("application/epub+zip"))
+            zip.AddStream(ZipStorer.Compression.Store, "mimetype", mimetype, DateTime.Now, "")
+            mimetype.Close()
+            Dim dir = Directory.GetDirectories(ebookdirectory)
+            Dim item As String
+            For Each item In dir
+                zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
+            Next
+            Dim files = Directory.GetFiles(ebookdirectory)
+            For Each item In files
+                zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
+            Next
+            zip.Close()
 
             'Update interface
             Me.Text = CaptionString
@@ -3862,31 +3920,7 @@ outputsource:
             projectchanged = False
         End If
     End Sub
-    Private Sub AddDirectoryToZip(ByVal zip As ZipOutputStream, ByVal directoryToAdd As String)
-        Dim filesToZip As String() = Directory.GetFiles(directoryToAdd)
-        Dim directoriesToZip As String() = Directory.GetDirectories(directoryToAdd)
 
-        'Recursively add any subdirectories of the current directory
-        Dim inputDirectoryName As String
-        For Each inputDirectoryName In directoriesToZip
-            AddDirectoryToZip(zip, inputDirectoryName)
-        Next
-
-        'Add any files in current directory
-        Dim inputFileName As String
-        For Each inputFileName In filesToZip
-            zip.PutNextEntry(Mid(IO.Path.GetFullPath(inputFileName), Len(ebookdirectory) + 1))
-            Using input As FileStream = File.Open(inputFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-                Dim n As Integer
-                Dim buffer As Byte() = New Byte(2048) {}
-                n = input.Read(buffer, 0, buffer.Length)
-                Do While (n > 0)
-                    zip.Write(buffer, 0, n)
-                    n = input.Read(buffer, 0, buffer.Length)
-                Loop
-            End Using
-        Next
-    End Sub
     Public Function Regularise(ByVal metadatatext As String) As String
         'Regularise whitespace
         ' delete stuff
@@ -4478,12 +4512,14 @@ redo:
                 ChDir(ebookdirectory)
 
                 Try
-                    Using zip As ZipFile = ZipFile.Read(ListBox1.Items(x - 1))
-                        Dim item As ZipEntry
-                        For Each item In zip
-                            item.Extract()
-                        Next
-                    End Using
+                    Dim zip As ZipStorer
+                    zip = ZipStorer.Open(ListBox1.Items(x - 1).ToString, FileAccess.Read)
+                    Dim dir = zip.ReadCentralDir()
+                    Dim item As ZipStorer.ZipFileEntry
+                    For Each item In dir
+                        zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+                    Next
+                    zip.Close()
                 Catch ex1 As Exception
                     Console.Error.WriteLine("exception: {0}", ex1.ToString)
                 End Try
@@ -5234,12 +5270,14 @@ errortext:
         ChDir(ebookdirectory)
 
         Try
-            Using zip As ZipFile = ZipFile.Read(ListBox1.SelectedItem)
-                Dim item As ZipEntry
-                For Each item In zip
-                    item.Extract()
-                Next
-            End Using
+            Dim zip As ZipStorer
+            zip = ZipStorer.Open(ListBox1.SelectedItem.ToString, FileAccess.Read)
+            Dim dir = zip.ReadCentralDir()
+            Dim item As ZipStorer.ZipFileEntry
+            For Each item In dir
+                zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+            Next
+            zip.Close()
         Catch ex1 As Exception
             Console.Error.WriteLine("exception: {0}", ex1.ToString)
             Exit Sub
@@ -5473,12 +5511,14 @@ errortext:
             ChDir(ebookdirectory)
 
             Try
-                Using zip As ZipFile = ZipFile.Read(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1))
-                    Dim item As ZipEntry
-                    For Each item In zip
-                        item.Extract()
-                    Next
-                End Using
+                Dim zip As ZipStorer
+                zip = ZipStorer.Open(Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + ComboBox3.Items(x - 1).ToString, FileAccess.Read)
+                Dim dir = zip.ReadCentralDir()
+                Dim item As ZipStorer.ZipFileEntry
+                For Each item In dir
+                    zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+                Next
+                zip.Close()
             Catch ex1 As Exception
                 Console.Error.WriteLine("exception: {0}", ex1.ToString)
             End Try
@@ -5561,21 +5601,21 @@ errortext:
                         IO.File.Delete("mimetype")
                         ChDir(temporarydirectory)
 
-                        Using zip As ZipOutputStream = New ZipOutputStream(EPUBfilename)
-                            'Add mimetype file first
-                            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None
-                            zip.Encryption = EncryptionAlgorithm.None
-                            zip.CompressionMethod = CompressionMethod.None
-                            zip.PutNextEntry("mimetype")
-                            Dim buffer As Byte() = New Byte(2048) {}
-                            buffer = System.Text.Encoding.ASCII.GetBytes("application/epub+zip")
-                            zip.Write(buffer, 0, buffer.Length)
-
-                            'Add all other files next
-                            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default
-                            zip.CompressionMethod = CompressionMethod.Deflate
-                            AddDirectoryToZip(zip, ebookdirectory)
-                        End Using
+                        Dim zip As ZipStorer
+                        zip = ZipStorer.Create(EPUBfilename, "")
+                        Dim mimetype As New MemoryStream(System.Text.Encoding.UTF8.GetBytes("application/epub+zip"))
+                        zip.AddStream(ZipStorer.Compression.Store, "mimetype", mimetype, DateTime.Now, "")
+                        mimetype.Close()
+                        Dim dir = Directory.GetDirectories(ebookdirectory)
+                        Dim item As String
+                        For Each item In dir
+                            zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
+                        Next
+                        Dim files = Directory.GetFiles(ebookdirectory)
+                        For Each item In files
+                            zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
+                        Next
+                        zip.Close()
                     End If
                     Button10.Enabled = True
                     Button32.Enabled = True

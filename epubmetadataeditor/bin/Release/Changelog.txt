@@ -1,3 +1,5 @@
-1.5.2
-[*] Better handle Calibre meta tags in EPUB3 files.
-[*] Fixed bug where creator was not being updated correctly in EPUB3 files when creator had a specified id.
+1.6.0
+[*] Migrated to Visual Studio 2008.
+[*] Migrated from DotNetZip to ZipStorer (EPUBS should now appear correctly in FBReader).
+[*] Correctly handle PNG files when adding/replacing covers.
+[*] Fixed bug where batch operation "Auto-generate Creator 'File as'" was not doing anything.
