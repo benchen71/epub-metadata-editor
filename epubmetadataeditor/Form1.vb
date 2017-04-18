@@ -519,6 +519,18 @@ lookforpagemap:
                 lenheader = Len("<dc:title")
                 If Mid(metadatafile, startpos + lenheader, 1) = ">" Then
                     TextBox1.Text = XMLInput(Mid(metadatafile, startpos + lenheader + 1, endpos - startpos - lenheader - 1))
+                    ' Look for Calibre's title_sort meta tag
+                    startpos = InStr(metadatafile, "calibre:title_sort")
+                    If startpos <> 0 Then
+                        temppos = startpos
+                        startpos = InStrRev(metadatafile, "<meta", startpos)
+                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                        startpos = InStr(startpos, metadatafile, "content=")
+                        endpos = InStr(startpos + 9, metadatafile, Chr(34))
+                        If ((startpos <> 0) And (startpos < endpos)) Then
+                            TextBox16.Text = XMLInput(Mid(metadatafile, startpos + 9, endpos - startpos - 9))
+                        End If
+                    End If
                 Else
                     'Get optional attributes
                     fileaspos = InStr(startpos, metadatafile, "opf:file-as=")
@@ -539,9 +551,11 @@ lookforpagemap:
                 End If
                 If versioninfo = "3.0" Then
                     ' Look for Calibre's title_sort meta tag
-                    startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
-                    If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre:title_sort")
+                    startpos = InStr(metadatafile, "calibre:title_sort")
                     If startpos <> 0 Then
+                        temppos = startpos
+                        startpos = InStrRev(metadatafile, "<meta", startpos)
+                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
                         endpos = InStr(startpos, metadatafile, "/>")
                         startpos = InStr(startpos, metadatafile, "content=")
                         If ((startpos <> 0) And (startpos < endpos)) Then
@@ -752,26 +766,33 @@ skipsecondcreator:
 
         'Get (Calibre) Series and Series Index
         Try
-            startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series" & Chr(34))
-            If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34))
+            startpos = InStr(metadatafile, "calibre:series")
             If startpos <> 0 Then
+                ' find start of entry
+                temppos = startpos
+                startpos = InStrRev(metadatafile, "<meta", startpos)
+                If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                ' find content
                 startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
                 If startpos <> 0 Then
-                    endpos = InStr(startpos, metadatafile, "/>")
                     lenheader = Len("content=" & Chr(34))
-                    TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader - 1))
+                    endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
+                    TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
                 End If
 
-                startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
-                If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+                startpos = InStr(metadatafile, "calibre:series_index")
                 If startpos <> 0 Then
+                    ' find start of entry
+                    temppos = startpos
+                    startpos = InStrRev(metadatafile, "<meta", startpos)
+                    If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                    ' find content
                     startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
                     If startpos <> 0 Then
-                        endpos = InStr(startpos, metadatafile, "/>")
                         lenheader = Len("content=" & Chr(34))
-                        TextBox14.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader - 1)
+                        endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
+                        TextBox14.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                     End If
-
                 End If
             End If
         Catch ex As Exception
@@ -2956,7 +2977,7 @@ errortext:
         Dim temporarydirectory, newheader, ID As String
         Dim idpos, temploop, temppos, startheaderpos, endheaderpos, refinespos, testpos, extrachars As Integer
         Dim idinfo, rolestring, identifierscheme, temptext As String
-        Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced As Boolean
+        Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced, opfmeta As Boolean
 
         Dim fi As New FileInfo(EpubFileName)
 
@@ -3016,51 +3037,43 @@ errortext:
             End If
             metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + XMLOutput(TextBox1.Text) + "</dc:title>" + Mid(metadatafile, startpos)
         End If
-        ' Handle Title file as in EPUB3
+        ' Handle Title "file as" in EPUB3
         If ((TextBox16.Text <> "") And (versioninfo = "3.0")) Then
             ' Look for Calibre's title_sort meta tag
-            startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
-            If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre:title_sort")
+            startpos = InStr(metadatafile, "calibre:title_sort")
             If startpos <> 0 Then
-                endpos = InStr(startpos, metadatafile, "/>")
-                startpos = InStr(startpos, metadatafile, "content=")
+                temppos = startpos
+                startpos = InStrRev(metadatafile, "<meta", startpos)
+                opfmeta = False
+                If startpos = 0 Then
+                    startpos = InStrRev(metadatafile, "<opf:meta", temppos)
+                    opfmeta = True
+                End If
+                endpos = InStr(startpos + 9, metadatafile, "/>")
                 If ((startpos <> 0) And (startpos < endpos)) Then
-                    metadatafile = Mid(metadatafile, 1, startpos + 8) + XMLOutput(TextBox16.Text) + Mid(metadatafile, endpos - 1)
+                    If opfmeta Then
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<opf:meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + Mid(metadatafile, endpos)
+                    Else
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + Mid(metadatafile, endpos)
+                    End If
                 Else
                     ' Need a new metatag
-                    startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre")
-                    If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre")
-                    If startpos <> 0 Then
-                        endpos = InStr(startpos, metadatafile, "/>") + Len("/>")
-                    Else
-                        endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
-                    End If
-                    If endpos <> 0 Then
-                        metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
-                    End If
-                End If
-            Else
-                ' Need a new metatag
-                startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre")
-                If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre")
-                If startpos <> 0 Then
-                    endpos = InStr(startpos, metadatafile, "/>") + Len("/>")
-                Else
                     endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
-                End If
-                If endpos <> 0 Then
                     metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
                 End If
             End If
         End If
-        If ((TextBox16.Text = "") And (versioninfo = "3.0")) Then
-            ' Look for Calibre's title_sort meta tag
-            startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:title_sort")
-            If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" + Chr(34) + "calibre:title_sort")
+        If ((TextBox16.Text = "") Or ((TextBox16.Text <> "") And (versioninfo = "2.0"))) Then
+            ' Look for Calibre's title_sort meta tag and remove it
+            startpos = InStr(metadatafile, "calibre:title_sort")
             If startpos <> 0 Then
-                ' Need to delete tag
+                temppos = startpos
+                startpos = InStrRev(metadatafile, "<meta", startpos)
+                If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta", temppos)
                 endpos = InStr(startpos, metadatafile, "/>")
-                metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 3)
+                If ((startpos <> 0) And (startpos < endpos)) Then
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 3)
+                End If
             End If
         End If
 
@@ -3394,33 +3407,33 @@ lookforrefines2:
         End If
 
         'Output (Calibre) series and series index
-        startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series" & Chr(34))
-        If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34))
+        startpos = InStr(metadatafile, "calibre:series")
         If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
             If startpos <> 0 Then
-                endpos = InStr(startpos, metadatafile, "/>")
-                If (InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34)) <> 0) Then
-                    lenheader = Len("<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34))
-                Else
-                    lenheader = Len("<meta name=" & Chr(34) & "calibre:series" & Chr(34))
+                opfmeta = False
+                temppos = startpos
+                startpos = InStrRev(metadatafile, "<meta", startpos)
+                If startpos = 0 Then
+                    startpos = InStrRev(metadatafile, "<opf:meta", temppos)
+                    opfmeta = True
                 End If
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
+                endpos = InStr(startpos, metadatafile, "/>")
+                If opfmeta Then
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
+                Else
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
+                End If
             Else
                 endpos = InStr(metadatafile, "</dc:title>")
                 metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
             End If
         End If
-        startpos = InStr(metadatafile, "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
-        If startpos = 0 Then startpos = InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
+        startpos = InStr(metadatafile, "calibre:series_index")
         If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
             If startpos <> 0 Then
+                startpos = InStrRev(metadatafile, "<meta", startpos)
                 endpos = InStr(startpos, metadatafile, "/>")
-                If (InStr(metadatafile, "<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34)) <> 0) Then
-                    lenheader = Len("<opf:meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
-                Else
-                    lenheader = Len("<meta name=" & Chr(34) & "calibre:series_index" & Chr(34))
-                End If
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
+                metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
             Else
                 endpos = InStr(metadatafile, "</dc:title>")
                 metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) & " content=" + Chr(34) + TextBox14.Text + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)

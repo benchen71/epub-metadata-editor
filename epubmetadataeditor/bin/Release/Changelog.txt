@@ -1,5 +1,2 @@
-1.6.0
-[*] Migrated to Visual Studio 2008.
-[*] Migrated from DotNetZip to ZipStorer (EPUBS should now appear correctly in FBReader).
-[*] Correctly handle PNG files when adding/replacing covers.
-[*] Fixed bug where batch operation "Auto-generate Creator 'File as'" was not doing anything.
+1.6.1
+[*] Better handle calibre meta tags (title_sort, series, and series_index)
