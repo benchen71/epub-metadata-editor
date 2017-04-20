@@ -768,19 +768,23 @@ skipsecondcreator:
         Try
             startpos = InStr(metadatafile, "calibre:series")
             If startpos <> 0 Then
-                ' find start of entry
-                temppos = startpos
-                startpos = InStrRev(metadatafile, "<meta", startpos)
-                If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
-                ' find content
-                startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
+                ' The following line is necessary because some EPUBS have calibre:series_index but no calibre:series or calibre:series_index comes before calibre:series
+                startpos = InStr(metadatafile, "calibre:series" + Chr(34))
                 If startpos <> 0 Then
-                    lenheader = Len("content=" & Chr(34))
-                    endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
-                    TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                    ' find start of entry
+                    temppos = startpos
+                    startpos = InStrRev(metadatafile, "<meta", startpos)
+                    If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                    ' find content
+                    startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
+                    If startpos <> 0 Then
+                        lenheader = Len("content=" & Chr(34))
+                        endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
+                        TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                    End If
                 End If
 
-                startpos = InStr(metadatafile, "calibre:series_index")
+                startpos = InStr(metadatafile, "calibre:series_index" + Chr(34))
                 If startpos <> 0 Then
                     ' find start of entry
                     temppos = startpos
@@ -3407,7 +3411,7 @@ lookforrefines2:
         End If
 
         'Output (Calibre) series and series index
-        startpos = InStr(metadatafile, "calibre:series")
+        startpos = InStr(metadatafile, "calibre:series" + Chr(34))
         If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
             If startpos <> 0 Then
                 opfmeta = False
@@ -3428,7 +3432,7 @@ lookforrefines2:
                 metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
             End If
         End If
-        startpos = InStr(metadatafile, "calibre:series_index")
+        startpos = InStr(metadatafile, "calibre:series_index" + Chr(34))
         If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
             If startpos <> 0 Then
                 startpos = InStrRev(metadatafile, "<meta", startpos)

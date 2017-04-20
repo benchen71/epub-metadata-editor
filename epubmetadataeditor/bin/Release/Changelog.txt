@@ -1,2 +1,2 @@
-1.6.1
-[*] Better handle calibre meta tags (title_sort, series, and series_index)
+1.6.2
+[*] Fix regression with Calibre series
