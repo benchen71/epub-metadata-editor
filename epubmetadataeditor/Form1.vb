@@ -1801,7 +1801,7 @@ errortext:
         Dim temp As DialogResult
 
         ' do some checks first
-        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False) And (CheckBox12.Checked = False)) Then
+        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False) And (CheckBox12.Checked = False) And (CheckBox13.Checked = False)) Then
             MsgBox("You need to check one of the batch task boxes!")
             Exit Sub
         End If
@@ -1823,6 +1823,12 @@ errortext:
             If temp = Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
+        End If
+
+        If ((CheckBox13.Checked) And (Form9.CheckedListBox1.CheckedItems.Count = 0)) Then
+            MsgBox("You need to select a field first!")
+            Form9.ShowDialog()
+            Exit Sub
         End If
 
         ClearInterface()
@@ -1987,74 +1993,218 @@ errortext:
             If CheckBox12.Checked = True Then
                 ' Replace contents of selected field with text
                 Dim indexChecked As Integer
+                Dim TextBox1Text, TextBox16Text, TextBox2Text, TextBox12Text, TextBox3Text, TextBox13Text, TextBox15Text, TextBox14Text As String
+                Dim TextBox4Text, TextBox5Text, TextBox6Text, TextBox17Text, TextBox7Text, TextBox8Text, TextBox9Text, TextBox10Text, TextBox11Text As String
+                TextBox1Text = ""
+                TextBox16Text = ""
+                TextBox2Text = ""
+                TextBox12Text = ""
+                TextBox3Text = ""
+                TextBox13Text = ""
+                TextBox15Text = ""
+                TextBox14Text = ""
+                TextBox4Text = ""
+                TextBox5Text = ""
+                TextBox6Text = ""
+                TextBox17Text = ""
+                TextBox7Text = ""
+                TextBox8Text = ""
+                TextBox9Text = ""
+                TextBox10Text = ""
+                TextBox11Text = ""
                 For Each indexChecked In Form7.CheckedListBox1.CheckedIndices
                     If indexChecked = 0 Then
                         ' Title
-                        TextBox1.Text = Form7.TextBox1.Text
+                        TextBox1Text = ReplaceField(TextBox1.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 1 Then
                         ' Title File as
-                        TextBox16.Text = Form7.TextBox1.Text
+                        TextBox16Text = ReplaceField(TextBox16.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 2 Then
                         ' Creator1
-                        TextBox2.Text = Form7.TextBox1.Text
+                        TextBox2Text = ReplaceField(TextBox2.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 3 Then
                         ' Creator1 File as
-                        TextBox12.Text = Form7.TextBox1.Text
+                        TextBox12Text = ReplaceField(TextBox12.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 4 Then
                         ' Creator2
-                        TextBox3.Text = Form7.TextBox1.Text
+                        TextBox3Text = ReplaceField(TextBox3.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 5 Then
                         ' Creator2 File as
-                        TextBox13.Text = Form7.TextBox1.Text
+                        TextBox13Text = ReplaceField(TextBox13.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 6 Then
                         ' Series
-                        TextBox15.Text = Form7.TextBox1.Text
+                        TextBox15Text = ReplaceField(TextBox15.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 7 Then
                         ' Series index
-                        TextBox14.Text = Form7.TextBox1.Text
+                        TextBox14Text = ReplaceField(TextBox14.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 8 Then
                         ' Description
-                        TextBox4.Text = Form7.TextBox1.Text
+                        TextBox4Text = ReplaceField(TextBox4.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 9 Then
                         ' Publisher
-                        TextBox5.Text = Form7.TextBox1.Text
+                        TextBox5Text = ReplaceField(TextBox5.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 10 Then
                         ' Date
-                        TextBox6.Text = Form7.TextBox1.Text
+                        TextBox6Text = ReplaceField(TextBox6.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 11 Then
                         ' Subject
-                        TextBox17.Text = Form7.TextBox1.Text
+                        TextBox17Text = ReplaceField(TextBox17.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 12 Then
                         ' Type
-                        TextBox7.Text = Form7.TextBox1.Text
+                        TextBox7Text = ReplaceField(TextBox7.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 13 Then
                         ' Format
-                        TextBox8.Text = Form7.TextBox1.Text
+                        TextBox8Text = ReplaceField(TextBox8.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 14 Then
                         ' Identifier
-                        TextBox9.Text = Form7.TextBox1.Text
+                        TextBox9Text = ReplaceField(TextBox9.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 15 Then
                         ' Source
-                        TextBox10.Text = Form7.TextBox1.Text
+                        TextBox10Text = ReplaceField(TextBox10.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 16 Then
                         ' Language
-                        TextBox11.Text = Form7.TextBox1.Text
+                        TextBox11Text = ReplaceField(TextBox11.Text, Form7.TextBox1.Text)
+                    End If
+                Next
+                If (TextBox1Text <> "") Then
+                    TextBox1.Text = TextBox1Text
+                End If
+                If (TextBox16Text <> "") Then
+                    TextBox16.Text = TextBox16Text
+                End If
+                If (TextBox2Text <> "") Then
+                    TextBox2.Text = TextBox2Text
+                End If
+                If (TextBox12Text <> "") Then
+                    TextBox12.Text = TextBox12Text
+                End If
+                If (TextBox3Text <> "") Then
+                    TextBox3.Text = TextBox3Text
+                End If
+                If (TextBox13Text <> "") Then
+                    TextBox13.Text = TextBox13Text
+                End If
+                If (TextBox15Text <> "") Then
+                    TextBox15.Text = TextBox15Text
+                End If
+                If (TextBox14Text <> "") Then
+                    TextBox14.Text = TextBox14Text
+                End If
+                If (TextBox4Text <> "") Then
+                    TextBox4.Text = TextBox4Text
+                End If
+                If (TextBox5Text <> "") Then
+                    TextBox5.Text = TextBox5Text
+                End If
+                If (TextBox6Text <> "") Then
+                    TextBox6.Text = TextBox6Text
+                End If
+                If (TextBox17Text <> "") Then
+                    TextBox17.Text = TextBox17Text
+                End If
+                If (TextBox7Text <> "") Then
+                    TextBox7.Text = TextBox7Text
+                End If
+                If (TextBox8Text <> "") Then
+                    TextBox8.Text = TextBox8Text
+                End If
+                If (TextBox9Text <> "") Then
+                    TextBox9.Text = TextBox9Text
+                End If
+                If (TextBox10Text <> "") Then
+                    TextBox10.Text = TextBox10Text
+                End If
+                If (TextBox11Text <> "") Then
+                    TextBox11.Text = TextBox11Text
+                End If
+            End If
+
+            If CheckBox13.Checked = True Then
+                Dim indexChecked As Integer
+                For Each indexChecked In Form9.CheckedListBox1.CheckedIndices
+                    If indexChecked = 0 Then
+                        ' Title
+                        TextBox1.Text = TextBox1.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 1 Then
+                        ' Title File as
+                        TextBox16.Text = TextBox16.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 2 Then
+                        ' Creator1
+                        TextBox2.Text = TextBox2.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 3 Then
+                        ' Creator1 File as
+                        TextBox12.Text = TextBox12.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 4 Then
+                        ' Creator2
+                        TextBox3.Text = TextBox3.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 5 Then
+                        ' Creator2 File as
+                        TextBox13.Text = TextBox13.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 6 Then
+                        ' Series
+                        TextBox15.Text = TextBox15.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 7 Then
+                        ' Series index
+                        TextBox14.Text = TextBox14.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 8 Then
+                        ' Description
+                        TextBox4.Text = TextBox4.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 9 Then
+                        ' Publisher
+                        TextBox5.Text = TextBox5.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 10 Then
+                        ' Date
+                        TextBox6.Text = TextBox6.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 11 Then
+                        ' Subject
+                        TextBox17.Text = TextBox17.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 12 Then
+                        ' Type
+                        TextBox7.Text = TextBox7.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 13 Then
+                        ' Format
+                        TextBox8.Text = TextBox8.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 14 Then
+                        ' Identifier
+                        TextBox9.Text = TextBox9.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 15 Then
+                        ' Source
+                        TextBox10.Text = TextBox10.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                    End If
+                    If indexChecked = 16 Then
+                        ' Language
+                        TextBox11.Text = TextBox11.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
                     End If
                 Next
             End If
@@ -2099,7 +2249,122 @@ errortext:
         CaptionString = "EPUB Metadata Editor"
         Me.Text = CaptionString
     End Sub
+    Private Function ReplaceField(ByVal OldString, ByVal ReplacementString) As String
+        'Convert metadata into new filename
+        Dim currpos, endpos, temppos, field, nextchar, insertText, NewField
+        NewField = ""
+        currpos = 0
+        While (currpos < Len(ReplacementString))
+            currpos = currpos + 1
 
+            ' look for field marker
+            If (Mid(ReplacementString, currpos, 1) = "%") Then
+                If (Mid(ReplacementString, currpos + 1, 1) = "%") Then
+                    ' found '%%' (replace with '%')
+                    NewField = NewField + "%"
+                    currpos = currpos + 1
+                Else
+                    ' look for end field marker
+                    endpos = InStr(currpos + 1, ReplacementString, "%")
+                    If (endpos <> 0) Then
+                        ' end field marker found
+                        field = Mid(ReplacementString, currpos + 1, endpos - currpos - 1)
+                        insertText = ""
+                        If field = "CurrentContents" Then
+                            insertText = OldString
+                        ElseIf field = "CURRENTCONTENTS" Then
+                            insertText = OldString.ToUpper
+                        ElseIf field = "currentcontents" Then
+                            insertText = OldString.ToLower
+                        ElseIf field = "CurrentContentsTitleCase" Then
+                            insertText = TitleCase(OldString)
+                        ElseIf field = "CurrentContentsTitleCaseAll" Then
+                            insertText = StrConv(OldString, VbStrConv.ProperCase)
+                        ElseIf field = "Creator" Then
+                            insertText = TextBox2.Text
+                        ElseIf field = "CreatorFileAs" Then
+                            insertText = TextBox12.Text
+                        ElseIf field = "CreatorSurnameOnly" Then
+                            insertText = TextBox2.Text
+                            If InStr(insertText, " ") <> 0 Then
+                                temppos = Len(insertText)
+                                nextchar = Mid(insertText, temppos, 1)
+                                While (nextchar <> " ")
+                                    If temppos = 1 Then
+                                        GoTo errortext
+                                    End If
+                                    temppos = temppos - 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                End While
+                                insertText = Mid(insertText, temppos + 1)
+                                If (Mid(TextBox2.Text, temppos - 1, 1) = ",") Then
+                                    insertText = TextBox2.Text
+                                    temppos = 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                    While (nextchar <> ",")
+                                        If temppos = Len(insertText) Then
+                                            GoTo errortext
+                                        End If
+                                        temppos = temppos + 1
+                                        nextchar = Mid(insertText, temppos, 1)
+                                    End While
+                                    insertText = Mid(insertText, 1, temppos - 1)
+                                End If
+                            End If
+                        ElseIf field = "CreatorFirstInitial" Then
+                            insertText = TextBox2.Text
+                            If InStr(insertText, " ") <> 0 Then
+                                temppos = Len(insertText)
+                                nextchar = Mid(insertText, temppos, 1)
+                                While (nextchar <> " ")
+                                    If temppos = 1 Then
+                                        GoTo errortext
+                                    End If
+                                    temppos = temppos - 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                End While
+                                insertText = Mid(insertText, temppos + 1)
+                                If (Mid(TextBox2.Text, temppos - 1, 1) = ",") Then
+                                    insertText = TextBox2.Text
+                                    temppos = 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                    While (nextchar <> ",")
+                                        If temppos = Len(insertText) Then
+                                            GoTo errortext
+                                        End If
+                                        temppos = temppos + 1
+                                        nextchar = Mid(insertText, temppos, 1)
+                                    End While
+                                    insertText = Mid(insertText, 1, temppos - 1)
+                                End If
+                            End If
+                            If Len(insertText) > 1 Then
+                                insertText = Mid(insertText, 1, 1)
+                            End If
+                        ElseIf field = "Title" Then
+                            insertText = TextBox1.Text
+                        ElseIf field = "TitleFileAs" Then
+                            insertText = TextBox16.Text
+                        ElseIf field = "Series" Then
+                            insertText = TextBox15.Text
+                        ElseIf field = "SeriesIndex" Then
+                            insertText = TextBox14.Text
+                        ElseIf field = "Date" Then
+                            insertText = TextBox6.Text
+                        Else
+                            insertText = ""
+                        End If
+errortext:
+                        NewField = NewField + insertText
+                        currpos = endpos
+                    End If
+                End If
+            Else
+                NewField = NewField + Mid(ReplacementString, currpos, 1)
+            End If
+        End While
+        Return NewField
+    End Function
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
         ListBox1.Items.Clear()
         Button10.Enabled = False
@@ -4261,8 +4526,6 @@ skip:
     Private Sub LinkLabel3_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
         Dim viewerfilename, inidirectory, inifilename As String
         Dim result As Windows.Forms.DialogResult
-        Dim redorename As Boolean
-        redorename = False
 redo:
         ' get current template from ini file
         inidirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\EPubMetadataEditor"
@@ -4300,7 +4563,7 @@ redo:
 
         ' get current filename
         Form4.TextBox3.Text = System.IO.Path.GetFileNameWithoutExtension(OpenFileDialog1.FileName)
-        If ((My.Computer.Keyboard.ShiftKeyDown) And (Form4.TextBox1.Text <> "") And (Not redorename)) Then
+        If ((My.Computer.Keyboard.ShiftKeyDown) And (Form4.TextBox1.Text <> "")) Then
             Form4.UpdateFilename()
             result = Windows.Forms.DialogResult.OK
         Else
@@ -4310,37 +4573,35 @@ redo:
             ' rename file
             Dim destFileName = System.IO.Path.GetDirectoryName(OpenFileDialog1.FileName) + "\" + Form4.TextBox2.Text + ".epub"
             Dim directoryName = System.IO.Path.GetDirectoryName(destFileName)
-            Dim overwrite As Boolean
             If destFileName <> OpenFileDialog1.FileName Then
-                If (UCase(destFileName) = UCase(OpenFileDialog1.FileName)) Then
-                    DialogResult = MsgBox("The existing file and the renamed file differ only in case." + Chr(10) + "You will need to rename the file temporarily to a different filename.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
-                    redorename = True
-                    GoTo redo
-                End If
                 If (Not Directory.Exists(directoryName)) Then
                     Directory.CreateDirectory(System.IO.Path.GetDirectoryName(destFileName))
                 End If
-                overwrite = True
-                If (File.Exists(destFileName)) Then
-                    DialogResult = MsgBox("The following file already exists:" + Chr(10) + destFileName + Chr(10) + "Overwrite?", MsgBoxStyle.YesNo, "EPUB Metadata Editor")
-                    If DialogResult = Windows.Forms.DialogResult.Yes Then
-                        overwrite = True
-                    Else
-                        overwrite = False
+                If destFileName.ToString.ToUpper = OpenFileDialog1.FileName.ToString.ToUpper Then
+                    ' filenames differ only in case, so need to use a temp file
+                    System.IO.File.Copy(OpenFileDialog1.FileName, "tempepub.epub")
+                    System.IO.File.Delete(OpenFileDialog1.FileName)
+                    System.IO.File.Copy("tempepub.epub", destFileName)
+                    System.IO.File.Delete("tempepub.epub")
+                    OpenFileDialog1.FileName = destFileName
+                Else
+                    If (File.Exists(destFileName)) Then
+                        DialogResult = MsgBox("The following file already exists:" + Chr(10) + destFileName + Chr(10) + "Overwrite?", MsgBoxStyle.YesNo, "EPUB Metadata Editor")
+                        If DialogResult = Windows.Forms.DialogResult.No Then
+                            GoTo exitwithoutsaving
+                        End If
                     End If
-                End If
-                If overwrite Then
-                    System.IO.File.Copy(OpenFileDialog1.FileName, destFileName, overwrite)
+                    System.IO.File.Copy(OpenFileDialog1.FileName, destFileName, True)
                     System.IO.File.Delete(OpenFileDialog1.FileName)
                     OpenFileDialog1.FileName = destFileName
-                    If projectchanged Then
-                        Me.Text = "*" + CaptionString
-                    Else
-                        Me.Text = CaptionString
-                    End If
+                End If
+                If projectchanged Then
+                    Me.Text = "*" + CaptionString
+                Else
+                    Me.Text = CaptionString
                 End If
             End If
-
+exitwithoutsaving:
             ' update ini file
             objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.TextBox1.Text + Chr(34))
 
@@ -4585,9 +4846,13 @@ redo:
                                 insertText = ""
                                 If field = "Creator" Then
                                     insertText = TextBox2.Text
+                                ElseIf field = "CREATOR" Then
+                                    insertText = TextBox2.Text.ToUpper
                                 ElseIf field = "CreatorFileAs" Then
                                     insertText = TextBox12.Text
-                                ElseIf field = "CreatorSurnameOnly" Then
+                                ElseIf field = "CREATORFILEAS" Then
+                                    insertText = TextBox12.Text.ToUpper
+                                ElseIf ((field = "CreatorSurnameOnly") Or (field = "CREATORSURNAMEONLY")) Then
                                     insertText = TextBox2.Text
                                     If InStr(insertText, " ") <> 0 Then
                                         temppos = Len(insertText)
@@ -4614,7 +4879,10 @@ redo:
                                             insertText = Mid(insertText, 1, temppos - 1)
                                         End If
                                     End If
-                                ElseIf field = "CreatorFirstInitial" Then
+                                    If (field = "CREATORSURNAMEONLY") Then
+                                        insertText = insertText.ToUpper
+                                    End If
+                                ElseIf ((field = "CreatorFirstInitial") Or (field = "CREATORFIRSTINITIAL")) Then
                                     insertText = TextBox2.Text
                                     If InStr(insertText, " ") <> 0 Then
                                         temppos = Len(insertText)
@@ -4644,16 +4912,29 @@ redo:
                                     If Len(insertText) > 1 Then
                                         insertText = Mid(insertText, 1, 1)
                                     End If
+                                    If (field = "CREATORFIRSTINITIAL") Then
+                                        insertText = insertText.ToUpper
+                                    End If
                                 ElseIf field = "Title" Then
                                     insertText = TextBox1.Text
+                                ElseIf field = "TITLE" Then
+                                    insertText = TextBox1.Text.ToUpper
                                 ElseIf field = "TitleFileAs" Then
                                     insertText = TextBox16.Text
+                                ElseIf field = "TITLEFILEAS" Then
+                                    insertText = TextBox16.Text.ToUpper
                                 ElseIf field = "Series" Then
                                     insertText = TextBox15.Text
+                                ElseIf field = "SERIES" Then
+                                    insertText = TextBox15.Text.ToUpper
                                 ElseIf field = "SeriesIndex" Then
                                     insertText = TextBox14.Text
+                                ElseIf field = "SERIESINDEX" Then
+                                    insertText = TextBox14.Text.ToUpper
                                 ElseIf field = "Date" Then
                                     insertText = TextBox6.Text
+                                ElseIf field = "DATE" Then
+                                    insertText = TextBox6.Text.ToUpper
                                 Else
                                     insertText = ""
                                 End If
@@ -4693,30 +4974,35 @@ errortext:
                 'Rename file
                 newFileName = System.IO.Path.GetDirectoryName(ListBox1.Items(x - 1)) + "\" + newFileName + ".epub"
                 Dim directoryName = System.IO.Path.GetDirectoryName(newFileName)
-                Dim overwrite As Boolean
                 If newFileName <> ListBox1.Items(x - 1) Then
                     If (Not Directory.Exists(directoryName)) Then
                         Directory.CreateDirectory(System.IO.Path.GetDirectoryName(newFileName))
                     End If
-                    overwrite = True
-                    If (File.Exists(newFileName)) Then
-                        DialogResult = MsgBox("The following file already exists:" + Chr(10) + newFileName + Chr(10) + "Overwrite?", MsgBoxStyle.YesNo, "EPUB Metadata Editor")
-                        If DialogResult = Windows.Forms.DialogResult.Yes Then
-                            overwrite = True
-                        Else
-                            overwrite = False
+                    If newFileName.ToString.ToUpper = ListBox1.Items(x - 1).ToString.ToUpper Then
+                        ' filenames differ only in case, so need to use a temp file
+                        System.IO.File.Copy(ListBox1.Items(x - 1), "tempepub.epub")
+                        System.IO.File.Delete(ListBox1.Items(x - 1))
+                        System.IO.File.Copy("tempepub.epub", newFileName)
+                        System.IO.File.Delete("tempepub.epub")
+                        ListBox1.Items(x - 1) = newFileName
+                    Else
+                        If (File.Exists(newFileName)) Then
+                            DialogResult = MsgBox("The following file already exists:" + Chr(10) + newFileName + Chr(10) + "Overwrite?", MsgBoxStyle.YesNo, "EPUB Metadata Editor")
+                            If DialogResult = Windows.Forms.DialogResult.No Then
+                                GoTo exitwithoutsaving
+                            End If
                         End If
-                    End If
-                    If overwrite Then
-                        System.IO.File.Copy(ListBox1.Items(x - 1), newFileName, overwrite)
+                        System.IO.File.Copy(ListBox1.Items(x - 1), newFileName, True)
                         System.IO.File.Delete(ListBox1.Items(x - 1))
                         ListBox1.Items(x - 1) = newFileName
                     End If
                 End If
-
+exitwithoutsaving:
                 ClearInterface()
             Next
 
+            ListBox1.Sorted = True
+            ListBox1.Sorted = False
             ProgressBar1.Value = 0
             ProgressBar1.Update()
             ProgressBar1.Visible = False
@@ -5679,5 +5965,9 @@ errortext:
             ListBox1.Items.RemoveAt(ListBox1.SelectedIndex)
             ClearInterface()
         End If
+    End Sub
+
+    Private Sub LinkLabel10_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel10.LinkClicked
+        Form9.ShowDialog()
     End Sub
 End Class

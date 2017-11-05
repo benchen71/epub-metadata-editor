@@ -1,7 +1,6 @@
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.exe
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.pdb
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.xml
-C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\Ionic.Zip.dll
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\Interop.Scripting.dll
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\Interop.Scripting.dll
@@ -47,3 +46,4 @@ L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetada
 L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form8.resources
 L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Resources.resources
 L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.vbproj.GenerateResource.Cache
+C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.Form9.resources

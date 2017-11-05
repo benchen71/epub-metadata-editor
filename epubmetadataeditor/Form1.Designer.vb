@@ -96,6 +96,7 @@ Partial Class Form1
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Button44 = New System.Windows.Forms.Button
         Me.Button45 = New System.Windows.Forms.Button
+        Me.Button8 = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -108,7 +109,6 @@ Partial Class Form1
         Me.Button12 = New System.Windows.Forms.Button
         Me.Label13 = New System.Windows.Forms.Label
         Me.Label19 = New System.Windows.Forms.Label
-        Me.Button8 = New System.Windows.Forms.Button
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
         Me.OpenFileDialog4 = New System.Windows.Forms.OpenFileDialog
         Me.Label20 = New System.Windows.Forms.Label
@@ -174,6 +174,8 @@ Partial Class Form1
         Me.CheckBox12 = New System.Windows.Forms.CheckBox
         Me.LinkLabel9 = New System.Windows.Forms.LinkLabel
         Me.Button43 = New System.Windows.Forms.Button
+        Me.LinkLabel10 = New System.Windows.Forms.LinkLabel
+        Me.CheckBox13 = New System.Windows.Forms.CheckBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -546,7 +548,7 @@ Partial Class Form1
         Me.Button41.Enabled = False
         Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button41.Location = New System.Drawing.Point(1213, 378)
+        Me.Button41.Location = New System.Drawing.Point(1213, 395)
         Me.Button41.Name = "Button41"
         Me.Button41.Size = New System.Drawing.Size(26, 20)
         Me.Button41.TabIndex = 89
@@ -684,7 +686,7 @@ Partial Class Form1
         Me.Button40.Enabled = False
         Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
-        Me.Button40.Location = New System.Drawing.Point(1213, 278)
+        Me.Button40.Location = New System.Drawing.Point(1213, 295)
         Me.Button40.Name = "Button40"
         Me.Button40.Size = New System.Drawing.Size(26, 20)
         Me.Button40.TabIndex = 87
@@ -696,7 +698,7 @@ Partial Class Form1
         Me.Button39.Enabled = False
         Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
-        Me.Button39.Location = New System.Drawing.Point(1213, 252)
+        Me.Button39.Location = New System.Drawing.Point(1213, 269)
         Me.Button39.Name = "Button39"
         Me.Button39.Size = New System.Drawing.Size(26, 20)
         Me.Button39.TabIndex = 86
@@ -865,12 +867,22 @@ Partial Class Form1
         Me.Button45.Enabled = False
         Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
-        Me.Button45.Location = New System.Drawing.Point(1213, 352)
+        Me.Button45.Location = New System.Drawing.Point(1213, 369)
         Me.Button45.Name = "Button45"
         Me.Button45.Size = New System.Drawing.Size(26, 20)
         Me.Button45.TabIndex = 88
         Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
         Me.Button45.UseVisualStyleBackColor = True
+        '
+        'Button8
+        '
+        Me.Button8.Location = New System.Drawing.Point(327, 12)
+        Me.Button8.Name = "Button8"
+        Me.Button8.Size = New System.Drawing.Size(121, 30)
+        Me.Button8.TabIndex = 24
+        Me.Button8.Text = "View EPUB"
+        Me.ToolTip1.SetToolTip(Me.Button8, "View current EPUB in external viewer" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to open original file)")
+        Me.Button8.UseVisualStyleBackColor = True
         '
         'Label4
         '
@@ -891,10 +903,10 @@ Partial Class Form1
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.HorizontalScrollbar = True
-        Me.ListBox1.Location = New System.Drawing.Point(906, 251)
+        Me.ListBox1.Location = New System.Drawing.Point(906, 268)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(303, 147)
-        Me.ListBox1.TabIndex = 83
+        Me.ListBox1.TabIndex = 85
         Me.ListBox1.TabStop = False
         '
         'Button9
@@ -909,10 +921,10 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Enabled = False
-        Me.Button10.Location = New System.Drawing.Point(906, 219)
+        Me.Button10.Location = New System.Drawing.Point(906, 236)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 80
+        Me.Button10.TabIndex = 82
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -933,7 +945,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(906, 404)
+        Me.ProgressBar1.Location = New System.Drawing.Point(906, 424)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(303, 19)
         Me.ProgressBar1.TabIndex = 81
@@ -979,16 +991,6 @@ Partial Class Form1
         Me.Label19.TabIndex = 56
         Me.Label19.Text = "Series"
         '
-        'Button8
-        '
-        Me.Button8.Location = New System.Drawing.Point(327, 12)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(121, 30)
-        Me.Button8.TabIndex = 24
-        Me.Button8.Text = "View EPUB"
-        Me.ToolTip1.SetToolTip(Me.Button8, "View current EPUB in external viewer" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to open original file)")
-        Me.Button8.UseVisualStyleBackColor = True
-        '
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
@@ -1019,7 +1021,7 @@ Partial Class Form1
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(903, 438)
+        Me.Label21.Location = New System.Drawing.Point(903, 458)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(132, 17)
         Me.Label21.TabIndex = 66
@@ -1028,7 +1030,7 @@ Partial Class Form1
         'Button19
         '
         Me.Button19.Enabled = False
-        Me.Button19.Location = New System.Drawing.Point(906, 469)
+        Me.Button19.Location = New System.Drawing.Point(906, 489)
         Me.Button19.Name = "Button19"
         Me.Button19.Size = New System.Drawing.Size(140, 25)
         Me.Button19.TabIndex = 90
@@ -1038,7 +1040,7 @@ Partial Class Form1
         'Button20
         '
         Me.Button20.Enabled = False
-        Me.Button20.Location = New System.Drawing.Point(906, 500)
+        Me.Button20.Location = New System.Drawing.Point(906, 520)
         Me.Button20.Name = "Button20"
         Me.Button20.Size = New System.Drawing.Size(140, 25)
         Me.Button20.TabIndex = 91
@@ -1058,7 +1060,7 @@ Partial Class Form1
         'Button24
         '
         Me.Button24.Enabled = False
-        Me.Button24.Location = New System.Drawing.Point(906, 531)
+        Me.Button24.Location = New System.Drawing.Point(906, 551)
         Me.Button24.Name = "Button24"
         Me.Button24.Size = New System.Drawing.Size(140, 25)
         Me.Button24.TabIndex = 93
@@ -1117,7 +1119,7 @@ Partial Class Form1
         'Button26
         '
         Me.Button26.Enabled = False
-        Me.Button26.Location = New System.Drawing.Point(906, 562)
+        Me.Button26.Location = New System.Drawing.Point(906, 582)
         Me.Button26.Name = "Button26"
         Me.Button26.Size = New System.Drawing.Size(140, 25)
         Me.Button26.TabIndex = 94
@@ -1349,10 +1351,10 @@ Partial Class Form1
         'Button32
         '
         Me.Button32.Enabled = False
-        Me.Button32.Location = New System.Drawing.Point(1149, 219)
+        Me.Button32.Location = New System.Drawing.Point(1149, 236)
         Me.Button32.Name = "Button32"
         Me.Button32.Size = New System.Drawing.Size(90, 25)
-        Me.Button32.TabIndex = 82
+        Me.Button32.TabIndex = 84
         Me.Button32.Text = "Rename"
         Me.Button32.UseVisualStyleBackColor = True
         '
@@ -1360,10 +1362,10 @@ Partial Class Form1
         '
         Me.LinkLabel4.AutoSize = True
         Me.LinkLabel4.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel4.Location = New System.Drawing.Point(1096, 224)
+        Me.LinkLabel4.Location = New System.Drawing.Point(1096, 241)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(52, 13)
-        Me.LinkLabel4.TabIndex = 81
+        Me.LinkLabel4.TabIndex = 83
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Configure"
         '
@@ -1382,7 +1384,7 @@ Partial Class Form1
         'Button33
         '
         Me.Button33.Enabled = False
-        Me.Button33.Location = New System.Drawing.Point(907, 593)
+        Me.Button33.Location = New System.Drawing.Point(907, 613)
         Me.Button33.Name = "Button33"
         Me.Button33.Size = New System.Drawing.Size(140, 25)
         Me.Button33.TabIndex = 95
@@ -1391,7 +1393,7 @@ Partial Class Form1
         '
         'Button34
         '
-        Me.Button34.Location = New System.Drawing.Point(1052, 500)
+        Me.Button34.Location = New System.Drawing.Point(1052, 520)
         Me.Button34.Name = "Button34"
         Me.Button34.Size = New System.Drawing.Size(140, 25)
         Me.Button34.TabIndex = 92
@@ -1661,18 +1663,40 @@ Partial Class Form1
         'Button43
         '
         Me.Button43.Enabled = False
-        Me.Button43.Location = New System.Drawing.Point(1053, 562)
+        Me.Button43.Location = New System.Drawing.Point(1053, 582)
         Me.Button43.Name = "Button43"
         Me.Button43.Size = New System.Drawing.Size(140, 56)
         Me.Button43.TabIndex = 96
         Me.Button43.Text = "Show EPUB contents in Windows Explorer"
         Me.Button43.UseVisualStyleBackColor = True
         '
+        'LinkLabel10
+        '
+        Me.LinkLabel10.AutoSize = True
+        Me.LinkLabel10.Location = New System.Drawing.Point(1193, 214)
+        Me.LinkLabel10.Name = "LinkLabel10"
+        Me.LinkLabel10.Size = New System.Drawing.Size(29, 13)
+        Me.LinkLabel10.TabIndex = 81
+        Me.LinkLabel10.TabStop = True
+        Me.LinkLabel10.Text = "Field"
+        '
+        'CheckBox13
+        '
+        Me.CheckBox13.AutoSize = True
+        Me.CheckBox13.Location = New System.Drawing.Point(1068, 213)
+        Me.CheckBox13.Name = "CheckBox13"
+        Me.CheckBox13.Size = New System.Drawing.Size(130, 17)
+        Me.CheckBox13.TabIndex = 80
+        Me.CheckBox13.Text = "Find and Replace in..."
+        Me.CheckBox13.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.LinkLabel10)
+        Me.Controls.Add(Me.CheckBox13)
         Me.Controls.Add(Me.Button45)
         Me.Controls.Add(Me.Button43)
         Me.Controls.Add(Me.Button44)
@@ -1958,5 +1982,7 @@ Partial Class Form1
     Friend WithEvents Button44 As System.Windows.Forms.Button
     Friend WithEvents Button43 As System.Windows.Forms.Button
     Friend WithEvents Button45 As System.Windows.Forms.Button
+    Friend WithEvents LinkLabel10 As System.Windows.Forms.LinkLabel
+    Friend WithEvents CheckBox13 As System.Windows.Forms.CheckBox
 
 End Class
