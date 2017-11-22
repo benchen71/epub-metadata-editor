@@ -1,16 +1,2 @@
-1.6.3
-[*] Fix: Rename batch operation now handles uppercase fields.
-[*] Fix: Handle file renaming when old and new filenames differ only in case.
-[*] New batch operation: Find and Replace in fields. 
-[*] New: Replace field batch operation now includes field tokens, allowing for more complicated replacements.
-
-The most useful fields are %CurrentContents%, %CURRENTCONTENTS%, %currentcontents%, %CurrentContentsTitleCase% (all words except for small words [defined by clicking the "Edit" link adjacent to Title] are capitalised) and %CurrentContentsTitleCaseAll% (all words are capitalised) which can be used to apply various cases to fields.  However, the content of some other fields can also be used.  For example, to make book titles that are part of a series sort together and in the correct sequence, check the Title box and put
-
-%Series% - %SeriesIndex%. %CurrentContents%
-
-in the replacement text area.  (Alternatively, instead of %Series% you could put an appropriate abbreviation.  For example,
-
-HP%SeriesIndex%. %CurrentContents%
-
-for the Harry Potter series.)
-WARNING: Using these field tokens could seriously alter your metadata.  Use at own risk!
+1.6.4
+[*] Bug fix: manage folders ending with spaces during rename operations.

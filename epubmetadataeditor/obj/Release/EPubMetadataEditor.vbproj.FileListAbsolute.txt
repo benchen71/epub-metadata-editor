@@ -47,3 +47,4 @@ C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Re
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Resources.resources
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.vbproj.GenerateResource.Cache
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form9.resources
+L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form9.resources

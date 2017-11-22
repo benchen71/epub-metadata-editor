@@ -6,7 +6,20 @@ EPubMetadataEditor
 </name>
 </assembly>
 <members>
-<member name="F:EPubMetadataEditor.ZipStorer.Compression.Store">
+<member name="P:EPubMetadataEditor.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:EPubMetadataEditor.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:EPubMetadataEditor.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="F:EPubMetadataEditor.ZipStorer.Compression.Store">
 	<summary>Uncompressed storage</summary>
 </member><member name="F:EPubMetadataEditor.ZipStorer.Compression.Deflate">
 	<summary>Deflate compression method</summary>
@@ -140,19 +153,6 @@ EPubMetadataEditor
 	<summary>
  Closes the Zip file stream
  </summary>
-</member><member name="P:EPubMetadataEditor.My.Resources.Resources.ResourceManager">
-	<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member><member name="P:EPubMetadataEditor.My.Resources.Resources.Culture">
-	<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member><member name="T:EPubMetadataEditor.My.Resources.Resources">
-	<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
 </member>
 </members>
 </doc>
