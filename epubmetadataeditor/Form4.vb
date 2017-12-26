@@ -263,9 +263,12 @@ errortext:
             x = x + 1
         End While
 
-        'Deal with folders ending in spaces
+        'Deal with folders ending (or beginning) in spaces
         While (newFileName.Contains(" \"))
             newFileName = newFileName.Replace(" \", "\")
+        End While
+        While (newFileName.Contains("\ "))
+            newFileName = newFileName.Replace("\ ", "\")
         End While
 
         'Replace html characters

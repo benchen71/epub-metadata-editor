@@ -1812,6 +1812,12 @@ errortext:
             Exit Sub
         End If
 
+        If ((CheckBox11.Checked) And ((Form10.CheckBox1.Checked = False) And (Form10.CheckBox2.Checked = False) And (Form10.CheckBox3.Checked = False))) Then
+            MsgBox("You need to select at least one cover fix!")
+            Form10.ShowDialog()
+            Exit Sub
+        End If
+
         If ((CheckBox12.Checked) And (Form7.CheckedListBox1.CheckedItems.Count = 0)) Then
             MsgBox("You need to select a field to replace!")
             Form7.ShowDialog()
@@ -2213,13 +2219,13 @@ errortext:
 
             ' Do the cover fixes now
             If CheckBox11.Checked = True Then
-                If Button35.Visible Then
+                If ((Button35.Visible) And (Form10.CheckBox1.Checked)) Then
                     Button35_Click(sender, e)
                 End If
-                If Button1.Visible Then
+                If ((Button1.Visible) And (Form10.CheckBox2.Checked)) Then
                     Button1_Click(sender, e)
                 End If
-                If Button27.Visible Then
+                If ((Button27.Visible) And (Form10.CheckBox3.Checked)) Then
                     Button27_Click(sender, e)
                 End If
             End If
@@ -5969,5 +5975,9 @@ exitwithoutsaving:
 
     Private Sub LinkLabel10_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel10.LinkClicked
         Form9.ShowDialog()
+    End Sub
+
+    Private Sub LinkLabel11_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel11.LinkClicked
+        Form10.ShowDialog()
     End Sub
 End Class

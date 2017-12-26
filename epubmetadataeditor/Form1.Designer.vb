@@ -176,6 +176,7 @@ Partial Class Form1
         Me.Button43 = New System.Windows.Forms.Button
         Me.LinkLabel10 = New System.Windows.Forms.LinkLabel
         Me.CheckBox13 = New System.Windows.Forms.CheckBox
+        Me.LinkLabel11 = New System.Windows.Forms.LinkLabel
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -551,7 +552,7 @@ Partial Class Form1
         Me.Button41.Location = New System.Drawing.Point(1213, 395)
         Me.Button41.Name = "Button41"
         Me.Button41.Size = New System.Drawing.Size(26, 20)
-        Me.Button41.TabIndex = 89
+        Me.Button41.TabIndex = 91
         Me.Button41.Text = "S"
         Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
@@ -689,7 +690,7 @@ Partial Class Form1
         Me.Button40.Location = New System.Drawing.Point(1213, 295)
         Me.Button40.Name = "Button40"
         Me.Button40.Size = New System.Drawing.Size(26, 20)
-        Me.Button40.TabIndex = 87
+        Me.Button40.TabIndex = 89
         Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
         Me.Button40.UseVisualStyleBackColor = True
         '
@@ -701,7 +702,7 @@ Partial Class Form1
         Me.Button39.Location = New System.Drawing.Point(1213, 269)
         Me.Button39.Name = "Button39"
         Me.Button39.Size = New System.Drawing.Size(26, 20)
-        Me.Button39.TabIndex = 86
+        Me.Button39.TabIndex = 88
         Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
         Me.Button39.UseVisualStyleBackColor = True
         '
@@ -870,7 +871,7 @@ Partial Class Form1
         Me.Button45.Location = New System.Drawing.Point(1213, 369)
         Me.Button45.Name = "Button45"
         Me.Button45.Size = New System.Drawing.Size(26, 20)
-        Me.Button45.TabIndex = 88
+        Me.Button45.TabIndex = 90
         Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
         Me.Button45.UseVisualStyleBackColor = True
         '
@@ -906,7 +907,7 @@ Partial Class Form1
         Me.ListBox1.Location = New System.Drawing.Point(906, 268)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(303, 147)
-        Me.ListBox1.TabIndex = 85
+        Me.ListBox1.TabIndex = 87
         Me.ListBox1.TabStop = False
         '
         'Button9
@@ -924,7 +925,7 @@ Partial Class Form1
         Me.Button10.Location = New System.Drawing.Point(906, 236)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 82
+        Me.Button10.TabIndex = 84
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -1033,7 +1034,7 @@ Partial Class Form1
         Me.Button19.Location = New System.Drawing.Point(906, 489)
         Me.Button19.Name = "Button19"
         Me.Button19.Size = New System.Drawing.Size(140, 25)
-        Me.Button19.TabIndex = 90
+        Me.Button19.TabIndex = 92
         Me.Button19.Text = "Edit .opf file"
         Me.Button19.UseVisualStyleBackColor = True
         '
@@ -1043,7 +1044,7 @@ Partial Class Form1
         Me.Button20.Location = New System.Drawing.Point(906, 520)
         Me.Button20.Name = "Button20"
         Me.Button20.Size = New System.Drawing.Size(140, 25)
-        Me.Button20.TabIndex = 91
+        Me.Button20.TabIndex = 93
         Me.Button20.Text = "Edit toc.ncx file"
         Me.Button20.UseVisualStyleBackColor = True
         '
@@ -1063,7 +1064,7 @@ Partial Class Form1
         Me.Button24.Location = New System.Drawing.Point(906, 551)
         Me.Button24.Name = "Button24"
         Me.Button24.Size = New System.Drawing.Size(140, 25)
-        Me.Button24.TabIndex = 93
+        Me.Button24.TabIndex = 95
         Me.Button24.Text = "Edit page-map.xml file"
         Me.Button24.UseVisualStyleBackColor = True
         '
@@ -1122,7 +1123,7 @@ Partial Class Form1
         Me.Button26.Location = New System.Drawing.Point(906, 582)
         Me.Button26.Name = "Button26"
         Me.Button26.Size = New System.Drawing.Size(140, 25)
-        Me.Button26.TabIndex = 94
+        Me.Button26.TabIndex = 96
         Me.Button26.Text = "Edit file..."
         Me.Button26.UseVisualStyleBackColor = True
         '
@@ -1354,7 +1355,7 @@ Partial Class Form1
         Me.Button32.Location = New System.Drawing.Point(1149, 236)
         Me.Button32.Name = "Button32"
         Me.Button32.Size = New System.Drawing.Size(90, 25)
-        Me.Button32.TabIndex = 84
+        Me.Button32.TabIndex = 86
         Me.Button32.Text = "Rename"
         Me.Button32.UseVisualStyleBackColor = True
         '
@@ -1365,7 +1366,7 @@ Partial Class Form1
         Me.LinkLabel4.Location = New System.Drawing.Point(1096, 241)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(52, 13)
-        Me.LinkLabel4.TabIndex = 83
+        Me.LinkLabel4.TabIndex = 85
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Configure"
         '
@@ -1387,7 +1388,7 @@ Partial Class Form1
         Me.Button33.Location = New System.Drawing.Point(907, 613)
         Me.Button33.Name = "Button33"
         Me.Button33.Size = New System.Drawing.Size(140, 25)
-        Me.Button33.TabIndex = 95
+        Me.Button33.TabIndex = 97
         Me.Button33.Text = "View file..."
         Me.Button33.UseVisualStyleBackColor = True
         '
@@ -1396,7 +1397,7 @@ Partial Class Form1
         Me.Button34.Location = New System.Drawing.Point(1052, 520)
         Me.Button34.Name = "Button34"
         Me.Button34.Size = New System.Drawing.Size(140, 25)
-        Me.Button34.TabIndex = 92
+        Me.Button34.TabIndex = 94
         Me.Button34.Text = "Edit toc.ncx file"
         Me.Button34.UseVisualStyleBackColor = True
         Me.Button34.Visible = False
@@ -1635,9 +1636,9 @@ Partial Class Form1
         Me.CheckBox11.AutoSize = True
         Me.CheckBox11.Location = New System.Drawing.Point(906, 195)
         Me.CheckBox11.Name = "CheckBox11"
-        Me.CheckBox11.Size = New System.Drawing.Size(123, 17)
+        Me.CheckBox11.Size = New System.Drawing.Size(119, 17)
         Me.CheckBox11.TabIndex = 77
-        Me.CheckBox11.Text = "Apply all Cover Fixes"
+        Me.CheckBox11.Text = "Apply Cover Fixes..."
         Me.CheckBox11.UseVisualStyleBackColor = True
         '
         'CheckBox12
@@ -1646,7 +1647,7 @@ Partial Class Form1
         Me.CheckBox12.Location = New System.Drawing.Point(1068, 195)
         Me.CheckBox12.Name = "CheckBox12"
         Me.CheckBox12.Size = New System.Drawing.Size(75, 17)
-        Me.CheckBox12.TabIndex = 78
+        Me.CheckBox12.TabIndex = 79
         Me.CheckBox12.Text = "Replace..."
         Me.CheckBox12.UseVisualStyleBackColor = True
         '
@@ -1656,7 +1657,7 @@ Partial Class Form1
         Me.LinkLabel9.Location = New System.Drawing.Point(1138, 196)
         Me.LinkLabel9.Name = "LinkLabel9"
         Me.LinkLabel9.Size = New System.Drawing.Size(29, 13)
-        Me.LinkLabel9.TabIndex = 79
+        Me.LinkLabel9.TabIndex = 80
         Me.LinkLabel9.TabStop = True
         Me.LinkLabel9.Text = "Field"
         '
@@ -1666,7 +1667,7 @@ Partial Class Form1
         Me.Button43.Location = New System.Drawing.Point(1053, 582)
         Me.Button43.Name = "Button43"
         Me.Button43.Size = New System.Drawing.Size(140, 56)
-        Me.Button43.TabIndex = 96
+        Me.Button43.TabIndex = 98
         Me.Button43.Text = "Show EPUB contents in Windows Explorer"
         Me.Button43.UseVisualStyleBackColor = True
         '
@@ -1676,7 +1677,7 @@ Partial Class Form1
         Me.LinkLabel10.Location = New System.Drawing.Point(1193, 214)
         Me.LinkLabel10.Name = "LinkLabel10"
         Me.LinkLabel10.Size = New System.Drawing.Size(29, 13)
-        Me.LinkLabel10.TabIndex = 81
+        Me.LinkLabel10.TabIndex = 82
         Me.LinkLabel10.TabStop = True
         Me.LinkLabel10.Text = "Field"
         '
@@ -1686,15 +1687,26 @@ Partial Class Form1
         Me.CheckBox13.Location = New System.Drawing.Point(1068, 213)
         Me.CheckBox13.Name = "CheckBox13"
         Me.CheckBox13.Size = New System.Drawing.Size(130, 17)
-        Me.CheckBox13.TabIndex = 80
+        Me.CheckBox13.TabIndex = 81
         Me.CheckBox13.Text = "Find and Replace in..."
         Me.CheckBox13.UseVisualStyleBackColor = True
+        '
+        'LinkLabel11
+        '
+        Me.LinkLabel11.AutoSize = True
+        Me.LinkLabel11.Location = New System.Drawing.Point(1019, 196)
+        Me.LinkLabel11.Name = "LinkLabel11"
+        Me.LinkLabel11.Size = New System.Drawing.Size(43, 13)
+        Me.LinkLabel11.TabIndex = 78
+        Me.LinkLabel11.TabStop = True
+        Me.LinkLabel11.Text = "Choose"
         '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.LinkLabel11)
         Me.Controls.Add(Me.LinkLabel10)
         Me.Controls.Add(Me.CheckBox13)
         Me.Controls.Add(Me.Button45)
@@ -1984,5 +1996,6 @@ Partial Class Form1
     Friend WithEvents Button45 As System.Windows.Forms.Button
     Friend WithEvents LinkLabel10 As System.Windows.Forms.LinkLabel
     Friend WithEvents CheckBox13 As System.Windows.Forms.CheckBox
+    Friend WithEvents LinkLabel11 As System.Windows.Forms.LinkLabel
 
 End Class
