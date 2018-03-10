@@ -523,8 +523,8 @@ lookforpagemap:
                     startpos = InStr(metadatafile, "calibre:title_sort")
                     If startpos <> 0 Then
                         temppos = startpos
-                        startpos = InStrRev(metadatafile, "<meta", startpos)
-                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                        startpos = InStrRev(metadatafile, "<meta ", startpos)
+                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta ")
                         startpos = InStr(startpos, metadatafile, "content=")
                         endpos = InStr(startpos + 9, metadatafile, Chr(34))
                         If ((startpos <> 0) And (startpos < endpos)) Then
@@ -554,8 +554,8 @@ lookforpagemap:
                     startpos = InStr(metadatafile, "calibre:title_sort")
                     If startpos <> 0 Then
                         temppos = startpos
-                        startpos = InStrRev(metadatafile, "<meta", startpos)
-                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                        startpos = InStrRev(metadatafile, "<meta ", startpos)
+                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta ")
                         endpos = InStr(startpos, metadatafile, "/>")
                         startpos = InStr(startpos, metadatafile, "content=")
                         If ((startpos <> 0) And (startpos < endpos)) Then
@@ -3173,78 +3173,83 @@ errortext:
         Dim dcnamespace As String
         Dim startpos, namespacelen, endpos, extracheck, temppos As Integer
 
-        'Check for corrupted xml first line
-        endpos = InStr(metadatafile, Chr(10))
-        Dim tempstring As String = Mid(metadatafile, 1, endpos)
-        If InStr(tempstring, " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34)) Then
-            tempstring = tempstring.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
-            metadatafile = tempstring + Mid(metadatafile, endpos + 1)
-        End If
+        Try
+            'Check for corrupted xml first line
+            endpos = InStr(metadatafile, Chr(10))
+            Dim tempstring As String = Mid(metadatafile, 1, endpos)
+            If InStr(tempstring, " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34)) Then
+                tempstring = tempstring.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
+                metadatafile = tempstring + Mid(metadatafile, endpos + 1)
+            End If
 
-        'Check for non-standard dc namespace tags
-        startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
-        If ((startpos <> 0) And (startpos < endpos)) Then
-            ' work backwards to find the xmlns definition
-            namespacelen = 0
-            While (startpos - namespacelen <> 0)
-                namespacelen = namespacelen + 1
-                If Mid(metadatafile, startpos - namespacelen, 6) = "xmlns:" Then
-                    Exit While
+            'Check for non-standard dc namespace tags
+            startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
+            If ((startpos <> 0) And (startpos < endpos)) Then
+                ' work backwards to find the xmlns definition
+                namespacelen = 0
+                While (startpos - namespacelen <> 0)
+                    namespacelen = namespacelen + 1
+                    If Mid(metadatafile, startpos - namespacelen, 6) = "xmlns:" Then
+                        Exit While
+                    End If
+                End While
+                If namespacelen < startpos Then
+                    dcnamespace = Mid(metadatafile, startpos - namespacelen + 6, namespacelen - 6)
+                    metadatafile = metadatafile.Replace(dcnamespace + ":", "dc:")
+                    metadatafile = metadatafile.Replace("xmlns:" + dcnamespace, "xmlns:dc")
                 End If
-            End While
-            If namespacelen < startpos Then
-                dcnamespace = Mid(metadatafile, startpos - namespacelen + 6, namespacelen - 6)
-                metadatafile = metadatafile.Replace(dcnamespace + ":", "dc:")
-                metadatafile = metadatafile.Replace("xmlns:" + dcnamespace, "xmlns:dc")
-            End If
-        Else
-            metadatafile = metadatafile.Replace(" xmlns=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
-        End If
-
-        'Check for non-standard opf namespace tags
-        If (InStr(metadatafile, "<opf:metadata") Or InStr(metadatafile, "<opf:manifest")) Then
-            metadatafile = metadatafile.Replace("<opf:", "<")
-            metadatafile = metadatafile.Replace("</opf:", "</")
-        End If
-        If (InStr(metadatafile, "<ns0:metadata") Or InStr(metadatafile, "<ns0:manifest")) Then
-            metadatafile = metadatafile.Replace("<ns0:", "<")
-            metadatafile = metadatafile.Replace("<ns1:", "<dc:")
-            metadatafile = metadatafile.Replace("</ns0:", "</")
-            metadatafile = metadatafile.Replace("</ns1:", "</dc:")
-        End If
-
-        'Search for multiple xmlns:dc="http://purl.org/dc/elements/1.1/"
-        metadatafile = metadatafile.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
-        startpos = InStr(metadatafile, "<metadata")
-        metadatafile = Mid(metadatafile, 1, startpos + 8) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
-
-        'Search for xmlns:opf="http://www.idpf.org/2007/opf"
-        startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
-        temppos = InStr(metadatafile, "<dc:")
-        If ((startpos = 0) Or (startpos > temppos)) Then
-            metadatafile = metadatafile.Replace(" xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "")
-            'Add it to <metadata > tag
-            startpos = InStr(metadatafile, "<metadata")
-            startpos = InStr(startpos, metadatafile, ">") - 1
-            extracheck = InStr(metadatafile, "xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34))
-            If extracheck = 0 Then
-                metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
             Else
-                metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
+                metadatafile = metadatafile.Replace(" xmlns=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
             End If
-        End If
 
-        'Search for xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata"
-        startpos = InStr(metadatafile, "xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34))
-        temppos = InStr(metadatafile, "calibre:series")
-        If ((startpos = 0) And ((temppos > 0) Or (TextBox15.Text <> ""))) Then
-            'Add it to <metadata > tag
+            'Check for non-standard opf namespace tags
+            If (InStr(metadatafile, "<opf:metadata") Or InStr(metadatafile, "<opf:manifest")) Then
+                metadatafile = metadatafile.Replace("<opf:", "<")
+                metadatafile = metadatafile.Replace("</opf:", "</")
+            End If
+            If (InStr(metadatafile, "<ns0:metadata") Or InStr(metadatafile, "<ns0:manifest")) Then
+                metadatafile = metadatafile.Replace("<ns0:", "<")
+                metadatafile = metadatafile.Replace("<ns1:", "<dc:")
+                metadatafile = metadatafile.Replace("</ns0:", "</")
+                metadatafile = metadatafile.Replace("</ns1:", "</dc:")
+            End If
+
+            'Search for multiple xmlns:dc="http://purl.org/dc/elements/1.1/"
+            metadatafile = metadatafile.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
             startpos = InStr(metadatafile, "<metadata")
-            startpos = InStr(startpos, metadatafile, ">") - 1
-            metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34) + Mid(metadatafile, startpos + 1)
-        End If
+            metadatafile = Mid(metadatafile, 1, startpos + 8) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
 
-        Return metadatafile
+            'Search for xmlns:opf="http://www.idpf.org/2007/opf"
+            startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
+            temppos = InStr(metadatafile, "<dc:")
+            If ((startpos = 0) Or (startpos > temppos)) Then
+                metadatafile = metadatafile.Replace(" xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "")
+                'Add it to <metadata > tag
+                startpos = InStr(metadatafile, "<metadata")
+                startpos = InStr(startpos, metadatafile, ">") - 1
+                extracheck = InStr(metadatafile, "xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34))
+                If extracheck = 0 Then
+                    metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
+                Else
+                    metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34) + Mid(metadatafile, startpos + 1)
+                End If
+            End If
+
+            'Search for xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata"
+            startpos = InStr(metadatafile, "xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34))
+            temppos = InStr(metadatafile, "calibre:series")
+            If ((startpos = 0) And ((temppos > 0) Or (TextBox15.Text <> ""))) Then
+                'Add it to <metadata > tag
+                startpos = InStr(metadatafile, "<metadata")
+                startpos = InStr(startpos, metadatafile, ">") - 1
+                metadatafile = Mid(metadatafile, 1, startpos) + " xmlns:calibre=" + Chr(34) + "http://calibre.kovidgoyal.net/2009/metadata" + Chr(34) + Mid(metadatafile, startpos + 1)
+            End If
+
+            Return metadatafile
+        Catch ex As Exception
+            MsgBox("ERROR: opf file is corrupt. You will need to edit this file manually before you can save this EPUB file.", MsgBoxStyle.Critical, "EPUB Metadata Editor")
+            Return metadatafile
+        End Try
     End Function
     Private Sub SaveEpub(ByVal EpubFileName As String, ByVal SaveOPFOnly As Boolean)
         Dim metadatafile, optionaltext, optionaltext2 As String
@@ -3318,10 +3323,10 @@ errortext:
             startpos = InStr(metadatafile, "calibre:title_sort")
             If startpos <> 0 Then
                 temppos = startpos
-                startpos = InStrRev(metadatafile, "<meta", startpos)
+                startpos = InStrRev(metadatafile, "<meta ", startpos)
                 opfmeta = False
                 If startpos = 0 Then
-                    startpos = InStrRev(metadatafile, "<opf:meta", temppos)
+                    startpos = InStrRev(metadatafile, "<opf:meta ", temppos)
                     opfmeta = True
                 End If
                 endpos = InStr(startpos + 9, metadatafile, "/>")
@@ -3343,8 +3348,8 @@ errortext:
             startpos = InStr(metadatafile, "calibre:title_sort")
             If startpos <> 0 Then
                 temppos = startpos
-                startpos = InStrRev(metadatafile, "<meta", startpos)
-                If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta", temppos)
+                startpos = InStrRev(metadatafile, "<meta ", startpos)
+                If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta ", temppos)
                 endpos = InStr(startpos, metadatafile, "/>")
                 If ((startpos <> 0) And (startpos < endpos)) Then
                     metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 3)
