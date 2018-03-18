@@ -4469,6 +4469,7 @@ outputsource:
         Dim str As String = ""
         Dim currpos As Integer
         Dim client As WebClient = New WebClient()
+        ServicePointManager.SecurityProtocol = DirectCast(3072, SecurityProtocolType)
 
         returnstring = ""
 

@@ -1,3 +1,2 @@
-1.6.6
-[*] Better handle errors encountered in cleaning OPF file.
-[*] Fix for handling calibre:title_sort field.
+1.6.7
+[*] Fix for update search failing.
