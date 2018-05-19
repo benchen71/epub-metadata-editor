@@ -19,85 +19,6 @@ EPubMetadataEditor
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.Compression.Store">
-	<summary>Uncompressed storage</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.Compression.Deflate">
-	<summary>Deflate compression method</summary>
-</member><member name="T:EPubMetadataEditor.ZipStorer.Compression">
-	<summary>
- Compression method enumeration
- </summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.Method">
-	<summary>Compression method</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.FilenameInZip">
-	<summary>Full path and filename as stored in Zip</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.FileSize">
-	<summary>Original file size</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.CompressedSize">
-	<summary>Compressed file size</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.HeaderOffset">
-	<summary>Offset of header information inside Zip storage</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.FileOffset">
-	<summary>Offset of file inside Zip storage</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.HeaderSize">
-	<summary>Size of header information</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.Crc32">
-	<summary>32-bit checksum of entire file</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.ModifyTime">
-	<summary>Last modification time of file</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.Comment">
-	<summary>User comment for file</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ZipFileEntry.EncodeUTF8">
-	<summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
-</member><member name="M:EPubMetadataEditor.ZipStorer.ZipFileEntry.IsDirectory">
-	<summary>True if filename ends with slash</summary>
-</member><member name="M:EPubMetadataEditor.ZipStorer.ZipFileEntry.ToString">
-	<summary>Overriden method</summary>
-	<returns>Filename in Zip</returns>
-</member><member name="T:EPubMetadataEditor.ZipStorer.ZipFileEntry">
-	<summary>
- Represents an entry in Zip file directory
- </summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.EncodeUTF8">
-	<summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
-</member><member name="F:EPubMetadataEditor.ZipStorer.ForceDeflating">
-	<summary>Force deflate algotithm even if it inflates the stored file. Off by default.</summary>
-</member><member name="M:EPubMetadataEditor.ZipStorer.Create(System.String,System.String)">
-	<summary>
- Method to create a new storage file
- </summary>
-	<param name="_filename">Full path of Zip file to create</param>
-	<param name="_comment">General comment for Zip file</param>
-	<returns>A valid ZipStorer object</returns>
-</member><member name="M:EPubMetadataEditor.ZipStorer.Create(System.IO.Stream,System.String)">
-	<summary>
- Method to create a new zip storage in a stream
- </summary>
-	<param name="_stream"></param>
-	<param name="_comment"></param>
-	<returns>A valid ZipStorer object</returns>
-</member><member name="M:EPubMetadataEditor.ZipStorer.Open(System.String,System.IO.FileAccess)">
-	<summary>
- Method to open an existing storage file
- </summary>
-	<param name="_filename">Full path of Zip file to open</param>
-	<param name="_access">File access mode as used in FileStream constructor</param>
-	<returns>A valid ZipStorer object</returns>
-</member><member name="M:EPubMetadataEditor.ZipStorer.Open(System.IO.Stream,System.IO.FileAccess)">
-	<summary>
- Method to open an existing storage from stream
- </summary>
-	<param name="_stream">Already opened stream with zip contents</param>
-	<param name="_access">File access mode for stream operations</param>
-	<returns>A valid ZipStorer object</returns>
-</member><member name="M:EPubMetadataEditor.ZipStorer.AddFile(EPubMetadataEditor.ZipStorer.Compression,System.String,System.String,System.String)">
-	<summary>
- Add full contents of a file into the Zip storage
- </summary>
-	<param name="_method">Compression method</param>
-	<param name="_pathname">Full path of file to add to Zip storage</param>
-	<param name="_filenameInZip">Filename and path as desired in Zip directory</param>
-	<param name="_comment">Comment for stored file</param>
 </member><member name="M:EPubMetadataEditor.ZipStorer.AddDirectory(EPubMetadataEditor.ZipStorer.Compression,System.String,System.String,System.String)">
 	<summary>
  Add full contents of a directory into the Zip storage
@@ -106,53 +27,6 @@ EPubMetadataEditor
 	<param name="_pathname">Full path of directory to add to Zip storage</param>
 	<param name="_pathnameInZip">Path name as desired in Zip directory</param>
 	<param name="_comment">Comment for stored directory</param>
-</member><member name="M:EPubMetadataEditor.ZipStorer.AddStream(EPubMetadataEditor.ZipStorer.Compression,System.String,System.IO.Stream,System.DateTime,System.String)">
-	<summary>
- Add full contents of a stream into the Zip storage
- </summary>
-	<param name="_method">Compression method</param>
-	<param name="_filenameInZip">Filename and path as desired in Zip directory</param>
-	<param name="_source">Stream object containing the data to store in Zip</param>
-	<param name="_modTime">Modification time of the data to store</param>
-	<param name="_comment">Comment for stored file</param>
-</member><member name="M:EPubMetadataEditor.ZipStorer.Close">
-	<summary>
- Updates central directory (if pertinent) and close the Zip storage
- </summary>
-	<remarks>This is a required step, unless automatic dispose is used</remarks>
-</member><member name="M:EPubMetadataEditor.ZipStorer.ReadCentralDir">
-	<summary>
- Read all the file records in the central directory 
- </summary>
-	<returns>List of all entries in directory</returns>
-</member><member name="M:EPubMetadataEditor.ZipStorer.ExtractFile(EPubMetadataEditor.ZipStorer.ZipFileEntry,System.String)">
-	<summary>
- Copy the contents of a stored file into a physical file
- </summary>
-	<param name="_zfe">Entry information of file to extract</param>
-	<param name="_filename">Name of file to store uncompressed data</param>
-	<returns>True if success, false if not.</returns>
-	<remarks>Unique compression methods are Store and Deflate</remarks>
-</member><member name="M:EPubMetadataEditor.ZipStorer.ExtractFile(EPubMetadataEditor.ZipStorer.ZipFileEntry,System.IO.Stream)">
-	<summary>
- Copy the contents of a stored file into an opened stream
- </summary>
-	<param name="_zfe">Entry information of file to extract</param>
-	<param name="_stream">Stream to store the uncompressed data</param>
-	<returns>True if success, false if not.</returns>
-	<remarks>Unique compression methods are Store and Deflate</remarks>
-</member><member name="M:EPubMetadataEditor.ZipStorer.RemoveEntries(EPubMetadataEditor.ZipStorer@,System.Collections.Generic.List{EPubMetadataEditor.ZipStorer.ZipFileEntry})">
-	<summary>
- Removes one of many files in storage. It creates a new Zip file.
- </summary>
-	<param name="_zip">Reference to the current Zip object</param>
-	<param name="_zfes">List of Entries to remove from storage</param>
-	<returns>True if success, false if not</returns>
-	<remarks>This method only works for storage of type FileStream</remarks>
-</member><member name="M:EPubMetadataEditor.ZipStorer.Dispose">
-	<summary>
- Closes the Zip file stream
- </summary>
 </member>
 </members>
 </doc>

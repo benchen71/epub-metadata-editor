@@ -154,7 +154,13 @@ Public Class Form1
                         ChDir(tempdirectory)
                         If ebookdirectory <> "" Then
                             If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                                My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                                Try
+                                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                                Catch ex As Exception
+                                    Dim instance = Convert.ToInt16(Mid(ebookdirectory, InStrRev(ebookdirectory, "B" + 1)))
+                                    instance = instance + 1
+                                    ebookdirectory = tempdirectory + "EPUB" + Trim(Str(instance))
+                                End Try
                             End If
                         End If
                     End If
@@ -188,7 +194,10 @@ Public Class Form1
             If DialogResult = Windows.Forms.DialogResult.No Then
                 ChDir(tempdirectory)
                 If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Try
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Catch ex As Exception
+                    End Try
                 End If
                 End
             ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
@@ -199,14 +208,17 @@ Public Class Form1
         Else
             ChDir(tempdirectory)
             If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                Try
+                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                Catch ex As Exception
+                End Try
             End If
             End
         End If
     End Sub
     Private Function LoadUnicodeFile(ByVal filename) As String
         Dim UnicodeText As String
-        Dim sr As StreamReader
+        Dim sr As StreamReader = Nothing
         UnicodeText = ""
         Try
             sr = OpenText(filename)
@@ -223,7 +235,7 @@ Public Class Form1
         Return UnicodeText
     End Function
     Public Sub SaveUnicodeFile(ByVal filename, ByVal UnicodeText)
-        Dim sw As StreamWriter
+        Dim sw As StreamWriter = Nothing
         Try
             sw = New StreamWriter(filename, False)
             sw.WriteLine(UnicodeText)
@@ -1552,7 +1564,13 @@ exitsub:
             ChDir(tempdirectory)
             If ebookdirectory <> "" Then
                 If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Try
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Catch ex As Exception
+                        Dim instance = Convert.ToInt16(Mid(ebookdirectory, InStrRev(ebookdirectory, "B" + 1)))
+                        instance = instance + 1
+                        ebookdirectory = tempdirectory + "EPUB" + Trim(Str(instance))
+                    End Try
                 End If
             End If
         End If
@@ -1633,21 +1651,30 @@ exitsub:
                 If DialogResult = Windows.Forms.DialogResult.No Then
                     ChDir(tempdirectory)
                     If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        Try
+                            My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        Catch ex As Exception
+                        End Try
                     End If
                     End
                 ElseIf DialogResult = Windows.Forms.DialogResult.Yes Then
                     SaveEpub(OpenFileDialog1.FileName, False)
                     ChDir(tempdirectory)
                     If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        Try
+                            My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        Catch ex As Exception
+                        End Try
                     End If
                     End
                 End If
             Else
                 ChDir(tempdirectory)
                 If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Try
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Catch ex As Exception
+                    End Try
                 End If
                 End
             End If
@@ -1672,7 +1699,13 @@ exitsub:
             ChDir(tempdirectory)
             If ebookdirectory <> "" Then
                 If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
-                    My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Try
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Catch ex As Exception
+                        Dim instance = Convert.ToInt16(Mid(ebookdirectory, InStrRev(ebookdirectory, "B" + 1)))
+                        instance = instance + 1
+                        ebookdirectory = tempdirectory + "EPUB" + Trim(Str(instance))
+                    End Try
                 End If
             End If
         End If
@@ -2666,12 +2699,14 @@ errortext:
         Dim ViewerPath As String = _
             objIniFile.GetString("Viewer", "Path", "(none)")
         If ViewerPath <> "(none)" Then
-            If My.Computer.Keyboard.ShiftKeyDown Then
+            If ((My.Computer.Keyboard.ShiftKeyDown) Or (Not projectchanged)) Then
                 Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
                 myProcess.StartInfo.FileName = ViewerPath
                 myProcess.StartInfo.Arguments = Chr(34) + OpenFileDialog1.FileName + Chr(34)
                 myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
                 myProcess.Start()
+                myProcess.WaitForExit()
+                myProcess.Close()
             Else
                 'store current content of OPF file
                 Dim tempstring = LoadUnicodeFile(opffile)
@@ -2679,28 +2714,39 @@ errortext:
                 'save any OPF changes to OPF file
                 SaveEpub(OpenFileDialog1.FileName, True)
 
-                Dim zip As ZipStorer
-                tempfilename = tempdirectory & "\" & System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-                zip = ZipStorer.Create(tempfilename, "")
-                Dim dir = Directory.GetDirectories(ebookdirectory)
-                Dim item As String
-                For Each item In dir
-                    zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
-                Next
-                Dim files = Directory.GetFiles(ebookdirectory)
-                For Each item In files
-                    zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
-                Next
-                zip.Close()
+                Try
+                    Dim zip As ZipStorer
+                    tempfilename = tempdirectory & "\" & System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+                    zip = ZipStorer.Create(tempfilename, "")
+                    Dim dir = Directory.GetDirectories(ebookdirectory)
+                    Dim item As String
+                    For Each item In dir
+                        zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
+                    Next
+                    Dim files = Directory.GetFiles(ebookdirectory)
+                    For Each item In files
+                        zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
+                    Next
+                    zip.Close()
+                    Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
+                    myProcess.StartInfo.FileName = ViewerPath
+                    myProcess.StartInfo.Arguments = Chr(34) + tempfilename + Chr(34)
+                    myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
+                    myProcess.Start()
+                    myProcess.WaitForExit()
+                    myProcess.Close()
 
-                Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
-                myProcess.StartInfo.FileName = ViewerPath
-                myProcess.StartInfo.Arguments = Chr(34) + tempfilename + Chr(34)
-                myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
-                myProcess.Start()
-                myProcess.WaitForExit()
-                myProcess.Close()
-                System.IO.File.Delete(tempfilename)
+                    System.IO.File.Delete(tempfilename)
+                Catch ex As Exception
+                    DialogResult = MsgBox("There was a problem saving current file to a temporary file.  Original file will be viewed instead.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Dim myProcess As System.Diagnostics.Process = New System.Diagnostics.Process()
+                    myProcess.StartInfo.FileName = ViewerPath
+                    myProcess.StartInfo.Arguments = Chr(34) + OpenFileDialog1.FileName + Chr(34)
+                    myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal
+                    myProcess.Start()
+                    myProcess.WaitForExit()
+                    myProcess.Close()
+                End Try
 
                 'restore current content of OPF file
                 SaveUnicodeFile(opffile, tempstring)
@@ -4182,35 +4228,50 @@ outputsource:
         SaveUnicodeFile(opffile, metadatafile)
 
         If Not SaveOPFOnly Then
-            'Zip temp directory (after deleting original file)
-            fi.Delete()
+            Dim tempEpubFileName As String
+            Dim zip As ZipStorer = Nothing
 
-            'Delete mimetype file
+            'Create temporary file (in case zip fails)
+            tempEpubFileName = Mid(EpubFileName, 1, InStrRev(EpubFileName, ".") - 1) + "temp" + Mid(EpubFileName, InStrRev(EpubFileName, "."))
+
+            'Zip temp directory to temp file
             temporarydirectory = CurDir()
             ChDir(ebookdirectory)
+
+            'Delete mimetype file
             IO.File.Delete("mimetype")
             ChDir(temporarydirectory)
+            Try
+                zip = ZipStorer.Create(tempEpubFileName, "")
+                Dim mimetype As New MemoryStream(System.Text.Encoding.UTF8.GetBytes("application/epub+zip"))
+                zip.AddStream(ZipStorer.Compression.Store, "mimetype", mimetype, DateTime.Now, "")
+                mimetype.Close()
+                Dim dir = Directory.GetDirectories(ebookdirectory)
+                Dim item As String
+                For Each item In dir
+                    zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
+                Next
+                Dim files = Directory.GetFiles(ebookdirectory)
+                For Each item In files
+                    zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
+                Next
+                zip.Close()
+                fi.Delete()
+                wait(500)
+                IO.File.Copy(tempEpubFileName, EpubFileName)
+                wait(500)
+                IO.File.Delete(tempEpubFileName)
 
-            Dim zip As ZipStorer
-            zip = ZipStorer.Create(EpubFileName, "")
-            Dim mimetype As New MemoryStream(System.Text.Encoding.UTF8.GetBytes("application/epub+zip"))
-            zip.AddStream(ZipStorer.Compression.Store, "mimetype", mimetype, DateTime.Now, "")
-            mimetype.Close()
-            Dim dir = Directory.GetDirectories(ebookdirectory)
-            Dim item As String
-            For Each item In dir
-                zip.AddDirectory(ZipStorer.Compression.Deflate, item, "", "")
-            Next
-            Dim files = Directory.GetFiles(ebookdirectory)
-            For Each item In files
-                zip.AddFile(ZipStorer.Compression.Deflate, item, Path.GetFileName(item), "")
-            Next
-            zip.Close()
-
-            'Update interface
-            Me.Text = CaptionString
-            Button3.Enabled = False
-            projectchanged = False
+                'Update interface
+                Me.Text = CaptionString
+                Button3.Enabled = False
+                projectchanged = False
+            Catch ex As Exception
+                DialogResult = MsgBox("The EPUB failed to save properly.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                zip.Close()
+                wait(500)
+                IO.File.Delete(tempEpubFileName)
+            End Try
         End If
     End Sub
 
@@ -5032,7 +5093,7 @@ exitwithoutsaving:
     End Sub
 
     Private Sub Button33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button33.Click
-        OpenFileDialog5.Filter = "(X)HTML files|*.html;*.xhtml"
+        OpenFileDialog5.Filter = "(X)HTML files|*.htm;*.html;*.xhtml"
         OpenFileDialog5.FilterIndex = 1
         OpenFileDialog5.FileName = ""
         OpenFileDialog5.InitialDirectory = ebookdirectory
