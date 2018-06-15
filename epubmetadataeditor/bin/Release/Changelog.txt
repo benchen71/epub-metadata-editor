@@ -1,6 +1,3 @@
-1.6.8
-[*] Updated zipstorer.vb to 3.3.0.
-[*] Better handle errors during saving process.  The program now generates a sensible error message if zip creation fails and ensures that the original file does not get corrupted or deleted.  (However, saving is noticeably slower as a consequence of creating a temp file, deleting the original file, copying the temp file to original filename, and then deleting the temp file.)
-[*] No need to create temp file when viewing unchanged EPUB in external viewer.
-[*] Give sensible error message if zip creation fails when viewing changed EPUB in external viewer.
-[*] You can now view htm files using the "View file..." button.
+1.6.9
+[*] Handle fields with line breaks in them (by removing the line breaks)
+[*] Handle opf files with (unnecessary) "<cd:creator />" items (by deleting them)

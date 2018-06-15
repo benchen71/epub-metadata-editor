@@ -523,6 +523,9 @@ lookforpagemap:
             metadatafile = metadatafile.Replace("</opf:", "</")
         End If
 
+        'Tidy opf file first (just in case fields have carriage returns in them)
+        metadatafile = Regularise(metadatafile)
+
         'Get title
         Try
             startpos = InStr(metadatafile, "<dc:title")
@@ -3321,6 +3324,10 @@ errortext:
 
         RichTextBox1.Text = LoadUnicodeFile(opffile)
         metadatafile = LoadUnicodeFile(opffile)
+        'Get rid of empty creator field (if there is one creator field and one empty creator fields, the empty one causes problems)
+        If (InStr(metadatafile, "<dc:creator />")) Then
+            metadatafile = metadatafile.Replace("<dc:creator />", "")
+        End If
         metadatafile = CleanOPF(metadatafile)
         metadatafile = Regularise(metadatafile)
 
