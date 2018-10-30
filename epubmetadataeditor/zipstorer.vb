@@ -173,6 +173,8 @@ Public Class ZipStorer
 
         If zip.ReadFileInfo() Then Return zip
 
+        If (Not _leaveOpen) Then zip.Close()
+
         Throw New System.IO.InvalidDataException()
     End Function
 

@@ -2035,146 +2035,77 @@ errortext:
             If CheckBox12.Checked = True Then
                 ' Replace contents of selected field with text
                 Dim indexChecked As Integer
-                Dim TextBox1Text, TextBox16Text, TextBox2Text, TextBox12Text, TextBox3Text, TextBox13Text, TextBox15Text, TextBox14Text As String
-                Dim TextBox4Text, TextBox5Text, TextBox6Text, TextBox17Text, TextBox7Text, TextBox8Text, TextBox9Text, TextBox10Text, TextBox11Text As String
-                TextBox1Text = ""
-                TextBox16Text = ""
-                TextBox2Text = ""
-                TextBox12Text = ""
-                TextBox3Text = ""
-                TextBox13Text = ""
-                TextBox15Text = ""
-                TextBox14Text = ""
-                TextBox4Text = ""
-                TextBox5Text = ""
-                TextBox6Text = ""
-                TextBox17Text = ""
-                TextBox7Text = ""
-                TextBox8Text = ""
-                TextBox9Text = ""
-                TextBox10Text = ""
-                TextBox11Text = ""
+
                 For Each indexChecked In Form7.CheckedListBox1.CheckedIndices
                     If indexChecked = 0 Then
                         ' Title
-                        TextBox1Text = ReplaceField(TextBox1.Text, Form7.TextBox1.Text)
+                        TextBox1.Text = ReplaceField(TextBox1.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 1 Then
                         ' Title File as
-                        TextBox16Text = ReplaceField(TextBox16.Text, Form7.TextBox1.Text)
+                        TextBox16.Text = ReplaceField(TextBox16.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 2 Then
                         ' Creator1
-                        TextBox2Text = ReplaceField(TextBox2.Text, Form7.TextBox1.Text)
+                        TextBox2.Text = ReplaceField(TextBox2.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 3 Then
                         ' Creator1 File as
-                        TextBox12Text = ReplaceField(TextBox12.Text, Form7.TextBox1.Text)
+                        TextBox12.Text = ReplaceField(TextBox12.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 4 Then
                         ' Creator2
-                        TextBox3Text = ReplaceField(TextBox3.Text, Form7.TextBox1.Text)
+                        TextBox3.Text = ReplaceField(TextBox3.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 5 Then
                         ' Creator2 File as
-                        TextBox13Text = ReplaceField(TextBox13.Text, Form7.TextBox1.Text)
+                        TextBox13.Text = ReplaceField(TextBox13.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 6 Then
                         ' Series
-                        TextBox15Text = ReplaceField(TextBox15.Text, Form7.TextBox1.Text)
+                        TextBox15.Text = ReplaceField(TextBox15.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 7 Then
                         ' Series index
-                        TextBox14Text = ReplaceField(TextBox14.Text, Form7.TextBox1.Text)
+                        TextBox14.Text = ReplaceField(TextBox14.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 8 Then
                         ' Description
-                        TextBox4Text = ReplaceField(TextBox4.Text, Form7.TextBox1.Text)
+                        TextBox4.Text = ReplaceField(TextBox4.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 9 Then
                         ' Publisher
-                        TextBox5Text = ReplaceField(TextBox5.Text, Form7.TextBox1.Text)
+                        TextBox5.Text = ReplaceField(TextBox5.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 10 Then
                         ' Date
-                        TextBox6Text = ReplaceField(TextBox6.Text, Form7.TextBox1.Text)
+                        TextBox6.Text = ReplaceField(TextBox6.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 11 Then
                         ' Subject
-                        TextBox17Text = ReplaceField(TextBox17.Text, Form7.TextBox1.Text)
+                        TextBox17.Text = ReplaceField(TextBox17.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 12 Then
                         ' Type
-                        TextBox7Text = ReplaceField(TextBox7.Text, Form7.TextBox1.Text)
+                        TextBox7.Text = ReplaceField(TextBox7.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 13 Then
                         ' Format
-                        TextBox8Text = ReplaceField(TextBox8.Text, Form7.TextBox1.Text)
+                        TextBox8.Text = ReplaceField(TextBox8.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 14 Then
                         ' Identifier
-                        TextBox9Text = ReplaceField(TextBox9.Text, Form7.TextBox1.Text)
+                        TextBox9.Text = ReplaceField(TextBox9.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 15 Then
                         ' Source
-                        TextBox10Text = ReplaceField(TextBox10.Text, Form7.TextBox1.Text)
+                        TextBox10.Text = ReplaceField(TextBox10.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 16 Then
                         ' Language
-                        TextBox11Text = ReplaceField(TextBox11.Text, Form7.TextBox1.Text)
+                        TextBox11.Text = ReplaceField(TextBox11.Text, Form7.TextBox1.Text)
                     End If
                 Next
-                If (TextBox1Text <> "") Then
-                    TextBox1.Text = TextBox1Text
-                End If
-                If (TextBox16Text <> "") Then
-                    TextBox16.Text = TextBox16Text
-                End If
-                If (TextBox2Text <> "") Then
-                    TextBox2.Text = TextBox2Text
-                End If
-                If (TextBox12Text <> "") Then
-                    TextBox12.Text = TextBox12Text
-                End If
-                If (TextBox3Text <> "") Then
-                    TextBox3.Text = TextBox3Text
-                End If
-                If (TextBox13Text <> "") Then
-                    TextBox13.Text = TextBox13Text
-                End If
-                If (TextBox15Text <> "") Then
-                    TextBox15.Text = TextBox15Text
-                End If
-                If (TextBox14Text <> "") Then
-                    TextBox14.Text = TextBox14Text
-                End If
-                If (TextBox4Text <> "") Then
-                    TextBox4.Text = TextBox4Text
-                End If
-                If (TextBox5Text <> "") Then
-                    TextBox5.Text = TextBox5Text
-                End If
-                If (TextBox6Text <> "") Then
-                    TextBox6.Text = TextBox6Text
-                End If
-                If (TextBox17Text <> "") Then
-                    TextBox17.Text = TextBox17Text
-                End If
-                If (TextBox7Text <> "") Then
-                    TextBox7.Text = TextBox7Text
-                End If
-                If (TextBox8Text <> "") Then
-                    TextBox8.Text = TextBox8Text
-                End If
-                If (TextBox9Text <> "") Then
-                    TextBox9.Text = TextBox9Text
-                End If
-                If (TextBox10Text <> "") Then
-                    TextBox10.Text = TextBox10Text
-                End If
-                If (TextBox11Text <> "") Then
-                    TextBox11.Text = TextBox11Text
-                End If
             End If
 
             If CheckBox13.Checked = True Then

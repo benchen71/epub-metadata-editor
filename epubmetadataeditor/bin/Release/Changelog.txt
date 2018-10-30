@@ -1,3 +1,2 @@
-1.6.9
-[*] Handle fields with line breaks in them (by removing the line breaks)
-[*] Handle opf files with (unnecessary) "<cd:creator />" items (by deleting them)
+1.6.10
+[*] Batch replace field operation now allows the user to replace chosen fields with an empty string. A dialog will appear for the user to confirm this potentially data-destructive operation!
