@@ -5616,6 +5616,7 @@ exitwithoutsaving:
         End If
 
         'Extract metadata into textboxes (but no need to extract cover)
+        ClearInterface()
         metadatafile = LoadUnicodeFile(opffile)
         ExtractMetadata(metadatafile, True)
 

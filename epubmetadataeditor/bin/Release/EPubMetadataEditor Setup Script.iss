@@ -4,12 +4,12 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{C093DB2B-F7B8-4E5A-8E98-626F5486A44B}
 AppName=EPUB Metadata Editor
-AppVerName=EPUB Metadata Editor 1.6.10
-VersionInfoVersion=1.6.10
+AppVerName=EPUB Metadata Editor 1.6.11
+VersionInfoVersion=1.6.11
 AppPublisher=Ben Chenoweth
-AppPublisherURL=http://code.google.com/p/epub-metadata-editor/
-AppSupportURL=http://code.google.com/p/epub-metadata-editor/wiki/FAQ
-AppUpdatesURL=http://code.google.com/p/epub-metadata-editor/downloads/list
+AppPublisherURL=https://github.com/benchen71/epub-metadata-editor
+AppSupportURL=https://github.com/benchen71/epub-metadata-editor/wiki
+AppUpdatesURL=https://github.com/benchen71/epub-metadata-editor/releases
 
 ; Select destination directory depending on Windows version
 DefaultDirName={reg:HKCU\Software\EPubMetadataEditor,Path|{pf}\EPubMetadataEditor}

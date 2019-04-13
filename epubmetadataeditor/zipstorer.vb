@@ -633,13 +633,16 @@ Public Class ZipStorer
     End Function
 
     Private Function DosTimeToDateTime(ByVal _dt As UInteger) As DateTime
-        Return New DateTime( _
-            CType(_dt >> 25, Integer) + 1980, _
-            CType(_dt >> 21, Integer) And 15, _
-            CType(_dt >> 16, Integer) And 31, _
-            CType(_dt >> 11, Integer) And 31, _
-            CType(_dt >> 5, Integer) And 63, _
-            CType(_dt And 31, Integer) * 2)
+        Dim year As Integer = CType(_dt >> 25, Integer) + 1980
+        Dim month As Integer = CType(_dt >> 21, Integer) And 15
+        Dim day As Integer = CType(_dt >> 16, Integer) And 31
+        Dim hours As Integer = CType(_dt >> 11, Integer) And 31
+        Dim minutes As Integer = CType(_dt >> 5, Integer) And 63
+        Dim seconds As Integer = CType(_dt And 31, Integer) * 2
+
+        If ((year >= 2107) Or (month = 0) Or (day = 0)) Then Return DateTime.Now
+
+        Return New DateTime(year, month, day, hours, minutes, seconds)
     End Function
 
     '     CRC32 algorithm
