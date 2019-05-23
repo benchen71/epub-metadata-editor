@@ -1161,7 +1161,7 @@ skipsecondcreator:
                 startpos = InStr(metadatafile, "<opf:guide")
             End If
             If startpos = 0 Then
-                'Some Sony Reader Library files have no <guide>
+                '<guide> is now deprecated
                 startpos = InStr(metadatafile, "<manifest")
                 If startpos = 0 Then
                     startpos = InStr(metadatafile, "<opf:manifest")
@@ -1175,6 +1175,10 @@ skipsecondcreator:
                         If coverfilepos = 0 Then
                             hreftype = "id=" + Chr(34) + "coverpage" + Chr(34)
                             coverfilepos = InStr(startpos, metadatafile, hreftype)
+                            If coverfilepos = 0 Then
+                                hreftype = "properties=" + Chr(34) + "cover-image" + Chr(34)
+                                coverfilepos = InStr(startpos, metadatafile, hreftype)
+                            End If
                         End If
                     End If
                 End If

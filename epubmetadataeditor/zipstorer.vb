@@ -1,7 +1,7 @@
 ' ZipStorer, by Jaime Olivares
 ' Website: http://github.com/jaime-olivares/zipstorer
-' Version: 3.4.0 (August 4, 2017)
-' Code modified by Ben Chenoweth, adding AddDirectory function and fixing line continuation errors
+' Version: 3.5.0 (May 20, 2019)
+' Code updated by Ben Chenoweth
 
 Imports System.Collections.Generic
 Imports System.Text
@@ -47,6 +47,10 @@ Public Class ZipStorer
         Public Crc32 As UInteger
         ' <summary>Last modification time of file</summary>
         Public ModifyTime As DateTime
+        ' <summary>Creation time of file</summary>
+        Public CreationTime As DateTime
+        ' <summary>Last access time of file</summary>
+        Public AccessTime As DateTime
         ' <summary>User comment for file</summary>
         Public Comment As String
         ' <summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
@@ -263,7 +267,9 @@ Public Class ZipStorer
         ' Even though we write the header now, it will have to be rewritten, since we don't know compressed size or crc.
         zfe.Crc32 = 0  ' to be updated later
         zfe.HeaderOffset = CType(Me.ZipFileStream.Position, UInteger)  ' offset within file of the start of this local record
+        zfe.CreationTime = _modTime
         zfe.ModifyTime = _modTime
+        zfe.AccessTime = _modTime
 
         ' Write local header
         WriteLocalHeader(zfe)
@@ -347,7 +353,11 @@ Public Class ZipStorer
             zfe.HeaderSize = headerSize
             zfe.Crc32 = crc32
             zfe.ModifyTime = DosTimeToDateTime(modifyTime)
+            zfe.CreationTime = zfe.ModifyTime
+            zfe.AccessTime = DateTime.Now
+
             If commentSize > 0 Then zfe.Comment = encoder.GetString(CentralDirImage, pointer + 46 + filenameSize + extraSize, commentSize)
+            If (extraSize > 0) Then ReadExtraInfo(CentralDirImage, pointer + 46 + filenameSize, zfe)
 
             result.Add(zfe)
             pointer += (46 + filenameSize + extraSize + commentSize)
@@ -376,8 +386,9 @@ Public Class ZipStorer
         Dim result As Boolean = ExtractFile(_zfe, output)
         If result Then output.Close()
 
-        File.SetCreationTime(_filename, _zfe.ModifyTime)
+        File.SetCreationTime(_filename, _zfe.CreationTime)
         File.SetLastWriteTime(_filename, _zfe.ModifyTime)
+        File.SetLastAccessTime(_filename, _zfe.AccessTime)
 
         Return result
     End Function
@@ -503,6 +514,7 @@ Public Class ZipStorer
         Dim pos As Long = Me.ZipFileStream.Position
         Dim encoder As Encoding = If(_zfe.EncodeUTF8, Encoding.UTF8, DefaultEncoding)
         Dim encodedFilename As Byte() = encoder.GetBytes(_zfe.FilenameInZip)
+        Dim extraInfo = CreateExtraInfo(_zfe)
 
         Me.ZipFileStream.Write(New Byte() {80, 75, 3, 4, 20, 0}, 0, 6) ' No extra header
         Me.ZipFileStream.Write(BitConverter.GetBytes(CType(If(_zfe.EncodeUTF8, &H800, 0), UShort)), 0, 2) ' filename and comment encoding 
@@ -510,9 +522,10 @@ Public Class ZipStorer
         Me.ZipFileStream.Write(BitConverter.GetBytes(DateTimeToDosTime(_zfe.ModifyTime)), 0, 4) ' zipping date and time
         Me.ZipFileStream.Write(New Byte() {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 12) ' unused CRC, un/compressed size, updated later
         Me.ZipFileStream.Write(BitConverter.GetBytes(CType(encodedFilename.Length, UShort)), 0, 2) ' filename length
-        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(0, UShort)), 0, 2) ' extra length
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(extraInfo.Length, UShort)), 0, 2) ' extra length
 
         Me.ZipFileStream.Write(encodedFilename, 0, encodedFilename.Length)
+        Me.ZipFileStream.Write(extraInfo, 0, extraInfo.Length)
         _zfe.HeaderSize = CType(Me.ZipFileStream.Position - pos, UInteger)
     End Sub
 
@@ -520,6 +533,7 @@ Public Class ZipStorer
         Dim encoder As Encoding = If(_zfe.EncodeUTF8, Encoding.UTF8, DefaultEncoding)
         Dim encodedFilename As Byte() = encoder.GetBytes(_zfe.FilenameInZip)
         Dim encodedComment As Byte() = encoder.GetBytes(_zfe.Comment)
+        Dim extraInfo = CreateExtraInfo(_zfe)
 
         Me.ZipFileStream.Write(New Byte() {80, 75, 1, 2, 23, &HB, 20, 0}, 0, 8)
         Me.ZipFileStream.Write(BitConverter.GetBytes(CType(If(_zfe.EncodeUTF8, &H800, 0), UShort)), 0, 2) ' filename and comment encoding 
@@ -529,7 +543,7 @@ Public Class ZipStorer
         Me.ZipFileStream.Write(BitConverter.GetBytes(_zfe.CompressedSize), 0, 4) ' compressed file size
         Me.ZipFileStream.Write(BitConverter.GetBytes(_zfe.FileSize), 0, 4) ' uncompressed file size
         Me.ZipFileStream.Write(BitConverter.GetBytes(CType(encodedFilename.Length, UShort)), 0, 2) ' Filename in zip
-        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(0, UShort)), 0, 2) ' extra length
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(extraInfo.Length, UShort)), 0, 2) ' extra length
         Me.ZipFileStream.Write(BitConverter.GetBytes(CType(encodedComment.Length, UShort)), 0, 2)
 
         Me.ZipFileStream.Write(BitConverter.GetBytes(CType(0, UShort)), 0, 2) ' disk=0
@@ -539,6 +553,7 @@ Public Class ZipStorer
         Me.ZipFileStream.Write(BitConverter.GetBytes(_zfe.HeaderOffset), 0, 4)  ' Offset of header
 
         Me.ZipFileStream.Write(encodedFilename, 0, encodedFilename.Length)
+        Me.ZipFileStream.Write(extraInfo, 0, extraInfo.Length)
         Me.ZipFileStream.Write(encodedComment, 0, encodedComment.Length)
     End Sub
 
@@ -631,6 +646,48 @@ Public Class ZipStorer
     Private Function DateTimeToDosTime(ByVal _dt As DateTime) As UInteger
         Return CType((_dt.Second / 2) Or (_dt.Minute << 5) Or (_dt.Hour << 11) Or (_dt.Day << 16) Or (_dt.Month << 21) Or ((_dt.Year - 1980) << 25), UInteger)
     End Function
+
+    Private Function CreateExtraInfo(ByVal _zfe As ZipFileEntry) As Byte()
+        Dim buffer(36) As Byte
+
+        BitConverter.GetBytes(CType(&HA, UShort)).CopyTo(buffer, 0) ' NTFS FileTime
+        BitConverter.GetBytes(CType(32, UShort)).CopyTo(buffer, 2) ' Length
+        BitConverter.GetBytes(CType(1, UShort)).CopyTo(buffer, 8) ' Tag 1
+        BitConverter.GetBytes(CType(24, UShort)).CopyTo(buffer, 10) ' Size 1
+        BitConverter.GetBytes(_zfe.ModifyTime.ToFileTime()).CopyTo(buffer, 12) ' MTime
+        BitConverter.GetBytes(_zfe.AccessTime.ToFileTime()).CopyTo(buffer, 20) ' ATime
+        BitConverter.GetBytes(_zfe.CreationTime.ToFileTime()).CopyTo(buffer, 28) ' CTime
+
+        Return buffer
+    End Function
+
+    Private Sub ReadExtraInfo(ByVal buffer As Byte(), ByVal offset As Integer, ByVal _zfe As ZipFileEntry)
+
+        If (Buffer.Length < 4) Then
+            Return
+        End If
+
+        Dim pos As Integer = offset
+
+        While (pos < buffer.Length - 4)
+            Dim extraId As UInteger = BitConverter.ToUInt16(buffer, pos)
+            Dim length As UInteger = BitConverter.ToUInt16(buffer, pos + 2)
+
+            If (extraId = &HA) Then ' NTFS FileTime
+
+                Dim tag As UInteger = BitConverter.ToUInt16(buffer, pos + 8)
+                Dim size As UInteger = BitConverter.ToUInt16(buffer, pos + 10)
+
+                If ((tag = 1) And (size = 24)) Then
+                    _zfe.ModifyTime = DateTime.FromFileTime(BitConverter.ToInt64(buffer, pos + 12))
+                    _zfe.AccessTime = DateTime.FromFileTime(BitConverter.ToInt64(buffer, pos + 20))
+                    _zfe.CreationTime = DateTime.FromFileTime(BitConverter.ToInt64(buffer, pos + 28))
+                End If
+            End If
+
+            pos = pos + CType(length, Integer) + 4
+        End While
+    End Sub
 
     Private Function DosTimeToDateTime(ByVal _dt As UInteger) As DateTime
         Dim year As Integer = CType(_dt >> 25, Integer) + 1980
