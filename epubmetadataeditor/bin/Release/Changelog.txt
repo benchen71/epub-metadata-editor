@@ -1,3 +1,2 @@
-1.6.12
-[*] New way of handling file datestamps in zip library.
-[*] Update cover handling to handle OPF 3.0.1 standard (properties="cover-image")
+1.6.13
+[*] Improved the cover search function.

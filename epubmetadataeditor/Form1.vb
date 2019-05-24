@@ -498,7 +498,7 @@ lookforpagemap:
         Dim startpos, namespacelen, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
         Dim dcnamespace, rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring As String
         Dim idpos, endheaderpos, startheaderpos, temppos, refinespos, oldstartpos As Integer
-        Dim idinfo As String
+        Dim idinfo, coverid, coverfileid As String
 
         'Check for non-standard dc namespace tags
         startpos = InStr(metadatafile, "=" + Chr(34) + "http://purl.org/dc/elements/1.1/")
@@ -1195,6 +1195,48 @@ skipsecondcreator:
                         If coverfilepos = 0 Then
                             hreftype = "type=" + Chr(34) + "coverimagestandard" + Chr(34)
                             coverfilepos = InStr(startpos, metadatafile, hreftype)
+                        End If
+                    End If
+                End If
+            End If
+
+            If coverfilepos = 0 Then
+                ' Last ditch effort: search for <meta name="cover"
+                startpos = InStr(metadatafile, "<metadata")
+                If startpos = 0 Then
+                    startpos = InStr(metadatafile, "<opf:metadata")
+                End If
+                If startpos <> 0 Then
+                    hreftype = "<meta name=" + Chr(34) + "cover" + Chr(34)
+                    coverfilepos = InStr(startpos, metadatafile, hreftype)
+                    If coverfilepos <> 0 Then
+                        ' search forwards for content="id of cover"
+                        nextcharpos = coverfilepos + 1
+                        nextchar = Mid(metadatafile, nextcharpos, 1)
+                        tempstring = ""
+                        While nextchar <> ">"
+                            tempstring = Mid(metadatafile, nextcharpos, 8)
+                            If tempstring = "content=" Then Exit While
+                            nextcharpos = nextcharpos + 1
+                            nextchar = Mid(metadatafile, nextcharpos, 1)
+                        End While
+                        If tempstring = "content=" Then
+                            coverfileid = nextcharpos
+                            endpos = InStr(coverfileid + 9, metadatafile, Chr(34))
+                            coverid = Mid(metadatafile, coverfileid + 9, endpos - coverfileid - 9)
+                            ' Now search for coverid in <manifest
+                            startpos = InStr(metadatafile, "<manifest")
+                            If startpos = 0 Then
+                                startpos = InStr(metadatafile, "<opf:manifest")
+                            End If
+                            If startpos <> 0 Then
+                                hreftype = "id=" + Chr(34) + coverid + Chr(34)
+                                coverfilepos = InStr(startpos, metadatafile, hreftype)
+                            Else
+                                coverfilepos = 0
+                            End If
+                        Else
+                            coverfilepos = 0
                         End If
                     End If
                 End If

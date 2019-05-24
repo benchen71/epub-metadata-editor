@@ -6,7 +6,15 @@ EPubMetadataEditor
 </name>
 </assembly>
 <members>
-<member name="P:EPubMetadataEditor.My.Resources.Resources.ResourceManager">
+<member name="M:EPubMetadataEditor.ZipStorer.AddDirectory(EPubMetadataEditor.ZipStorer.Compression,System.String,System.String,System.String)">
+	<summary>
+ Add full contents of a directory into the Zip storage
+ </summary>
+	<param name="_method">Compression method</param>
+	<param name="_pathname">Full path of directory to add to Zip storage</param>
+	<param name="_pathnameInZip">Path name as desired in Zip directory</param>
+	<param name="_comment">Comment for stored directory</param>
+</member><member name="P:EPubMetadataEditor.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
 </summary>
@@ -19,14 +27,6 @@ EPubMetadataEditor
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
-</member><member name="M:EPubMetadataEditor.ZipStorer.AddDirectory(EPubMetadataEditor.ZipStorer.Compression,System.String,System.String,System.String)">
-	<summary>
- Add full contents of a directory into the Zip storage
- </summary>
-	<param name="_method">Compression method</param>
-	<param name="_pathname">Full path of directory to add to Zip storage</param>
-	<param name="_pathnameInZip">Path name as desired in Zip directory</param>
-	<param name="_comment">Comment for stored directory</param>
 </member>
 </members>
 </doc>
