@@ -1,2 +1,2 @@
-1.6.14
-[*] Improve the cover search in EPUB3 files.
+1.6.15
+[*] Updated EPubMetadataEditorConsole.exe to latest version.
