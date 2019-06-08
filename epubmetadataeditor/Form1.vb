@@ -1156,6 +1156,77 @@ skipsecondcreator:
         Try
             possibleDRM = False
             Label24.Visible = False
+
+            'Start by searching for <meta ... name="cover"
+            startpos = InStr(metadatafile, "<metadata")
+            If startpos = 0 Then
+                startpos = InStr(metadatafile, "<opf:metadata")
+            End If
+            endpos = InStr(metadatafile, "</metadata")
+            If endpos = 0 Then
+                endpos = InStr(metadatafile, "</opf:metadata")
+            End If
+            If (startpos <> 0) Then
+                ' look for "name="cover""
+                hreftype = "name=" + Chr(34) + "cover" + Chr(34)
+                searchpos = InStr(startpos, metadatafile, hreftype)
+                If ((searchpos <> 0) And (searchpos < endpos)) Then
+                    ' Found "name="cover"" in the metadata section
+                    ' Search backwards for "<meta " (just in case)
+                    nextcharpos = searchpos - 1
+                    nextchar = Mid(metadatafile, nextcharpos, 1)
+                    tempstring = ""
+                    While nextchar <> "<"
+                        nextcharpos = nextcharpos - 1
+                        nextchar = Mid(metadatafile, nextcharpos, 1)
+                    End While
+                    tempstring = Mid(metadatafile, nextcharpos, 6)
+                    If tempstring <> "<meta " Then GoTo didnotfindhref
+                    ' search forwards for content="id of cover"
+                    nextcharpos = searchpos + 1
+                    nextchar = Mid(metadatafile, nextcharpos, 1)
+                    tempstring = ""
+                    While nextchar <> ">"
+                        tempstring = Mid(metadatafile, nextcharpos, 8)
+                        If tempstring = "content=" Then Exit While
+                        nextcharpos = nextcharpos + 1
+                        nextchar = Mid(metadatafile, nextcharpos, 1)
+                    End While
+                    If tempstring <> "content=" Then
+                        ' search backwards for content="id of cover"
+                        nextcharpos = searchpos - 1
+                        nextchar = Mid(metadatafile, nextcharpos, 1)
+                        tempstring = ""
+                        While nextchar <> "<"
+                            tempstring = Mid(metadatafile, nextcharpos, 8)
+                            If tempstring = "content=" Then Exit While
+                            nextcharpos = nextcharpos - 1
+                            nextchar = Mid(metadatafile, nextcharpos, 1)
+                        End While
+                    End If
+                    If tempstring = "content=" Then
+                        coverfileid = nextcharpos
+                        endpos = InStr(coverfileid + 9, metadatafile, Chr(34))
+                        coverid = Mid(metadatafile, coverfileid + 9, endpos - coverfileid - 9)
+                        ' Now search for coverid in <manifest
+                        startpos = InStr(metadatafile, "<manifest")
+                        If startpos = 0 Then
+                            startpos = InStr(metadatafile, "<opf:manifest")
+                        End If
+                        If startpos <> 0 Then
+                            hreftype = "id=" + Chr(34) + coverid + Chr(34)
+                            coverfilepos = InStr(startpos, metadatafile, hreftype)
+                            GoTo foundcoverid
+                        Else
+                            coverfilepos = 0
+                        End If
+                    Else
+                        coverfilepos = 0
+                    End If
+                End If
+            End If
+
+            'Try alternatives
             startpos = InStr(metadatafile, "<guide")
             If startpos = 0 Then
                 startpos = InStr(metadatafile, "<opf:guide")
@@ -1202,73 +1273,6 @@ skipsecondcreator:
 
             If coverfilepos = 0 Then
                 ' Last ditch effort: search for <meta name="cover"
-                startpos = InStr(metadatafile, "<metadata")
-                If startpos = 0 Then
-                    startpos = InStr(metadatafile, "<opf:metadata")
-                End If
-                endpos = InStr(metadatafile, "</metadata")
-                If endpos = 0 Then
-                    endpos = InStr(metadatafile, "</opf:metadata")
-                End If
-                If startpos <> 0 Then
-                    ' look for "name="cover""
-                    hreftype = "name=" + Chr(34) + "cover" + Chr(34)
-                    searchpos = InStr(startpos, metadatafile, hreftype)
-                    If (searchpos < endpos) Then
-                        ' Found "name="cover"" in the metadata section
-                        ' Search backwards for "<meta " (just in case)
-                        nextcharpos = searchpos - 1
-                        nextchar = Mid(metadatafile, nextcharpos, 1)
-                        tempstring = ""
-                        While nextchar <> "<"
-                            nextcharpos = nextcharpos - 1
-                            nextchar = Mid(metadatafile, nextcharpos, 1)
-                        End While
-                        tempstring = Mid(metadatafile, nextcharpos, 6)
-                        If tempstring <> "<meta " Then GoTo didnotfindhref
-                        ' search forwards for content="id of cover"
-                        nextcharpos = searchpos + 1
-                        nextchar = Mid(metadatafile, nextcharpos, 1)
-                        tempstring = ""
-                        While nextchar <> ">"
-                            tempstring = Mid(metadatafile, nextcharpos, 8)
-                            If tempstring = "content=" Then Exit While
-                            nextcharpos = nextcharpos + 1
-                            nextchar = Mid(metadatafile, nextcharpos, 1)
-                        End While
-                        If tempstring <> "content=" Then
-                            ' search backwards for content="id of cover"
-                            nextcharpos = searchpos - 1
-                            nextchar = Mid(metadatafile, nextcharpos, 1)
-                            tempstring = ""
-                            While nextchar <> "<"
-                                tempstring = Mid(metadatafile, nextcharpos, 8)
-                                If tempstring = "content=" Then Exit While
-                                nextcharpos = nextcharpos - 1
-                                nextchar = Mid(metadatafile, nextcharpos, 1)
-                            End While
-                        End If
-                        If tempstring = "content=" Then
-                            coverfileid = nextcharpos
-                            endpos = InStr(coverfileid + 9, metadatafile, Chr(34))
-                            coverid = Mid(metadatafile, coverfileid + 9, endpos - coverfileid - 9)
-                            ' Now search for coverid in <manifest
-                            startpos = InStr(metadatafile, "<manifest")
-                            If startpos = 0 Then
-                                startpos = InStr(metadatafile, "<opf:manifest")
-                            End If
-                            If startpos <> 0 Then
-                                hreftype = "id=" + Chr(34) + coverid + Chr(34)
-                                coverfilepos = InStr(startpos, metadatafile, hreftype)
-                                GoTo foundcoverid
-                            Else
-                                coverfilepos = 0
-                            End If
-                        Else
-                            coverfilepos = 0
-                        End If
-                    End If
-                End If
             End If
 
             If coverfilepos = 0 Then GoTo didnotfindhref
