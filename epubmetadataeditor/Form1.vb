@@ -1216,7 +1216,9 @@ skipsecondcreator:
                         If startpos <> 0 Then
                             hreftype = "id=" + Chr(34) + coverid + Chr(34)
                             coverfilepos = InStr(startpos, metadatafile, hreftype)
-                            GoTo foundcoverid
+                            If coverfilepos > 0 Then
+                                GoTo foundcoverid
+                            End If                                                                                                
                         Else
                             coverfilepos = 0
                         End If
