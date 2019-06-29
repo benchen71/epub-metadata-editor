@@ -1,4 +1,2 @@
-1.7.0
-[*] New order for searching for covers
-[*] Console version can now extract jpeg covers
-[*] Console version displays version number in help information
+1.7.1
+[*] 
