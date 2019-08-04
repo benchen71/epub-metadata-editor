@@ -177,6 +177,7 @@ Partial Class Form1
         Me.LinkLabel10 = New System.Windows.Forms.LinkLabel
         Me.CheckBox13 = New System.Windows.Forms.CheckBox
         Me.LinkLabel11 = New System.Windows.Forms.LinkLabel
+        Me.Label31 = New System.Windows.Forms.Label
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -481,7 +482,7 @@ Partial Class Form1
         Me.Button28.Enabled = False
         Me.Button28.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Button28.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button28.Location = New System.Drawing.Point(422, 452)
+        Me.Button28.Location = New System.Drawing.Point(391, 451)
         Me.Button28.Name = "Button28"
         Me.Button28.Size = New System.Drawing.Size(26, 20)
         Me.Button28.TabIndex = 44
@@ -495,7 +496,7 @@ Partial Class Form1
         Me.Button29.Enabled = False
         Me.Button29.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Button29.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button29.Location = New System.Drawing.Point(422, 556)
+        Me.Button29.Location = New System.Drawing.Point(391, 556)
         Me.Button29.Name = "Button29"
         Me.Button29.Size = New System.Drawing.Size(26, 20)
         Me.Button29.TabIndex = 45
@@ -1263,7 +1264,7 @@ Partial Class Form1
         Me.TextBox6.Location = New System.Drawing.Point(130, 452)
         Me.TextBox6.Multiline = False
         Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(287, 20)
+        Me.TextBox6.Size = New System.Drawing.Size(255, 20)
         Me.TextBox6.TabIndex = 12
         Me.TextBox6.Text = ""
         '
@@ -1296,7 +1297,7 @@ Partial Class Form1
         Me.TextBox9.Location = New System.Drawing.Point(81, 556)
         Me.TextBox9.Multiline = False
         Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(335, 20)
+        Me.TextBox9.Size = New System.Drawing.Size(304, 20)
         Me.TextBox9.TabIndex = 16
         Me.TextBox9.Text = ""
         '
@@ -1701,11 +1702,26 @@ Partial Class Form1
         Me.LinkLabel11.TabStop = True
         Me.LinkLabel11.Text = "Choose"
         '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Label31.Location = New System.Drawing.Point(423, 557)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(43, 13)
+        Me.Label31.TabIndex = 106
+        Me.Label31.Text = "Multiple"
+        Me.ToolTip1.SetToolTip(Me.Label31, "Open Advanced Tasks and click ""Edit .opf file"" to make changes to other identifie" & _
+                "rs.")
+        Me.Label31.Visible = False
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.Label31)
+        Me.Controls.Add(Me.TextBox9)
         Me.Controls.Add(Me.LinkLabel11)
         Me.Controls.Add(Me.LinkLabel10)
         Me.Controls.Add(Me.CheckBox13)
@@ -1743,11 +1759,10 @@ Partial Class Form1
         Me.Controls.Add(Me.LinkLabel6)
         Me.Controls.Add(Me.Button30)
         Me.Controls.Add(Me.CheckBox5)
+        Me.Controls.Add(Me.TextBox11)
         Me.Controls.Add(Me.Button29)
         Me.Controls.Add(Me.Button28)
-        Me.Controls.Add(Me.TextBox11)
         Me.Controls.Add(Me.TextBox10)
-        Me.Controls.Add(Me.TextBox9)
         Me.Controls.Add(Me.TextBox8)
         Me.Controls.Add(Me.TextBox7)
         Me.Controls.Add(Me.TextBox6)
@@ -1997,5 +2012,6 @@ Partial Class Form1
     Friend WithEvents LinkLabel10 As System.Windows.Forms.LinkLabel
     Friend WithEvents CheckBox13 As System.Windows.Forms.CheckBox
     Friend WithEvents LinkLabel11 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Label31 As System.Windows.Forms.Label
 
 End Class
