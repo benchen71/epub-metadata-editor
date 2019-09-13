@@ -528,6 +528,9 @@ lookforpagemap:
         'Tidy opf file first (just in case fields have carriage returns in them)
         metadatafile = Regularise(metadatafile)
 
+        'Check for uppercase UUID scheme
+        metadatafile = metadatafile.Replace("scheme=" + Chr(34) + "UUID", "scheme=" + Chr(34) + "uuid")
+
         'Get title
         Try
             startpos = InStr(metadatafile, "<dc:title")
@@ -3338,7 +3341,7 @@ errortext:
         Dim temporarydirectory, newheader, ID As String
         Dim idpos, temploop, temppos, startheaderpos, endheaderpos, refinespos, testpos, extrachars As Integer
         Dim idinfo, rolestring, identifierscheme, temptext As String
-        Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced, opfmeta As Boolean
+        Dim creatorfileasplaced, creatorroleplaced, creator2fileasplaced, creator2roleplaced, schemeplaced, opfmeta, founduuid As Boolean
         Dim tocfiletext As String
         Dim tocstartpos, toccontentloc, toccontentend As Integer
 
@@ -4136,6 +4139,7 @@ lookforrefines5:
                     If ((lookforID <> 0) And (lookforID < endtag)) Then
                         endID = InStr(lookforID + 5, metadatafile, Chr(34))
                         ID = Mid(metadatafile, lookforID + 4, endID - lookforID - 4)
+                        If ID = "uuid_id" Then founduuid = True Else founduuid = False
                     Else
                         ID = ""
                         lookforID = 0
@@ -4209,7 +4213,7 @@ lookforrefines5:
                     End If
 
                     'If ID is uuid, then we also need to change toc.ncx
-                    If Mid(Label9.Text, 13, Len(Label9.Text) - 13) = "uuid" Then
+                    If founduuid = True Then
                         tocfiletext = LoadUnicodeFile(tocfile)
                         tocstartpos = InStr(tocfiletext, "name=" + Chr(34) + "dtb:uid")
                         If tocstartpos <> 0 Then

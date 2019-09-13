@@ -1,5 +1,3 @@
-1.7.2
-[*] Preference uuid identifier if it exists (other identifiers can be changed by editing opf file directly).
-[*] Display a message if multiple identifiers are present in the opf file.
-[*] If uuid identifier changes, also update dtb:uid meta entry in toc.ncx.
-[*] If uuid identifier added (or existing identifier changed to a uuid one), make sure correct id is included in indentifier tag.
+1.7.3
+[*] Fix for uppercase UUID in identifier scheme.
+[*] Fix for identifiers with no scheme.
