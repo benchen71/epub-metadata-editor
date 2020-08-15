@@ -282,6 +282,8 @@ founddirectory:
             zip.Close()
         Catch ex1 As Exception
             Console.Error.WriteLine("exception: {0}", ex1.ToString)
+            DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "This ebook cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            Exit Sub
         End Try
 
         'Search for .opf file
@@ -2019,6 +2021,8 @@ errortext:
                 zip.Close()
             Catch ex1 As Exception
                 Console.Error.WriteLine("exception: {0}", ex1.ToString)
+                DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                Exit Sub
             End Try
 
             'Search for .opf file
@@ -4505,7 +4509,7 @@ outputsource:
         ' Add file to opf
         newlineandspace = Chr(10)
         insertion = ""
-        startpos = InStr(metadatafile, "<manifest")
+        startpos = InStr(metadatafile, "</manifest")
         If startpos <> 0 Then
             insertpos = InStr(startpos + 1, metadatafile, "<")
             If insertpos <> 0 Then
@@ -4513,6 +4517,9 @@ outputsource:
                 insertion = newlineandspace + "<item href=" + Chr(34) + newcoverimagefilename + Chr(34) + " id=" + Chr(34) + "prioritorised_cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
                 metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
             End If
+            ' alternate code to see if location in opf file caused issue with Microsoft Edge
+            'insertion = "<item href=" + Chr(34) + newcoverimagefilename + Chr(34) + " id=" + Chr(34) + "prioritorised_cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>"
+            'metadatafile = Mid(metadatafile, 1, startpos - 1) + insertion + Mid(metadatafile, startpos)
         End If
 
         'save opf file
@@ -4721,15 +4728,40 @@ redo:
 
         Dim objIniFile As New IniFile(inifilename)
         Dim template = objIniFile.GetString("Renamer", "Template", "(none)")
+        Form4.ComboBox1.Items.Clear()
         If template <> "(none)" Then
-            Form4.TextBox1.Text = template
-        Else
-            Form4.TextBox1.Text = ""
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template1", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template2", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template3", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template4", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template5", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
         End If
 
         ' get current filename
         Form4.TextBox3.Text = System.IO.Path.GetFileNameWithoutExtension(OpenFileDialog1.FileName)
-        If ((My.Computer.Keyboard.ShiftKeyDown) And (Form4.TextBox1.Text <> "")) Then
+        If ((My.Computer.Keyboard.ShiftKeyDown) And (Form4.ComboBox1.Text <> "")) Then
             Form4.UpdateFilename()
             result = Windows.Forms.DialogResult.OK
         Else
@@ -4768,8 +4800,23 @@ redo:
                 End If
             End If
 exitwithoutsaving:
-            ' update ini file
-            objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.TextBox1.Text + Chr(34))
+            If Not ((My.Computer.Keyboard.ShiftKeyDown) And (Form4.ComboBox1.Text <> "")) Then
+                template = objIniFile.GetString("Renamer", "Template", "(none)")
+                If Form4.ComboBox1.Text <> template Then
+                    ' update ini file, cycling through existing history, adding new template as most recent
+                    template = objIniFile.GetString("Renamer", "Template4", "(none)")
+                    objIniFile.WriteString("Renamer", "Template5", Chr(34) + template + Chr(34))
+                    template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                    objIniFile.WriteString("Renamer", "Template4", Chr(34) + template + Chr(34))
+                    template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                    objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                    template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                    objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                    template = objIniFile.GetString("Renamer", "Template", "(none)")
+                    objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                    objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                End If
+            End If
 
             ' update form caption and file selector (just in case rename action has created a subfolder and moved the file into it)
             searchResults = Directory.GetFiles(IO.Path.GetDirectoryName(OpenFileDialog1.FileName), "*.epub", SearchOption.TopDirectoryOnly)
@@ -4825,10 +4872,38 @@ exitwithoutsaving:
 
         Dim objIniFile As New IniFile(inifilename)
         Dim template = objIniFile.GetString("Renamer", "Template", "(none)")
+        Form4.ComboBox1.Items.Clear()
         If template <> "(none)" Then
-            Form4.TextBox1.Text = template
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
         Else
-            Form4.TextBox1.Text = ""
+            Form4.ComboBox1.Items.Add("")
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template1", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template2", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template3", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template4", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Renamer", "Template5", "(none)")
+        If template <> "(none)" Then
+            Form4.ComboBox1.Items.Add(template)
+            Form4.ComboBox1.SelectedIndex = 0
         End If
 
         ' change form
@@ -4838,8 +4913,22 @@ exitwithoutsaving:
         Form4.Button3.Text = "OK"
 
         If Form4.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            ' update ini file
-            objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.TextBox1.Text + Chr(34))
+            ' check to see if current scheme has changed
+            template = objIniFile.GetString("Renamer", "Template", "(none)")
+            If Form4.ComboBox1.Text <> template Then
+                ' update ini file, cycling through existing history, adding new template as most recent
+                template = objIniFile.GetString("Renamer", "Template4", "(none)")
+                objIniFile.WriteString("Renamer", "Template5", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                objIniFile.WriteString("Renamer", "Template4", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Renamer", "Template", "(none)")
+                objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+            End If
         End If
 
         ' put form back to normal
@@ -4906,7 +4995,7 @@ exitwithoutsaving:
 
             If Form4.ShowDialog() = Windows.Forms.DialogResult.OK Then
                 ' update ini file
-                objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.TextBox1.Text + Chr(34))
+                objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
             Else
                 ' cancelled action
                 Exit Sub
@@ -4966,6 +5055,9 @@ exitwithoutsaving:
                     zip.Close()
                 Catch ex1 As Exception
                     Console.Error.WriteLine("exception: {0}", ex1.ToString)
+                    DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Exit Sub
+
                 End Try
 
                 'Search for .opf file
@@ -5749,6 +5841,8 @@ exitwithoutsaving:
             zip.Close()
         Catch ex1 As Exception
             Console.Error.WriteLine("exception: {0}", ex1.ToString)
+            DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "The ebook " + ListBox1.SelectedItem + " cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            Exit Sub
             Exit Sub
         End Try
 
@@ -5991,6 +6085,8 @@ exitwithoutsaving:
                 zip.Close()
             Catch ex1 As Exception
                 Console.Error.WriteLine("exception: {0}", ex1.ToString)
+                DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "The ebook " + ComboBox3.Items(x - 1) + " cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                Exit Sub
             End Try
 
             'Search for .opf file

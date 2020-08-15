@@ -23,7 +23,6 @@ Partial Class Form4
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.Button7 = New System.Windows.Forms.Button
         Me.Button3 = New System.Windows.Forms.Button
@@ -47,14 +46,8 @@ Partial Class Form4
         Me.TextBox3 = New System.Windows.Forms.TextBox
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox
         Me.SuspendLayout()
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(65, 124)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(545, 20)
-        Me.TextBox1.TabIndex = 0
         '
         'TextBox2
         '
@@ -268,11 +261,20 @@ Partial Class Form4
         Me.Label9.Text = "Use ""\"" to create subfolders.  For example, ""%CreatorFirstInitial%\%CreatorSurnam" & _
             "eOnly%\%CreatorFileAs% - %Title%""."
         '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(65, 123)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(545, 21)
+        Me.ComboBox1.TabIndex = 0
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(673, 249)
+        Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
@@ -295,14 +297,12 @@ Partial Class Form4
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.TextBox1)
         Me.Name = "Form4"
         Me.Text = "EPUB Metadata Editor - File Renamer"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents Button7 As System.Windows.Forms.Button
     Friend WithEvents Button3 As System.Windows.Forms.Button
@@ -326,4 +326,5 @@ Partial Class Form4
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
 End Class

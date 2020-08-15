@@ -761,7 +761,8 @@ Public Class ZipStorer
                     Dim commentSize As UInt16 = br.ReadUInt16()
 
                     ' check if comment field is the very last data in file
-                    If (Me.ZipFileStream.Position + commentSize <> Me.ZipFileStream.Length) Then Return False
+                    ' the following line has been commented out so that zip files with trailing data can be opened
+                    'If (Me.ZipFileStream.Position + commentSize <> Me.ZipFileStream.Length) Then Return False
 
                     ' Copy entire central directory to a memory buffer
                     Me.ExistingFiles = entries

@@ -1,6 +1,8 @@
 Public Class Form4
     Dim charactersDisallowed As String = "/:*?<>|" + Chr(34)
     Dim SelectionText As String
+    Dim ComboSelectionStart As Integer
+    Dim ComboSelectionLength As Integer
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         Dim insertText = "%Creator%"
         MakeInsertion(insertText)
@@ -46,16 +48,20 @@ Public Class Form4
         MakeInsertion(insertText)
     End Sub
     Private Sub MakeInsertion(ByVal insertText)
-        Dim insertPos As Integer = TextBox1.SelectionStart
-        TextBox1.SelectedText = ""
+        Dim insertPos As Integer = ComboSelectionStart
+        Dim currentText As String = ComboBox1.Text
+        If ComboSelectionLength <> 0 Then
+            currentText = Mid(currentText, 1, ComboSelectionStart) + Mid(currentText, ComboSelectionStart + ComboSelectionLength + 1)
+        End If
         If My.Computer.Keyboard.ShiftKeyDown Then
-            TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText.ToUpper)
+            ComboBox1.Text = currentText.Insert(insertPos, insertText.ToUpper)
         Else
-            TextBox1.Text = TextBox1.Text.Insert(insertPos, insertText)
+            ComboBox1.Text = currentText.Insert(insertPos, insertText)
         End If
 
-        TextBox1.SelectionStart = insertPos + insertText.Length
-        TextBox1.Focus()
+        ComboBox1.Focus()
+        ComboBox1.SelectionStart = insertPos + insertText.Length
+        ComboBox1.SelectionLength = 0
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
@@ -63,8 +69,8 @@ Public Class Form4
     End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        If Mid(TextBox1.Text, 1, 1) = "\" Then
-            TextBox1.Text = Mid(TextBox1.Text, 2)
+        If Mid(ComboBox1.Text, 1, 1) = "\" Then
+            ComboBox1.Text = Mid(ComboBox1.Text, 2)
         End If
         Me.DialogResult = Windows.Forms.DialogResult.OK
     End Sub
@@ -73,7 +79,7 @@ Public Class Form4
         UpdateFilename()
     End Sub
 
-    Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox1.KeyPress
+    Private Sub ComboBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox1.KeyPress
         If e.KeyChar = "%" Then
             Label5.Visible = True
         Else
@@ -81,33 +87,37 @@ Public Class Form4
         End If
     End Sub
 
-    Private Sub TextBox1_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBox1.KeyUp
-        SelectionText = TextBox1.SelectedText
+    Private Sub ComboBox1_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ComboBox1.KeyUp
+        SelectionText = ComboBox1.SelectedText
+        ComboSelectionStart = ComboBox1.SelectionStart
+        ComboSelectionLength = ComboBox1.SelectionLength
     End Sub
 
-    Private Sub TextBox1_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TextBox1.MouseUp
-        SelectionText = TextBox1.SelectedText
+    Private Sub ComboBox1_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ComboBox1.MouseUp
+        SelectionText = ComboBox1.SelectedText
+        ComboSelectionStart = ComboBox1.SelectionStart
+        ComboSelectionLength = ComboBox1.SelectionLength
     End Sub
 
-    Private Sub TextBox1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox1.TextChanged
-        Dim theText As String = TextBox1.Text
+    Private Sub ComboBox1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBox1.TextChanged
+        Dim theText As String = ComboBox1.Text
         Dim Letter As String
-        Dim SelectionIndex As Integer = TextBox1.SelectionStart
+        Dim SelectionIndex As Integer = ComboBox1.SelectionStart
         Dim Change As Integer
 
-        For x As Integer = 0 To TextBox1.Text.Length - 1
-            Letter = TextBox1.Text.Substring(x, 1)
+        For x As Integer = 0 To ComboBox1.Text.Length - 1
+            Letter = ComboBox1.Text.Substring(x, 1)
             If charactersDisallowed.Contains(Letter) Then
                 If SelectionText = "" Then
                     theText = theText.Replace(Letter, String.Empty)
                     Change = 1
-                    TextBox1.Text = theText
-                    TextBox1.Select(SelectionIndex - Change, 0)
+                    ComboBox1.Text = theText
+                    ComboBox1.Select(SelectionIndex - Change, 0)
                 Else
                     theText = theText.Replace(Letter, SelectionText)
                     Change = Len(SelectionText)
-                    TextBox1.Text = theText
-                    TextBox1.Select(SelectionIndex - 1, Change)
+                    ComboBox1.Text = theText
+                    ComboBox1.Select(SelectionIndex - 1, Change)
                 End If
                 Label4.Visible = True
                 Label5.Visible = False
@@ -117,12 +127,17 @@ Public Class Form4
         Label4.Visible = False
     End Sub
 
+    Private Sub Form4_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
+        ComboBox1.SelectionStart = 0
+        ComboBox1.SelectionLength = 0
+    End Sub
+
     Private Sub Form4_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Label4.Text = "The following characters are not allowed:" + Chr(10) + charactersDisallowed
         Label5.Text = "To output a single '%' in the filename," + Chr(10) + "use '%%' in the Template."
         Label4.Visible = False
         Label5.Visible = False
-        If TextBox1.Text <> "" Then
+        If ComboBox1.Text <> "" Then
             UpdateFilename()
         End If
     End Sub
@@ -132,21 +147,21 @@ Public Class Form4
         Dim field, nextchar, insertText, newFileName As String
         newFileName = ""
         currpos = 0
-        While (currpos < Len(TextBox1.Text))
+        While (currpos < Len(ComboBox1.Text))
             currpos = currpos + 1
 
             ' look for field marker
-            If (Mid(TextBox1.Text, currpos, 1) = "%") Then
-                If (Mid(TextBox1.Text, currpos + 1, 1) = "%") Then
+            If (Mid(ComboBox1.Text, currpos, 1) = "%") Then
+                If (Mid(ComboBox1.Text, currpos + 1, 1) = "%") Then
                     ' found '%%' (replace with '%')
                     newFileName = newFileName + "%"
                     currpos = currpos + 1
                 Else
                     ' look for end field marker
-                    endpos = InStr(currpos + 1, TextBox1.Text, "%")
+                    endpos = InStr(currpos + 1, ComboBox1.Text, "%")
                     If (endpos <> 0) Then
                         ' end field marker found
-                        field = Mid(TextBox1.Text, currpos + 1, endpos - currpos - 1)
+                        field = Mid(ComboBox1.Text, currpos + 1, endpos - currpos - 1)
                         insertText = ""
                         If field = "Creator" Then
                             insertText = Form1.TextBox2.Text
@@ -248,7 +263,7 @@ errortext:
                     End If
                 End If
             Else
-                newFileName = newFileName + Mid(TextBox1.Text, currpos, 1)
+                newFileName = newFileName + Mid(ComboBox1.Text, currpos, 1)
             End If
         End While
 

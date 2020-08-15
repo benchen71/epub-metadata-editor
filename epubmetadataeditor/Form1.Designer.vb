@@ -97,6 +97,7 @@ Partial Class Form1
         Me.Button44 = New System.Windows.Forms.Button
         Me.Button45 = New System.Windows.Forms.Button
         Me.Button8 = New System.Windows.Forms.Button
+        Me.Label31 = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -177,7 +178,6 @@ Partial Class Form1
         Me.LinkLabel10 = New System.Windows.Forms.LinkLabel
         Me.CheckBox13 = New System.Windows.Forms.CheckBox
         Me.LinkLabel11 = New System.Windows.Forms.LinkLabel
-        Me.Label31 = New System.Windows.Forms.Label
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -392,49 +392,49 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddImageToolStripMenuItem, Me.ToolStripMenuItem1, Me.ChangeImageToolStripMenuItem, Me.UseExistingImageToolStripMenuItem, Me.PasteImageToolStripMenuItem, Me.ToolStripMenuItem2, Me.SaveImageAsToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 126)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(183, 126)
         '
         'AddImageToolStripMenuItem
         '
         Me.AddImageToolStripMenuItem.Enabled = False
         Me.AddImageToolStripMenuItem.Name = "AddImageToolStripMenuItem"
-        Me.AddImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.AddImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.AddImageToolStripMenuItem.Text = "Add image..."
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(179, 6)
         '
         'ChangeImageToolStripMenuItem
         '
         Me.ChangeImageToolStripMenuItem.Enabled = False
         Me.ChangeImageToolStripMenuItem.Name = "ChangeImageToolStripMenuItem"
-        Me.ChangeImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.ChangeImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.ChangeImageToolStripMenuItem.Text = "Change image..."
         '
         'UseExistingImageToolStripMenuItem
         '
         Me.UseExistingImageToolStripMenuItem.Name = "UseExistingImageToolStripMenuItem"
-        Me.UseExistingImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.UseExistingImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.UseExistingImageToolStripMenuItem.Text = "Use existing image..."
         '
         'PasteImageToolStripMenuItem
         '
         Me.PasteImageToolStripMenuItem.Name = "PasteImageToolStripMenuItem"
-        Me.PasteImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.PasteImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.PasteImageToolStripMenuItem.Text = "Paste image"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(179, 6)
         '
         'SaveImageAsToolStripMenuItem
         '
         Me.SaveImageAsToolStripMenuItem.Enabled = False
         Me.SaveImageAsToolStripMenuItem.Name = "SaveImageAsToolStripMenuItem"
-        Me.SaveImageAsToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.SaveImageAsToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
         Me.SaveImageAsToolStripMenuItem.Text = "Save image as..."
         '
         'ToolTip1
@@ -885,6 +885,19 @@ Partial Class Form1
         Me.Button8.Text = "View EPUB"
         Me.ToolTip1.SetToolTip(Me.Button8, "View current EPUB in external viewer" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to open original file)")
         Me.Button8.UseVisualStyleBackColor = True
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Label31.Location = New System.Drawing.Point(423, 557)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(43, 13)
+        Me.Label31.TabIndex = 106
+        Me.Label31.Text = "Multiple"
+        Me.ToolTip1.SetToolTip(Me.Label31, "Open Advanced Tasks and click ""Edit .opf file"" to make changes to other identifie" & _
+                "rs.")
+        Me.Label31.Visible = False
         '
         'Label4
         '
@@ -1701,19 +1714,6 @@ Partial Class Form1
         Me.LinkLabel11.TabIndex = 78
         Me.LinkLabel11.TabStop = True
         Me.LinkLabel11.Text = "Choose"
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label31.Location = New System.Drawing.Point(423, 557)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(43, 13)
-        Me.Label31.TabIndex = 106
-        Me.Label31.Text = "Multiple"
-        Me.ToolTip1.SetToolTip(Me.Label31, "Open Advanced Tasks and click ""Edit .opf file"" to make changes to other identifie" & _
-                "rs.")
-        Me.Label31.Visible = False
         '
         'Form1
         '
