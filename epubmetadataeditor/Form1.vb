@@ -1931,6 +1931,7 @@ errortext:
                 Button10.Enabled = True
                 Button32.Enabled = True
                 Button41.Enabled = True
+                Button46.Enabled = True
             Next
 
             DisableInterface()
@@ -6240,4 +6241,276 @@ exitwithoutsaving:
     Public Function countString(ByVal inputString As String, ByVal stringToBeSearchedInsideTheInputString As String) As Integer
         Return System.Text.RegularExpressions.Regex.Split(inputString, stringToBeSearchedInsideTheInputString).Length - 1
     End Function
+
+    Private Sub Button46_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button46.Click
+        Dim filenum, x As Integer
+        Dim metadatafile As String
+
+        ' get current template from ini file
+        Dim viewerfilename, inidirectory, inifilename As String
+        inidirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\EPubMetadataEditor"
+        inifilename = inidirectory + "\EPubMetadataEditor.ini"
+        If System.IO.File.Exists(inifilename) = False Then
+            If System.IO.Directory.Exists(inidirectory) = False Then
+                System.IO.Directory.CreateDirectory(inidirectory)
+            End If
+            Dim fs As New FileStream(inifilename, FileMode.Create, FileAccess.Write)
+            Dim s As New StreamWriter(fs)
+
+            ' look for ini file in old location
+            Dim tempinifile = Application.StartupPath() + "\EPubMetadataEditor.ini"
+            If System.IO.File.Exists(tempinifile) = True Then
+                Dim tempobjIniFile As New IniFile(tempinifile)
+                viewerfilename = tempobjIniFile.GetString("Viewer", "Path", "(none)")
+                s.WriteLine("[Viewer]")
+                s.WriteLine("Path=" + Chr(34) + viewerfilename + Chr(34))
+            Else
+                s.WriteLine("[Viewer]")
+                s.WriteLine("Path=" + Chr(34) + "(none)" + Chr(34))
+            End If
+            s.WriteLine("[Extractor]")
+            s.WriteLine("Template=" + Chr(34) + "(none)" + Chr(34))
+            s.Close()
+        End If
+
+        Dim objIniFile As New IniFile(inifilename)
+        Dim template = objIniFile.GetString("Extractor", "Template", "(none)")
+        Form11.ComboBox1.Items.Clear()
+        If template <> "(none)" Then
+            Form11.ComboBox1.Items.Add(template)
+            Form11.ComboBox1.SelectedIndex = 0
+        Else
+            Form11.ComboBox1.Items.Add("")
+            Form11.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Extractor", "Template1", "(none)")
+        If template <> "(none)" Then
+            Form11.ComboBox1.Items.Add(template)
+            Form11.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Extractor", "Template2", "(none)")
+        If template <> "(none)" Then
+            Form11.ComboBox1.Items.Add(template)
+            Form11.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Extractor", "Template3", "(none)")
+        If template <> "(none)" Then
+            Form11.ComboBox1.Items.Add(template)
+            Form11.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Extractor", "Template4", "(none)")
+        If template <> "(none)" Then
+            Form11.ComboBox1.Items.Add(template)
+            Form11.ComboBox1.SelectedIndex = 0
+        End If
+        template = objIniFile.GetString("Extractor", "Template5", "(none)")
+        If template <> "(none)" Then
+            Form11.ComboBox1.Items.Add(template)
+            Form11.ComboBox1.SelectedIndex = 0
+        End If
+
+        If Form11.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            ' check to see if current scheme has changed
+            template = objIniFile.GetString("Extractor", "Template", "(none)")
+            If Form11.ComboBox1.Text <> template Then
+                ' update ini file, cycling through existing history, adding new template as most recent
+                template = objIniFile.GetString("Extractor", "Template4", "(none)")
+                objIniFile.WriteString("Extractor", "Template5", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Extractor", "Template3", "(none)")
+                objIniFile.WriteString("Extractor", "Template4", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Extractor", "Template2", "(none)")
+                objIniFile.WriteString("Extractor", "Template3", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Extractor", "Template1", "(none)")
+                objIniFile.WriteString("Extractor", "Template2", Chr(34) + template + Chr(34))
+                template = objIniFile.GetString("Extractor", "Template", "(none)")
+                objIniFile.WriteString("Extractor", "Template1", Chr(34) + template + Chr(34))
+                objIniFile.WriteString("Extractor", "Template", Chr(34) + Form11.ComboBox1.Text + Chr(34))
+            End If
+
+            ClearInterface()
+            tempdirectory = System.IO.Path.GetTempPath
+            ebookdirectory = tempdirectory + "EPUB"
+
+            filenum = ListBox1.Items.Count
+            ProgressBar1.Maximum = filenum - 1
+            ProgressBar1.Visible = True
+
+            For x = 1 To filenum
+                ChDir(tempdirectory)
+                ProgressBar1.Value = x - 1
+                ProgressBar1.Update()
+                Application.DoEvents()
+
+                ' open file
+                'Unzip epub to temp directory
+
+                If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                    Try
+                        'delete contents of temp directory
+                        DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+                    Catch
+                        wait(500)
+                        'try again
+                        DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+                    End Try
+                Else
+                    MkDir(ebookdirectory)
+                End If
+                ChDir(ebookdirectory)
+
+                Try
+                    Dim zip As ZipStorer
+                    zip = ZipStorer.Open(ListBox1.Items(x - 1).ToString, FileAccess.Read)
+                    Dim dir = zip.ReadCentralDir()
+                    Dim item As ZipStorer.ZipFileEntry
+                    For Each item In dir
+                        zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+                    Next
+                    zip.Close()
+                Catch ex1 As Exception
+                    Console.Error.WriteLine("exception: {0}", ex1.ToString)
+                    DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Exit Sub
+                End Try
+
+                'Search for .opf file
+                searchResults = Directory.GetFiles(ebookdirectory, "*.opf", SearchOption.AllDirectories)
+
+                'Open .opf file into RichTextBox
+                If searchResults.Length < 1 Then
+                    DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Return
+                Else
+                    opffile = searchResults(0)
+                    If InStr(opffile, "_MACOSX") Then
+                        If searchResults.Length > 1 Then
+                            opffile = searchResults(1)
+                        End If
+                    End If
+                    opfdirectory = Path.GetDirectoryName(opffile)
+                    RichTextBox1.Text = LoadUnicodeFile(opffile)
+                End If
+
+                'Extract metadata into textboxes
+                metadatafile = LoadUnicodeFile(opffile)
+
+                ' No need to extract cover
+                ExtractMetadata(metadatafile, False)
+
+                WebBrowser1.Visible = False
+
+                ' extract the metadata from the filename
+                Dim currposTemplate, currposFilename, endpos, endMetadata As Integer
+                Dim currentField, currentSearchText, currentFilename, currentMetadata As String
+                Dim foundfield As Boolean
+                currentSearchText = ""
+                currentMetadata = ""
+                currentField = ""
+                currposTemplate = 0
+                currposFilename = 1
+                foundfield = False
+
+                Try
+                    ' get filename
+                    currentFilename = Mid(ListBox1.Items(x - 1), InStrRev(ListBox1.Items(x - 1), "\") + 1)
+                    currentFilename = Mid(currentFilename, 1, Len(currentFilename) - 5)
+
+                    ' parse template
+                    While (currposTemplate < Len(Form11.ComboBox1.Text))
+                        currposTemplate = currposTemplate + 1
+
+                        ' look for field marker
+                        If (Mid(Form11.ComboBox1.Text, currposTemplate, 1) = "%") Then
+                            If (Mid(Form11.ComboBox1.Text, currposTemplate + 1, 1) = "%") Then
+                                ' found '%%' (replace with '%')
+                                currentSearchText = currentSearchText + "%"
+                                currposTemplate = currposTemplate + 1
+                            Else
+                                If foundfield Then
+                                    ' new field found so use currentSearchText to extract metadata for currentField
+                                    endMetadata = InStr(currposFilename, currentFilename, currentSearchText) - 1
+                                    currentMetadata = Mid(currentFilename, currposFilename, endMetadata - currposFilename + 1)
+
+                                    ' update metadata from filename
+                                    If currentField = "Creator" Then
+                                        TextBox2.Text = currentMetadata
+                                    ElseIf currentField = "CreatorFileAs" Then
+                                        TextBox12.Text = currentMetadata
+                                    ElseIf currentField = "Title" Then
+                                        TextBox1.Text = currentMetadata
+                                    ElseIf currentField = "TitleFileAs" Then
+                                        TextBox16.Text = currentMetadata
+                                    ElseIf currentField = "Series" Then
+                                        TextBox15.Text = currentMetadata
+                                    ElseIf currentField = "SeriesIndex" Then
+                                        TextBox14.Text = currentMetadata
+                                    ElseIf currentField = "Date" Then
+                                        TextBox6.Text = currentMetadata
+                                    End If
+                                    currposFilename = endMetadata + Len(currentSearchText) + 1
+                                    currentSearchText = ""
+                                End If
+
+                                ' look for end field marker
+                                endpos = InStr(currposTemplate + 1, Form11.ComboBox1.Text, "%")
+                                If (endpos <> 0) Then
+                                    ' end field marker found
+                                    currentField = Mid(Form11.ComboBox1.Text, currposTemplate + 1, endpos - currposTemplate - 1)
+                                    foundfield = True
+                                    currposTemplate = endpos
+                                End If
+                            End If
+                        Else
+                            currentSearchText = currentSearchText + Mid(Form11.ComboBox1.Text, currposTemplate, 1)
+                        End If
+                    End While
+                    ' Get metadata from filename for last field
+                    currentMetadata = Mid(currentFilename, currposFilename)
+
+                    ' update metadata for last field
+                    If currentField = "Creator" Then
+                        TextBox2.Text = currentMetadata
+                    ElseIf currentField = "CreatorFileAs" Then
+                        TextBox12.Text = currentMetadata
+                    ElseIf currentField = "Title" Then
+                        TextBox1.Text = currentMetadata
+                    ElseIf currentField = "TitleFileAs" Then
+                        TextBox16.Text = currentMetadata
+                    ElseIf currentField = "Series" Then
+                        TextBox15.Text = currentMetadata
+                    ElseIf currentField = "SeriesIndex" Then
+                        TextBox14.Text = currentMetadata
+                    ElseIf currentField = "Date" Then
+                        TextBox6.Text = currentMetadata
+                    End If
+
+                    Application.DoEvents()
+
+                    ' Only save file if we made it this far
+                    SaveEpub(ListBox1.Items(x - 1), False)
+                Catch
+
+                End Try
+
+                ClearInterface()
+
+            Next
+            ProgressBar1.Value = 0
+            ProgressBar1.Update()
+            ProgressBar1.Visible = False
+            projectchanged = False
+            Button3.Enabled = False
+            ClearInterface()
+            DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+
+            If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                'delete contents of temp directory
+                DeleteDirContents(New IO.DirectoryInfo(ebookdirectory))
+            End If
+
+            projectchanged = False
+            CaptionString = "EPUB Metadata Editor"
+            Me.Text = CaptionString
+        End If
+    End Sub
 End Class

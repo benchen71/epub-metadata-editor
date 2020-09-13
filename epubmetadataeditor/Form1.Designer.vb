@@ -178,6 +178,7 @@ Partial Class Form1
         Me.LinkLabel10 = New System.Windows.Forms.LinkLabel
         Me.CheckBox13 = New System.Windows.Forms.CheckBox
         Me.LinkLabel11 = New System.Windows.Forms.LinkLabel
+        Me.Button46 = New System.Windows.Forms.Button
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -939,7 +940,7 @@ Partial Class Form1
         Me.Button10.Location = New System.Drawing.Point(906, 236)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 84
+        Me.Button10.TabIndex = 83
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -1715,11 +1716,23 @@ Partial Class Form1
         Me.LinkLabel11.TabStop = True
         Me.LinkLabel11.Text = "Choose"
         '
+        'Button46
+        '
+        Me.Button46.Enabled = False
+        Me.Button46.Location = New System.Drawing.Point(1000, 236)
+        Me.Button46.Name = "Button46"
+        Me.Button46.Size = New System.Drawing.Size(90, 25)
+        Me.Button46.TabIndex = 84
+        Me.Button46.Text = "Extract"
+        Me.ToolTip1.SetToolTip(Me.Button46, "Extract metadata from filenames")
+        Me.Button46.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.Button46)
         Me.Controls.Add(Me.Label31)
         Me.Controls.Add(Me.TextBox9)
         Me.Controls.Add(Me.LinkLabel11)
@@ -2013,5 +2026,6 @@ Partial Class Form1
     Friend WithEvents CheckBox13 As System.Windows.Forms.CheckBox
     Friend WithEvents LinkLabel11 As System.Windows.Forms.LinkLabel
     Friend WithEvents Label31 As System.Windows.Forms.Label
+    Friend WithEvents Button46 As System.Windows.Forms.Button
 
 End Class

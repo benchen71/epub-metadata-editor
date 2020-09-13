@@ -86,6 +86,12 @@
     </Compile>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="ClassIni.vb" />
+    <Compile Include="Form11.Designer.vb">
+      <DependentUpon>Form11.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form11.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Dialog1.Designer.vb">
       <DependentUpon>Dialog1.vb</DependentUpon>
     </Compile>
@@ -190,6 +196,10 @@
     <EmbeddedResource Include="AboutBox1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutBox1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form11.resx">
+      <DependentUpon>Form11.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog1.resx">
       <SubType>Designer</SubType>

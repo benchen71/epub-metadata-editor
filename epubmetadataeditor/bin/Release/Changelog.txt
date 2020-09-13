@@ -1,5 +1,3 @@
-1.7.4
-[*] Added a history to the File Renamer dialog. The program will now remember the last 6 renaming schemes, accessible using a combobox. (If SHIFT is pressed when the "Rename File" link is pressed, the most recent scheme will be used.)
-[*] Fixed a problem with zipstorer failing to open some EPUBs because there was data trailing what should be the final comment. (The work-around doesn't seem to result in any data failing to be loaded. And when EPUB Metadata Editor saves changes the resulting zip file is error-free.)
-[*] Added a new error message when issue is encountered during the unzipping phase.
-[*] Updated EPubMetadataEditorConsole instructions. (The use of "<" and ">" was misleading.)
+1.8.0
+[*] Added the ability to extract metadata from filenames (Batch operation).
+[*] Added zipstorer work-around and error message when issue is encountered during the unzipping phase to EPubMetadataEditorConsole.
