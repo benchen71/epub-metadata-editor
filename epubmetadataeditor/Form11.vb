@@ -93,6 +93,10 @@ Public Class Form11
         Dim SelectionIndex As Integer = ComboBox1.SelectionStart
         Dim Change As Integer
 
+        ' reset metadata preview
+        DataGridView1.Rows.Clear()
+        Button3.Enabled = False
+
         For x As Integer = 0 To ComboBox1.Text.Length - 1
             Letter = ComboBox1.Text.Substring(x, 1)
             If charactersDisallowed.Contains(Letter) Then
@@ -127,6 +131,7 @@ Public Class Form11
         Label5.Visible = False
         TextBox3.Text = Mid(Form1.ListBox1.Items(0), InStrRev(Form1.ListBox1.Items(0), "\") + 1)
         TextBox3.Text = Mid(TextBox3.Text, 1, Len(TextBox3.Text) - 5)
+        Button3.Enabled = False
         If ComboBox1.Text <> "" Then
             UpdateMetadataPanel()
         End If
@@ -189,9 +194,11 @@ Public Class Form11
 
             ' Add last row to DataGridView
             DataGridView1.Rows.Add(New String() {currentField, currentMetadata})
+
+            ' If we got this far, then extraction can procede!
+            Button3.Enabled = True
         Catch
             DialogResult = MsgBox("Oops! I can't process that. Fix the Template and try again.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
         End Try
     End Sub
-
 End Class

@@ -6245,6 +6245,8 @@ exitwithoutsaving:
     Private Sub Button46_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button46.Click
         Dim filenum, x As Integer
         Dim metadatafile As String
+        Dim filesfailed As Boolean
+        Dim filelist As String
 
         ' get current template from ini file
         Dim viewerfilename, inidirectory, inifilename As String
@@ -6334,6 +6336,8 @@ exitwithoutsaving:
             filenum = ListBox1.Items.Count
             ProgressBar1.Maximum = filenum - 1
             ProgressBar1.Visible = True
+            filesfailed = False
+            filelist = "The extract procedure failed on the following files:"
 
             For x = 1 To filenum
                 ChDir(tempdirectory)
@@ -6489,7 +6493,9 @@ exitwithoutsaving:
                     ' Only save file if we made it this far
                     SaveEpub(ListBox1.Items(x - 1), False)
                 Catch
-
+                    ' Extract failed, so add filename to list
+                    filesfailed = True
+                    filelist = filelist + Chr(10) + ListBox1.Items(x - 1)
                 End Try
 
                 ClearInterface()
@@ -6501,7 +6507,12 @@ exitwithoutsaving:
             projectchanged = False
             Button3.Enabled = False
             ClearInterface()
-            DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            If filesfailed Then
+                DialogResult = MsgBox("All done!" + Chr(10) + filelist, MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            Else
+                DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            End If
+
 
             If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
                 'delete contents of temp directory
