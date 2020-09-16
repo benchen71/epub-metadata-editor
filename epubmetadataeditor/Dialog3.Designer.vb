@@ -33,6 +33,8 @@ Partial Class Dialog3
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.Label5 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
+        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
+        Me.Label7 = New System.Windows.Forms.Label
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -42,7 +44,7 @@ Partial Class Dialog3
         Me.TableLayoutPanel1.ColumnCount = 1
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(7, 111)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(7, 137)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -121,16 +123,39 @@ Partial Class Dialog3
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(12, 88)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(143, 13)
+        Me.Label6.Size = New System.Drawing.Size(138, 13)
         Me.Label6.TabIndex = 7
-        Me.Label6.Text = "just click the 'View Raw' link."
+        Me.Label6.Text = "just click the 'View raw' link."
+        '
+        'LinkLabel2
+        '
+        Me.LinkLabel2.AutoSize = True
+        Me.LinkLabel2.Location = New System.Drawing.Point(251, 111)
+        Me.LinkLabel2.Name = "LinkLabel2"
+        Me.LinkLabel2.Size = New System.Drawing.Size(28, 13)
+        Me.LinkLabel2.TabIndex = 9
+        Me.LinkLabel2.TabStop = True
+        Me.LinkLabel2.Text = "here"
+        Me.ToolTip1.SetToolTip(Me.LinkLabel2, "https://github.com/benchen71/epub-metadata-editor/blob/master/epubmetadataeditor/" & _
+                "bin/Release/Output/EPubMetadataEditorNoInstaller.zip")
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(4, 111)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(249, 13)
+        Me.Label7.TabIndex = 8
+        Me.Label7.Text = "A no installer zip file can be downloaded by clicking"
         '
         'Dialog3
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(318, 152)
+        Me.ClientSize = New System.Drawing.Size(318, 178)
+        Me.Controls.Add(Me.LinkLabel2)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
@@ -161,5 +186,7 @@ Partial Class Dialog3
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Label7 As System.Windows.Forms.Label
 
 End Class

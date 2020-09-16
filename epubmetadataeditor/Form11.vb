@@ -3,39 +3,75 @@ Public Class Form11
     Dim SelectionText As String
     Dim ComboSelectionStart As Integer
     Dim ComboSelectionLength As Integer
+    Dim firsttimeopen As Boolean = True
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         Dim insertText = "%Creator%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
         Dim insertText = "%CreatorFileAs%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub LinkLabel4_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel4.LinkClicked
         Dim insertText = "%Title%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub LinkLabel5_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel5.LinkClicked
         Dim insertText = "%TitleFileAs%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub LinkLabel6_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel6.LinkClicked
         Dim insertText = "%Date%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub LinkLabel7_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel7.LinkClicked
         Dim insertText = "%Series%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub LinkLabel8_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel8.LinkClicked
         Dim insertText = "%SeriesIndex%"
-        MakeInsertion(insertText)
+        Dim temp
+        If Not ComboBox1.Text.Contains(insertText) Then
+            MakeInsertion(insertText)
+        Else
+            temp = MsgBox("The Template can only contain one of each field.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
     End Sub
 
     Private Sub MakeInsertion(ByVal insertText)
@@ -129,8 +165,9 @@ Public Class Form11
         Label5.Text = "To obtain a single '%'," + Chr(10) + "use '%%' in the Template."
         Label4.Visible = False
         Label5.Visible = False
-        TextBox3.Text = Mid(Form1.ListBox1.Items(0), InStrRev(Form1.ListBox1.Items(0), "\") + 1)
-        TextBox3.Text = Mid(TextBox3.Text, 1, Len(TextBox3.Text) - 5)
+        'TextBox3.Text = Mid(Form1.ListBox1.Items(0), InStrRev(Form1.ListBox1.Items(0), "\") + 1)
+        'TextBox3.Text = Mid(TextBox3.Text, 1, Len(TextBox3.Text) - 5)
+        TextBox3.Text = Form1.ListBox1.Items(0)
         Button3.Enabled = False
         If ComboBox1.Text <> "" Then
             UpdateMetadataPanel()
@@ -138,9 +175,10 @@ Public Class Form11
     End Sub
 
     Public Sub UpdateMetadataPanel()
-        Dim currposTemplate, currposFilename, endpos, endMetadata As Integer
+        Dim slashloc, currposTemplate, currposFilename, endpos, endMetadata As Integer
         Dim currentField, currentSearchText, currentFilename, currentMetadata As String
         Dim foundfield As Boolean
+        Dim temp
         currentSearchText = ""
         currentMetadata = ""
         currentField = ""
@@ -150,9 +188,23 @@ Public Class Form11
 
         DataGridView1.Rows.Clear()
 
+        ' check for (non-space) characters between fields
+
+
         Try
-            ' get first filename
-            currentFilename = TextBox3.Text
+            ' get location of last "\"
+            slashloc = InStrRev(Form1.ListBox1.Items(0), "\")
+
+            ' include folders if Template contains "\" characters
+            Dim numslash As Integer = Len(ComboBox1.Text) - Len(Replace(ComboBox1.Text, "\", ""))
+            While numslash > 0
+                slashloc = InStrRev(Form1.ListBox1.Items(0), "\", slashloc - 1)
+                numslash = numslash - 1
+            End While
+
+            ' get filename
+            currentFilename = Mid(Form1.ListBox1.Items(0), slashloc + 1)
+            currentFilename = Mid(currentFilename, 1, Len(currentFilename) - 5)
 
             ' parse template
             While (currposTemplate < Len(ComboBox1.Text))
@@ -167,6 +219,10 @@ Public Class Form11
                     Else
                         If foundfield Then
                             ' new field found so use currentSearchText to extract metadata for currentField
+                            If Replace(currentSearchText, " ", "") = "" Then
+                                temp = MsgBox("Oops! There has to be non-space characters between fields. Fix the Template and try again.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                                Exit Sub
+                            End If
                             endMetadata = InStr(currposFilename, currentFilename, currentSearchText) - 1
                             currentMetadata = Mid(currentFilename, currposFilename, endMetadata - currposFilename + 1)
 
@@ -198,7 +254,10 @@ Public Class Form11
             ' If we got this far, then extraction can procede!
             Button3.Enabled = True
         Catch
-            DialogResult = MsgBox("Oops! I can't process that. Fix the Template and try again.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            If Not firsttimeopen Then
+                temp = MsgBox("Oops! I can't process that. Fix the Template and try again.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            End If            
         End Try
+        firsttimeopen = False
     End Sub
 End Class

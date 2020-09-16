@@ -23,7 +23,7 @@ Partial Class Form11
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.Button7 = New System.Windows.Forms.Button
         Me.Button3 = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
@@ -48,6 +48,8 @@ Partial Class Form11
         Me.Field = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Content = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Label6 = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.Label10 = New System.Windows.Forms.Label
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -55,7 +57,7 @@ Partial Class Form11
         '
         Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.Image = Global.EPubMetadataEditor.My.Resources.Resources.arrow_double_clockwise
-        Me.Button7.Location = New System.Drawing.Point(578, 183)
+        Me.Button7.Location = New System.Drawing.Point(578, 203)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(46, 46)
         Me.Button7.TabIndex = 32
@@ -83,7 +85,7 @@ Partial Class Form11
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(5, 127)
+        Me.Label1.Location = New System.Drawing.Point(5, 147)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(54, 13)
         Me.Label1.TabIndex = 35
@@ -92,7 +94,7 @@ Partial Class Form11
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(5, 183)
+        Me.Label2.Location = New System.Drawing.Point(5, 203)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(55, 13)
         Me.Label2.TabIndex = 36
@@ -202,7 +204,7 @@ Partial Class Form11
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(5, 153)
+        Me.Label7.Location = New System.Drawing.Point(5, 173)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(52, 13)
         Me.Label7.TabIndex = 50
@@ -210,7 +212,7 @@ Partial Class Form11
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(65, 150)
+        Me.TextBox3.Location = New System.Drawing.Point(65, 170)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(507, 20)
@@ -219,7 +221,7 @@ Partial Class Form11
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(8, 67)
+        Me.Label8.Location = New System.Drawing.Point(8, 63)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(351, 13)
         Me.Label8.TabIndex = 51
@@ -228,7 +230,7 @@ Partial Class Form11
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(65, 123)
+        Me.ComboBox1.Location = New System.Drawing.Point(65, 143)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(507, 21)
         Me.ComboBox1.TabIndex = 0
@@ -239,18 +241,18 @@ Partial Class Form11
         Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.AllowUserToResizeColumns = False
         Me.DataGridView1.AllowUserToResizeRows = False
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Field, Me.Content})
         Me.DataGridView1.Enabled = False
-        Me.DataGridView1.Location = New System.Drawing.Point(68, 183)
+        Me.DataGridView1.Location = New System.Drawing.Point(68, 203)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.Size = New System.Drawing.Size(504, 179)
@@ -280,11 +282,32 @@ Partial Class Form11
         Me.Label6.Text = "NOTE: The Template must begin and end with a field for the extraction to work. Th" & _
             "e Template can consist of a single field."
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(46, 101)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(250, 13)
+        Me.Label9.TabIndex = 55
+        Me.Label9.Text = "You can include subfolders using the ""\"" character."
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(46, 118)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(524, 13)
+        Me.Label10.TabIndex = 56
+        Me.Label10.Text = "Fields need to have at least one non-space character between them that doesn't oc" & _
+            "cur inside metadata fields."
+        '
         'Form11
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(632, 456)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.ComboBox1)
@@ -337,4 +360,6 @@ Partial Class Form11
     Friend WithEvents Field As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Content As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
 End Class

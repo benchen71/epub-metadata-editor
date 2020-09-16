@@ -10,4 +10,8 @@ Public Class Dialog3
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         System.Diagnostics.Process.Start("https://github.com/benchen71/epub-metadata-editor/tree/master/epubmetadataeditor/bin/Release/Output/EPubMetadataEditorInstaller.exe?raw=true")
     End Sub
+
+    Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        System.Diagnostics.Process.Start("https://github.com/benchen71/epub-metadata-editor/tree/master/epubmetadataeditor/bin/Release/Output/EPubMetadataEditorNoInstaller.zip?raw=true")
+    End Sub
 End Class

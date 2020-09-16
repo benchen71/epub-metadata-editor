@@ -6404,7 +6404,7 @@ exitwithoutsaving:
                 WebBrowser1.Visible = False
 
                 ' extract the metadata from the filename
-                Dim currposTemplate, currposFilename, endpos, endMetadata As Integer
+                Dim currposTemplate, currposFilename, endpos, endMetadata, slashloc As Integer
                 Dim currentField, currentSearchText, currentFilename, currentMetadata As String
                 Dim foundfield As Boolean
                 currentSearchText = ""
@@ -6415,8 +6415,18 @@ exitwithoutsaving:
                 foundfield = False
 
                 Try
+                    ' get location of last "\"
+                    slashloc = InStrRev(ListBox1.Items(x - 1), "\")
+
+                    ' include folders if Template contains "\" characters
+                    Dim numslash As Integer = Len(Form11.ComboBox1.Text) - Len(Strings.Replace(Form11.ComboBox1.Text, "\", ""))
+                    While numslash > 0
+                        slashloc = InStrRev(ListBox1.Items(x - 1), "\", slashloc - 1)
+                        numslash = numslash - 1
+                    End While
+
                     ' get filename
-                    currentFilename = Mid(ListBox1.Items(x - 1), InStrRev(ListBox1.Items(x - 1), "\") + 1)
+                    currentFilename = Mid(ListBox1.Items(x - 1), slashloc + 1)
                     currentFilename = Mid(currentFilename, 1, Len(currentFilename) - 5)
 
                     ' parse template

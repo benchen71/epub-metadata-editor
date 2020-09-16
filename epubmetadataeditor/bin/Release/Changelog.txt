@@ -1,3 +1,4 @@
-1.8.1
-[*] Added some checks and balances to the extract procedure.
-[*] A list of files on which the extract procedure fails is output at the end of the batch run.
+1.8.2
+[*] You can now include subfolders in the metadata extraction procedure.
+[*] Added yet more checks and balances (and on-screen instructions and error messages) to the extraction procedure.
+[*] Added a no installer zip file to GitHub (and added a link to it on the update available dialog).
