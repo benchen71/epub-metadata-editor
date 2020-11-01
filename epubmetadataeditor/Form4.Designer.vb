@@ -47,6 +47,11 @@ Partial Class Form4
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
         Me.ComboBox1 = New System.Windows.Forms.ComboBox
+        Me.LinkLabel10 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel11 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel12 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel13 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel14 = New System.Windows.Forms.LinkLabel
         Me.SuspendLayout()
         '
         'TextBox2
@@ -145,7 +150,7 @@ Partial Class Form4
         'LinkLabel4
         '
         Me.LinkLabel4.AutoSize = True
-        Me.LinkLabel4.Location = New System.Drawing.Point(191, 25)
+        Me.LinkLabel4.Location = New System.Drawing.Point(378, 25)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(27, 13)
         Me.LinkLabel4.TabIndex = 42
@@ -155,7 +160,7 @@ Partial Class Form4
         'LinkLabel5
         '
         Me.LinkLabel5.AutoSize = True
-        Me.LinkLabel5.Location = New System.Drawing.Point(191, 38)
+        Me.LinkLabel5.Location = New System.Drawing.Point(378, 38)
         Me.LinkLabel5.Name = "LinkLabel5"
         Me.LinkLabel5.Size = New System.Drawing.Size(66, 13)
         Me.LinkLabel5.TabIndex = 43
@@ -165,7 +170,7 @@ Partial Class Form4
         'LinkLabel6
         '
         Me.LinkLabel6.AutoSize = True
-        Me.LinkLabel6.Location = New System.Drawing.Point(468, 25)
+        Me.LinkLabel6.Location = New System.Drawing.Point(580, 25)
         Me.LinkLabel6.Name = "LinkLabel6"
         Me.LinkLabel6.Size = New System.Drawing.Size(30, 13)
         Me.LinkLabel6.TabIndex = 46
@@ -175,7 +180,7 @@ Partial Class Form4
         'LinkLabel7
         '
         Me.LinkLabel7.AutoSize = True
-        Me.LinkLabel7.Location = New System.Drawing.Point(332, 25)
+        Me.LinkLabel7.Location = New System.Drawing.Point(481, 25)
         Me.LinkLabel7.Name = "LinkLabel7"
         Me.LinkLabel7.Size = New System.Drawing.Size(36, 13)
         Me.LinkLabel7.TabIndex = 44
@@ -185,7 +190,7 @@ Partial Class Form4
         'LinkLabel8
         '
         Me.LinkLabel8.AutoSize = True
-        Me.LinkLabel8.Location = New System.Drawing.Point(332, 38)
+        Me.LinkLabel8.Location = New System.Drawing.Point(481, 38)
         Me.LinkLabel8.Name = "LinkLabel8"
         Me.LinkLabel8.Size = New System.Drawing.Size(65, 13)
         Me.LinkLabel8.TabIndex = 45
@@ -269,11 +274,66 @@ Partial Class Form4
         Me.ComboBox1.Size = New System.Drawing.Size(545, 21)
         Me.ComboBox1.TabIndex = 0
         '
+        'LinkLabel10
+        '
+        Me.LinkLabel10.AutoSize = True
+        Me.LinkLabel10.Location = New System.Drawing.Point(197, 64)
+        Me.LinkLabel10.Name = "LinkLabel10"
+        Me.LinkLabel10.Size = New System.Drawing.Size(161, 13)
+        Me.LinkLabel10.TabIndex = 56
+        Me.LinkLabel10.TabStop = True
+        Me.LinkLabel10.Text = "Creator2 (First Initial Of Surname)"
+        '
+        'LinkLabel11
+        '
+        Me.LinkLabel11.AutoSize = True
+        Me.LinkLabel11.Location = New System.Drawing.Point(197, 51)
+        Me.LinkLabel11.Name = "LinkLabel11"
+        Me.LinkLabel11.Size = New System.Drawing.Size(120, 13)
+        Me.LinkLabel11.TabIndex = 55
+        Me.LinkLabel11.TabStop = True
+        Me.LinkLabel11.Text = "Creator2 (Surname only)"
+        '
+        'LinkLabel12
+        '
+        Me.LinkLabel12.AutoSize = True
+        Me.LinkLabel12.Location = New System.Drawing.Point(197, 38)
+        Me.LinkLabel12.Name = "LinkLabel12"
+        Me.LinkLabel12.Size = New System.Drawing.Size(86, 13)
+        Me.LinkLabel12.TabIndex = 54
+        Me.LinkLabel12.TabStop = True
+        Me.LinkLabel12.Text = "Creator2 (File as)"
+        '
+        'LinkLabel13
+        '
+        Me.LinkLabel13.AutoSize = True
+        Me.LinkLabel13.Location = New System.Drawing.Point(197, 25)
+        Me.LinkLabel13.Name = "LinkLabel13"
+        Me.LinkLabel13.Size = New System.Drawing.Size(47, 13)
+        Me.LinkLabel13.TabIndex = 53
+        Me.LinkLabel13.TabStop = True
+        Me.LinkLabel13.Text = "Creator2"
+        '
+        'LinkLabel14
+        '
+        Me.LinkLabel14.AutoSize = True
+        Me.LinkLabel14.Location = New System.Drawing.Point(580, 51)
+        Me.LinkLabel14.Name = "LinkLabel14"
+        Me.LinkLabel14.Size = New System.Drawing.Size(43, 13)
+        Me.LinkLabel14.TabIndex = 57
+        Me.LinkLabel14.TabStop = True
+        Me.LinkLabel14.Text = "Subject"
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(673, 249)
+        Me.Controls.Add(Me.LinkLabel14)
+        Me.Controls.Add(Me.LinkLabel10)
+        Me.Controls.Add(Me.LinkLabel11)
+        Me.Controls.Add(Me.LinkLabel12)
+        Me.Controls.Add(Me.LinkLabel13)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
@@ -327,4 +387,9 @@ Partial Class Form4
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
+    Friend WithEvents LinkLabel10 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel11 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel12 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel13 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel14 As System.Windows.Forms.LinkLabel
 End Class

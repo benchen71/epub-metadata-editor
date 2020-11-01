@@ -234,6 +234,77 @@ Public Class Form4
                             If (field = "CREATORFIRSTINITIAL") Then
                                 insertText = insertText.ToUpper
                             End If
+                        ElseIf field = "Creator2" Then
+                            insertText = Form1.TextBox3.Text
+                        ElseIf field = "CREATOR2" Then
+                            insertText = Form1.TextBox3.Text.ToUpper
+                        ElseIf field = "Creator2FileAs" Then
+                            insertText = Form1.TextBox13.Text
+                        ElseIf field = "CREATOR2FILEAS" Then
+                            insertText = Form1.TextBox13.Text.ToUpper
+                        ElseIf ((field = "Creator2SurnameOnly") Or (field = "CREATOR2SURNAMEONLY")) Then
+                            insertText = Form1.TextBox3.Text
+                            If InStr(insertText, " ") <> 0 Then
+                                temppos = Len(insertText)
+                                nextchar = Mid(insertText, temppos, 1)
+                                While (nextchar <> " ")
+                                    If temppos = 1 Then
+                                        GoTo errortext
+                                    End If
+                                    temppos = temppos - 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                End While
+                                insertText = Mid(insertText, temppos + 1)
+                                If (Mid(Form1.TextBox3.Text, temppos - 1, 1) = ",") Then
+                                    insertText = Form1.TextBox3.Text
+                                    temppos = 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                    While (nextchar <> ",")
+                                        If temppos = Len(insertText) Then
+                                            GoTo errortext
+                                        End If
+                                        temppos = temppos + 1
+                                        nextchar = Mid(insertText, temppos, 1)
+                                    End While
+                                    insertText = Mid(insertText, 1, temppos - 1)
+                                End If
+                            End If
+                            If (field = "CREATOR2SURNAMEONLY") Then
+                                insertText = insertText.ToUpper
+                            End If
+                        ElseIf ((field = "Creator2FirstInitial") Or (field = "CREATOR2FIRSTINITIAL")) Then
+                            insertText = Form1.TextBox3.Text
+                            If InStr(insertText, " ") <> 0 Then
+                                temppos = Len(insertText)
+                                nextchar = Mid(insertText, temppos, 1)
+                                While (nextchar <> " ")
+                                    If temppos = 1 Then
+                                        GoTo errortext
+                                    End If
+                                    temppos = temppos - 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                End While
+                                insertText = Mid(insertText, temppos + 1)
+                                If (Mid(Form1.TextBox3.Text, temppos - 1, 1) = ",") Then
+                                    insertText = Form1.TextBox3.Text
+                                    temppos = 1
+                                    nextchar = Mid(insertText, temppos, 1)
+                                    While (nextchar <> ",")
+                                        If temppos = Len(insertText) Then
+                                            GoTo errortext
+                                        End If
+                                        temppos = temppos + 1
+                                        nextchar = Mid(insertText, temppos, 1)
+                                    End While
+                                    insertText = Mid(insertText, 1, temppos - 1)
+                                End If
+                            End If
+                            If Len(insertText) > 1 Then
+                                insertText = Mid(insertText, 1, 1)
+                            End If
+                            If (field = "CREATOR2FIRSTINITIAL") Then
+                                insertText = insertText.ToUpper
+                            End If
                         ElseIf field = "Title" Then
                             insertText = Form1.TextBox1.Text
                         ElseIf field = "TITLE" Then
@@ -254,6 +325,10 @@ Public Class Form4
                             insertText = Form1.TextBox6.Text
                         ElseIf field = "DATE" Then
                             insertText = Form1.TextBox6.Text.ToUpper
+                        ElseIf field = "Subject" Then
+                            insertText = Form1.TextBox17.Text
+                        ElseIf field = "SUBJECT" Then
+                            insertText = Form1.TextBox17.Text.ToUpper
                         Else
                             insertText = ""
                         End If
@@ -298,5 +373,30 @@ errortext:
         End While
 
         TextBox2.Text = newFileName
+    End Sub
+
+    Private Sub LinkLabel13_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel13.LinkClicked
+        Dim insertText = "%Creator2%"
+        MakeInsertion(insertText)
+    End Sub
+
+    Private Sub LinkLabel12_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel12.LinkClicked
+        Dim insertText = "%Creator2FileAs%"
+        MakeInsertion(insertText)
+    End Sub
+
+    Private Sub LinkLabel11_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel11.LinkClicked
+        Dim insertText = "%Creator2SurnameOnly%"
+        MakeInsertion(insertText)
+    End Sub
+
+    Private Sub LinkLabel10_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel10.LinkClicked
+        Dim insertText As String = "%Creator2FirstInitial%"
+        MakeInsertion(insertText)
+    End Sub
+
+    Private Sub LinkLabel14_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel14.LinkClicked
+        Dim insertText = "%Subject%"
+        MakeInsertion(insertText)
     End Sub
 End Class

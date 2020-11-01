@@ -282,7 +282,7 @@ founddirectory:
             zip.Close()
         Catch ex1 As Exception
             Console.Error.WriteLine("exception: {0}", ex1.ToString)
-            DialogResult = MsgBox("ERROR: Problem with unzipping file." + Chr(10) + "This ebook cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            DialogResult = MsgBox("ERROR: " + ex1.Message + Chr(10) + "This ebook cannot be opened by the ZIP library used by EPUB Metadata Editor.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
             Exit Sub
         End Try
 
@@ -4802,8 +4802,78 @@ redo:
             End If
 exitwithoutsaving:
             If Not ((My.Computer.Keyboard.ShiftKeyDown) And (Form4.ComboBox1.Text <> "")) Then
+                ' check to see if chosen template is a new one
+                Dim newone = True
                 template = objIniFile.GetString("Renamer", "Template", "(none)")
-                If Form4.ComboBox1.Text <> template Then
+                If Form4.ComboBox1.Text = template Then
+                    newone = False
+                Else
+                    template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                    If Form4.ComboBox1.Text = template Then
+                        newone = False
+                        ' move them down
+                        template = objIniFile.GetString("Renamer", "Template", "(none)")
+                        objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                        objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                    Else
+                        template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                        If Form4.ComboBox1.Text = template Then
+                            newone = False
+                            ' move them down
+                            template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                            objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                            template = objIniFile.GetString("Renamer", "Template", "(none)")
+                            objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                            objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                        Else
+                            template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                            If Form4.ComboBox1.Text = template Then
+                                newone = False
+                                ' move them down
+                                template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                                objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                                objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Renamer", "Template", "(none)")
+                                objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                                objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                            Else
+                                template = objIniFile.GetString("Renamer", "Template4", "(none)")
+                                If Form4.ComboBox1.Text = template Then
+                                    newone = False
+                                    ' move them down
+                                    template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template4", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                                    objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                                Else
+                                    template = objIniFile.GetString("Renamer", "Template5", "(none)")
+                                    If Form4.ComboBox1.Text = template Then
+                                        newone = False
+                                        ' move them down
+                                        template = objIniFile.GetString("Renamer", "Template4", "(none)")
+                                        objIniFile.WriteString("Renamer", "Template5", Chr(34) + template + Chr(34))
+                                        template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                                        objIniFile.WriteString("Renamer", "Template4", Chr(34) + template + Chr(34))
+                                        template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                                        objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                                        template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                                        objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                                        template = objIniFile.GetString("Renamer", "Template", "(none)")
+                                        objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                                        objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                                    End If
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+                If newone Then
                     ' update ini file, cycling through existing history, adding new template as most recent
                     template = objIniFile.GetString("Renamer", "Template4", "(none)")
                     objIniFile.WriteString("Renamer", "Template5", Chr(34) + template + Chr(34))
@@ -4914,9 +4984,78 @@ exitwithoutsaving:
         Form4.Button3.Text = "OK"
 
         If Form4.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            ' check to see if current scheme has changed
+            ' check to see if chosen template is a new one
+            Dim newone = True
             template = objIniFile.GetString("Renamer", "Template", "(none)")
-            If Form4.ComboBox1.Text <> template Then
+            If Form4.ComboBox1.Text = template Then
+                newone = False
+            Else
+                template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                If Form4.ComboBox1.Text = template Then
+                    newone = False
+                    ' move them down
+                    template = objIniFile.GetString("Renamer", "Template", "(none)")
+                    objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                    objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                Else
+                    template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                    If Form4.ComboBox1.Text = template Then
+                        newone = False
+                        ' move them down
+                        template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                        objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                        template = objIniFile.GetString("Renamer", "Template", "(none)")
+                        objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                        objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                    Else
+                        template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                        If Form4.ComboBox1.Text = template Then
+                            newone = False
+                            ' move them down
+                            template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                            objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                            template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                            objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                            template = objIniFile.GetString("Renamer", "Template", "(none)")
+                            objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                            objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                        Else
+                            template = objIniFile.GetString("Renamer", "Template4", "(none)")
+                            If Form4.ComboBox1.Text = template Then
+                                newone = False
+                                ' move them down
+                                template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                                objIniFile.WriteString("Renamer", "Template4", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                                objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                                objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Renamer", "Template", "(none)")
+                                objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                                objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                            Else
+                                template = objIniFile.GetString("Renamer", "Template5", "(none)")
+                                If Form4.ComboBox1.Text = template Then
+                                    newone = False
+                                    ' move them down
+                                    template = objIniFile.GetString("Renamer", "Template4", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template5", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template3", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template4", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template2", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template3", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template1", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template2", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Renamer", "Template", "(none)")
+                                    objIniFile.WriteString("Renamer", "Template1", Chr(34) + template + Chr(34))
+                                    objIniFile.WriteString("Renamer", "Template", Chr(34) + Form4.ComboBox1.Text + Chr(34))
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+            If newone Then
                 ' update ini file, cycling through existing history, adding new template as most recent
                 template = objIniFile.GetString("Renamer", "Template4", "(none)")
                 objIniFile.WriteString("Renamer", "Template5", Chr(34) + template + Chr(34))
@@ -5174,6 +5313,77 @@ exitwithoutsaving:
                                     If (field = "CREATORFIRSTINITIAL") Then
                                         insertText = insertText.ToUpper
                                     End If
+                                ElseIf field = "Creator2" Then
+                                    insertText = TextBox3.Text
+                                ElseIf field = "CREATOR2" Then
+                                    insertText = TextBox3.Text.ToUpper
+                                ElseIf field = "Creator2ileAs" Then
+                                    insertText = TextBox13.Text
+                                ElseIf field = "CREATOR2FILEAS" Then
+                                    insertText = TextBox13.Text.ToUpper
+                                ElseIf ((field = "Creator2SurnameOnly") Or (field = "CREATOR2SURNAMEONLY")) Then
+                                    insertText = TextBox3.Text
+                                    If InStr(insertText, " ") <> 0 Then
+                                        temppos = Len(insertText)
+                                        nextchar = Mid(insertText, temppos, 1)
+                                        While (nextchar <> " ")
+                                            If temppos = 1 Then
+                                                GoTo errortext
+                                            End If
+                                            temppos = temppos - 1
+                                            nextchar = Mid(insertText, temppos, 1)
+                                        End While
+                                        insertText = Mid(insertText, temppos + 1)
+                                        If (Mid(TextBox3.Text, temppos - 1, 1) = ",") Then
+                                            insertText = TextBox3.Text
+                                            temppos = 1
+                                            nextchar = Mid(insertText, temppos, 1)
+                                            While (nextchar <> ",")
+                                                If temppos = Len(insertText) Then
+                                                    GoTo errortext
+                                                End If
+                                                temppos = temppos + 1
+                                                nextchar = Mid(insertText, temppos, 1)
+                                            End While
+                                            insertText = Mid(insertText, 1, temppos - 1)
+                                        End If
+                                    End If
+                                    If (field = "CREATOR2SURNAMEONLY") Then
+                                        insertText = insertText.ToUpper
+                                    End If
+                                ElseIf ((field = "Creator2FirstInitial") Or (field = "CREATOR2FIRSTINITIAL")) Then
+                                    insertText = TextBox3.Text
+                                    If InStr(insertText, " ") <> 0 Then
+                                        temppos = Len(insertText)
+                                        nextchar = Mid(insertText, temppos, 1)
+                                        While (nextchar <> " ")
+                                            If temppos = 1 Then
+                                                GoTo errortext
+                                            End If
+                                            temppos = temppos - 1
+                                            nextchar = Mid(insertText, temppos, 1)
+                                        End While
+                                        insertText = Mid(insertText, temppos + 1)
+                                        If (Mid(TextBox3.Text, temppos - 1, 1) = ",") Then
+                                            insertText = TextBox3.Text
+                                            temppos = 1
+                                            nextchar = Mid(insertText, temppos, 1)
+                                            While (nextchar <> ",")
+                                                If temppos = Len(insertText) Then
+                                                    GoTo errortext
+                                                End If
+                                                temppos = temppos + 1
+                                                nextchar = Mid(insertText, temppos, 1)
+                                            End While
+                                            insertText = Mid(insertText, 1, temppos - 1)
+                                        End If
+                                    End If
+                                    If Len(insertText) > 1 Then
+                                        insertText = Mid(insertText, 1, 1)
+                                    End If
+                                    If (field = "CREATOR2FIRSTINITIAL") Then
+                                        insertText = insertText.ToUpper
+                                    End If
                                 ElseIf field = "Title" Then
                                     insertText = TextBox1.Text
                                 ElseIf field = "TITLE" Then
@@ -5194,6 +5404,10 @@ exitwithoutsaving:
                                     insertText = TextBox6.Text
                                 ElseIf field = "DATE" Then
                                     insertText = TextBox6.Text.ToUpper
+                                ElseIf field = "Subject" Then
+                                    insertText = TextBox17.Text
+                                ElseIf field = "SUBJECT" Then
+                                    insertText = TextBox17.Text.ToUpper
                                 Else
                                     insertText = ""
                                 End If
@@ -6312,9 +6526,78 @@ exitwithoutsaving:
         End If
 
         If Form11.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            ' check to see if current scheme has changed
+            ' check to see if chosen template is a new one
+            Dim newone = True
             template = objIniFile.GetString("Extractor", "Template", "(none)")
-            If Form11.ComboBox1.Text <> template Then
+            If Form11.ComboBox1.Text = template Then
+                newone = False
+            Else
+                template = objIniFile.GetString("Extractor", "Template1", "(none)")
+                If Form11.ComboBox1.Text = template Then
+                    newone = False
+                    ' swap them
+                    template = objIniFile.GetString("Extractor", "Template", "(none)")
+                    objIniFile.WriteString("Extractor", "Template1", Chr(34) + template + Chr(34))
+                    objIniFile.WriteString("Extractor", "Template", Chr(34) + Form11.ComboBox1.Text + Chr(34))
+                Else
+                    template = objIniFile.GetString("Extractor", "Template2", "(none)")
+                    If Form11.ComboBox1.Text = template Then
+                        newone = False
+                        ' move them down
+                        template = objIniFile.GetString("Extractor", "Template1", "(none)")
+                        objIniFile.WriteString("Extractor", "Template2", Chr(34) + template + Chr(34))
+                        template = objIniFile.GetString("Extractor", "Template", "(none)")
+                        objIniFile.WriteString("Extractor", "Template1", Chr(34) + template + Chr(34))
+                        objIniFile.WriteString("Extractor", "Template", Chr(34) + Form11.ComboBox1.Text + Chr(34))
+                    Else
+                        template = objIniFile.GetString("Extractor", "Template3", "(none)")
+                        If Form11.ComboBox1.Text = template Then
+                            newone = False
+                            ' move them down
+                            template = objIniFile.GetString("Extractor", "Template2", "(none)")
+                            objIniFile.WriteString("Extractor", "Template3", Chr(34) + template + Chr(34))
+                            template = objIniFile.GetString("Extractor", "Template1", "(none)")
+                            objIniFile.WriteString("Extractor", "Template2", Chr(34) + template + Chr(34))
+                            template = objIniFile.GetString("Extractor", "Template", "(none)")
+                            objIniFile.WriteString("Extractor", "Template1", Chr(34) + template + Chr(34))
+                            objIniFile.WriteString("Extractor", "Template", Chr(34) + Form11.ComboBox1.Text + Chr(34))
+                        Else
+                            template = objIniFile.GetString("Extractor", "Template4", "(none)")
+                            If Form11.ComboBox1.Text = template Then
+                                newone = False
+                                ' move them down
+                                template = objIniFile.GetString("Extractor", "Template3", "(none)")
+                                objIniFile.WriteString("Extractor", "Template4", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Extractor", "Template2", "(none)")
+                                objIniFile.WriteString("Extractor", "Template3", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Extractor", "Template1", "(none)")
+                                objIniFile.WriteString("Extractor", "Template2", Chr(34) + template + Chr(34))
+                                template = objIniFile.GetString("Extractor", "Template", "(none)")
+                                objIniFile.WriteString("Extractor", "Template1", Chr(34) + template + Chr(34))
+                                objIniFile.WriteString("Extractor", "Template", Chr(34) + Form11.ComboBox1.Text + Chr(34))
+                            Else
+                                template = objIniFile.GetString("Extractor", "Template5", "(none)")
+                                If Form11.ComboBox1.Text = template Then
+                                    newone = False
+                                    ' move them down
+                                    template = objIniFile.GetString("Extractor", "Template4", "(none)")
+                                    objIniFile.WriteString("Extractor", "Template5", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Extractor", "Template3", "(none)")
+                                    objIniFile.WriteString("Extractor", "Template4", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Extractor", "Template2", "(none)")
+                                    objIniFile.WriteString("Extractor", "Template3", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Extractor", "Template1", "(none)")
+                                    objIniFile.WriteString("Extractor", "Template2", Chr(34) + template + Chr(34))
+                                    template = objIniFile.GetString("Extractor", "Template", "(none)")
+                                    objIniFile.WriteString("Extractor", "Template1", Chr(34) + template + Chr(34))
+                                    objIniFile.WriteString("Extractor", "Template", Chr(34) + Form11.ComboBox1.Text + Chr(34))
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+            If newone Then
                 ' update ini file, cycling through existing history, adding new template as most recent
                 template = objIniFile.GetString("Extractor", "Template4", "(none)")
                 objIniFile.WriteString("Extractor", "Template5", Chr(34) + template + Chr(34))
