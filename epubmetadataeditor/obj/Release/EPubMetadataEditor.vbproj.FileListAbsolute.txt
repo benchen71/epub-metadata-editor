@@ -51,3 +51,8 @@ L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMeta
 L:\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form10.resources
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form10.resources
 C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form11.resources
+Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\Interop.Scripting.dll
+Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.vbproj.ResolveComReference.cache
+Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.exe
+Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.xml
+Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.pdb

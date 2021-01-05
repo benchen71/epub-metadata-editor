@@ -1,4 +1,2 @@
-1.8.4
-[*] Added exception message to dialog that appears when EPUB file cannot be opened to indicate what sort of problem was encountered.
-[*] Added creator2 and subject fields to Renamer dialog.
-[*] Only new Renamer (and Extractor) templates will be remembered; old ones will be shuffled so that most recently used template is the default.
+1.8.5
+[*] Added a check to avoid an infinite loop in the event of encountering a problematic file during unzipping. An error is generated indicating to the user the filename.

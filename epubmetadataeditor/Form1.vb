@@ -273,11 +273,15 @@ founddirectory:
 
         Try
             Dim zip As ZipStorer
+            Dim returnState As Boolean
             zip = ZipStorer.Open(OpenFileDialog1.FileName, FileAccess.Read)
             Dim dir = zip.ReadCentralDir()
             Dim item As ZipStorer.ZipFileEntry
             For Each item In dir
-                zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+                returnState = zip.ExtractFile(item, ebookdirectory + "\" + item.FilenameInZip)
+                If returnState = False Then
+                    DialogResult = MsgBox("ERROR: Problem encountered unzipping " + item.FilenameInZip + Chr(10) + "Please note that if you make changes to the metadata and save the EPUB this damaged file will remain damaged.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                End If
             Next
             zip.Close()
         Catch ex1 As Exception

@@ -427,6 +427,11 @@ Public Class ZipStorer
             Dim bytesRead As Integer = inStream.Read(buffer, 0, CType(Math.Min(bytesPending, buffer.Length), Integer))
             _stream.Write(buffer, 0, bytesRead)
             bytesPending -= CType(bytesRead, UInteger)
+            If bytesRead = 0 Then ' added by me to avoid an infinite loop that occurs when there is an issue with a file
+                _stream.Dispose()
+                If _zfe.Method = Compression.Deflate Then inStream.Dispose()
+                Return False
+            End If
         End While
         _stream.Flush()
 
