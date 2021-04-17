@@ -4514,13 +4514,13 @@ outputsource:
         ' Add file to opf
         newlineandspace = Chr(10)
         insertion = ""
-        startpos = InStr(metadatafile, "</manifest")
-        If startpos <> 0 Then
-            insertpos = InStr(startpos + 1, metadatafile, "<")
-            If insertpos <> 0 Then
-                newlineandspace = Mid(metadatafile, startpos + 10, insertpos - startpos - 10)
+        insertpos = InStr(metadatafile, "</manifest") 'find the end of the manifest
+        If insertpos <> 0 Then
+            startpos = InStrRev(metadatafile, ">", insertpos) 'look backwards to get the newline/spacing characters
+            If startpos <> 0 Then
+                newlineandspace = Mid(metadatafile, startpos + 1, insertpos - startpos - 1)
                 insertion = newlineandspace + "<item href=" + Chr(34) + newcoverimagefilename + Chr(34) + " id=" + Chr(34) + "prioritorised_cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>" + newlineandspace
-                metadatafile = Mid(metadatafile, 1, startpos + 9) + insertion + Mid(metadatafile, insertpos, Len(metadatafile) - insertpos + 1)
+                metadatafile = Mid(metadatafile, 1, startpos + 1) + insertion + Mid(metadatafile, insertpos)
             End If
             ' alternate code to see if location in opf file caused issue with Microsoft Edge
             'insertion = "<item href=" + Chr(34) + newcoverimagefilename + Chr(34) + " id=" + Chr(34) + "prioritorised_cover" + Chr(34) + " media-type=" + Chr(34) + "image/jpeg" + Chr(34) + "/>"

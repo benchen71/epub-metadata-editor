@@ -1,2 +1,2 @@
-1.8.5
-[*] Added a check to avoid an infinite loop in the event of encountering a problematic file during unzipping. An error is generated indicating to the user the filename.
+1.8.6
+[*] Fix for the placement of prioritorised image item in manifest.
