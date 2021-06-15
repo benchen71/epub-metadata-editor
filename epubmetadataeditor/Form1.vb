@@ -474,6 +474,8 @@ lookforpagemap:
             Button28.Enabled = True
             Button29.Enabled = True
             Button38.Enabled = True
+            Button47.Enabled = True
+            Button48.Enabled = True
             LinkLabel3.Enabled = True
             'SaveImageAsToolStripMenuItem.Enabled = True
             If versioninfo = "3.0" Then
@@ -6820,5 +6822,81 @@ exitwithoutsaving:
             CaptionString = "EPUB Metadata Editor"
             Me.Text = CaptionString
         End If
+    End Sub
+
+    Private Sub Button47_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button47.Click
+        If projectchanged Then
+            SaveEpub(OpenFileDialog1.FileName, False)
+        End If
+
+        ' Delete previous temp directory (if it exists)
+        If tempdirectory <> "" Then
+            ChDir(tempdirectory)
+            If ebookdirectory <> "" Then
+                If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                    Try
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Catch ex As Exception
+                        Dim instance = Convert.ToInt16(Mid(ebookdirectory, InStrRev(ebookdirectory, "B" + 1)))
+                        instance = instance + 1
+                        ebookdirectory = tempdirectory + "EPUB" + Trim(Str(instance))
+                    End Try
+                End If
+            End If
+        End If
+
+        keepcombobox = True
+        ClearInterface()
+        keepcombobox = False
+        SaveImageAsToolStripMenuItem.Enabled = False
+        AddImageToolStripMenuItem.Enabled = False
+        ChangeImageToolStripMenuItem.Enabled = False
+
+        Dim selectindex = ComboBox3.SelectedIndex
+        selectindex = selectindex - 1
+        If selectindex = -1 Then selectindex = ComboBox3.Items.Count - 1
+        ComboBox3.SelectedIndex = selectindex
+
+        OpenFileDialog1.FileName = searchResults(ComboBox3.SelectedIndex)
+        OpenEPUB()
+        Button3.Enabled = False
+    End Sub
+
+    Private Sub Button48_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button48.Click
+        If projectchanged Then
+            SaveEpub(OpenFileDialog1.FileName, False)
+        End If
+
+        ' Delete previous temp directory (if it exists)
+        If tempdirectory <> "" Then
+            ChDir(tempdirectory)
+            If ebookdirectory <> "" Then
+                If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
+                    Try
+                        My.Computer.FileSystem.DeleteDirectory(ebookdirectory, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Catch ex As Exception
+                        Dim instance = Convert.ToInt16(Mid(ebookdirectory, InStrRev(ebookdirectory, "B" + 1)))
+                        instance = instance + 1
+                        ebookdirectory = tempdirectory + "EPUB" + Trim(Str(instance))
+                    End Try
+                End If
+            End If
+        End If
+
+        keepcombobox = True
+        ClearInterface()
+        keepcombobox = False
+        SaveImageAsToolStripMenuItem.Enabled = False
+        AddImageToolStripMenuItem.Enabled = False
+        ChangeImageToolStripMenuItem.Enabled = False
+
+        Dim selectindex = ComboBox3.SelectedIndex
+        selectindex = selectindex + 1
+        If selectindex = ComboBox3.Items.Count Then selectindex = 0
+        ComboBox3.SelectedIndex = selectindex
+
+        OpenFileDialog1.FileName = searchResults(ComboBox3.SelectedIndex)
+        OpenEPUB()
+        Button3.Enabled = False
     End Sub
 End Class

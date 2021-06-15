@@ -4,8 +4,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{C093DB2B-F7B8-4E5A-8E98-626F5486A44B}
 AppName=EPUB Metadata Editor
-AppVerName=EPUB Metadata Editor 1.8.6
-VersionInfoVersion=1.8.6
+AppVerName=EPUB Metadata Editor 1.8.7
+VersionInfoVersion=1.8.7
 AppPublisher=Ben Chenoweth
 AppPublisherURL=https://github.com/benchen71/epub-metadata-editor
 AppSupportURL=https://github.com/benchen71/epub-metadata-editor/wiki
