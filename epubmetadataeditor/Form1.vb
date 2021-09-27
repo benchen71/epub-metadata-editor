@@ -3294,7 +3294,7 @@ errortext:
                     metadatafile = metadatafile.Replace("xmlns:" + dcnamespace, "xmlns:dc")
                 End If
             Else
-                metadatafile = metadatafile.Replace(" xmlns=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
+                metadatafile = metadatafile.Replace("xmlns=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
             End If
 
             'Check for non-standard opf namespace tags
@@ -3310,15 +3310,18 @@ errortext:
             End If
 
             'Search for multiple xmlns:dc="http://purl.org/dc/elements/1.1/"
-            metadatafile = metadatafile.Replace(" xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
+            metadatafile = metadatafile.Replace("xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34), "")
             startpos = InStr(metadatafile, "<metadata")
             metadatafile = Mid(metadatafile, 1, startpos + 8) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
 
             'Search for xmlns:opf="http://www.idpf.org/2007/opf"
+            If (InStr(metadatafile, "xmlns=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))) Then
+                metadatafile = metadatafile.Replace("xmlns=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
+            End If
             startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
             temppos = InStr(metadatafile, "<dc:")
             If ((startpos = 0) Or (startpos > temppos)) Then
-                metadatafile = metadatafile.Replace(" xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "")
+                metadatafile = metadatafile.Replace("xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "")
                 'Add it to <metadata > tag
                 startpos = InStr(metadatafile, "<metadata")
                 startpos = InStr(startpos, metadatafile, ">") - 1
@@ -4384,7 +4387,7 @@ outputsource:
         ' delete stuff
         metadatatext = metadatatext.Replace(Chr(13), "")
         metadatatext = metadatatext.Replace(Chr(10), "")
-        metadatatext = metadatatext.Replace(Chr(9), "")
+        metadatatext = metadatatext.Replace(Chr(9), " ") 'sometimes tabs are all that stand between <package and xmlns, so need to replace with SPACE
         While (metadatatext.Contains("> "))
             metadatatext = metadatatext.Replace("> ", ">")
         End While

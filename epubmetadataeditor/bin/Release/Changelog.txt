@@ -1,2 +1,2 @@
-1.8.7
-[*] Added a button on either side of the dropdown menu that displays a list of all EPUBs in the current folder. These buttons save changes to the current file and then open the previous/next item in the list. (Note that there is no confirmation dialog; changes will be saved automatically without warning.)
+1.8.8
+[*] Fix for some (non-standard?) opf files - mainly concerned with handling tab characters
