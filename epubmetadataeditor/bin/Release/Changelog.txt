@@ -1,2 +1,2 @@
-1.8.8
-[*] Fix for some (non-standard?) opf files - mainly concerned with handling tab characters
+1.8.9
+[*] Added a "Starting from" box to the Batch Operations "Sequentialise all files into series". Now you don't have to process all books in the series!

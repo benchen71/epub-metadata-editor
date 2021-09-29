@@ -1961,6 +1961,18 @@ errortext:
             Exit Sub
         End If
 
+        If ((CheckBox9.Checked) And (TextBox19.Text = "")) Then
+            MsgBox("You need to enter the first number of the series!")
+            TextBox19.Focus()
+            Exit Sub
+        End If
+
+        If ((CheckBox9.Checked) And (IsNumeric(TextBox19.Text) = False)) Then
+            MsgBox("The series number must be a number!")
+            TextBox19.Focus()
+            Exit Sub
+        End If
+
         If ((CheckBox11.Checked) And ((Form10.CheckBox1.Checked = False) And (Form10.CheckBox2.Checked = False) And (Form10.CheckBox3.Checked = False))) Then
             MsgBox("You need to select at least one cover fix!")
             Form10.ShowDialog()
@@ -2137,7 +2149,7 @@ errortext:
             If CheckBox9.Checked = True Then
                 ' Serialise
                 TextBox15.Text = TextBox18.Text
-                TextBox14.Text = x.ToString
+                TextBox14.Text = (CInt(TextBox19.Text) + x - 1).ToString
             End If
 
             If CheckBox10.Checked = True Then
