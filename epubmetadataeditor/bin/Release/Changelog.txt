@@ -1,2 +1,3 @@
-1.8.9
-[*] Added a "Starting from" box to the Batch Operations "Sequentialise all files into series". Now you don't have to process all books in the series!
+1.8.10
+[*] Previous version of EPubMetadataEditor incorrectly added :opf to package xmlns
+[*] Fix for handling title file-as (Calibre)

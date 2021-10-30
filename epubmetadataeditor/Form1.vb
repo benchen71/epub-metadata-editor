@@ -3327,8 +3327,14 @@ errortext:
             metadatafile = Mid(metadatafile, 1, startpos + 8) + " xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + Mid(metadatafile, startpos + 9)
 
             'Search for xmlns:opf="http://www.idpf.org/2007/opf"
-            If (InStr(metadatafile, "xmlns=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))) Then
-                metadatafile = metadatafile.Replace("xmlns=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
+            'Previous versions of EPubMetadataEditor incorrectly added :opf to package xmlns so need to search for this and remove it then add :opf to metadata xmlns if missing
+            If (InStr(metadatafile, "<package xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))) Then
+                metadatafile = metadatafile.Replace("<package xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34), "<package xmlns=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
+            End If
+            startpos = InStr(metadatafile, "<metadata ")
+            temppos = InStr(startpos, metadatafile, "xmlns=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
+            If (temppos > 0) Then
+                metadatafile = Mid(metadatafile, 1, temppos) + "xmlns:opf" + Mid(metadatafile, temppos + 5)
             End If
             startpos = InStr(metadatafile, "xmlns:opf=" + Chr(34) + "http://www.idpf.org/2007/opf" + Chr(34))
             temppos = InStr(metadatafile, "<dc:")
@@ -3457,6 +3463,10 @@ errortext:
                     endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
                     metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
                 End If
+            Else
+                ' Need a new metatag
+                endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
+                metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
             End If
         End If
         If ((TextBox16.Text = "") Or ((TextBox16.Text <> "") And (versioninfo = "2.0"))) Then
