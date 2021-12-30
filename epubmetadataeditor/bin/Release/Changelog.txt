@@ -1,5 +1,2 @@
-1.8.11
-[*] Fixed some bugs in the Batch Replace code.
-[*] Added the ability to Batch Replace creator role.
-[*] Better handle clicking on EPUB3 files in the Batch files listbox.
-[*] Fixed window size.
+1.8.12
+[*] Fixed an error where you couldn't add a role to creator2 without a "file as".

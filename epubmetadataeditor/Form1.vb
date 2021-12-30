@@ -3726,7 +3726,14 @@ lookforrefines2:
                     If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
                     optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + optionaltext + ">"
                 Else
-                    optionaltext = ">"
+                    If (ComboBox1.SelectedIndex <> -1) Then
+                        If ComboBox1.SelectedIndex = 0 Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34) + ">"
+                        If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34) + ">"
+                        If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34) + ">"
+                        If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34) + ">"
+                    Else
+                        optionaltext = ">"
+                    End If
                 End If
                 metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
 
@@ -3743,7 +3750,15 @@ lookforrefines2:
                         If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
                         optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + optionaltext + ">"
                     Else
-                        optionaltext = ">"
+                        If (ComboBox2.SelectedIndex <> -1) Then
+                            If ComboBox2.SelectedIndex = 0 Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34) + ">"
+                            If ComboBox2.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34) + ">"
+                            If ComboBox2.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34) + ">"
+                            If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34) + ">"
+                        Else
+                            optionaltext = ">"
+                        End If
+
                     End If
                     If startpos <> 0 Then
                         endpos = InStr(startpos, metadatafile, "</dc:creator>")
