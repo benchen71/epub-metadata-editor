@@ -1713,8 +1713,8 @@ exitsub:
         End If
 
         'Me.Width = 913
-        'Me.Height = 670
-        Me.ClientSize = New System.Drawing.Size(905, 640)
+        'Me.Height = 677
+        Me.ClientSize = New System.Drawing.Size(905, 645)
 
         tempdirectory = System.IO.Path.GetTempPath
         ChDir(tempdirectory)
@@ -2181,54 +2181,78 @@ errortext:
                         TextBox12.Text = ReplaceField(TextBox12.Text, Form7.TextBox1.Text)
                     End If
                     If indexChecked = 4 Then
+                        ' Creator1 Role
+                        If Form7.TextBox1.Text = "aut" Then
+                            ComboBox1.SelectedIndex = 0
+                        ElseIf Form7.TextBox1.Text = "edt" Then
+                            ComboBox1.SelectedIndex = 1
+                        ElseIf Form7.TextBox1.Text = "ill" Then
+                            ComboBox1.SelectedIndex = 2
+                        ElseIf Form7.TextBox1.Text = "trl" Then
+                            ComboBox1.SelectedIndex = 3
+                        End If
+                    End If
+                    If indexChecked = 5 Then
                         ' Creator2
                         TextBox3.Text = ReplaceField(TextBox3.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 5 Then
+                    If indexChecked = 6 Then
                         ' Creator2 File as
                         TextBox13.Text = ReplaceField(TextBox13.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 6 Then
+                    If indexChecked = 7 Then
+                        ' Creator2 Role
+                        If Form7.TextBox1.Text = "aut" Then
+                            ComboBox2.SelectedIndex = 0
+                        ElseIf Form7.TextBox1.Text = "edt" Then
+                            ComboBox2.SelectedIndex = 1
+                        ElseIf Form7.TextBox1.Text = "ill" Then
+                            ComboBox2.SelectedIndex = 2
+                        ElseIf Form7.TextBox1.Text = "trl" Then
+                            ComboBox2.SelectedIndex = 3
+                        End If
+                    End If
+                    If indexChecked = 8 Then
                         ' Series
                         TextBox15.Text = ReplaceField(TextBox15.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 7 Then
+                    If indexChecked = 9 Then
                         ' Series index
                         TextBox14.Text = ReplaceField(TextBox14.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 8 Then
+                    If indexChecked = 10 Then
                         ' Description
                         TextBox4.Text = ReplaceField(TextBox4.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 9 Then
+                    If indexChecked = 11 Then
                         ' Publisher
                         TextBox5.Text = ReplaceField(TextBox5.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 10 Then
+                    If indexChecked = 12 Then
                         ' Date
                         TextBox6.Text = ReplaceField(TextBox6.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 11 Then
+                    If indexChecked = 13 Then
                         ' Subject
                         TextBox17.Text = ReplaceField(TextBox17.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 12 Then
+                    If indexChecked = 14 Then
                         ' Type
                         TextBox7.Text = ReplaceField(TextBox7.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 13 Then
+                    If indexChecked = 15 Then
                         ' Format
                         TextBox8.Text = ReplaceField(TextBox8.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 14 Then
+                    If indexChecked = 16 Then
                         ' Identifier
                         TextBox9.Text = ReplaceField(TextBox9.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 15 Then
+                    If indexChecked = 17 Then
                         ' Source
                         TextBox10.Text = ReplaceField(TextBox10.Text, Form7.TextBox1.Text)
                     End If
-                    If indexChecked = 16 Then
+                    If indexChecked = 18 Then
                         ' Language
                         TextBox11.Text = ReplaceField(TextBox11.Text, Form7.TextBox1.Text)
                     End If
@@ -2817,13 +2841,13 @@ errortext:
 
     Private Sub Button16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button16.Click
         'Me.Width = 1257
-        Me.ClientSize = New System.Drawing.Size(1250, 640)
+        Me.ClientSize = New System.Drawing.Size(1250, 645)
         Button16.Visible = False
     End Sub
 
     Private Sub Button17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button17.Click
         'Me.Width = 913
-        Me.ClientSize = New System.Drawing.Size(905, 640)
+        Me.ClientSize = New System.Drawing.Size(905, 645)
         Button16.Visible = True
     End Sub
 
@@ -3527,7 +3551,7 @@ errortext:
                 End If
 lookforrefines:
                 If idinfo <> "" Then
-                    temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
+                    temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                     creatorfileasplaced = False
                     creatorroleplaced = False
                     rolestring = "aut"
@@ -3553,7 +3577,7 @@ lookforrefines:
                                 creatorroleplaced = True
                             End If
                         End If
-                        temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo)
+                        temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                     End While
                     If (((creatorroleplaced = False) Or (creatorfileasplaced = False)) And (TextBox12.Text <> "")) Then
                         startpos = InStr(metadatafile, "</dc:creator>") + 13 'end of creator
@@ -3586,6 +3610,7 @@ lookforrefines:
                             For temploop = idpos + 4 To endpos
                                 If Mid(metadatafile, temploop, 1) = Chr(34) Then
                                     idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
                                     metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + idinfo + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
                                     GoTo lookforrefines2
                                 End If
@@ -6110,10 +6135,28 @@ exitwithoutsaving:
             RichTextBox1.Text = LoadUnicodeFile(opffile)
         End If
 
-        'Extract metadata into textboxes (but no need to extract cover)
+        'Process .opf file to determine EPUB version
+        Dim opffiletext As String
+        Dim packagepos, endpos, versionpos As Integer
+        opffiletext = LoadUnicodeFile(opffile)
+        packagepos = InStr(opffiletext, "<package")
+        If packagepos <> 0 Then
+            endpos = InStr(packagepos, opffiletext, ">")
+            versionpos = InStr(packagepos, opffiletext, "version=")
+            If versionpos < endpos Then
+                versioninfo = Mid(opffiletext, versionpos + 9, 3)
+            End If
+        End If
+
+        'Extract metadata into textboxes
         ClearInterface()
         metadatafile = LoadUnicodeFile(opffile)
         ExtractMetadata(metadatafile, True)
+        If versioninfo = "3.0" Then
+            Label25.Visible = True
+        Else
+            Label25.Visible = False
+        End If
 
         projectchanged = False
         CaptionString = "EPUB Metadata Editor"

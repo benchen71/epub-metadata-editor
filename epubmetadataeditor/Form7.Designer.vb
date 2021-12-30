@@ -44,6 +44,11 @@ Partial Class Form7
         Me.LinkLabel12 = New System.Windows.Forms.LinkLabel
         Me.LinkLabel13 = New System.Windows.Forms.LinkLabel
         Me.LinkLabel14 = New System.Windows.Forms.LinkLabel
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.LinkLabel15 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel16 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel17 = New System.Windows.Forms.LinkLabel
+        Me.LinkLabel18 = New System.Windows.Forms.LinkLabel
         Me.SuspendLayout()
         '
         'Label3
@@ -57,7 +62,7 @@ Partial Class Form7
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(157, 345)
+        Me.Button1.Location = New System.Drawing.Point(157, 370)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(121, 29)
         Me.Button1.TabIndex = 40
@@ -67,7 +72,7 @@ Partial Class Form7
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(8, 294)
+        Me.Label1.Location = New System.Drawing.Point(8, 319)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(26, 13)
         Me.Label1.TabIndex = 42
@@ -77,15 +82,15 @@ Partial Class Form7
         '
         Me.CheckedListBox1.CheckOnClick = True
         Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Items.AddRange(New Object() {"Title", "Title File as", "Creator1", "Creator1 File as", "Creator2", "Creator2 File as", "Series", "Series index", "Description", "Publisher", "Date", "Subject", "Type", "Format", "Identifier", "Source", "Language"})
+        Me.CheckedListBox1.Items.AddRange(New Object() {"Title", "Title File as", "Creator1", "Creator1 File as", "Creator1 Role", "Creator2", "Creator2 File as", "Creator2 Role", "Series", "Series index", "Description", "Publisher", "Date", "Subject", "Type", "Format", "Identifier", "Source", "Language"})
         Me.CheckedListBox1.Location = New System.Drawing.Point(11, 22)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(412, 259)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(412, 289)
         Me.CheckedListBox1.TabIndex = 43
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(12, 310)
+        Me.TextBox1.Location = New System.Drawing.Point(12, 335)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(410, 20)
         Me.TextBox1.TabIndex = 44
@@ -93,7 +98,7 @@ Partial Class Form7
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(12, 519)
+        Me.Label8.Location = New System.Drawing.Point(12, 544)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(409, 13)
         Me.Label8.TabIndex = 63
@@ -103,7 +108,7 @@ Partial Class Form7
         'LinkLabel9
         '
         Me.LinkLabel9.AutoSize = True
-        Me.LinkLabel9.Location = New System.Drawing.Point(24, 495)
+        Me.LinkLabel9.Location = New System.Drawing.Point(24, 520)
         Me.LinkLabel9.Name = "LinkLabel9"
         Me.LinkLabel9.Size = New System.Drawing.Size(155, 13)
         Me.LinkLabel9.TabIndex = 57
@@ -113,7 +118,7 @@ Partial Class Form7
         'LinkLabel8
         '
         Me.LinkLabel8.AutoSize = True
-        Me.LinkLabel8.Location = New System.Drawing.Point(275, 469)
+        Me.LinkLabel8.Location = New System.Drawing.Point(275, 494)
         Me.LinkLabel8.Name = "LinkLabel8"
         Me.LinkLabel8.Size = New System.Drawing.Size(65, 13)
         Me.LinkLabel8.TabIndex = 61
@@ -123,7 +128,7 @@ Partial Class Form7
         'LinkLabel7
         '
         Me.LinkLabel7.AutoSize = True
-        Me.LinkLabel7.Location = New System.Drawing.Point(275, 456)
+        Me.LinkLabel7.Location = New System.Drawing.Point(275, 481)
         Me.LinkLabel7.Name = "LinkLabel7"
         Me.LinkLabel7.Size = New System.Drawing.Size(36, 13)
         Me.LinkLabel7.TabIndex = 60
@@ -133,7 +138,7 @@ Partial Class Form7
         'LinkLabel6
         '
         Me.LinkLabel6.AutoSize = True
-        Me.LinkLabel6.Location = New System.Drawing.Point(368, 456)
+        Me.LinkLabel6.Location = New System.Drawing.Point(368, 481)
         Me.LinkLabel6.Name = "LinkLabel6"
         Me.LinkLabel6.Size = New System.Drawing.Size(30, 13)
         Me.LinkLabel6.TabIndex = 62
@@ -143,7 +148,7 @@ Partial Class Form7
         'LinkLabel5
         '
         Me.LinkLabel5.AutoSize = True
-        Me.LinkLabel5.Location = New System.Drawing.Point(190, 469)
+        Me.LinkLabel5.Location = New System.Drawing.Point(190, 494)
         Me.LinkLabel5.Name = "LinkLabel5"
         Me.LinkLabel5.Size = New System.Drawing.Size(66, 13)
         Me.LinkLabel5.TabIndex = 59
@@ -153,7 +158,7 @@ Partial Class Form7
         'LinkLabel4
         '
         Me.LinkLabel4.AutoSize = True
-        Me.LinkLabel4.Location = New System.Drawing.Point(190, 456)
+        Me.LinkLabel4.Location = New System.Drawing.Point(190, 481)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(27, 13)
         Me.LinkLabel4.TabIndex = 58
@@ -163,7 +168,7 @@ Partial Class Form7
         'LinkLabel3
         '
         Me.LinkLabel3.AutoSize = True
-        Me.LinkLabel3.Location = New System.Drawing.Point(24, 482)
+        Me.LinkLabel3.Location = New System.Drawing.Point(24, 507)
         Me.LinkLabel3.Name = "LinkLabel3"
         Me.LinkLabel3.Size = New System.Drawing.Size(114, 13)
         Me.LinkLabel3.TabIndex = 56
@@ -173,7 +178,7 @@ Partial Class Form7
         'LinkLabel2
         '
         Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.Location = New System.Drawing.Point(24, 469)
+        Me.LinkLabel2.Location = New System.Drawing.Point(24, 494)
         Me.LinkLabel2.Name = "LinkLabel2"
         Me.LinkLabel2.Size = New System.Drawing.Size(80, 13)
         Me.LinkLabel2.TabIndex = 55
@@ -183,7 +188,7 @@ Partial Class Form7
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(24, 456)
+        Me.LinkLabel1.Location = New System.Drawing.Point(24, 481)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(41, 13)
         Me.LinkLabel1.TabIndex = 54
@@ -193,7 +198,7 @@ Partial Class Form7
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 385)
+        Me.Label2.Location = New System.Drawing.Point(12, 410)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(163, 13)
         Me.Label2.TabIndex = 53
@@ -202,7 +207,7 @@ Partial Class Form7
         'LinkLabel10
         '
         Me.LinkLabel10.AutoSize = True
-        Me.LinkLabel10.Location = New System.Drawing.Point(24, 409)
+        Me.LinkLabel10.Location = New System.Drawing.Point(24, 434)
         Me.LinkLabel10.Name = "LinkLabel10"
         Me.LinkLabel10.Size = New System.Drawing.Size(83, 13)
         Me.LinkLabel10.TabIndex = 65
@@ -213,7 +218,7 @@ Partial Class Form7
         '
         Me.Label5.AutoSize = True
         Me.Label5.ForeColor = System.Drawing.Color.Red
-        Me.Label5.Location = New System.Drawing.Point(12, 541)
+        Me.Label5.Location = New System.Drawing.Point(12, 622)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(287, 13)
         Me.Label5.TabIndex = 66
@@ -223,7 +228,7 @@ Partial Class Form7
         'LinkLabel11
         '
         Me.LinkLabel11.AutoSize = True
-        Me.LinkLabel11.Location = New System.Drawing.Point(138, 409)
+        Me.LinkLabel11.Location = New System.Drawing.Point(138, 434)
         Me.LinkLabel11.Name = "LinkLabel11"
         Me.LinkLabel11.Size = New System.Drawing.Size(119, 13)
         Me.LinkLabel11.TabIndex = 67
@@ -233,7 +238,7 @@ Partial Class Form7
         'LinkLabel12
         '
         Me.LinkLabel12.AutoSize = True
-        Me.LinkLabel12.Location = New System.Drawing.Point(289, 409)
+        Me.LinkLabel12.Location = New System.Drawing.Point(289, 434)
         Me.LinkLabel12.Name = "LinkLabel12"
         Me.LinkLabel12.Size = New System.Drawing.Size(81, 13)
         Me.LinkLabel12.TabIndex = 68
@@ -243,7 +248,7 @@ Partial Class Form7
         'LinkLabel13
         '
         Me.LinkLabel13.AutoSize = True
-        Me.LinkLabel13.Location = New System.Drawing.Point(24, 428)
+        Me.LinkLabel13.Location = New System.Drawing.Point(24, 453)
         Me.LinkLabel13.Name = "LinkLabel13"
         Me.LinkLabel13.Size = New System.Drawing.Size(127, 13)
         Me.LinkLabel13.TabIndex = 69
@@ -253,18 +258,72 @@ Partial Class Form7
         'LinkLabel14
         '
         Me.LinkLabel14.AutoSize = True
-        Me.LinkLabel14.Location = New System.Drawing.Point(181, 428)
+        Me.LinkLabel14.Location = New System.Drawing.Point(181, 453)
         Me.LinkLabel14.Name = "LinkLabel14"
         Me.LinkLabel14.Size = New System.Drawing.Size(138, 13)
         Me.LinkLabel14.TabIndex = 70
         Me.LinkLabel14.TabStop = True
         Me.LinkLabel14.Text = "CurrentContentsTitleCaseAll"
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(12, 572)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(327, 13)
+        Me.Label4.TabIndex = 71
+        Me.Label4.Text = "If replacing Creator (or Creator2) Role, the only allowable values are:"
+        '
+        'LinkLabel15
+        '
+        Me.LinkLabel15.AutoSize = True
+        Me.LinkLabel15.Location = New System.Drawing.Point(24, 593)
+        Me.LinkLabel15.Name = "LinkLabel15"
+        Me.LinkLabel15.Size = New System.Drawing.Size(62, 13)
+        Me.LinkLabel15.TabIndex = 72
+        Me.LinkLabel15.TabStop = True
+        Me.LinkLabel15.Text = "aut (Author)"
+        '
+        'LinkLabel16
+        '
+        Me.LinkLabel16.AutoSize = True
+        Me.LinkLabel16.Location = New System.Drawing.Point(103, 593)
+        Me.LinkLabel16.Name = "LinkLabel16"
+        Me.LinkLabel16.Size = New System.Drawing.Size(58, 13)
+        Me.LinkLabel16.TabIndex = 73
+        Me.LinkLabel16.TabStop = True
+        Me.LinkLabel16.Text = "edt (Editor)"
+        '
+        'LinkLabel17
+        '
+        Me.LinkLabel17.AutoSize = True
+        Me.LinkLabel17.Location = New System.Drawing.Point(181, 593)
+        Me.LinkLabel17.Name = "LinkLabel17"
+        Me.LinkLabel17.Size = New System.Drawing.Size(64, 13)
+        Me.LinkLabel17.TabIndex = 74
+        Me.LinkLabel17.TabStop = True
+        Me.LinkLabel17.Text = "ill (Illustrator)"
+        '
+        'LinkLabel18
+        '
+        Me.LinkLabel18.AutoSize = True
+        Me.LinkLabel18.Location = New System.Drawing.Point(266, 593)
+        Me.LinkLabel18.Name = "LinkLabel18"
+        Me.LinkLabel18.Size = New System.Drawing.Size(71, 13)
+        Me.LinkLabel18.TabIndex = 75
+        Me.LinkLabel18.TabStop = True
+        Me.LinkLabel18.Text = "trl (Translator)"
+        '
         'Form7
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(434, 559)
+        Me.ClientSize = New System.Drawing.Size(434, 648)
+        Me.Controls.Add(Me.LinkLabel18)
+        Me.Controls.Add(Me.LinkLabel17)
+        Me.Controls.Add(Me.LinkLabel16)
+        Me.Controls.Add(Me.LinkLabel15)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.LinkLabel14)
         Me.Controls.Add(Me.LinkLabel13)
         Me.Controls.Add(Me.LinkLabel12)
@@ -315,4 +374,9 @@ Partial Class Form7
     Friend WithEvents LinkLabel12 As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel13 As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel14 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents LinkLabel15 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel16 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel17 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel18 As System.Windows.Forms.LinkLabel
 End Class

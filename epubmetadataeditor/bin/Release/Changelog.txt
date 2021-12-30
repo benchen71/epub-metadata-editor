@@ -1,3 +1,5 @@
-1.8.10
-[*] Previous version of EPubMetadataEditor incorrectly added :opf to package xmlns
-[*] Fix for handling title file-as (Calibre)
+1.8.11
+[*] Fixed some bugs in the Batch Replace code.
+[*] Added the ability to Batch Replace creator role.
+[*] Better handle clicking on EPUB3 files in the Batch files listbox.
+[*] Fixed window size.

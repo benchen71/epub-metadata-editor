@@ -87,4 +87,20 @@ Public Class Form7
         Dim insertText = "%CurrentContentsTitleCaseAll%"
         MakeInsertion(insertText)
     End Sub
+
+    Private Sub LinkLabel15_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel15.LinkClicked
+        TextBox1.Text = "aut"
+    End Sub
+
+    Private Sub LinkLabel16_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel16.LinkClicked
+        TextBox1.Text = "edt"
+    End Sub
+
+    Private Sub LinkLabel17_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel17.LinkClicked
+        TextBox1.Text = "ill"
+    End Sub
+
+    Private Sub LinkLabel18_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel18.LinkClicked
+        TextBox1.Text = "trl"
+    End Sub
 End Class
