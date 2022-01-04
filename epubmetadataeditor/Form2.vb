@@ -110,27 +110,38 @@ Public Class Form2
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
         Dim metadatafile, newmetadatafile As String
-        Dim prevpos, startpos, endpos As Integer
-        metadatafile = RichTextBox1.Text
-        prevpos = 1
-        newmetadatafile = ""
-        startpos = InStr(metadatafile, "<meta ")
-        While (startpos <> 0)
-            endpos = InStr(startpos, metadatafile, "/>")
-            Dim tempstring = Mid(metadatafile, startpos, endpos - startpos).ToLower
-            If (InStr(Mid(metadatafile, startpos, endpos - startpos).ToLower, "name=" + Chr(34) + "cover") = 0) Then
-                newmetadatafile = newmetadatafile + Mid(metadatafile, prevpos, startpos - prevpos - 1)
-                prevpos = endpos + 2
-            Else
-                If Not CheckBox2.Checked Then
-                    newmetadatafile = newmetadatafile + Mid(metadatafile, prevpos, startpos - prevpos - 1)
-                    prevpos = endpos + 2
+        Dim prevpos, startpos, endchar, endpos As Integer
+        Try
+            ' Look for "<meta [SomeStuff]/>"
+            metadatafile = RichTextBox1.Text
+            prevpos = 1
+            newmetadatafile = ""
+            startpos = InStr(metadatafile, "<meta ")
+            While (startpos <> 0)
+                endchar = InStr(startpos, metadatafile, ">")
+                endpos = InStr(startpos, metadatafile, "/>")
+                ' have to check that we haven't found "<meta [somestuff]>[SomeOtherStuff]</meta>[YetMoreStuff]/>"
+                If endpos = endchar - 1 Then
+                    Dim tempstring = Mid(metadatafile, startpos, endpos - startpos).ToLower
+                    If (InStr(Mid(metadatafile, startpos, endpos - startpos).ToLower, "name=" + Chr(34) + "cover") = 0) Then
+                        newmetadatafile = newmetadatafile + Mid(metadatafile, prevpos, startpos - prevpos - 1)
+                        prevpos = endpos + 2
+                    Else
+                        If Not CheckBox2.Checked Then
+                            newmetadatafile = newmetadatafile + Mid(metadatafile, prevpos, startpos - prevpos - 1)
+                            prevpos = endpos + 2
+                        End If
+                    End If
                 End If
-            End If
-            startpos = InStr(startpos + 1, metadatafile, "<meta ")
-        End While
-        newmetadatafile = newmetadatafile + Mid(metadatafile, prevpos)
-        RichTextBox1.Text = newmetadatafile
+                startpos = InStr(startpos + 1, metadatafile, "<meta ")
+            End While
+            newmetadatafile = newmetadatafile + Mid(metadatafile, prevpos)
+            RichTextBox1.Text = newmetadatafile
+        Catch ex As Exception
+            Console.Error.WriteLine("exception: {0}", ex.ToString)
+            DialogResult = MsgBox("ERROR: Problem encountered:" + Chr(10) + ex.ToString, MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            Exit Sub
+        End Try
     End Sub
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click

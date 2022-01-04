@@ -2062,8 +2062,22 @@ errortext:
                 RichTextBox1.Text = LoadUnicodeFile(opffile)
             End If
 
+            'Process .opf file to determine EPUB version
+            Dim opffiletext As String
+            Dim packagepos, endpos, versionpos As Integer
+            opffiletext = LoadUnicodeFile(opffile)
+            packagepos = InStr(opffiletext, "<package")
+            If packagepos <> 0 Then
+                endpos = InStr(packagepos, opffiletext, ">")
+                versionpos = InStr(packagepos, opffiletext, "version=")
+                If versionpos < endpos Then
+                    versioninfo = Mid(opffiletext, versionpos + 9, 3)
+                End If
+            End If
+
             'Extract metadata into textboxes
             metadatafile = LoadUnicodeFile(opffile)
+
             If CheckBox11.Checked = True Then
                 ' Need to extract cover
                 ExtractMetadata(metadatafile, True)
@@ -2935,6 +2949,11 @@ errortext:
             RichTextBox1.Text = LoadUnicodeFile(opffile)
             metadatafile = LoadUnicodeFile(opffile)
             ExtractMetadata(metadatafile, True)
+            If versioninfo = "3.0" Then
+                Label25.Visible = True
+            Else
+                Label25.Visible = False
+            End If
             refreshfilelist = False
         End If
         Form2.Button4.Visible = False
@@ -3508,6 +3527,8 @@ errortext:
         End If
 
         'Output first creator
+
+        ' Do an initial check for legal but confusing tag ending (and fix it, if possible)
         startpos = InStr(metadatafile, "<dc:creator")
         If startpos <> 0 Then
             endheaderpos = InStr(startpos, metadatafile, ">")
@@ -3526,9 +3547,15 @@ errortext:
                     Exit Sub
                 End If
             End If
+        End If
+
+        If versioninfo = "3.0" Then
+            ' EPUB3
+            startpos = InStr(metadatafile, "<dc:creator")
             lenheader = Len("<dc:creator")
-            If versioninfo = "3.0" Then
-                'metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
+
+            If startpos <> 0 Then
+                ' creator already exists in OPF file
                 ' get id
                 idpos = InStr(startpos, metadatafile, "id=")
                 idinfo = ""
@@ -3555,91 +3582,159 @@ lookforrefines:
                     creatorfileasplaced = False
                     creatorroleplaced = False
                     rolestring = "aut"
+                    Dim lookingforfileas As Boolean
                     While temppos <> 0
                         startheaderpos = InStrRev(metadatafile, "<", temppos)
                         endheaderpos = InStr(temppos, metadatafile, ">")
                         endpos = InStr(temppos, metadatafile, "</meta>")
                         If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
+                        lookingforfileas = True
                         refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
-                        If refinespos <> 0 Then
-                            If refinespos < endpos Then
-                                metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox12.Text) + Mid(metadatafile, endpos)
-                                creatorfileasplaced = True
-                            End If
+                        If ((refinespos = 0) Or (refinespos > endpos)) Then
+                            refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "role")
+                            lookingforfileas = False
                         End If
-                        refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "role")
                         If refinespos <> 0 Then
+                            ' found a refines
                             If refinespos < endpos Then
-                                If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
-                                If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
-                                If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
-                                metadatafile = Mid(metadatafile, 1, endheaderpos) + rolestring + Mid(metadatafile, endpos)
-                                creatorroleplaced = True
+                                ' it's in the current refines
+                                If lookingforfileas Then
+                                    metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox12.Text) + Mid(metadatafile, endpos)
+                                    creatorfileasplaced = True
+                                Else
+                                    If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
+                                    If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
+                                    If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
+                                    metadatafile = Mid(metadatafile, 1, endheaderpos) + rolestring + Mid(metadatafile, endpos)
+                                    creatorroleplaced = True
+                                End If
                             End If
                         End If
                         temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
                     End While
-                    If (((creatorroleplaced = False) Or (creatorfileasplaced = False)) And (TextBox12.Text <> "")) Then
+                    If ((creatorroleplaced = False) Or (creatorfileasplaced = False)) Then
                         startpos = InStr(metadatafile, "</dc:creator>") + 13 'end of creator
                         If ((creatorfileasplaced = False) And (creatorroleplaced = False)) Then
-                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
-                            "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(13) + Chr(10) + _
-                            "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
+                            If (TextBox12.Text <> "") Then
+                                metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
+                                "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(13) + Chr(10) + _
+                                "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
+                            Else
+                                metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
+                                "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
+                            End If
                         ElseIf ((creatorfileasplaced = False) And (creatorroleplaced = True)) Then
-                            metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Mid(metadatafile, startpos)
+                            If (TextBox12.Text <> "") Then
+                                metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Mid(metadatafile, startpos)
+                            End If
                         ElseIf ((creatorfileasplaced = True) And (creatorroleplaced = False)) Then
                             startpos = InStr(startpos, metadatafile, "</meta>")
                             metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                         End If
                     End If
                 End If
+            Else
+                ' no creator in OPF file, so need to add it
+                startpos = InStr(metadatafile, "</dc:title>")
+                startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after title
+                rolestring = "aut"
+                If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
+                If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
+                If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
+                If TextBox12.Text <> "" Then
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
+                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(13) + Chr(10) + _
+                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
+                Else
+                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
+                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
+                End If
+            End If
+        Else
+            ' EPUB2
+            startpos = InStr(metadatafile, "<dc:creator")
+            lenheader = Len("<dc:creator")
 
-                'Output second creator?
-                endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
-                startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
-                If ((TextBox3.Text <> "") Or (startpos <> 0)) Then
-                    If startpos <> 0 Then
-                        endheaderpos = InStr(startpos, metadatafile, ">")
-                        endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                        metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
+            ' check for optional attributes
+            optionaltext = ""
+            If ((ComboBox1.SelectedIndex = 0) Or (ComboBox1.SelectedIndex = -1)) Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34)
+            If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
+            If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
+            If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
 
-                        ' get id
-                        idpos = InStr(startpos, metadatafile, "id=")
-                        idinfo = ""
-                        If idpos <> 0 Then
-                            For temploop = idpos + 4 To endpos
-                                If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                                    idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
-                                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + idinfo + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
-                                    GoTo lookforrefines2
-                                End If
-                            Next
-                        Else
-                            metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
-                            idinfo = "creator2"
-                        End If
+            If TextBox12.Text <> "" Then
+                optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + optionaltext + ">"
+            Else
+                optionaltext = optionaltext + ">"
+            End If
+
+            If startpos <> 0 Then
+                ' creator already exists in OPF file
+                endpos = InStr(startpos, metadatafile, "</dc:creator>")
+                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
+            Else
+                'No creator yet, so add it after <metadata... > tag
+                startpos = InStr(metadatafile, "<metadata")
+                startpos = InStr(startpos, metadatafile, ">") + 1
+                metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
+            End If
+        End If
+
+        'Output second creator?
+        If versioninfo = "3.0" Then
+            ' EPUB3
+            endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
+            startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
+
+            If startpos <> 0 Then
+                ' second creator in OPF file
+                If (TextBox3.Text <> "") Then
+                    endheaderpos = InStr(startpos, metadatafile, ">")
+                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
+                    metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
+
+                    ' get id
+                    idpos = InStr(startpos, metadatafile, "id=")
+                    idinfo = ""
+                    If idpos <> 0 Then
+                        For temploop = idpos + 4 To endpos
+                            If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                endpos = InStr(startpos, metadatafile, "</dc:creator>")
+                                metadatafile = Mid(metadatafile, 1, startpos - 1) + "<dc:creator id=" + Chr(34) + idinfo + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
+                                GoTo lookforrefines2
+                            End If
+                        Next
+                    Else
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
+                        idinfo = "creator2"
+                    End If
 lookforrefines2:
-                        If idinfo <> "" Then
-                            temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            creator2fileasplaced = False
-                            creator2roleplaced = False
-                            rolestring = "aut"
-                            While temppos <> 0
-                                endheaderpos = InStr(temppos, metadatafile, ">")
-                                endpos = InStr(temppos, metadatafile, "</meta>")
-                                If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "file-as")
-                                If refinespos <> 0 Then
-                                    If refinespos < endpos Then
+                    If idinfo <> "" Then
+                        temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        creator2fileasplaced = False
+                        creator2roleplaced = False
+                        rolestring = "aut"
+                        Dim lookingforfileas As Boolean
+                        While temppos <> 0
+                            startheaderpos = InStrRev(metadatafile, "<", temppos)
+                            endheaderpos = InStr(temppos, metadatafile, ">")
+                            endpos = InStr(temppos, metadatafile, "</meta>")
+                            If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
+                            lookingforfileas = True
+                            refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "file-as")
+                            If ((refinespos = 0) Or (refinespos > endpos)) Then
+                                refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "role")
+                                lookingforfileas = False
+                            End If
+                            If refinespos <> 0 Then
+                                ' found a refines
+                                If refinespos < endpos Then
+                                    ' it's in the current refines
+                                    If lookingforfileas Then
                                         metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox13.Text) + Mid(metadatafile, endpos)
                                         creator2fileasplaced = True
-                                    End If
-                                End If
-                                refinespos = InStr(temppos, metadatafile, "property=" + Chr(34) + "role")
-                                If refinespos <> 0 Then
-                                    If refinespos < endpos Then
+                                    Else
                                         If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
                                         If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
                                         If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
@@ -3647,207 +3742,138 @@ lookforrefines2:
                                         creator2roleplaced = True
                                     End If
                                 End If
-                                temppos = InStr(endpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                                If temppos = 0 Then temppos = InStr(endpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                            End While
-                            If (((creator2roleplaced = False) Or (creator2fileasplaced = False)) And (TextBox13.Text <> "")) Then
-                                startpos = InStr(metadatafile, "</dc:creator>")
-                                startpos = InStr(startpos + 1, metadatafile, "</dc:creator>") + 13 'end of second creator
-                                If ((creator2fileasplaced = False) And (creator2roleplaced = False)) Then
+                            End If
+                            temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                        End While
+                        If ((creator2roleplaced = False) Or (creator2fileasplaced = False)) Then
+                            startpos = InStr(metadatafile, "</dc:creator>")
+                            startpos = InStr(startpos + 1, metadatafile, "</dc:creator>") + 13 'end of second creator
+                            If ((creator2fileasplaced = False) And (creator2roleplaced = False)) Then
+                                If (TextBox13.Text <> "") Then
                                     metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
                                     "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(10) + _
                                     "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
-                                ElseIf ((creator2fileasplaced = False) And (creator2roleplaced = True)) Then
+                                Else
+                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + _
+                                    "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
+                                End If
+                            ElseIf ((creator2fileasplaced = False) And (creator2roleplaced = True)) Then
+                                If (TextBox13.Text <> "") Then
                                     metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Mid(metadatafile, startpos)
-                                ElseIf ((creator2fileasplaced = True) And (creator2roleplaced = False)) Then
-                                    startpos = InStr(startpos, metadatafile, "</meta>")
-                                    metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                                 End If
+                            ElseIf ((creator2fileasplaced = True) And (creator2roleplaced = False)) Then
+                                startpos = InStr(startpos, metadatafile, "</meta>")
+                                metadatafile = Mid(metadatafile, 1, startpos) + Chr(13) + Chr(10) + "    <meta refines=" + Chr(34) + "#" + idinfo + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Mid(metadatafile, startpos)
                             End If
-                        End If
-                    Else
-                        'Second creator being added
-                        startpos = InStr(metadatafile, "</dc:creator>")
-                        startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after first creator
-                        rolestring = "aut"
-                        If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
-                        If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
-                        If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(13) + Chr(10) + _
-                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
-                    End If
-                End If
-                If TextBox3.Text = "" Then
-                    endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
-                    startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
-                    If startpos <> 0 Then
-                        'Second creator exists but needs to be deleted
-                        endpos = InStr(startpos, metadatafile, "</dc:creator>")
-
-                        'Get id
-                        idpos = InStr(startpos, metadatafile, "id=")
-                        idinfo = ""
-                        If idpos <> 0 Then
-                            For temploop = idpos + 4 To endpos
-                                If Mid(metadatafile, temploop, 1) = Chr(34) Then
-                                    idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
-                                    temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                                    If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                                    While temppos <> 0
-                                        endpos = InStr(temppos, metadatafile, "</meta>")
-                                        If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
-                                        metadatafile = Mid(metadatafile, 1, temppos - 1) + Mid(metadatafile, endpos + 8)
-                                        startpos = InStr(metadatafile, "</dc:creator>")
-                                        startpos = InStr(startpos, metadatafile, "<dc:creator")
-                                        temppos = InStr(startpos, metadatafile, "<meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                                        If temppos = 0 Then temppos = InStr(startpos, metadatafile, "<opf:meta refines=" + Chr(34) + "#" + idinfo + Chr(34))
-                                    End While
-                                    startpos = InStr(metadatafile, "</dc:creator>")
-                                    startpos = InStr(startpos, metadatafile, "<dc:creator")
-                                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                                    metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 14)
-                                    Exit For
-                                End If
-                            Next
-                        Else
-                            'No id (therefore no refines)
-                            metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 14)
                         End If
                     End If
                 End If
             Else
-                'If optional attributes
-                If TextBox12.Text <> "" Then
-                    optionaltext = ""
-                    If ((ComboBox1.SelectedIndex = 0) Or (ComboBox1.SelectedIndex = -1)) Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34)
-                    If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
-                    If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
-                    If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + optionaltext + ">"
-                Else
-                    If (ComboBox1.SelectedIndex <> -1) Then
-                        If ComboBox1.SelectedIndex = 0 Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34) + ">"
-                        If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34) + ">"
-                        If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34) + ">"
-                        If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34) + ">"
-                    Else
-                        optionaltext = ">"
-                    End If
-                End If
-                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox2.Text) + Mid(metadatafile, endpos)
-
-                'Output second creator?
-                endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
-                startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
-                If ((TextBox3.Text <> "") Or (startpos <> 0)) Then
-                    'Get optional attributes
-                    If TextBox13.Text <> "" Then
-                        optionaltext = ""
-                        If ((ComboBox2.SelectedIndex = 0) Or (ComboBox2.SelectedIndex = -1)) Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34)
-                        If ComboBox2.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
-                        If ComboBox2.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
-                        If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + optionaltext + ">"
-                    Else
-                        If (ComboBox2.SelectedIndex <> -1) Then
-                            If ComboBox2.SelectedIndex = 0 Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34) + ">"
-                            If ComboBox2.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34) + ">"
-                            If ComboBox2.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34) + ">"
-                            If ComboBox2.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34) + ">"
-                        Else
-                            optionaltext = ">"
-                        End If
-
-                    End If
-                    If startpos <> 0 Then
-                        endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                        lenheader = Len("<dc:creator")
-                        metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
-                    Else
-                        'Original file did not have second creator
-                        metadatafile = Mid(metadatafile, 1, endpos + 13) + Chr(13) + Chr(10) + Chr(9) + "<dc:creator" + optionaltext + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 14)
-                    End If
-                End If
-                If TextBox3.Text = "" Then
-                    endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
-                    startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
-                    If startpos <> 0 Then
-                        'Second creator exists but needs to be deleted
-                        endpos = InStr(startpos, metadatafile, "</dc:creator>")
-                        metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 14)
-                    End If
-                End If
-            End If
-        Else
-            If versioninfo = "3.0" Then
-                'Creator being added
-                startpos = InStr(metadatafile, "</dc:title>")
-                startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after title
-                If TextBox12.Text <> "" Then
-                    rolestring = "aut"
-                    If ComboBox1.SelectedIndex = 1 Then rolestring = "edt"
-                    If ComboBox1.SelectedIndex = 2 Then rolestring = "ill"
-                    If ComboBox1.SelectedIndex = 3 Then rolestring = "trl"
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator" + Chr(34) + ">" + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
-                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox12.Text) + "</meta>" + Chr(13) + Chr(10) + _
-                    "    <meta refines=" + Chr(34) + "#creator" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
-                Else
-                    metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
-                End If
-
-                'Check for second author
                 If (TextBox3.Text <> "") Then
                     'Second creator being added
                     startpos = InStr(metadatafile, "</dc:creator>")
                     startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after first creator
+
                     'Get optional attributes
+                    rolestring = "aut"
+                    If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
+                    If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
+                    If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
+
                     If TextBox13.Text <> "" Then
-                        rolestring = "aut"
-                        If ComboBox2.SelectedIndex = 1 Then rolestring = "edt"
-                        If ComboBox2.SelectedIndex = 2 Then rolestring = "ill"
-                        If ComboBox2.SelectedIndex = 3 Then rolestring = "trl"
                         metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox13.Text) + "</meta>" + Chr(13) + Chr(10) + _
                         "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                     Else
-                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator>" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
+                        metadatafile = Mid(metadatafile, 1, startpos) + "<dc:creator id=" + Chr(34) + "creator2" + Chr(34) + ">" + XMLOutput(TextBox3.Text) + "</dc:creator>" + Chr(13) + Chr(10) + _
+                        "    <meta refines=" + Chr(34) + "#creator2" + Chr(34) + " property=" + Chr(34) + "role" + Chr(34) + " scheme=" + Chr(34) + "marc:relators" + Chr(34) + ">" + rolestring + "</meta>" + Chr(13) + Chr(10) + "    " + Mid(metadatafile, startpos)
                     End If
                 End If
-            Else
-                'No creator yet, so add it after <metadata... > tag
-                startpos = InStr(metadatafile, "<metadata")
-                startpos = InStr(startpos, metadatafile, ">") + 1
-                'If optional attributes
-                If TextBox12.Text <> "" Then
-                    optionaltext = ""
-                    If ((ComboBox1.SelectedIndex = 0) Or (ComboBox1.SelectedIndex = -1)) Then optionaltext = " opf:role=" + Chr(34) + "aut" + Chr(34)
-                    If ComboBox1.SelectedIndex = 1 Then optionaltext = " opf:role=" + Chr(34) + "edt" + Chr(34)
-                    If ComboBox1.SelectedIndex = 2 Then optionaltext = " opf:role=" + Chr(34) + "ill" + Chr(34)
-                    If ComboBox1.SelectedIndex = 3 Then optionaltext = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                    optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox12.Text) + Chr(34) + optionaltext + ">"
+            End If
+        Else
+            ' EPUB2
+            If (TextBox3.Text <> "") Then
+                endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
+                startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
+
+                'Get optional attributes
+                optionaltext2 = ""
+                If ((ComboBox2.SelectedIndex = 0) Or (ComboBox2.SelectedIndex = -1)) Then optionaltext2 = " opf:role=" + Chr(34) + "aut" + Chr(34)
+                If ComboBox2.SelectedIndex = 1 Then optionaltext2 = " opf:role=" + Chr(34) + "edt" + Chr(34)
+                If ComboBox2.SelectedIndex = 2 Then optionaltext2 = " opf:role=" + Chr(34) + "ill" + Chr(34)
+                If ComboBox2.SelectedIndex = 3 Then optionaltext2 = " opf:role=" + Chr(34) + "trl" + Chr(34)
+
+                If TextBox13.Text <> "" Then
+                    optionaltext2 = " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + optionaltext2 + ">"
                 Else
-                    optionaltext = ">"
+                    optionaltext2 = optionaltext2 + ">"
                 End If
 
-                ' check for second author
-                If (TextBox3.Text <> "") Then
-                    'Get optional attributes
-                    If TextBox13.Text <> "" Then
-                        optionaltext2 = ""
-                        If ((ComboBox2.SelectedIndex = 0) Or (ComboBox2.SelectedIndex = -1)) Then optionaltext2 = " opf:role=" + Chr(34) + "aut" + Chr(34)
-                        If ComboBox2.SelectedIndex = 1 Then optionaltext2 = " opf:role=" + Chr(34) + "edt" + Chr(34)
-                        If ComboBox2.SelectedIndex = 2 Then optionaltext2 = " opf:role=" + Chr(34) + "ill" + Chr(34)
-                        If ComboBox2.SelectedIndex = 3 Then optionaltext2 = " opf:role=" + Chr(34) + "trl" + Chr(34)
-                        optionaltext2 = " opf:file-as=" + Chr(34) + XMLOutput(TextBox13.Text) + Chr(34) + optionaltext2 + ">"
-                    Else
-                        optionaltext2 = ">"
-                    End If
-                    ' output two creators
-                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Chr(13) + Chr(10) + "  <dc:creator" + optionaltext2 + XMLOutput(TextBox3.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
+                If startpos <> 0 Then
+                    ' second creator in OPF file
+                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "  <dc:creator" + optionaltext2 + XMLOutput(TextBox3.Text) + Mid(metadatafile, endpos)
                 Else
-                    ' output only one creator
-                    metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:creator" + optionaltext + XMLOutput(TextBox2.Text) + "</dc:creator>" + Mid(metadatafile, startpos)
+                    ' need to add second creator after first one
+                    endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
+                    metadatafile = Mid(metadatafile, 1, endpos + 13) + Chr(13) + Chr(10) + "  <dc:creator" + optionaltext2 + XMLOutput(TextBox3.Text) + "</dc:creator>" + Mid(metadatafile, endpos + 13)
+                End If
+            End If
+        End If
+
+        ' Check if need to delete second creator
+        If TextBox3.Text = "" Then
+            If versioninfo = "3.0" Then
+                ' EPUB3
+                endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
+                startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
+                If startpos <> 0 Then
+                    'Second creator exists but needs to be deleted
+                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
+
+                    'Get id
+                    idpos = InStr(startpos, metadatafile, "id=")
+                    idinfo = ""
+                    If idpos <> 0 Then
+                        For temploop = idpos + 4 To endpos
+                            If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                temppos = InStr(metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                While temppos <> 0
+                                    ' found a refines for the second creator which needs to be deleted
+                                    Dim metastartpos, endlength As Integer
+                                    metastartpos = InStrRev(metadatafile, "<meta", temppos)
+                                    endpos = InStr(temppos, metadatafile, "</meta>")
+                                    endlength = Len("</meta>")
+                                    If endpos = 0 Then
+                                        endlength = Len("</opf:meta>")
+                                        endpos = InStr(temppos, metadatafile, "</opf:meta>")
+                                    End If
+                                    metadatafile = Mid(metadatafile, 1, metastartpos - 1) + Mid(metadatafile, endpos + endlength + 1)
+                                    temppos = InStr(metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                                End While
+                                ' delete second creator
+                                startpos = InStr(metadatafile, "</dc:creator>")
+                                startpos = InStr(startpos, metadatafile, "<dc:creator")
+                                endpos = InStr(startpos, metadatafile, "</dc:creator>")
+                                metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 14)
+                                Exit For
+                            End If
+                        Next
+                    Else
+                        'No id (therefore no refines) so delete second creator
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 14)
+                    End If
+                    ComboBox2.SelectedIndex = -1
+                End If
+            Else
+                ' EPUB2
+                endpos = InStr(metadatafile, "</dc:creator>") 'find end of first creator
+                startpos = InStr(endpos, metadatafile, "<dc:creator") 'look for another one
+                If startpos <> 0 Then
+                    'Second creator exists but needs to be deleted
+                    endpos = InStr(startpos, metadatafile, "</dc:creator>")
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 14)
                 End If
             End If
         End If
