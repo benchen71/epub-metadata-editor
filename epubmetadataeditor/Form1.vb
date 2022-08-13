@@ -506,7 +506,7 @@ lookforpagemap:
     End Sub
     Private Sub ExtractMetadata(ByVal metadatafile As String, ByVal extractcover As Boolean)
         Dim startpos, namespacelen, endpos, endheader, lenheader, fileaspos, temploop, rolepos, coverfilepos, nextcharpos, firsttaglength As Integer
-        Dim dcnamespace, rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring As String
+        Dim dcnamespace, rolestring, coverfiletext, langtext, hreftype, nextchar, tempstring, ID As String
         Dim idpos, endheaderpos, startheaderpos, temppos, refinespos, oldstartpos, searchpos As Integer
         Dim idinfo, coverid, coverfileid As String
 
@@ -578,6 +578,37 @@ lookforpagemap:
                     Next
                 End If
                 If versioninfo = "3.0" Then
+                    ' Look for title id and refines with property="file-as"
+                    startpos = InStr(metadatafile, "<dc:title")
+                    endpos = InStr(metadatafile, "</dc:title>")
+                    idpos = InStr(startpos, metadatafile, "id=" + Chr(34))
+                    If ((idpos <> 0) And (idpos < endpos)) Then
+                        ' found a title id
+                        ID = Mid(metadatafile, idpos + 4, InStr(idpos + 5, metadatafile, Chr(34)) - idpos - 4)
+
+                        ' look for refines meta tag with property="file-as"
+                        startpos = InStr(metadatafile, "refines=" + Chr(34) + "#" + ID + Chr(34))
+                        While startpos <> 0
+                            temppos = startpos
+                            startpos = InStrRev(metadatafile, "<meta ", startpos)
+                            'If startpos = 0 Then
+                            'startpos = InStrRev(metadatafile, "<opf:meta ", temppos)
+                            'End If
+                            endpos = InStr(startpos + 9, metadatafile, "</meta>")
+                            If ((startpos <> 0) And (startpos < endpos)) Then
+                                ' look for property="file-as"
+                                Dim propertypos As Integer
+                                propertypos = InStr(startpos, metadatafile, "property=" + Chr(34) + "file-as" + Chr(34))
+                                If ((propertypos <> 0) And (propertypos < endpos)) Then
+                                    endheaderpos = InStr(propertypos, metadatafile, ">")
+                                    TextBox16.Text = XMLInput(Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1))
+                                    Exit Try
+                                End If
+                            End If
+                            startpos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + ID + Chr(34))
+                        End While
+                    End If
+
                     ' Look for Calibre's title_sort meta tag
                     startpos = InStr(metadatafile, "calibre:title_sort")
                     If startpos <> 0 Then
@@ -3324,6 +3355,13 @@ errortext:
         Dim startpos, namespacelen, endpos, extracheck, temppos As Integer
 
         Try
+            'Check for xml tag
+            If InStr(metadatafile, "<?xml") Then
+                startpos = InStr(metadatafile, "<?xml")
+                endpos = InStr(startpos, metadatafile, "?>")
+                metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 2)
+            End If
+
             'Check for corrupted xml first line
             endpos = InStr(metadatafile, Chr(10))
             Dim tempstring As String = Mid(metadatafile, 1, endpos)
@@ -3356,6 +3394,10 @@ errortext:
             If (InStr(metadatafile, "<opf:metadata") Or InStr(metadatafile, "<opf:manifest")) Then
                 metadatafile = metadatafile.Replace("<opf:", "<")
                 metadatafile = metadatafile.Replace("</opf:", "</")
+            End If
+            If InStr(metadatafile, "opf:meta") Then
+                metadatafile = metadatafile.Replace("<opf:meta", "<meta")
+                metadatafile = metadatafile.Replace("</opf:meta>", "</meta>")
             End If
             If (InStr(metadatafile, "<ns0:metadata") Or InStr(metadatafile, "<ns0:manifest")) Then
                 metadatafile = metadatafile.Replace("<ns0:", "<")
@@ -3445,6 +3487,11 @@ errortext:
 
         'Output title
         startpos = InStr(metadatafile, "<dc:title")
+        If startpos = 0 Then
+            ' no title yet, so add it after <metadata... > tag
+            startpos = InStr(metadatafile, "<metadata")
+            startpos = InStr(startpos, metadatafile, ">") + 1
+        End If
         If startpos <> 0 Then
             endpos = InStr(metadatafile, "</dc:title>")
             If endpos = 0 Then
@@ -3461,57 +3508,81 @@ errortext:
                     Exit Sub
                 End If
             End If
+
             lenheader = Len("<dc:title")
 
-            'If optional attributes
-            If ((TextBox16.Text <> "") And (versioninfo <> "3.0")) Then
-                optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
-            Else
-                optionaltext = ">"
-            End If
-            metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox1.Text) + Mid(metadatafile, endpos)
-        Else
-            ' no title yet, so add it after <metadata... > tag
-            startpos = InStr(metadatafile, "<metadata")
-            startpos = InStr(startpos, metadatafile, ">") + 1
-            'If optional attributes
-            If ((TextBox16.Text <> "") And (versioninfo <> "3.0")) Then
-                optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
-            Else
-                optionaltext = ">"
-            End If
-            metadatafile = Mid(metadatafile, 1, startpos) + "  <dc:title" + optionaltext + XMLOutput(TextBox1.Text) + "</dc:title>" + Mid(metadatafile, startpos)
-        End If
-        ' Handle Title "file as" in EPUB3
-        If ((TextBox16.Text <> "") And (versioninfo = "3.0")) Then
-            ' Look for Calibre's title_sort meta tag
-            startpos = InStr(metadatafile, "calibre:title_sort")
-            If startpos <> 0 Then
-                temppos = startpos
-                startpos = InStrRev(metadatafile, "<meta ", startpos)
-                opfmeta = False
-                If startpos = 0 Then
-                    startpos = InStrRev(metadatafile, "<opf:meta ", temppos)
-                    opfmeta = True
-                End If
-                endpos = InStr(startpos + 9, metadatafile, "/>")
-                If ((startpos <> 0) And (startpos < endpos)) Then
-                    If opfmeta Then
-                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<opf:meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + Mid(metadatafile, endpos)
+            If (versioninfo = "3.0") Then
+                ID = ""
+                'If optional attributes
+                If (TextBox16.Text <> "") Then
+                    ' Look for id in title tag
+                    idpos = InStr(startpos, metadatafile, "id=" + Chr(34))
+                    If ((idpos <> 0) And (idpos < endpos)) Then
+                        ' found a title id
+                        ID = Mid(metadatafile, idpos + 4, InStr(idpos + 5, metadatafile, Chr(34)) - idpos - 4)
+
+                        ' look for refines meta tag with property="file-as"
+                        startpos = InStr(metadatafile, "refines=" + Chr(34) + "#" + ID + Chr(34))
+                        Dim refinesplaced As Boolean = False
+                        While startpos <> 0
+                            temppos = startpos
+                            startpos = InStrRev(metadatafile, "<meta ", startpos)
+                            'If startpos = 0 Then
+                            'startpos = InStrRev(metadatafile, "<opf:meta ", temppos)
+                            'End If
+                            endpos = InStr(startpos + 9, metadatafile, "</meta>")
+                            If ((startpos <> 0) And (startpos < endpos)) Then
+                                ' look for property="file-as"
+                                Dim propertypos As Integer
+                                propertypos = InStr(startpos, metadatafile, "property=" + Chr(34) + "file-as" + Chr(34))
+                                If ((propertypos <> 0) And (propertypos < endpos)) Then
+                                    endheaderpos = InStr(propertypos, metadatafile, ">")
+                                    metadatafile = Mid(metadatafile, 1, endheaderpos) + XMLOutput(TextBox16.Text) + Mid(metadatafile, endpos)
+                                    refinesplaced = True
+                                    Exit While
+                                End If
+                            End If
+                            startpos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + ID + Chr(34))
+                        End While
+
+                        If Not refinesplaced Then
+                            ' Need a new metatag
+                            endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
+                            metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta refines=" + Chr(34) + "#" + ID + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox16.Text) + "</meta>" + Mid(metadatafile, endpos + 1)
+                        End If
                     Else
-                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + Mid(metadatafile, endpos)
+                        ' title doesn't currently have an id
+                        ID = "id"
+                        Dim idcheck As Integer = InStr(metadatafile, "id=" + Chr(34) + ID + Chr(34))
+                        If idcheck <> 0 Then
+                            ID = "titleid"
+                        End If
+                        ' Need a new metatag
+                        endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
+                        metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta refines=" + Chr(34) + "#" + ID + Chr(34) + " property=" + Chr(34) + "file-as" + Chr(34) + ">" + XMLOutput(TextBox16.Text) + "</meta>" + Mid(metadatafile, endpos + 1)
                     End If
+                End If
+
+                'Output title
+                startpos = InStr(metadatafile, "<dc:title")
+                endpos = InStr(metadatafile, "</dc:title>")
+
+                If ID <> "" Then
+                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + " id=" + Chr(34) + ID + Chr(34) + ">" + XMLOutput(TextBox1.Text) + Mid(metadatafile, endpos)
                 Else
-                    ' Need a new metatag
-                    endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
-                    metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
+                    metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + ">" + XMLOutput(TextBox1.Text) + Mid(metadatafile, endpos)
                 End If
             Else
-                ' Need a new metatag
-                endpos = InStr(metadatafile, "</dc:title>") + Len("</dc:title>")
-                metadatafile = Mid(metadatafile, 1, endpos) + Chr(10) + "<meta name=" + Chr(34) + "calibre:title_sort" + Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + "/>" + Mid(metadatafile, endpos + 1)
+                'If optional attributes
+                If (TextBox16.Text <> "") Then
+                    optionaltext = " opf:file-as=" + Chr(34) + XMLOutput(TextBox16.Text) + Chr(34) + ">"
+                Else
+                    optionaltext = ">"
+                End If
+                metadatafile = Mid(metadatafile, 1, startpos + lenheader - 1) + optionaltext + XMLOutput(TextBox1.Text) + Mid(metadatafile, endpos)
             End If
         End If
+
         If ((TextBox16.Text = "") Or ((TextBox16.Text <> "") And (versioninfo = "2.0"))) Then
             ' Look for Calibre's title_sort meta tag and remove it
             startpos = InStr(metadatafile, "calibre:title_sort")

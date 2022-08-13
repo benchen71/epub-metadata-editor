@@ -1,4 +1,4 @@
-1.9.0
-[*] Completely restructured the save EPUB routine as it applied to creators. This was a major restructuring of the code, so please be careful using it. Only use this version with EPUBs that have been backed up, just in case the save procedure goes bad!
-[*] Fixed "Remove <meta /> tags" button (in the OPF editor window), which was crashing on some OPF files.
-[*] Fixed errors in the Batch "Replace" function.
+1.9.1
+[*] Updated the title file-as in EPUB3 to use refines with property="file-as". (Updated console version, too.)
+[*] Delete "<?xml ... ?>" from opf file (if it exists)
+[*] Replace "<opf:meta ... </opf:meta>" with "<meta ... </meta>" (if it exists)
