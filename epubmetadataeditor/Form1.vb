@@ -1981,7 +1981,7 @@ errortext:
         Dim temp As DialogResult
 
         ' do some checks first
-        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False) And (CheckBox12.Checked = False) And (CheckBox13.Checked = False)) Then
+        If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False) And (CheckBox12.Checked = False) And (CheckBox13.Checked = False) And (CheckBox14.Checked = False)) Then
             MsgBox("You need to check one of the batch task boxes!")
             Exit Sub
         End If
@@ -2189,6 +2189,12 @@ errortext:
                 ' Autogenerate Creator's 'File as'
                 Button7_Click(sender, e)
                 If TextBox3.Text <> "" Then Button13.PerformClick()
+            End If
+
+            If CheckBox14.Checked = True Then
+                ' remove Creators' 'File as'
+                TextBox12.Text = ""
+                TextBox13.Text = ""
             End If
 
             If CheckBox9.Checked = True Then

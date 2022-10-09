@@ -125,7 +125,6 @@ Partial Class Form1
         Me.CheckBox2 = New System.Windows.Forms.CheckBox
         Me.CheckBox3 = New System.Windows.Forms.CheckBox
         Me.CheckBox4 = New System.Windows.Forms.CheckBox
-        Me.Label22 = New System.Windows.Forms.Label
         Me.Button26 = New System.Windows.Forms.Button
         Me.OpenFileDialog5 = New System.Windows.Forms.OpenFileDialog
         Me.Label23 = New System.Windows.Forms.Label
@@ -183,6 +182,7 @@ Partial Class Form1
         Me.LinkLabel11 = New System.Windows.Forms.LinkLabel
         Me.Label32 = New System.Windows.Forms.Label
         Me.TextBox19 = New System.Windows.Forms.TextBox
+        Me.CheckBox14 = New System.Windows.Forms.CheckBox
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -555,10 +555,10 @@ Partial Class Form1
         Me.Button41.Enabled = False
         Me.Button41.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Button41.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button41.Location = New System.Drawing.Point(1213, 395)
+        Me.Button41.Location = New System.Drawing.Point(1212, 214)
         Me.Button41.Name = "Button41"
         Me.Button41.Size = New System.Drawing.Size(26, 20)
-        Me.Button41.TabIndex = 138
+        Me.Button41.TabIndex = 107
         Me.Button41.Text = "S"
         Me.Button41.TextAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ToolTip1.SetToolTip(Me.Button41, "Sort list")
@@ -659,19 +659,19 @@ Partial Class Form1
         '
         'TextBox18
         '
-        Me.TextBox18.Location = New System.Drawing.Point(1085, 172)
+        Me.TextBox18.Location = New System.Drawing.Point(1085, 328)
         Me.TextBox18.Name = "TextBox18"
         Me.TextBox18.Size = New System.Drawing.Size(153, 20)
-        Me.TextBox18.TabIndex = 124
+        Me.TextBox18.TabIndex = 125
         Me.ToolTip1.SetToolTip(Me.TextBox18, "Series Title")
         '
         'CheckBox10
         '
         Me.CheckBox10.AutoSize = True
-        Me.CheckBox10.Location = New System.Drawing.Point(906, 176)
+        Me.CheckBox10.Location = New System.Drawing.Point(906, 313)
         Me.CheckBox10.Name = "CheckBox10"
         Me.CheckBox10.Size = New System.Drawing.Size(142, 17)
-        Me.CheckBox10.TabIndex = 107
+        Me.CheckBox10.TabIndex = 114
         Me.CheckBox10.Text = "Swap 'Title' and 'Creator'"
         Me.ToolTip1.SetToolTip(Me.CheckBox10, "Uncheck all other batch tasks if this task is checked")
         Me.CheckBox10.UseVisualStyleBackColor = True
@@ -693,10 +693,10 @@ Partial Class Form1
         Me.Button40.Enabled = False
         Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
-        Me.Button40.Location = New System.Drawing.Point(1213, 295)
+        Me.Button40.Location = New System.Drawing.Point(1212, 114)
         Me.Button40.Name = "Button40"
         Me.Button40.Size = New System.Drawing.Size(26, 20)
-        Me.Button40.TabIndex = 136
+        Me.Button40.TabIndex = 105
         Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
         Me.Button40.UseVisualStyleBackColor = True
         '
@@ -705,10 +705,10 @@ Partial Class Form1
         Me.Button39.Enabled = False
         Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
-        Me.Button39.Location = New System.Drawing.Point(1213, 269)
+        Me.Button39.Location = New System.Drawing.Point(1212, 88)
         Me.Button39.Name = "Button39"
         Me.Button39.Size = New System.Drawing.Size(26, 20)
-        Me.Button39.TabIndex = 135
+        Me.Button39.TabIndex = 104
         Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
         Me.Button39.UseVisualStyleBackColor = True
         '
@@ -874,10 +874,10 @@ Partial Class Form1
         Me.Button45.Enabled = False
         Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
-        Me.Button45.Location = New System.Drawing.Point(1213, 369)
+        Me.Button45.Location = New System.Drawing.Point(1212, 188)
         Me.Button45.Name = "Button45"
         Me.Button45.Size = New System.Drawing.Size(26, 20)
-        Me.Button45.TabIndex = 137
+        Me.Button45.TabIndex = 106
         Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
         Me.Button45.UseVisualStyleBackColor = True
         '
@@ -907,10 +907,10 @@ Partial Class Form1
         'Button46
         '
         Me.Button46.Enabled = False
-        Me.Button46.Location = New System.Drawing.Point(1000, 236)
+        Me.Button46.Location = New System.Drawing.Point(1000, 393)
         Me.Button46.Name = "Button46"
         Me.Button46.Size = New System.Drawing.Size(90, 25)
-        Me.Button46.TabIndex = 131
+        Me.Button46.TabIndex = 141
         Me.Button46.Text = "Extract"
         Me.ToolTip1.SetToolTip(Me.Button46, "Extract metadata from filenames")
         Me.Button46.UseVisualStyleBackColor = True
@@ -962,10 +962,10 @@ Partial Class Form1
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.HorizontalScrollbar = True
-        Me.ListBox1.Location = New System.Drawing.Point(906, 268)
+        Me.ListBox1.Location = New System.Drawing.Point(906, 88)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(303, 147)
-        Me.ListBox1.TabIndex = 134
+        Me.ListBox1.TabIndex = 103
         Me.ListBox1.TabStop = False
         '
         'Button9
@@ -980,10 +980,10 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Enabled = False
-        Me.Button10.Location = New System.Drawing.Point(906, 236)
+        Me.Button10.Location = New System.Drawing.Point(906, 393)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(90, 25)
-        Me.Button10.TabIndex = 130
+        Me.Button10.TabIndex = 140
         Me.Button10.Text = "Go"
         Me.Button10.UseVisualStyleBackColor = True
         '
@@ -1006,7 +1006,7 @@ Partial Class Form1
         '
         Me.ProgressBar1.Location = New System.Drawing.Point(906, 424)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(303, 19)
+        Me.ProgressBar1.Size = New System.Drawing.Size(332, 19)
         Me.ProgressBar1.TabIndex = 0
         Me.ProgressBar1.Visible = False
         '
@@ -1129,17 +1129,17 @@ Partial Class Form1
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(906, 157)
+        Me.CheckBox1.Location = New System.Drawing.Point(906, 294)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(140, 17)
-        Me.CheckBox1.TabIndex = 106
+        Me.CheckBox1.TabIndex = 113
         Me.CheckBox1.Text = "Copy 'File as' to 'Creator'"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(1068, 102)
+        Me.CheckBox2.Location = New System.Drawing.Point(1068, 239)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(141, 17)
         Me.CheckBox2.TabIndex = 120
@@ -1149,7 +1149,7 @@ Partial Class Form1
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(1068, 121)
+        Me.CheckBox3.Location = New System.Drawing.Point(1068, 258)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(111, 17)
         Me.CheckBox3.TabIndex = 121
@@ -1159,21 +1159,12 @@ Partial Class Form1
         'CheckBox4
         '
         Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Location = New System.Drawing.Point(1068, 139)
+        Me.CheckBox4.Location = New System.Drawing.Point(1068, 275)
         Me.CheckBox4.Name = "CheckBox4"
         Me.CheckBox4.Size = New System.Drawing.Size(167, 17)
         Me.CheckBox4.TabIndex = 122
         Me.CheckBox4.Text = "Auto-generate Creator 'File as'"
         Me.CheckBox4.UseVisualStyleBackColor = True
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(903, 86)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(70, 13)
-        Me.Label22.TabIndex = 78
-        Me.Label22.Text = "Batch Tasks:"
         '
         'Button26
         '
@@ -1410,10 +1401,10 @@ Partial Class Form1
         'Button32
         '
         Me.Button32.Enabled = False
-        Me.Button32.Location = New System.Drawing.Point(1149, 236)
+        Me.Button32.Location = New System.Drawing.Point(1149, 393)
         Me.Button32.Name = "Button32"
         Me.Button32.Size = New System.Drawing.Size(90, 25)
-        Me.Button32.TabIndex = 133
+        Me.Button32.TabIndex = 143
         Me.Button32.Text = "Rename"
         Me.Button32.UseVisualStyleBackColor = True
         '
@@ -1421,10 +1412,10 @@ Partial Class Form1
         '
         Me.LinkLabel4.AutoSize = True
         Me.LinkLabel4.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel4.Location = New System.Drawing.Point(1096, 241)
+        Me.LinkLabel4.Location = New System.Drawing.Point(1096, 398)
         Me.LinkLabel4.Name = "LinkLabel4"
         Me.LinkLabel4.Size = New System.Drawing.Size(52, 13)
-        Me.LinkLabel4.TabIndex = 132
+        Me.LinkLabel4.TabIndex = 142
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Configure"
         '
@@ -1537,30 +1528,30 @@ Partial Class Form1
         'CheckBox6
         '
         Me.CheckBox6.AutoSize = True
-        Me.CheckBox6.Location = New System.Drawing.Point(906, 121)
+        Me.CheckBox6.Location = New System.Drawing.Point(906, 258)
         Me.CheckBox6.Name = "CheckBox6"
         Me.CheckBox6.Size = New System.Drawing.Size(126, 17)
-        Me.CheckBox6.TabIndex = 104
+        Me.CheckBox6.TabIndex = 111
         Me.CheckBox6.Text = "Copy 'File as' to 'Title'"
         Me.CheckBox6.UseVisualStyleBackColor = True
         '
         'CheckBox7
         '
         Me.CheckBox7.AutoSize = True
-        Me.CheckBox7.Location = New System.Drawing.Point(906, 102)
+        Me.CheckBox7.Location = New System.Drawing.Point(906, 239)
         Me.CheckBox7.Name = "CheckBox7"
         Me.CheckBox7.Size = New System.Drawing.Size(126, 17)
-        Me.CheckBox7.TabIndex = 103
+        Me.CheckBox7.TabIndex = 110
         Me.CheckBox7.Text = "Copy 'Title' to 'File as'"
         Me.CheckBox7.UseVisualStyleBackColor = True
         '
         'CheckBox8
         '
         Me.CheckBox8.AutoSize = True
-        Me.CheckBox8.Location = New System.Drawing.Point(906, 139)
+        Me.CheckBox8.Location = New System.Drawing.Point(906, 276)
         Me.CheckBox8.Name = "CheckBox8"
         Me.CheckBox8.Size = New System.Drawing.Size(140, 17)
-        Me.CheckBox8.TabIndex = 105
+        Me.CheckBox8.TabIndex = 112
         Me.CheckBox8.Text = "Copy 'Creator' to 'File as'"
         Me.CheckBox8.UseVisualStyleBackColor = True
         '
@@ -1672,10 +1663,10 @@ Partial Class Form1
         'CheckBox9
         '
         Me.CheckBox9.AutoSize = True
-        Me.CheckBox9.Location = New System.Drawing.Point(1068, 157)
+        Me.CheckBox9.Location = New System.Drawing.Point(1068, 313)
         Me.CheckBox9.Name = "CheckBox9"
         Me.CheckBox9.Size = New System.Drawing.Size(176, 17)
-        Me.CheckBox9.TabIndex = 123
+        Me.CheckBox9.TabIndex = 124
         Me.CheckBox9.Text = "Sequentialise all files into series:"
         Me.CheckBox9.UseVisualStyleBackColor = True
         '
@@ -1692,30 +1683,30 @@ Partial Class Form1
         'CheckBox11
         '
         Me.CheckBox11.AutoSize = True
-        Me.CheckBox11.Location = New System.Drawing.Point(1068, 214)
+        Me.CheckBox11.Location = New System.Drawing.Point(1068, 370)
         Me.CheckBox11.Name = "CheckBox11"
         Me.CheckBox11.Size = New System.Drawing.Size(119, 17)
-        Me.CheckBox11.TabIndex = 126
+        Me.CheckBox11.TabIndex = 127
         Me.CheckBox11.Text = "Apply Cover Fixes..."
         Me.CheckBox11.UseVisualStyleBackColor = True
         '
         'CheckBox12
         '
         Me.CheckBox12.AutoSize = True
-        Me.CheckBox12.Location = New System.Drawing.Point(906, 195)
+        Me.CheckBox12.Location = New System.Drawing.Point(906, 332)
         Me.CheckBox12.Name = "CheckBox12"
         Me.CheckBox12.Size = New System.Drawing.Size(75, 17)
-        Me.CheckBox12.TabIndex = 108
+        Me.CheckBox12.TabIndex = 115
         Me.CheckBox12.Text = "Replace..."
         Me.CheckBox12.UseVisualStyleBackColor = True
         '
         'LinkLabel9
         '
         Me.LinkLabel9.AutoSize = True
-        Me.LinkLabel9.Location = New System.Drawing.Point(976, 196)
+        Me.LinkLabel9.Location = New System.Drawing.Point(976, 333)
         Me.LinkLabel9.Name = "LinkLabel9"
         Me.LinkLabel9.Size = New System.Drawing.Size(29, 13)
-        Me.LinkLabel9.TabIndex = 109
+        Me.LinkLabel9.TabIndex = 116
         Me.LinkLabel9.TabStop = True
         Me.LinkLabel9.Text = "Field"
         '
@@ -1732,37 +1723,37 @@ Partial Class Form1
         'LinkLabel10
         '
         Me.LinkLabel10.AutoSize = True
-        Me.LinkLabel10.Location = New System.Drawing.Point(1031, 215)
+        Me.LinkLabel10.Location = New System.Drawing.Point(1031, 352)
         Me.LinkLabel10.Name = "LinkLabel10"
         Me.LinkLabel10.Size = New System.Drawing.Size(29, 13)
-        Me.LinkLabel10.TabIndex = 111
+        Me.LinkLabel10.TabIndex = 118
         Me.LinkLabel10.TabStop = True
         Me.LinkLabel10.Text = "Field"
         '
         'CheckBox13
         '
         Me.CheckBox13.AutoSize = True
-        Me.CheckBox13.Location = New System.Drawing.Point(906, 214)
+        Me.CheckBox13.Location = New System.Drawing.Point(906, 351)
         Me.CheckBox13.Name = "CheckBox13"
         Me.CheckBox13.Size = New System.Drawing.Size(130, 17)
-        Me.CheckBox13.TabIndex = 110
+        Me.CheckBox13.TabIndex = 117
         Me.CheckBox13.Text = "Find and Replace in..."
         Me.CheckBox13.UseVisualStyleBackColor = True
         '
         'LinkLabel11
         '
         Me.LinkLabel11.AutoSize = True
-        Me.LinkLabel11.Location = New System.Drawing.Point(1181, 215)
+        Me.LinkLabel11.Location = New System.Drawing.Point(1181, 371)
         Me.LinkLabel11.Name = "LinkLabel11"
         Me.LinkLabel11.Size = New System.Drawing.Size(43, 13)
-        Me.LinkLabel11.TabIndex = 127
+        Me.LinkLabel11.TabIndex = 128
         Me.LinkLabel11.TabStop = True
         Me.LinkLabel11.Text = "Choose"
         '
         'Label32
         '
         Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(1084, 196)
+        Me.Label32.Location = New System.Drawing.Point(1084, 352)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(69, 13)
         Me.Label32.TabIndex = 107
@@ -1770,63 +1761,74 @@ Partial Class Form1
         '
         'TextBox19
         '
-        Me.TextBox19.Location = New System.Drawing.Point(1160, 193)
+        Me.TextBox19.Location = New System.Drawing.Point(1160, 349)
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(78, 20)
-        Me.TextBox19.TabIndex = 125
+        Me.TextBox19.TabIndex = 126
         Me.TextBox19.Text = "1"
+        '
+        'CheckBox14
+        '
+        Me.CheckBox14.AutoSize = True
+        Me.CheckBox14.Location = New System.Drawing.Point(1068, 294)
+        Me.CheckBox14.Name = "CheckBox14"
+        Me.CheckBox14.Size = New System.Drawing.Size(124, 17)
+        Me.CheckBox14.TabIndex = 123
+        Me.CheckBox14.Text = "Clear Creator 'File as'"
+        Me.CheckBox14.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
-        Me.Controls.Add(Me.TextBox19)
-        Me.Controls.Add(Me.Label32)
+        Me.Controls.Add(Me.CheckBox14)
         Me.Controls.Add(Me.Button48)
         Me.Controls.Add(Me.Button47)
-        Me.Controls.Add(Me.Button46)
         Me.Controls.Add(Me.Label31)
         Me.Controls.Add(Me.TextBox9)
-        Me.Controls.Add(Me.Button45)
-        Me.Controls.Add(Me.LinkLabel10)
-        Me.Controls.Add(Me.LinkLabel11)
-        Me.Controls.Add(Me.CheckBox13)
         Me.Controls.Add(Me.Button43)
         Me.Controls.Add(Me.Button44)
         Me.Controls.Add(Me.Button42)
-        Me.Controls.Add(Me.CheckBox10)
-        Me.Controls.Add(Me.LinkLabel9)
+        Me.Controls.Add(Me.Button45)
+        Me.Controls.Add(Me.TextBox19)
+        Me.Controls.Add(Me.Label32)
         Me.Controls.Add(Me.Button41)
-        Me.Controls.Add(Me.CheckBox12)
-        Me.Controls.Add(Me.CheckBox11)
-        Me.Controls.Add(Me.Button40)
-        Me.Controls.Add(Me.Button39)
-        Me.Controls.Add(Me.TextBox18)
-        Me.Controls.Add(Me.CheckBox9)
+        Me.Controls.Add(Me.Button46)
         Me.Controls.Add(Me.ComboBox3)
+        Me.Controls.Add(Me.LinkLabel11)
+        Me.Controls.Add(Me.LinkLabel10)
+        Me.Controls.Add(Me.Button40)
+        Me.Controls.Add(Me.CheckBox13)
         Me.Controls.Add(Me.Button38)
+        Me.Controls.Add(Me.CheckBox10)
+        Me.Controls.Add(Me.Button39)
+        Me.Controls.Add(Me.LinkLabel9)
+        Me.Controls.Add(Me.CheckBox12)
         Me.Controls.Add(Me.LinkLabel7)
+        Me.Controls.Add(Me.CheckBox11)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.WebBrowser1)
-        Me.Controls.Add(Me.CheckBox8)
-        Me.Controls.Add(Me.CheckBox7)
-        Me.Controls.Add(Me.CheckBox6)
         Me.Controls.Add(Me.TextBox17)
         Me.Controls.Add(Me.Label26)
         Me.Controls.Add(Me.Button35)
+        Me.Controls.Add(Me.TextBox18)
+        Me.Controls.Add(Me.CheckBox9)
         Me.Controls.Add(Me.LinkLabel5)
         Me.Controls.Add(Me.Button34)
         Me.Controls.Add(Me.Button33)
-        Me.Controls.Add(Me.Button32)
         Me.Controls.Add(Me.LinkLabel3)
+        Me.Controls.Add(Me.CheckBox7)
+        Me.Controls.Add(Me.CheckBox8)
         Me.Controls.Add(Me.LinkLabel2)
+        Me.Controls.Add(Me.CheckBox6)
         Me.Controls.Add(Me.Button31)
         Me.Controls.Add(Me.LinkLabel6)
         Me.Controls.Add(Me.Button30)
         Me.Controls.Add(Me.CheckBox5)
         Me.Controls.Add(Me.TextBox11)
         Me.Controls.Add(Me.Button29)
+        Me.Controls.Add(Me.Button32)
         Me.Controls.Add(Me.Button28)
         Me.Controls.Add(Me.TextBox10)
         Me.Controls.Add(Me.TextBox8)
@@ -1843,22 +1845,21 @@ Partial Class Form1
         Me.Controls.Add(Me.TextBox16)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Button26)
-        Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Button25)
         Me.Controls.Add(Me.Button24)
-        Me.Controls.Add(Me.CheckBox3)
-        Me.Controls.Add(Me.CheckBox4)
         Me.Controls.Add(Me.Button23)
-        Me.Controls.Add(Me.CheckBox2)
-        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button22)
         Me.Controls.Add(Me.Button21)
         Me.Controls.Add(Me.Button20)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Button19)
         Me.Controls.Add(Me.Button18)
+        Me.Controls.Add(Me.CheckBox3)
+        Me.Controls.Add(Me.CheckBox4)
         Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.Button8)
+        Me.Controls.Add(Me.CheckBox2)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label19)
@@ -1873,10 +1874,9 @@ Partial Class Form1
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.ProgressBar1)
-        Me.Controls.Add(Me.ListBox1)
         Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Button6)
-        Me.Controls.Add(Me.Button10)
+        Me.Controls.Add(Me.ListBox1)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
@@ -1885,6 +1885,7 @@ Partial Class Form1
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.Button10)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label16)
         Me.Controls.Add(Me.Label14)
@@ -1903,10 +1904,10 @@ Partial Class Form1
         Me.Controls.Add(Me.Button27)
         Me.Controls.Add(Me.Label25)
         Me.Controls.Add(Me.LinkLabel8)
-        Me.Controls.Add(Me.LinkLabel4)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.LinkLabel4)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1995,7 +1996,6 @@ Partial Class Form1
     Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
-    Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents Button26 As System.Windows.Forms.Button
     Friend WithEvents OpenFileDialog5 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Label23 As System.Windows.Forms.Label
@@ -2084,5 +2084,6 @@ Partial Class Form1
     Friend WithEvents Button48 As System.Windows.Forms.Button
     Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents TextBox19 As System.Windows.Forms.TextBox
+    Friend WithEvents CheckBox14 As System.Windows.Forms.CheckBox
 
 End Class
