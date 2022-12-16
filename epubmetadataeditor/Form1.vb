@@ -5,6 +5,7 @@ Imports System.Net
 Imports System.Xml
 Imports Microsoft.Win32
 Imports System.Drawing.Imaging
+Imports System.Text.RegularExpressions
 
 
 Public Class Form1
@@ -825,36 +826,53 @@ skipsecondcreator:
 
         'Get (Calibre) Series and Series Index
         Try
-            startpos = InStr(metadatafile, "calibre:series")
-            If startpos <> 0 Then
-                ' The following line is necessary because some EPUBS have calibre:series_index but no calibre:series or calibre:series_index comes before calibre:series
-                startpos = InStr(metadatafile, "calibre:series" + Chr(34))
+            If versioninfo = "3.0" Then
+                ' Look for belongs-to-collection content and id and refines with property="group-position"
+                startpos = InStr(metadatafile, "belongs-to-collection")
                 If startpos <> 0 Then
-                    ' find start of entry
-                    temppos = startpos
                     startpos = InStrRev(metadatafile, "<meta", startpos)
-                    If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
-                    ' find content
-                    startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
-                    If startpos <> 0 Then
-                        lenheader = Len("content=" & Chr(34))
-                        endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
-                        TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
-                    End If
+                    Dim seriestitlepos As Integer
+                    seriestitlepos = InStr(startpos, metadatafile, ">") + 1
+                    endpos = InStr(seriestitlepos, metadatafile, "<")
+                    TextBox15.Text = Mid(metadatafile, seriestitlepos, endpos - seriestitlepos)
+                    ' find series index
+                    idpos = InStr(startpos, metadatafile, "group-position")
+                    idpos = InStr(idpos, metadatafile, ">") + 1
+                    endpos = InStr(idpos, metadatafile, "<")
+                    TextBox14.Text = Mid(metadatafile, idpos, endpos - idpos)
                 End If
-
-                startpos = InStr(metadatafile, "calibre:series_index" + Chr(34))
+            Else
+                startpos = InStr(metadatafile, "calibre:series")
                 If startpos <> 0 Then
-                    ' find start of entry
-                    temppos = startpos
-                    startpos = InStrRev(metadatafile, "<meta", startpos)
-                    If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
-                    ' find content
-                    startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
+                    ' The following line is necessary because some EPUBS have calibre:series_index but no calibre:series or calibre:series_index comes before calibre:series
+                    startpos = InStr(metadatafile, "calibre:series" + Chr(34))
                     If startpos <> 0 Then
-                        lenheader = Len("content=" & Chr(34))
-                        endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
-                        TextBox14.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        ' find start of entry
+                        temppos = startpos
+                        startpos = InStrRev(metadatafile, "<meta", startpos)
+                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                        ' find content
+                        startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
+                        If startpos <> 0 Then
+                            lenheader = Len("content=" & Chr(34))
+                            endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
+                            TextBox15.Text = XMLInput(Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader))
+                        End If
+                    End If
+
+                    startpos = InStr(metadatafile, "calibre:series_index" + Chr(34))
+                    If startpos <> 0 Then
+                        ' find start of entry
+                        temppos = startpos
+                        startpos = InStrRev(metadatafile, "<meta", startpos)
+                        If startpos = 0 Then startpos = InStrRev(metadatafile, "<opf:meta")
+                        ' find content
+                        startpos = InStr(startpos, metadatafile, "content=" & Chr(34))
+                        If startpos <> 0 Then
+                            lenheader = Len("content=" & Chr(34))
+                            endpos = InStr(startpos + lenheader, metadatafile, Chr(34))
+                            TextBox14.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
+                        End If
                     End If
                 End If
             End If
@@ -2315,71 +2333,139 @@ errortext:
                 For Each indexChecked In Form9.CheckedListBox1.CheckedIndices
                     If indexChecked = 0 Then
                         ' Title
-                        TextBox1.Text = TextBox1.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox1.Text = Regex.Replace(TextBox1.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox1.Text = TextBox1.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 1 Then
                         ' Title File as
-                        TextBox16.Text = TextBox16.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox16.Text = Regex.Replace(TextBox16.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox16.Text = TextBox16.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 2 Then
                         ' Creator1
-                        TextBox2.Text = TextBox2.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox2.Text = Regex.Replace(TextBox2.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox2.Text = TextBox2.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 3 Then
                         ' Creator1 File as
-                        TextBox12.Text = TextBox12.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox12.Text = Regex.Replace(TextBox12.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox12.Text = TextBox12.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 4 Then
                         ' Creator2
-                        TextBox3.Text = TextBox3.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox3.Text = Regex.Replace(TextBox3.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox3.Text = TextBox3.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 5 Then
                         ' Creator2 File as
-                        TextBox13.Text = TextBox13.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox13.Text = Regex.Replace(TextBox13.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox13.Text = TextBox13.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 6 Then
                         ' Series
-                        TextBox15.Text = TextBox15.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox15.Text = Regex.Replace(TextBox15.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox15.Text = TextBox15.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 7 Then
                         ' Series index
-                        TextBox14.Text = TextBox14.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox14.Text = Regex.Replace(TextBox14.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox14.Text = TextBox14.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 8 Then
                         ' Description
-                        TextBox4.Text = TextBox4.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox4.Text = Regex.Replace(TextBox4.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox4.Text = TextBox4.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 9 Then
                         ' Publisher
-                        TextBox5.Text = TextBox5.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox5.Text = Regex.Replace(TextBox5.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox5.Text = TextBox5.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 10 Then
                         ' Date
-                        TextBox6.Text = TextBox6.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox6.Text = Regex.Replace(TextBox6.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox6.Text = TextBox6.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 11 Then
                         ' Subject
-                        TextBox17.Text = TextBox17.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox17.Text = Regex.Replace(TextBox17.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox17.Text = TextBox17.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 12 Then
                         ' Type
-                        TextBox7.Text = TextBox7.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox7.Text = Regex.Replace(TextBox7.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox7.Text = TextBox7.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 13 Then
                         ' Format
-                        TextBox8.Text = TextBox8.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox8.Text = Regex.Replace(TextBox8.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox8.Text = TextBox8.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 14 Then
                         ' Identifier
-                        TextBox9.Text = TextBox9.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox9.Text = Regex.Replace(TextBox9.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox9.Text = TextBox9.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 15 Then
                         ' Source
-                        TextBox10.Text = TextBox10.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox10.Text = Regex.Replace(TextBox10.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox10.Text = TextBox10.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                     If indexChecked = 16 Then
                         ' Language
-                        TextBox11.Text = TextBox11.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        If Form9.CheckBox1.Checked Then
+                            TextBox11.Text = Regex.Replace(TextBox11.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        Else
+                            TextBox11.Text = TextBox11.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                        End If
                     End If
                 Next
             End If
@@ -3956,36 +4042,105 @@ lookforrefines2:
         End If
 
         'Output (Calibre) series and series index
-        startpos = InStr(metadatafile, "calibre:series" + Chr(34))
-        If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
+        If versioninfo = "3.0" Then
+            ' delete EPUB2 series info (if it exists)
+            startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:series" + Chr(34))
             If startpos <> 0 Then
-                opfmeta = False
-                temppos = startpos
                 startpos = InStrRev(metadatafile, "<meta", startpos)
-                If startpos = 0 Then
-                    startpos = InStrRev(metadatafile, "<opf:meta", temppos)
-                    opfmeta = True
-                End If
                 endpos = InStr(startpos, metadatafile, "/>")
-                If opfmeta Then
-                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
-                Else
-                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
-                End If
-            Else
-                endpos = InStr(metadatafile, "</dc:title>")
-                metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 2)
             End If
-        End If
-        startpos = InStr(metadatafile, "calibre:series_index" + Chr(34))
-        If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
+            startpos = InStr(metadatafile, "<meta name=" + Chr(34) + "calibre:series_index" + Chr(34))
             If startpos <> 0 Then
                 startpos = InStrRev(metadatafile, "<meta", startpos)
                 endpos = InStr(startpos, metadatafile, "/>")
-                metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
+                metadatafile = Mid(metadatafile, 1, startpos - 1) + Mid(metadatafile, endpos + 2)
+            End If
+
+            ' look for EPUB3 series info
+            startpos = InStr(metadatafile, "belongs-to-collection")
+            If startpos <> 0 Then
+                startpos = InStrRev(metadatafile, "<meta", startpos)
+                endpos = InStr(startpos + 1, metadatafile, "<")
+
+                'find id
+                idpos = InStr(startpos, metadatafile, "id=")
+                idinfo = ""
+                If idpos <> 0 Then
+                    If idpos < endpos Then
+                        For temploop = idpos + 4 To endpos
+                            If Mid(metadatafile, temploop, 1) = Chr(34) Then
+                                idinfo = Mid(metadatafile, idpos + 4, temploop - idpos - 4)
+                                metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta property=" + Chr(34) + "belongs-to-collection" + Chr(34) + " id=" + Chr(34) + idinfo + Chr(34) + ">" + XMLOutput(TextBox15.Text) + Mid(metadatafile, endpos)
+                                GoTo lookforrefines3
+                            End If
+                        Next
+                    Else
+                        ' code needed here?
+                    End If
+                Else
+                    ' code needed here?
+                End If
+lookforrefines3:
+                If idinfo <> "" Then
+                    temppos = InStr(startpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                    Dim seriesindexplaced As Boolean = False
+                    While temppos <> 0
+                        startheaderpos = InStrRev(metadatafile, "<", temppos)
+                        endheaderpos = InStr(temppos, metadatafile, ">")
+                        endpos = InStr(temppos, metadatafile, "</meta>")
+                        If endpos = 0 Then endpos = InStr(temppos, metadatafile, "</opf:meta>")
+                        refinespos = InStr(startheaderpos, metadatafile, "property=" + Chr(34) + "group-position")
+                        If refinespos <> 0 Then
+                            ' found a refines
+                            If refinespos < endpos Then
+                                ' it's in the current refines
+                                metadatafile = Mid(metadatafile, 1, endheaderpos) + TextBox14.Text + Mid(metadatafile, endpos)
+                                seriesindexplaced = True
+                            End If
+                        End If
+                        temppos = InStr(endpos, metadatafile, "refines=" + Chr(34) + "#" + idinfo + Chr(34))
+                    End While
+                End If
             Else
-                endpos = InStr(metadatafile, "</dc:title>")
-                metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) & " content=" + Chr(34) + TextBox14.Text + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                If TextBox15.Text <> "" Then
+                    startpos = InStr(metadatafile, "</dc:title>")
+                    startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after title
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta property=" + Chr(34) + "belongs-to-collection" + Chr(34) + " id=" + Chr(34) + "series" + Chr(34) + ">" + XMLOutput(TextBox15.Text) + "</meta>" + Chr(10) + "<meta refines=" + Chr(34) + "#series" + Chr(34) + " property=" + Chr(34) + "collection-type" + Chr(34) + ">series</meta>" + Chr(10) + "<meta refines=" + Chr(34) + "#series" + Chr(34) + " property=" + Chr(34) + "group-position" + Chr(34) + ">" + TextBox14.Text + "</meta>" + Chr(10) + Mid(metadatafile, startpos)
+                End If
+            End If
+        Else
+            startpos = InStr(metadatafile, "calibre:series" + Chr(34))
+            If ((TextBox15.Text <> "") Or (startpos <> 0)) Then
+                If startpos <> 0 Then
+                    opfmeta = False
+                    temppos = startpos
+                    startpos = InStrRev(metadatafile, "<meta", startpos)
+                    If startpos = 0 Then
+                        startpos = InStrRev(metadatafile, "<opf:meta", temppos)
+                        opfmeta = True
+                    End If
+                    endpos = InStr(startpos, metadatafile, "/>")
+                    If opfmeta Then
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<opf:meta name=" & Chr(34) & "calibre:series" & Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
+                    Else
+                        metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) + " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + Mid(metadatafile, endpos)
+                    End If
+                Else
+                    endpos = InStr(metadatafile, "</dc:title>")
+                    metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series" & Chr(34) & " content=" + Chr(34) + XMLOutput(TextBox15.Text) + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                End If
+            End If
+            startpos = InStr(metadatafile, "calibre:series_index" + Chr(34))
+            If ((TextBox14.Text <> "") Or (startpos <> 0)) Then
+                If startpos <> 0 Then
+                    startpos = InStrRev(metadatafile, "<meta", startpos)
+                    endpos = InStr(startpos, metadatafile, "/>")
+                    metadatafile = Mid(metadatafile, 1, startpos - 1) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) + " content=" + Chr(34) + TextBox14.Text + Chr(34) + Mid(metadatafile, endpos)
+                Else
+                    endpos = InStr(metadatafile, "</dc:title>")
+                    metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(13) + Chr(10) + Chr(9) + "<meta name=" & Chr(34) & "calibre:series_index" & Chr(34) & " content=" + Chr(34) + TextBox14.Text + Chr(34) + "/>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
+                End If
             End If
         End If
 
@@ -4114,7 +4269,8 @@ lookforrefines2:
         End If
 
         'Output subject
-        metadatafile = metadatafile.Replace("<dc:subject xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " />", "<dc:subject />")
+        metadatafile = metadatafile.Replace("<dc:subject xmlns:dc=" + Chr(34) + "http://purl.org/dc/elements/1.1/" + Chr(34) + " />", "<dc:subject/>")
+        metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject/>")
         temptext = XMLOutput(TextBox17.Text)
         ' delete any subjects present
         startpos = InStr(metadatafile, "<dc:subject>")
@@ -4132,13 +4288,14 @@ lookforrefines2:
                 temptext = temptext.Replace(subjectseparator, "</dc:subject>" + Chr(13) + Chr(10) + Chr(9) + Chr(9) + "<dc:subject>")
             End If
         End If
-        testpos = InStr(metadatafile, "<dc:subject />")
-        If ((testpos <> 0) And (TextBox17.Text = "")) Then
+        testpos = InStr(metadatafile, "<dc:subject/>")
+        If (TextBox17.Text = "") Then
+            ' do nothing
         Else
             startpos = InStr(metadatafile, "<dc:subject/>")
             If startpos = 0 Then
                 If testpos <> 0 Then
-                    metadatafile = metadatafile.Replace("<dc:subject />", "<dc:subject>" + temptext + "</dc:subject>")
+                    metadatafile = metadatafile.Replace("<dc:subject/>", "<dc:subject>" + temptext + "</dc:subject>")
                 Else
                     endpos = InStr(metadatafile, "</dc:title>")
                     metadatafile = Mid(metadatafile, 1, endpos + 10) + Chr(9) + Chr(9) + "<dc:subject>" + temptext + "</dc:subject>" + Chr(13) + Chr(10) + Mid(metadatafile, endpos + 11)
