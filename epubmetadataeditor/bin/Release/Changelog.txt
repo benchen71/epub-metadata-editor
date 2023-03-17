@@ -1,4 +1,2 @@
-1.9.3
-[*] Empty subject tag no longer added if the subject field is empty.
-[*] You can now use regex find/replace in batch mode. WARNING: regex can do unexpected things to your metadata if you don't know what you are doing! Please do not blame me for giving you access to this awesome and terrible power!
-[*] Change to the way series is handled for EPUB3 files. Note that this new method is not backward compatible. If you have EPUB3 files that had the previous method for handling series, this information will not appear. (However, it will still be there in the OPF file and may need to be manually deleted.)
+1.9.4
+[*] Try to capture details of files that fail to be processed during batch processing, outputting a suitable message. This means processing will continue for remaining files in the queue.

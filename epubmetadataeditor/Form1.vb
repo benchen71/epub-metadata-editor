@@ -1997,6 +1997,7 @@ errortext:
         Dim filenum, x As Integer
         Dim metadatafile, tempstring As String
         Dim temp As DialogResult
+        Dim filelist As String = ""
 
         ' do some checks first
         If ((CheckBox1.Checked = False) And (CheckBox2.Checked = False) And (CheckBox3.Checked = False) And (CheckBox4.Checked = False) And (CheckBox6.Checked = False) And (CheckBox7.Checked = False) And (CheckBox8.Checked = False) And (CheckBox9.Checked = False) And (CheckBox10.Checked = False) And (CheckBox11.Checked = False) And (CheckBox12.Checked = False) And (CheckBox13.Checked = False) And (CheckBox14.Checked = False)) Then
@@ -2093,402 +2094,406 @@ errortext:
                 Exit Sub
             End Try
 
-            'Search for .opf file
-            searchResults = Directory.GetFiles(ebookdirectory, "*.opf", SearchOption.AllDirectories)
+            Try
+                'Search for .opf file
+                searchResults = Directory.GetFiles(ebookdirectory, "*.opf", SearchOption.AllDirectories)
 
-            'Open .opf file into RichTextBox
-            If searchResults.Length < 1 Then
-                DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
-                Return
-            Else
-                opffile = searchResults(0)
-                If InStr(opffile, "_MACOSX") Then
-                    If searchResults.Length > 1 Then
-                        opffile = searchResults(1)
+                'Open .opf file into RichTextBox
+                If searchResults.Length < 1 Then
+                    DialogResult = MsgBox("ERROR: Metadata not found." + Chr(10) + "The ebook " + ListBox1.Items(x - 1) + " is malformed.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+                    Return
+                Else
+                    opffile = searchResults(0)
+                    If InStr(opffile, "_MACOSX") Then
+                        If searchResults.Length > 1 Then
+                            opffile = searchResults(1)
+                        End If
                     End If
+                    opfdirectory = Path.GetDirectoryName(opffile)
+                    RichTextBox1.Text = LoadUnicodeFile(opffile)
                 End If
-                opfdirectory = Path.GetDirectoryName(opffile)
-                RichTextBox1.Text = LoadUnicodeFile(opffile)
-            End If
 
-            'Process .opf file to determine EPUB version
-            Dim opffiletext As String
-            Dim packagepos, endpos, versionpos As Integer
-            opffiletext = LoadUnicodeFile(opffile)
-            packagepos = InStr(opffiletext, "<package")
-            If packagepos <> 0 Then
-                endpos = InStr(packagepos, opffiletext, ">")
-                versionpos = InStr(packagepos, opffiletext, "version=")
-                If versionpos < endpos Then
-                    versioninfo = Mid(opffiletext, versionpos + 9, 3)
-                End If
-            End If
-
-            'Extract metadata into textboxes
-            metadatafile = LoadUnicodeFile(opffile)
-
-            If CheckBox11.Checked = True Then
-                ' Need to extract cover
-                ExtractMetadata(metadatafile, True)
-            Else
-                ' No need to extract cover
-                ExtractMetadata(metadatafile, False)
-            End If
-
-            WebBrowser1.Visible = False
-
-            'Do the processing
-            If ((CheckBox1.Checked = True) And (CheckBox8.Checked = True)) Then
-                'swap 'file as' and 'creator'
-                tempstring = TextBox12.Text
-                TextBox12.Text = TextBox2.Text
-                TextBox2.Text = tempstring
-
-                tempstring = TextBox13.Text
-                TextBox13.Text = TextBox3.Text
-                TextBox3.Text = tempstring
-            Else
-                If CheckBox1.Checked = True Then
-                    ' copy 'file as' to 'creator'
-                    If TextBox12.Text <> "" Then
-                        TextBox2.Text = TextBox12.Text
-                    End If
-
-                    If TextBox13.Text <> "" Then
-                        TextBox3.Text = TextBox13.Text
+                'Process .opf file to determine EPUB version
+                Dim opffiletext As String
+                Dim packagepos, endpos, versionpos As Integer
+                opffiletext = LoadUnicodeFile(opffile)
+                packagepos = InStr(opffiletext, "<package")
+                If packagepos <> 0 Then
+                    endpos = InStr(packagepos, opffiletext, ">")
+                    versionpos = InStr(packagepos, opffiletext, "version=")
+                    If versionpos < endpos Then
+                        versioninfo = Mid(opffiletext, versionpos + 9, 3)
                     End If
                 End If
 
-                If CheckBox8.Checked = True Then
-                    ' copy 'creator' to 'file as'
-                    If TextBox2.Text <> "" Then
-                        TextBox12.Text = TextBox2.Text
-                    End If
+                'Extract metadata into textboxes
+                metadatafile = LoadUnicodeFile(opffile)
 
-                    If TextBox3.Text <> "" Then
-                        TextBox13.Text = TextBox3.Text
-                    End If
-                End If
-            End If
-
-
-            If ((CheckBox6.Checked = True) And (CheckBox7.Checked = True)) Then
-                'swap 'file as' and 'title'
-                tempstring = TextBox16.Text
-                TextBox16.Text = TextBox1.Text
-                TextBox1.Text = tempstring
-            Else
-                If CheckBox6.Checked = True Then
-                    ' copy 'file as' to 'title'
-                    If TextBox16.Text <> "" Then
-                        TextBox1.Text = TextBox16.Text
-                    End If
+                If CheckBox11.Checked = True Then
+                    ' Need to extract cover
+                    ExtractMetadata(metadatafile, True)
+                Else
+                    ' No need to extract cover
+                    ExtractMetadata(metadatafile, False)
                 End If
 
-                If CheckBox7.Checked = True Then
-                    ' copy 'title' to 'file as'
-                    If TextBox1.Text <> "" Then
-                        TextBox16.Text = TextBox1.Text
+                WebBrowser1.Visible = False
+
+                'Do the processing
+                If ((CheckBox1.Checked = True) And (CheckBox8.Checked = True)) Then
+                    'swap 'file as' and 'creator'
+                    tempstring = TextBox12.Text
+                    TextBox12.Text = TextBox2.Text
+                    TextBox2.Text = tempstring
+
+                    tempstring = TextBox13.Text
+                    TextBox13.Text = TextBox3.Text
+                    TextBox3.Text = tempstring
+                Else
+                    If CheckBox1.Checked = True Then
+                        ' copy 'file as' to 'creator'
+                        If TextBox12.Text <> "" Then
+                            TextBox2.Text = TextBox12.Text
+                        End If
+
+                        If TextBox13.Text <> "" Then
+                            TextBox3.Text = TextBox13.Text
+                        End If
+                    End If
+
+                    If CheckBox8.Checked = True Then
+                        ' copy 'creator' to 'file as'
+                        If TextBox2.Text <> "" Then
+                            TextBox12.Text = TextBox2.Text
+                        End If
+
+                        If TextBox3.Text <> "" Then
+                            TextBox13.Text = TextBox3.Text
+                        End If
                     End If
                 End If
-            End If
 
-            If CheckBox2.Checked = True Then
-                ' apply Title Case to 'title'
-                TextBox1.Text = TitleCase(TextBox1.Text)
-            End If
 
-            If CheckBox3.Checked = True Then
-                ' remove Title's 'File As'
-                TextBox16.Text = ""
-            End If
+                If ((CheckBox6.Checked = True) And (CheckBox7.Checked = True)) Then
+                    'swap 'file as' and 'title'
+                    tempstring = TextBox16.Text
+                    TextBox16.Text = TextBox1.Text
+                    TextBox1.Text = tempstring
+                Else
+                    If CheckBox6.Checked = True Then
+                        ' copy 'file as' to 'title'
+                        If TextBox16.Text <> "" Then
+                            TextBox1.Text = TextBox16.Text
+                        End If
+                    End If
 
-            If CheckBox4.Checked = True Then
-                ' Autogenerate Creator's 'File as'
-                Button7_Click(sender, e)
-                If TextBox3.Text <> "" Then Button13.PerformClick()
-            End If
-
-            If CheckBox14.Checked = True Then
-                ' remove Creators' 'File as'
-                TextBox12.Text = ""
-                TextBox13.Text = ""
-            End If
-
-            If CheckBox9.Checked = True Then
-                ' Serialise
-                TextBox15.Text = TextBox18.Text
-                TextBox14.Text = (CInt(TextBox19.Text) + x - 1).ToString
-            End If
-
-            If CheckBox10.Checked = True Then
-                ' Swap Title and Creator
-                tempstring = TextBox1.Text
-                TextBox1.Text = TextBox2.Text
-                TextBox2.Text = tempstring
-            End If
-
-            If CheckBox12.Checked = True Then
-                ' Replace contents of selected field with text
-                Dim indexChecked As Integer
-
-                For Each indexChecked In Form7.CheckedListBox1.CheckedIndices
-                    If indexChecked = 0 Then
-                        ' Title
-                        TextBox1.Text = ReplaceField(TextBox1.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 1 Then
-                        ' Title File as
-                        TextBox16.Text = ReplaceField(TextBox16.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 2 Then
-                        ' Creator1
-                        TextBox2.Text = ReplaceField(TextBox2.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 3 Then
-                        ' Creator1 File as
-                        TextBox12.Text = ReplaceField(TextBox12.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 4 Then
-                        ' Creator1 Role
-                        If Form7.TextBox1.Text = "aut" Then
-                            ComboBox1.SelectedIndex = 0
-                        ElseIf Form7.TextBox1.Text = "edt" Then
-                            ComboBox1.SelectedIndex = 1
-                        ElseIf Form7.TextBox1.Text = "ill" Then
-                            ComboBox1.SelectedIndex = 2
-                        ElseIf Form7.TextBox1.Text = "trl" Then
-                            ComboBox1.SelectedIndex = 3
+                    If CheckBox7.Checked = True Then
+                        ' copy 'title' to 'file as'
+                        If TextBox1.Text <> "" Then
+                            TextBox16.Text = TextBox1.Text
                         End If
                     End If
-                    If indexChecked = 5 Then
-                        ' Creator2
-                        TextBox3.Text = ReplaceField(TextBox3.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 6 Then
-                        ' Creator2 File as
-                        TextBox13.Text = ReplaceField(TextBox13.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 7 Then
-                        ' Creator2 Role
-                        If Form7.TextBox1.Text = "aut" Then
-                            ComboBox2.SelectedIndex = 0
-                        ElseIf Form7.TextBox1.Text = "edt" Then
-                            ComboBox2.SelectedIndex = 1
-                        ElseIf Form7.TextBox1.Text = "ill" Then
-                            ComboBox2.SelectedIndex = 2
-                        ElseIf Form7.TextBox1.Text = "trl" Then
-                            ComboBox2.SelectedIndex = 3
-                        End If
-                    End If
-                    If indexChecked = 8 Then
-                        ' Series
-                        TextBox15.Text = ReplaceField(TextBox15.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 9 Then
-                        ' Series index
-                        TextBox14.Text = ReplaceField(TextBox14.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 10 Then
-                        ' Description
-                        TextBox4.Text = ReplaceField(TextBox4.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 11 Then
-                        ' Publisher
-                        TextBox5.Text = ReplaceField(TextBox5.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 12 Then
-                        ' Date
-                        TextBox6.Text = ReplaceField(TextBox6.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 13 Then
-                        ' Subject
-                        TextBox17.Text = ReplaceField(TextBox17.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 14 Then
-                        ' Type
-                        TextBox7.Text = ReplaceField(TextBox7.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 15 Then
-                        ' Format
-                        TextBox8.Text = ReplaceField(TextBox8.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 16 Then
-                        ' Identifier
-                        TextBox9.Text = ReplaceField(TextBox9.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 17 Then
-                        ' Source
-                        TextBox10.Text = ReplaceField(TextBox10.Text, Form7.TextBox1.Text)
-                    End If
-                    If indexChecked = 18 Then
-                        ' Language
-                        TextBox11.Text = ReplaceField(TextBox11.Text, Form7.TextBox1.Text)
-                    End If
-                Next
-            End If
-
-            If CheckBox13.Checked = True Then
-                Dim indexChecked As Integer
-                For Each indexChecked In Form9.CheckedListBox1.CheckedIndices
-                    If indexChecked = 0 Then
-                        ' Title
-                        If Form9.CheckBox1.Checked Then
-                            TextBox1.Text = Regex.Replace(TextBox1.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox1.Text = TextBox1.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 1 Then
-                        ' Title File as
-                        If Form9.CheckBox1.Checked Then
-                            TextBox16.Text = Regex.Replace(TextBox16.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox16.Text = TextBox16.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 2 Then
-                        ' Creator1
-                        If Form9.CheckBox1.Checked Then
-                            TextBox2.Text = Regex.Replace(TextBox2.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox2.Text = TextBox2.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 3 Then
-                        ' Creator1 File as
-                        If Form9.CheckBox1.Checked Then
-                            TextBox12.Text = Regex.Replace(TextBox12.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox12.Text = TextBox12.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 4 Then
-                        ' Creator2
-                        If Form9.CheckBox1.Checked Then
-                            TextBox3.Text = Regex.Replace(TextBox3.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox3.Text = TextBox3.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 5 Then
-                        ' Creator2 File as
-                        If Form9.CheckBox1.Checked Then
-                            TextBox13.Text = Regex.Replace(TextBox13.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox13.Text = TextBox13.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 6 Then
-                        ' Series
-                        If Form9.CheckBox1.Checked Then
-                            TextBox15.Text = Regex.Replace(TextBox15.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox15.Text = TextBox15.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 7 Then
-                        ' Series index
-                        If Form9.CheckBox1.Checked Then
-                            TextBox14.Text = Regex.Replace(TextBox14.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox14.Text = TextBox14.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 8 Then
-                        ' Description
-                        If Form9.CheckBox1.Checked Then
-                            TextBox4.Text = Regex.Replace(TextBox4.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox4.Text = TextBox4.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 9 Then
-                        ' Publisher
-                        If Form9.CheckBox1.Checked Then
-                            TextBox5.Text = Regex.Replace(TextBox5.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox5.Text = TextBox5.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 10 Then
-                        ' Date
-                        If Form9.CheckBox1.Checked Then
-                            TextBox6.Text = Regex.Replace(TextBox6.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox6.Text = TextBox6.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 11 Then
-                        ' Subject
-                        If Form9.CheckBox1.Checked Then
-                            TextBox17.Text = Regex.Replace(TextBox17.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox17.Text = TextBox17.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 12 Then
-                        ' Type
-                        If Form9.CheckBox1.Checked Then
-                            TextBox7.Text = Regex.Replace(TextBox7.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox7.Text = TextBox7.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 13 Then
-                        ' Format
-                        If Form9.CheckBox1.Checked Then
-                            TextBox8.Text = Regex.Replace(TextBox8.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox8.Text = TextBox8.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 14 Then
-                        ' Identifier
-                        If Form9.CheckBox1.Checked Then
-                            TextBox9.Text = Regex.Replace(TextBox9.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox9.Text = TextBox9.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 15 Then
-                        ' Source
-                        If Form9.CheckBox1.Checked Then
-                            TextBox10.Text = Regex.Replace(TextBox10.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox10.Text = TextBox10.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                    If indexChecked = 16 Then
-                        ' Language
-                        If Form9.CheckBox1.Checked Then
-                            TextBox11.Text = Regex.Replace(TextBox11.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        Else
-                            TextBox11.Text = TextBox11.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
-                        End If
-                    End If
-                Next
-            End If
-
-            Application.DoEvents()
-
-            ' Do the cover fixes now
-            If CheckBox11.Checked = True Then
-                If ((Button35.Visible) And (Form10.CheckBox1.Checked)) Then
-                    Button35_Click(sender, e)
                 End If
-                If ((Button1.Visible) And (Form10.CheckBox2.Checked)) Then
-                    Button1_Click(sender, e)
-                End If
-                If ((Button27.Visible) And (Form10.CheckBox3.Checked)) Then
-                    Button27_Click(sender, e)
-                End If
-            End If
 
-            Application.DoEvents()
+                If CheckBox2.Checked = True Then
+                    ' apply Title Case to 'title'
+                    TextBox1.Text = TitleCase(TextBox1.Text)
+                End If
 
-            ' Save file
-            SaveEpub(ListBox1.Items(x - 1), False)
+                If CheckBox3.Checked = True Then
+                    ' remove Title's 'File As'
+                    TextBox16.Text = ""
+                End If
+
+                If CheckBox4.Checked = True Then
+                    ' Autogenerate Creator's 'File as'
+                    Button7_Click(sender, e)
+                    If TextBox3.Text <> "" Then Button13.PerformClick()
+                End If
+
+                If CheckBox14.Checked = True Then
+                    ' remove Creators' 'File as'
+                    TextBox12.Text = ""
+                    TextBox13.Text = ""
+                End If
+
+                If CheckBox9.Checked = True Then
+                    ' Serialise
+                    TextBox15.Text = TextBox18.Text
+                    TextBox14.Text = (CInt(TextBox19.Text) + x - 1).ToString
+                End If
+
+                If CheckBox10.Checked = True Then
+                    ' Swap Title and Creator
+                    tempstring = TextBox1.Text
+                    TextBox1.Text = TextBox2.Text
+                    TextBox2.Text = tempstring
+                End If
+
+                If CheckBox12.Checked = True Then
+                    ' Replace contents of selected field with text
+                    Dim indexChecked As Integer
+
+                    For Each indexChecked In Form7.CheckedListBox1.CheckedIndices
+                        If indexChecked = 0 Then
+                            ' Title
+                            TextBox1.Text = ReplaceField(TextBox1.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 1 Then
+                            ' Title File as
+                            TextBox16.Text = ReplaceField(TextBox16.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 2 Then
+                            ' Creator1
+                            TextBox2.Text = ReplaceField(TextBox2.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 3 Then
+                            ' Creator1 File as
+                            TextBox12.Text = ReplaceField(TextBox12.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 4 Then
+                            ' Creator1 Role
+                            If Form7.TextBox1.Text = "aut" Then
+                                ComboBox1.SelectedIndex = 0
+                            ElseIf Form7.TextBox1.Text = "edt" Then
+                                ComboBox1.SelectedIndex = 1
+                            ElseIf Form7.TextBox1.Text = "ill" Then
+                                ComboBox1.SelectedIndex = 2
+                            ElseIf Form7.TextBox1.Text = "trl" Then
+                                ComboBox1.SelectedIndex = 3
+                            End If
+                        End If
+                        If indexChecked = 5 Then
+                            ' Creator2
+                            TextBox3.Text = ReplaceField(TextBox3.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 6 Then
+                            ' Creator2 File as
+                            TextBox13.Text = ReplaceField(TextBox13.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 7 Then
+                            ' Creator2 Role
+                            If Form7.TextBox1.Text = "aut" Then
+                                ComboBox2.SelectedIndex = 0
+                            ElseIf Form7.TextBox1.Text = "edt" Then
+                                ComboBox2.SelectedIndex = 1
+                            ElseIf Form7.TextBox1.Text = "ill" Then
+                                ComboBox2.SelectedIndex = 2
+                            ElseIf Form7.TextBox1.Text = "trl" Then
+                                ComboBox2.SelectedIndex = 3
+                            End If
+                        End If
+                        If indexChecked = 8 Then
+                            ' Series
+                            TextBox15.Text = ReplaceField(TextBox15.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 9 Then
+                            ' Series index
+                            TextBox14.Text = ReplaceField(TextBox14.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 10 Then
+                            ' Description
+                            TextBox4.Text = ReplaceField(TextBox4.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 11 Then
+                            ' Publisher
+                            TextBox5.Text = ReplaceField(TextBox5.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 12 Then
+                            ' Date
+                            TextBox6.Text = ReplaceField(TextBox6.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 13 Then
+                            ' Subject
+                            TextBox17.Text = ReplaceField(TextBox17.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 14 Then
+                            ' Type
+                            TextBox7.Text = ReplaceField(TextBox7.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 15 Then
+                            ' Format
+                            TextBox8.Text = ReplaceField(TextBox8.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 16 Then
+                            ' Identifier
+                            TextBox9.Text = ReplaceField(TextBox9.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 17 Then
+                            ' Source
+                            TextBox10.Text = ReplaceField(TextBox10.Text, Form7.TextBox1.Text)
+                        End If
+                        If indexChecked = 18 Then
+                            ' Language
+                            TextBox11.Text = ReplaceField(TextBox11.Text, Form7.TextBox1.Text)
+                        End If
+                    Next
+                End If
+
+                If CheckBox13.Checked = True Then
+                    Dim indexChecked As Integer
+                    For Each indexChecked In Form9.CheckedListBox1.CheckedIndices
+                        If indexChecked = 0 Then
+                            ' Title
+                            If Form9.CheckBox1.Checked Then
+                                TextBox1.Text = Regex.Replace(TextBox1.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox1.Text = TextBox1.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 1 Then
+                            ' Title File as
+                            If Form9.CheckBox1.Checked Then
+                                TextBox16.Text = Regex.Replace(TextBox16.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox16.Text = TextBox16.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 2 Then
+                            ' Creator1
+                            If Form9.CheckBox1.Checked Then
+                                TextBox2.Text = Regex.Replace(TextBox2.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox2.Text = TextBox2.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 3 Then
+                            ' Creator1 File as
+                            If Form9.CheckBox1.Checked Then
+                                TextBox12.Text = Regex.Replace(TextBox12.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox12.Text = TextBox12.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 4 Then
+                            ' Creator2
+                            If Form9.CheckBox1.Checked Then
+                                TextBox3.Text = Regex.Replace(TextBox3.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox3.Text = TextBox3.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 5 Then
+                            ' Creator2 File as
+                            If Form9.CheckBox1.Checked Then
+                                TextBox13.Text = Regex.Replace(TextBox13.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox13.Text = TextBox13.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 6 Then
+                            ' Series
+                            If Form9.CheckBox1.Checked Then
+                                TextBox15.Text = Regex.Replace(TextBox15.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox15.Text = TextBox15.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 7 Then
+                            ' Series index
+                            If Form9.CheckBox1.Checked Then
+                                TextBox14.Text = Regex.Replace(TextBox14.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox14.Text = TextBox14.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 8 Then
+                            ' Description
+                            If Form9.CheckBox1.Checked Then
+                                TextBox4.Text = Regex.Replace(TextBox4.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox4.Text = TextBox4.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 9 Then
+                            ' Publisher
+                            If Form9.CheckBox1.Checked Then
+                                TextBox5.Text = Regex.Replace(TextBox5.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox5.Text = TextBox5.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 10 Then
+                            ' Date
+                            If Form9.CheckBox1.Checked Then
+                                TextBox6.Text = Regex.Replace(TextBox6.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox6.Text = TextBox6.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 11 Then
+                            ' Subject
+                            If Form9.CheckBox1.Checked Then
+                                TextBox17.Text = Regex.Replace(TextBox17.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox17.Text = TextBox17.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 12 Then
+                            ' Type
+                            If Form9.CheckBox1.Checked Then
+                                TextBox7.Text = Regex.Replace(TextBox7.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox7.Text = TextBox7.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 13 Then
+                            ' Format
+                            If Form9.CheckBox1.Checked Then
+                                TextBox8.Text = Regex.Replace(TextBox8.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox8.Text = TextBox8.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 14 Then
+                            ' Identifier
+                            If Form9.CheckBox1.Checked Then
+                                TextBox9.Text = Regex.Replace(TextBox9.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox9.Text = TextBox9.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 15 Then
+                            ' Source
+                            If Form9.CheckBox1.Checked Then
+                                TextBox10.Text = Regex.Replace(TextBox10.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox10.Text = TextBox10.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                        If indexChecked = 16 Then
+                            ' Language
+                            If Form9.CheckBox1.Checked Then
+                                TextBox11.Text = Regex.Replace(TextBox11.Text, Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            Else
+                                TextBox11.Text = TextBox11.Text.Replace(Form9.TextBox1.Text, Form9.TextBox2.Text)
+                            End If
+                        End If
+                    Next
+                End If
+
+                Application.DoEvents()
+
+                ' Do the cover fixes now
+                If CheckBox11.Checked = True Then
+                    If ((Button35.Visible) And (Form10.CheckBox1.Checked)) Then
+                        Button35_Click(sender, e)
+                    End If
+                    If ((Button1.Visible) And (Form10.CheckBox2.Checked)) Then
+                        Button1_Click(sender, e)
+                    End If
+                    If ((Button27.Visible) And (Form10.CheckBox3.Checked)) Then
+                        Button27_Click(sender, e)
+                    End If
+                End If
+
+                Application.DoEvents()
+
+                ' Save file
+                SaveEpub(ListBox1.Items(x - 1), False)
+            Catch ex As Exception
+                filelist = filelist + Chr(10) + ListBox1.Items(x - 1)
+            End Try
 
             ClearInterface()
 
@@ -2499,7 +2504,11 @@ errortext:
         projectchanged = False
         Button3.Enabled = False
         ClearInterface()
-        DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        If filelist <> "" Then
+            DialogResult = MsgBox("All done! However, processing failed for the following file(s)" + filelist, MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        Else
+            DialogResult = MsgBox("All done!", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+        End If
 
         If (My.Computer.FileSystem.DirectoryExists(ebookdirectory)) Then
             'delete contents of temp directory
