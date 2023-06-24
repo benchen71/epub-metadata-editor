@@ -78,3 +78,4 @@ Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Rele
 Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Form9.resources
 Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.Resources.resources
 Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Release\EPubMetadataEditor.vbproj.GenerateResource.Cache
+C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Release\EPubMetadataEditor.exe.config

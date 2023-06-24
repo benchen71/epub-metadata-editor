@@ -36,6 +36,35 @@ Public Class Form1
     Dim subjectseparator As String
     Dim WordsNotToCapitalise As String
     Dim idcount As Integer
+    Private Sub LoadWindowPosition()
+
+        'Get window location/position from settings
+        Dim ptLocation As System.Drawing.Point = My.Settings.WindowLocation
+
+        'Exit if it has not been set (X = Y = -1)
+        If (ptLocation.X = -1) And (ptLocation.Y = -1) Then
+            Return
+        End If
+
+        'Verify the window position is visible on at least one of our screens
+        Dim bLocationVisible As Boolean = False
+
+        For Each S As Screen In Screen.AllScreens
+            If S.Bounds.Contains(ptLocation) Then
+                bLocationVisible = True
+                Exit For
+            End If
+        Next
+
+        'Exit if window location is not visible on any screen 
+        If Not bLocationVisible Then
+            Return
+        End If
+
+        'Set Window Size, Location
+        Me.StartPosition = FormStartPosition.Manual
+        Me.Location = ptLocation
+    End Sub
 
     Public Sub DeleteDirContents(ByVal dir As IO.DirectoryInfo)
         Dim fa() As IO.FileInfo
@@ -192,6 +221,8 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        My.Settings.WindowLocation = Me.Location
+        My.Settings.Save()
         If projectchanged Then
             DialogResult = Dialog1.ShowDialog()
             If DialogResult = Windows.Forms.DialogResult.No Then
@@ -1761,6 +1792,8 @@ exitsub:
             LinkLabel1.Text = "Change external viewer"
         End If
 
+
+        LoadWindowPosition()
         'Me.Width = 913
         'Me.Height = 677
         Me.ClientSize = New System.Drawing.Size(905, 645)
@@ -1809,6 +1842,8 @@ exitsub:
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         ProtectClipboard()
+        My.Settings.WindowLocation = Me.Location
+        My.Settings.Save()
         Try
             If projectchanged Then
                 DialogResult = Dialog1.ShowDialog

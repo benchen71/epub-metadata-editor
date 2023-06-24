@@ -1,2 +1,2 @@
-1.9.4
-[*] Try to capture details of files that fail to be processed during batch processing, outputting a suitable message. This means processing will continue for remaining files in the queue.
+1.9.5
+[*] Application now remembers window location of last closed instance.

@@ -78,3 +78,4 @@ Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debu
 Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.exe
 Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.xml
 Y:\Backups\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\obj\Debug\EPubMetadataEditor.pdb
+C:\Users\Ben\Ben\Source Code\VB2008\EPubMetadataEditor\EPubMetadataEditor\bin\Debug\EPubMetadataEditor.exe.config
