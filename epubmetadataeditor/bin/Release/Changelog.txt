@@ -1,2 +1,2 @@
-1.9.5
-[*] Application now remembers window location of last closed instance.
+1.9.6
+[*] Fix for version parsing error during check for update

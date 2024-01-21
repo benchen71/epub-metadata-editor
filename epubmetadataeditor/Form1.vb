@@ -5028,7 +5028,8 @@ outputsource:
 
 foundversion:
             currpos = InStr(str, "Version: ")
-            versioninfo = Mid(str, currpos + 9)
+            Dim tempstring() = Mid(str, currpos + 9).Split("\n")
+            versioninfo = tempstring(0)
             currentversion = Mid(My.Application.Info.Version.ToString, 1, Len(My.Application.Info.Version.ToString) - 2)
             Dim oldVersion As New Version(currentversion)
             Dim newVersion As New Version(versioninfo)
@@ -5060,6 +5061,12 @@ foundversion:
             ' 404 error
             If Not background Then
                 DialogResult = MsgBox("Check for version failed: web page missing.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
+            End If
+            GoTo skip
+        Catch ex As ArgumentException
+            ' Problem with Version
+            If Not background Then
+                DialogResult = MsgBox("Check for version failed: problem with Version parsing.", MsgBoxStyle.OkOnly, "EPUB Metadata Editor")
             End If
             GoTo skip
         End Try
