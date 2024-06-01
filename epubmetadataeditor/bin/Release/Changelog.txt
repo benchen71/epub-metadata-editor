@@ -1,2 +1,2 @@
-1.9.6
-[*] Fix for version parsing error during check for update
+1.9.7
+[*] Fix for displaying special characters in Series field (EPUB3)

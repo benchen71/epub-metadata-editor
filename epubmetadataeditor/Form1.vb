@@ -865,7 +865,7 @@ skipsecondcreator:
                     Dim seriestitlepos As Integer
                     seriestitlepos = InStr(startpos, metadatafile, ">") + 1
                     endpos = InStr(seriestitlepos, metadatafile, "<")
-                    TextBox15.Text = Mid(metadatafile, seriestitlepos, endpos - seriestitlepos)
+                    TextBox15.Text = XMLInput(Mid(metadatafile, seriestitlepos, endpos - seriestitlepos))
                     ' find series index
                     idpos = InStr(startpos, metadatafile, "group-position")
                     idpos = InStr(idpos, metadatafile, ">") + 1
