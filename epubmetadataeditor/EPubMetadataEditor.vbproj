@@ -287,7 +287,9 @@
     <None Include="app.config" />
     <None Include="bin\Release\btn_donateCC_LG.bmp" />
     <Content Include="book-128x128.ico" />
+    <None Include="Resources\1265795744_arrow_return_down_left.png" />
     <Content Include="Resources\1265795744_arrow_return_up_left.ico" />
+    <None Include="Resources\1265795744_arrow_return_up_left.png" />
     <None Include="Resources\close.png" />
     <None Include="Resources\search.png" />
     <None Include="Resources\swap.png" />

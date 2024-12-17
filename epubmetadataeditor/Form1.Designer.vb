@@ -80,6 +80,14 @@ Partial Class Form1
         Me.TextBox18 = New System.Windows.Forms.TextBox
         Me.CheckBox10 = New System.Windows.Forms.CheckBox
         Me.LinkLabel8 = New System.Windows.Forms.LinkLabel
+        Me.Button44 = New System.Windows.Forms.Button
+        Me.Button8 = New System.Windows.Forms.Button
+        Me.Label31 = New System.Windows.Forms.Label
+        Me.Button46 = New System.Windows.Forms.Button
+        Me.Button47 = New System.Windows.Forms.Button
+        Me.Button48 = New System.Windows.Forms.Button
+        Me.Button49 = New System.Windows.Forms.Button
+        Me.Button45 = New System.Windows.Forms.Button
         Me.Button40 = New System.Windows.Forms.Button
         Me.Button39 = New System.Windows.Forms.Button
         Me.Button31 = New System.Windows.Forms.Button
@@ -94,13 +102,6 @@ Partial Class Form1
         Me.Button6 = New System.Windows.Forms.Button
         Me.Button5 = New System.Windows.Forms.Button
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Button44 = New System.Windows.Forms.Button
-        Me.Button45 = New System.Windows.Forms.Button
-        Me.Button8 = New System.Windows.Forms.Button
-        Me.Label31 = New System.Windows.Forms.Label
-        Me.Button46 = New System.Windows.Forms.Button
-        Me.Button47 = New System.Windows.Forms.Button
-        Me.Button48 = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Button9 = New System.Windows.Forms.Button
@@ -183,11 +184,13 @@ Partial Class Form1
         Me.Label32 = New System.Windows.Forms.Label
         Me.TextBox19 = New System.Windows.Forms.TextBox
         Me.CheckBox14 = New System.Windows.Forms.CheckBox
+        Me.Panel1 = New System.Windows.Forms.Panel
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -397,49 +400,49 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddImageToolStripMenuItem, Me.ToolStripMenuItem1, Me.ChangeImageToolStripMenuItem, Me.UseExistingImageToolStripMenuItem, Me.PasteImageToolStripMenuItem, Me.ToolStripMenuItem2, Me.SaveImageAsToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(183, 126)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 126)
         '
         'AddImageToolStripMenuItem
         '
         Me.AddImageToolStripMenuItem.Enabled = False
         Me.AddImageToolStripMenuItem.Name = "AddImageToolStripMenuItem"
-        Me.AddImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.AddImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.AddImageToolStripMenuItem.Text = "Add image..."
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(179, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
         '
         'ChangeImageToolStripMenuItem
         '
         Me.ChangeImageToolStripMenuItem.Enabled = False
         Me.ChangeImageToolStripMenuItem.Name = "ChangeImageToolStripMenuItem"
-        Me.ChangeImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.ChangeImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.ChangeImageToolStripMenuItem.Text = "Change image..."
         '
         'UseExistingImageToolStripMenuItem
         '
         Me.UseExistingImageToolStripMenuItem.Name = "UseExistingImageToolStripMenuItem"
-        Me.UseExistingImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.UseExistingImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.UseExistingImageToolStripMenuItem.Text = "Use existing image..."
         '
         'PasteImageToolStripMenuItem
         '
         Me.PasteImageToolStripMenuItem.Name = "PasteImageToolStripMenuItem"
-        Me.PasteImageToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.PasteImageToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.PasteImageToolStripMenuItem.Text = "Paste image"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(179, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(178, 6)
         '
         'SaveImageAsToolStripMenuItem
         '
         Me.SaveImageAsToolStripMenuItem.Enabled = False
         Me.SaveImageAsToolStripMenuItem.Name = "SaveImageAsToolStripMenuItem"
-        Me.SaveImageAsToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.SaveImageAsToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.SaveImageAsToolStripMenuItem.Text = "Save image as..."
         '
         'ToolTip1
@@ -688,175 +691,6 @@ Partial Class Form1
         Me.LinkLabel8.Text = "Edit"
         Me.ToolTip1.SetToolTip(Me.LinkLabel8, "Edit list of words not to capitalise (separate using commas)")
         '
-        'Button40
-        '
-        Me.Button40.Enabled = False
-        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button40.Image = CType(resources.GetObject("Button40.Image"), System.Drawing.Image)
-        Me.Button40.Location = New System.Drawing.Point(1212, 114)
-        Me.Button40.Name = "Button40"
-        Me.Button40.Size = New System.Drawing.Size(26, 20)
-        Me.Button40.TabIndex = 105
-        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
-        Me.Button40.UseVisualStyleBackColor = True
-        '
-        'Button39
-        '
-        Me.Button39.Enabled = False
-        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button39.Image = CType(resources.GetObject("Button39.Image"), System.Drawing.Image)
-        Me.Button39.Location = New System.Drawing.Point(1212, 88)
-        Me.Button39.Name = "Button39"
-        Me.Button39.Size = New System.Drawing.Size(26, 20)
-        Me.Button39.TabIndex = 104
-        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
-        Me.Button39.UseVisualStyleBackColor = True
-        '
-        'Button31
-        '
-        Me.Button31.Enabled = False
-        Me.Button31.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button31.Image = CType(resources.GetObject("Button31.Image"), System.Drawing.Image)
-        Me.Button31.Location = New System.Drawing.Point(15, 145)
-        Me.Button31.Name = "Button31"
-        Me.Button31.Size = New System.Drawing.Size(26, 20)
-        Me.Button31.TabIndex = 39
-        Me.ToolTip1.SetToolTip(Me.Button31, "Swap Creators")
-        Me.Button31.UseVisualStyleBackColor = True
-        '
-        'Button30
-        '
-        Me.Button30.Enabled = False
-        Me.Button30.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button30.Image = CType(resources.GetObject("Button30.Image"), System.Drawing.Image)
-        Me.Button30.Location = New System.Drawing.Point(15, 83)
-        Me.Button30.Name = "Button30"
-        Me.Button30.Size = New System.Drawing.Size(26, 20)
-        Me.Button30.TabIndex = 35
-        Me.ToolTip1.SetToolTip(Me.Button30, "Swap 'Title' and 'Creator'")
-        Me.Button30.UseVisualStyleBackColor = True
-        '
-        'Button22
-        '
-        Me.Button22.Enabled = False
-        Me.Button22.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button22.Image = CType(resources.GetObject("Button22.Image"), System.Drawing.Image)
-        Me.Button22.Location = New System.Drawing.Point(422, 84)
-        Me.Button22.Name = "Button22"
-        Me.Button22.Size = New System.Drawing.Size(26, 20)
-        Me.Button22.TabIndex = 33
-        Me.ToolTip1.SetToolTip(Me.Button22, "Copy 'File as' to 'Title'")
-        Me.Button22.UseVisualStyleBackColor = True
-        '
-        'Button21
-        '
-        Me.Button21.Enabled = False
-        Me.Button21.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button21.Image = CType(resources.GetObject("Button21.Image"), System.Drawing.Image)
-        Me.Button21.Location = New System.Drawing.Point(422, 58)
-        Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(26, 20)
-        Me.Button21.TabIndex = 30
-        Me.ToolTip1.SetToolTip(Me.Button21, "Copy 'Title' to 'File as'")
-        Me.Button21.UseVisualStyleBackColor = True
-        '
-        'Button18
-        '
-        Me.Button18.Enabled = False
-        Me.Button18.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button18.Image = CType(resources.GetObject("Button18.Image"), System.Drawing.Image)
-        Me.Button18.Location = New System.Drawing.Point(454, 84)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(26, 20)
-        Me.Button18.TabIndex = 34
-        Me.ToolTip1.SetToolTip(Me.Button18, "Clear Title 'File as'")
-        Me.Button18.UseVisualStyleBackColor = True
-        '
-        'Button13
-        '
-        Me.Button13.Enabled = False
-        Me.Button13.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button13.Image = CType(resources.GetObject("Button13.Image"), System.Drawing.Image)
-        Me.Button13.Location = New System.Drawing.Point(454, 193)
-        Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(46, 46)
-        Me.Button13.TabIndex = 42
-        Me.ToolTip1.SetToolTip(Me.Button13, "Auto-generate 'File as'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to reverse ""Surname, Firstname"" in Creator)")
-        Me.Button13.UseVisualStyleBackColor = True
-        '
-        'Button14
-        '
-        Me.Button14.Enabled = False
-        Me.Button14.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button14.Image = CType(resources.GetObject("Button14.Image"), System.Drawing.Image)
-        Me.Button14.Location = New System.Drawing.Point(422, 219)
-        Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(26, 20)
-        Me.Button14.TabIndex = 41
-        Me.ToolTip1.SetToolTip(Me.Button14, "Copy 'File as' to 'Creator'")
-        Me.Button14.UseVisualStyleBackColor = True
-        '
-        'Button15
-        '
-        Me.Button15.Enabled = False
-        Me.Button15.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button15.Image = CType(resources.GetObject("Button15.Image"), System.Drawing.Image)
-        Me.Button15.Location = New System.Drawing.Point(422, 193)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(26, 20)
-        Me.Button15.TabIndex = 40
-        Me.ToolTip1.SetToolTip(Me.Button15, "Copy 'Creator' to 'File as'")
-        Me.Button15.UseVisualStyleBackColor = True
-        '
-        'Button7
-        '
-        Me.Button7.Enabled = False
-        Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button7.Image = CType(resources.GetObject("Button7.Image"), System.Drawing.Image)
-        Me.Button7.Location = New System.Drawing.Point(454, 110)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(46, 46)
-        Me.Button7.TabIndex = 38
-        Me.ToolTip1.SetToolTip(Me.Button7, "Auto-generate 'File as'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to reverse ""Surname, Firstname"" in Creator)")
-        Me.Button7.UseVisualStyleBackColor = True
-        '
-        'Button6
-        '
-        Me.Button6.Enabled = False
-        Me.Button6.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button6.Image = CType(resources.GetObject("Button6.Image"), System.Drawing.Image)
-        Me.Button6.Location = New System.Drawing.Point(422, 136)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(26, 20)
-        Me.Button6.TabIndex = 37
-        Me.ToolTip1.SetToolTip(Me.Button6, "Copy 'File as' to 'Creator'")
-        Me.Button6.UseVisualStyleBackColor = True
-        '
-        'Button5
-        '
-        Me.Button5.Enabled = False
-        Me.Button5.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button5.Image = CType(resources.GetObject("Button5.Image"), System.Drawing.Image)
-        Me.Button5.Location = New System.Drawing.Point(422, 110)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(26, 20)
-        Me.Button5.TabIndex = 36
-        Me.ToolTip1.SetToolTip(Me.Button5, "Copy 'Creator' to 'File as'")
-        Me.Button5.UseVisualStyleBackColor = True
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.PictureBox1.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.PictureBox1.Enabled = False
-        Me.PictureBox1.Location = New System.Drawing.Point(515, 87)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(364, 453)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 26
-        Me.PictureBox1.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.PictureBox1, "Right-click image for context menu")
-        '
         'Button44
         '
         Me.Button44.Enabled = False
@@ -868,18 +702,6 @@ Partial Class Form1
         Me.ToolTip1.SetToolTip(Me.Button44, "Find files (in current folder)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "NOTE: This will replace the contents of the Batch" & _
                 " Operations file list.")
         Me.Button44.UseVisualStyleBackColor = True
-        '
-        'Button45
-        '
-        Me.Button45.Enabled = False
-        Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
-        Me.Button45.Location = New System.Drawing.Point(1212, 188)
-        Me.Button45.Name = "Button45"
-        Me.Button45.Size = New System.Drawing.Size(26, 20)
-        Me.Button45.TabIndex = 106
-        Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
-        Me.Button45.UseVisualStyleBackColor = True
         '
         'Button8
         '
@@ -943,6 +765,200 @@ Partial Class Form1
         Me.ToolTip1.SetToolTip(Me.Button48, "Save changes to current book and open next")
         Me.Button48.UseVisualStyleBackColor = True
         '
+        'Button49
+        '
+        Me.Button49.Enabled = False
+        Me.Button49.FlatAppearance.BorderColor = System.Drawing.Color.Red
+        Me.Button49.FlatAppearance.BorderSize = 3
+        Me.Button49.Image = Global.EPubMetadataEditor.My.Resources.Resources.delete_icon
+        Me.Button49.Location = New System.Drawing.Point(6, 5)
+        Me.Button49.Name = "Button49"
+        Me.Button49.Size = New System.Drawing.Size(45, 40)
+        Me.Button49.TabIndex = 19
+        Me.ToolTip1.SetToolTip(Me.Button49, "Clear all fields")
+        Me.Button49.UseVisualStyleBackColor = True
+        '
+        'Button45
+        '
+        Me.Button45.Enabled = False
+        Me.Button45.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button45.Image = CType(resources.GetObject("Button45.Image"), System.Drawing.Image)
+        Me.Button45.Location = New System.Drawing.Point(1212, 188)
+        Me.Button45.Name = "Button45"
+        Me.Button45.Size = New System.Drawing.Size(26, 20)
+        Me.Button45.TabIndex = 106
+        Me.ToolTip1.SetToolTip(Me.Button45, "Delete selected item")
+        Me.Button45.UseVisualStyleBackColor = True
+        '
+        'Button40
+        '
+        Me.Button40.Enabled = False
+        Me.Button40.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button40.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_down_left
+        Me.Button40.Location = New System.Drawing.Point(1212, 114)
+        Me.Button40.Name = "Button40"
+        Me.Button40.Size = New System.Drawing.Size(26, 20)
+        Me.Button40.TabIndex = 105
+        Me.ToolTip1.SetToolTip(Me.Button40, "Move down")
+        Me.Button40.UseVisualStyleBackColor = True
+        '
+        'Button39
+        '
+        Me.Button39.Enabled = False
+        Me.Button39.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button39.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_up_left
+        Me.Button39.Location = New System.Drawing.Point(1212, 88)
+        Me.Button39.Name = "Button39"
+        Me.Button39.Size = New System.Drawing.Size(26, 20)
+        Me.Button39.TabIndex = 104
+        Me.ToolTip1.SetToolTip(Me.Button39, "Move up")
+        Me.Button39.UseVisualStyleBackColor = True
+        '
+        'Button31
+        '
+        Me.Button31.Enabled = False
+        Me.Button31.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button31.Image = CType(resources.GetObject("Button31.Image"), System.Drawing.Image)
+        Me.Button31.Location = New System.Drawing.Point(15, 145)
+        Me.Button31.Name = "Button31"
+        Me.Button31.Size = New System.Drawing.Size(26, 20)
+        Me.Button31.TabIndex = 39
+        Me.ToolTip1.SetToolTip(Me.Button31, "Swap Creators")
+        Me.Button31.UseVisualStyleBackColor = True
+        '
+        'Button30
+        '
+        Me.Button30.Enabled = False
+        Me.Button30.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button30.Image = CType(resources.GetObject("Button30.Image"), System.Drawing.Image)
+        Me.Button30.Location = New System.Drawing.Point(15, 83)
+        Me.Button30.Name = "Button30"
+        Me.Button30.Size = New System.Drawing.Size(26, 20)
+        Me.Button30.TabIndex = 35
+        Me.ToolTip1.SetToolTip(Me.Button30, "Swap 'Title' and 'Creator'")
+        Me.Button30.UseVisualStyleBackColor = True
+        '
+        'Button22
+        '
+        Me.Button22.Enabled = False
+        Me.Button22.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button22.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_up_left
+        Me.Button22.Location = New System.Drawing.Point(422, 84)
+        Me.Button22.Name = "Button22"
+        Me.Button22.Size = New System.Drawing.Size(26, 20)
+        Me.Button22.TabIndex = 33
+        Me.ToolTip1.SetToolTip(Me.Button22, "Copy 'File as' to 'Title'")
+        Me.Button22.UseVisualStyleBackColor = True
+        '
+        'Button21
+        '
+        Me.Button21.Enabled = False
+        Me.Button21.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button21.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_down_left
+        Me.Button21.Location = New System.Drawing.Point(422, 58)
+        Me.Button21.Name = "Button21"
+        Me.Button21.Size = New System.Drawing.Size(26, 20)
+        Me.Button21.TabIndex = 30
+        Me.ToolTip1.SetToolTip(Me.Button21, "Copy 'Title' to 'File as'")
+        Me.Button21.UseVisualStyleBackColor = True
+        '
+        'Button18
+        '
+        Me.Button18.Enabled = False
+        Me.Button18.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button18.Image = CType(resources.GetObject("Button18.Image"), System.Drawing.Image)
+        Me.Button18.Location = New System.Drawing.Point(454, 84)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(26, 20)
+        Me.Button18.TabIndex = 34
+        Me.ToolTip1.SetToolTip(Me.Button18, "Clear Title 'File as'")
+        Me.Button18.UseVisualStyleBackColor = True
+        '
+        'Button13
+        '
+        Me.Button13.Enabled = False
+        Me.Button13.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button13.Image = Global.EPubMetadataEditor.My.Resources.Resources.arrow_double_clockwise
+        Me.Button13.Location = New System.Drawing.Point(454, 193)
+        Me.Button13.Name = "Button13"
+        Me.Button13.Size = New System.Drawing.Size(46, 46)
+        Me.Button13.TabIndex = 42
+        Me.ToolTip1.SetToolTip(Me.Button13, "Auto-generate 'File as'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to reverse ""Surname, Firstname"" in Creator)")
+        Me.Button13.UseVisualStyleBackColor = True
+        '
+        'Button14
+        '
+        Me.Button14.Enabled = False
+        Me.Button14.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button14.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_up_left
+        Me.Button14.Location = New System.Drawing.Point(422, 219)
+        Me.Button14.Name = "Button14"
+        Me.Button14.Size = New System.Drawing.Size(26, 20)
+        Me.Button14.TabIndex = 41
+        Me.ToolTip1.SetToolTip(Me.Button14, "Copy 'File as' to 'Creator'")
+        Me.Button14.UseVisualStyleBackColor = True
+        '
+        'Button15
+        '
+        Me.Button15.Enabled = False
+        Me.Button15.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button15.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_down_left
+        Me.Button15.Location = New System.Drawing.Point(422, 193)
+        Me.Button15.Name = "Button15"
+        Me.Button15.Size = New System.Drawing.Size(26, 20)
+        Me.Button15.TabIndex = 40
+        Me.ToolTip1.SetToolTip(Me.Button15, "Copy 'Creator' to 'File as'")
+        Me.Button15.UseVisualStyleBackColor = True
+        '
+        'Button7
+        '
+        Me.Button7.Enabled = False
+        Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button7.Image = Global.EPubMetadataEditor.My.Resources.Resources.arrow_double_clockwise
+        Me.Button7.Location = New System.Drawing.Point(454, 110)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(46, 46)
+        Me.Button7.TabIndex = 38
+        Me.ToolTip1.SetToolTip(Me.Button7, "Auto-generate 'File as'" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Hold SHIFT to reverse ""Surname, Firstname"" in Creator)")
+        Me.Button7.UseVisualStyleBackColor = True
+        '
+        'Button6
+        '
+        Me.Button6.Enabled = False
+        Me.Button6.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button6.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_up_left
+        Me.Button6.Location = New System.Drawing.Point(422, 136)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(26, 20)
+        Me.Button6.TabIndex = 37
+        Me.ToolTip1.SetToolTip(Me.Button6, "Copy 'File as' to 'Creator'")
+        Me.Button6.UseVisualStyleBackColor = True
+        '
+        'Button5
+        '
+        Me.Button5.Enabled = False
+        Me.Button5.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button5.Image = Global.EPubMetadataEditor.My.Resources.Resources._1265795744_arrow_return_down_left
+        Me.Button5.Location = New System.Drawing.Point(422, 110)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(26, 20)
+        Me.Button5.TabIndex = 36
+        Me.ToolTip1.SetToolTip(Me.Button5, "Copy 'Creator' to 'File as'")
+        Me.Button5.UseVisualStyleBackColor = True
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.PictureBox1.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.PictureBox1.Enabled = False
+        Me.PictureBox1.Location = New System.Drawing.Point(515, 87)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(364, 453)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 26
+        Me.PictureBox1.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1, "Right-click image for context menu")
+        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -960,6 +976,7 @@ Partial Class Form1
         '
         'ListBox1
         '
+        Me.ListBox1.AllowDrop = True
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.HorizontalScrollbar = True
         Me.ListBox1.Location = New System.Drawing.Point(906, 88)
@@ -1777,11 +1794,22 @@ Partial Class Form1
         Me.CheckBox14.Text = "Clear Creator 'File as'"
         Me.CheckBox14.UseVisualStyleBackColor = True
         '
+        'Panel1
+        '
+        Me.Panel1.BackColor = System.Drawing.Color.Red
+        Me.Panel1.Controls.Add(Me.Button49)
+        Me.Panel1.Location = New System.Drawing.Point(448, 582)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(56, 50)
+        Me.Panel1.TabIndex = 206
+        Me.Panel1.Visible = False
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1247, 644)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.CheckBox14)
         Me.Controls.Add(Me.Button48)
         Me.Controls.Add(Me.Button47)
@@ -1922,6 +1950,7 @@ Partial Class Form1
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2085,5 +2114,7 @@ Partial Class Form1
     Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents TextBox19 As System.Windows.Forms.TextBox
     Friend WithEvents CheckBox14 As System.Windows.Forms.CheckBox
+    Friend WithEvents Button49 As System.Windows.Forms.Button
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
 
 End Class

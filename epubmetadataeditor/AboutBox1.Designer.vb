@@ -42,6 +42,8 @@ Partial Class AboutBox1
         Me.OKButton = New System.Windows.Forms.Button
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+        Me.Label2 = New System.Windows.Forms.Label
         Me.TableLayoutPanel.SuspendLayout()
         CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,7 +76,7 @@ Partial Class AboutBox1
         Me.TableLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.TableLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.TableLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel.Size = New System.Drawing.Size(410, 224)
+        Me.TableLayoutPanel.Size = New System.Drawing.Size(468, 281)
         Me.TableLayoutPanel.TabIndex = 0
         '
         'LogoPictureBox
@@ -84,7 +86,7 @@ Partial Class AboutBox1
         Me.LogoPictureBox.Location = New System.Drawing.Point(3, 3)
         Me.LogoPictureBox.Name = "LogoPictureBox"
         Me.TableLayoutPanel.SetRowSpan(Me.LogoPictureBox, 6)
-        Me.LogoPictureBox.Size = New System.Drawing.Size(199, 218)
+        Me.LogoPictureBox.Size = New System.Drawing.Size(228, 275)
         Me.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.LogoPictureBox.TabIndex = 0
         Me.LogoPictureBox.TabStop = False
@@ -94,11 +96,11 @@ Partial Class AboutBox1
         '
         Me.LabelProductName.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LabelProductName.ForeColor = System.Drawing.Color.Black
-        Me.LabelProductName.Location = New System.Drawing.Point(211, 0)
+        Me.LabelProductName.Location = New System.Drawing.Point(240, 0)
         Me.LabelProductName.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelProductName.MaximumSize = New System.Drawing.Size(0, 17)
         Me.LabelProductName.Name = "LabelProductName"
-        Me.LabelProductName.Size = New System.Drawing.Size(196, 17)
+        Me.LabelProductName.Size = New System.Drawing.Size(225, 17)
         Me.LabelProductName.TabIndex = 0
         Me.LabelProductName.Text = "Product Name"
         Me.LabelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -107,11 +109,11 @@ Partial Class AboutBox1
         '
         Me.LabelVersion.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LabelVersion.ForeColor = System.Drawing.Color.Black
-        Me.LabelVersion.Location = New System.Drawing.Point(211, 24)
+        Me.LabelVersion.Location = New System.Drawing.Point(240, 30)
         Me.LabelVersion.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelVersion.MaximumSize = New System.Drawing.Size(0, 17)
         Me.LabelVersion.Name = "LabelVersion"
-        Me.LabelVersion.Size = New System.Drawing.Size(196, 17)
+        Me.LabelVersion.Size = New System.Drawing.Size(225, 17)
         Me.LabelVersion.TabIndex = 0
         Me.LabelVersion.Text = "Version"
         Me.LabelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -120,11 +122,11 @@ Partial Class AboutBox1
         '
         Me.LabelCopyright.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LabelCopyright.ForeColor = System.Drawing.Color.Black
-        Me.LabelCopyright.Location = New System.Drawing.Point(211, 48)
+        Me.LabelCopyright.Location = New System.Drawing.Point(240, 60)
         Me.LabelCopyright.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelCopyright.MaximumSize = New System.Drawing.Size(0, 17)
         Me.LabelCopyright.Name = "LabelCopyright"
-        Me.LabelCopyright.Size = New System.Drawing.Size(196, 17)
+        Me.LabelCopyright.Size = New System.Drawing.Size(225, 17)
         Me.LabelCopyright.TabIndex = 0
         Me.LabelCopyright.Text = "Copyright"
         Me.LabelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -133,11 +135,11 @@ Partial Class AboutBox1
         '
         Me.LabelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LabelCompanyName.ForeColor = System.Drawing.Color.Black
-        Me.LabelCompanyName.Location = New System.Drawing.Point(211, 72)
+        Me.LabelCompanyName.Location = New System.Drawing.Point(240, 90)
         Me.LabelCompanyName.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.LabelCompanyName.MaximumSize = New System.Drawing.Size(0, 17)
         Me.LabelCompanyName.Name = "LabelCompanyName"
-        Me.LabelCompanyName.Size = New System.Drawing.Size(196, 17)
+        Me.LabelCompanyName.Size = New System.Drawing.Size(225, 17)
         Me.LabelCompanyName.TabIndex = 0
         Me.LabelCompanyName.Text = "Company Name"
         Me.LabelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -147,10 +149,11 @@ Partial Class AboutBox1
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Black
-        Me.Label1.Location = New System.Drawing.Point(211, 129)
+        Me.Label1.Location = New System.Drawing.Point(240, 162)
         Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(187, 32)
+        Me.Label1.Padding = New System.Windows.Forms.Padding(0, 20, 0, 0)
+        Me.Label1.Size = New System.Drawing.Size(208, 52)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "To donate using Paypal, click the donate button:"
         '
@@ -159,7 +162,7 @@ Partial Class AboutBox1
         Me.TextBoxDescription.BackColor = System.Drawing.Color.White
         Me.TextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBoxDescription.ForeColor = System.Drawing.Color.Black
-        Me.TextBoxDescription.Location = New System.Drawing.Point(215, 99)
+        Me.TextBoxDescription.Location = New System.Drawing.Point(244, 123)
         Me.TextBoxDescription.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.TextBoxDescription.Multiline = True
         Me.TextBoxDescription.Name = "TextBoxDescription"
@@ -173,7 +176,7 @@ Partial Class AboutBox1
         Me.OKButton.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.OKButton.BackColor = System.Drawing.SystemColors.Control
         Me.OKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.OKButton.Location = New System.Drawing.Point(181, 238)
+        Me.OKButton.Location = New System.Drawing.Point(208, 297)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 21)
         Me.OKButton.TabIndex = 1
@@ -183,7 +186,7 @@ Partial Class AboutBox1
         'PictureBox1
         '
         Me.PictureBox1.Image = Global.EPubMetadataEditor.My.Resources.Resources.btn_donateCC_LG
-        Me.PictureBox1.Location = New System.Drawing.Point(268, 180)
+        Me.PictureBox1.Location = New System.Drawing.Point(313, 228)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(99, 47)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
@@ -193,18 +196,42 @@ Partial Class AboutBox1
         'PictureBox2
         '
         Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
-        Me.PictureBox2.Location = New System.Drawing.Point(50, 43)
+        Me.PictureBox2.Location = New System.Drawing.Point(48, 21)
         Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(130, 141)
+        Me.PictureBox2.Size = New System.Drawing.Size(161, 162)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox2.TabIndex = 3
         Me.PictureBox2.TabStop = False
+        '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!)
+        Me.LinkLabel1.Location = New System.Drawing.Point(204, 192)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(35, 16)
+        Me.LinkLabel1.TabIndex = 4
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "here"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!)
+        Me.Label2.Location = New System.Drawing.Point(12, 192)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(197, 16)
+        Me.Label2.TabIndex = 5
+        Me.Label2.Text = "Access the GitHub project page"
         '
         'AboutBox1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(428, 264)
+        Me.ClientSize = New System.Drawing.Size(489, 324)
+        Me.Controls.Add(Me.LinkLabel1)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.OKButton)
@@ -230,5 +257,7 @@ Partial Class AboutBox1
     Friend WithEvents OKButton As System.Windows.Forms.Button
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 
 End Class

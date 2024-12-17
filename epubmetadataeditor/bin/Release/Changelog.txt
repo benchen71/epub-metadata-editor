@@ -1,2 +1,5 @@
-1.9.7
-[*] Fix for displaying special characters in Series field (EPUB3)
+1.9.8
+[*] GitHub link added to About dialog box.
+[*] "Clear all fields" button added.
+[*] Some buttons have increased contrast.
+[*] Files can now be dragged and dropped into the "Batch Operations" list.

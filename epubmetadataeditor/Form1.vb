@@ -202,7 +202,7 @@ Public Class Form1
                     AddImageToolStripMenuItem.Enabled = False
                     ChangeImageToolStripMenuItem.Enabled = False
                     OpenFileDialog1.FileName = MyFiles(i)
-                    OpenEPub()
+                    OpenEPUB()
                     Button3.Enabled = False
 
                     ' Put cursor in Title box
@@ -508,6 +508,8 @@ lookforpagemap:
             Button38.Enabled = True
             Button47.Enabled = True
             Button48.Enabled = True
+            Button49.Enabled = True
+            Panel1.Visible = True
             LinkLabel3.Enabled = True
             'SaveImageAsToolStripMenuItem.Enabled = True
             If versioninfo = "3.0" Then
@@ -2678,6 +2680,7 @@ errortext:
         Button39.Enabled = False
         Button40.Enabled = False
         Button41.Enabled = False
+        Button46.Enabled = False
     End Sub
 
     Private Sub SaveImageAsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveImageAsToolStripMenuItem.Click
@@ -6395,6 +6398,28 @@ exitwithoutsaving:
         End If
     End Sub
 
+    Private Sub ListBox1_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListBox1.DragDrop
+        Dim fileadded As Boolean
+        fileadded = False
+        For Each File As String In CType(e.Data.GetData(DataFormats.FileDrop), Array)
+            If File.EndsWith(".epub") Then
+                ListBox1.Items.Add(File)
+                fileadded = True
+            End If
+        Next
+        If fileadded Then
+            Button10.Enabled = True
+            Button32.Enabled = True
+            Button41.Enabled = True
+            Button46.Enabled = True
+        End If
+    End Sub
+
+    Private Sub ListBox1_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListBox1.DragEnter
+        e.Effect = DragDropEffects.Move
+    End Sub
+
+
     Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
         If ListBox1.SelectedItem = Nothing Then
             Exit Sub
@@ -6553,6 +6578,8 @@ exitwithoutsaving:
         Button24.Enabled = False
         Button26.Enabled = False
         Button33.Enabled = False
+        Button49.Enabled = False
+        Panel1.Visible = False
         CheckBox5.Visible = False
     End Sub
     Private Function TitleCase(ByVal stringtext As String) As String
@@ -7292,5 +7319,31 @@ exitwithoutsaving:
         OpenFileDialog1.FileName = searchResults(ComboBox3.SelectedIndex)
         OpenEPUB()
         Button3.Enabled = False
+    End Sub
+
+    Private Sub Button49_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button49.Click
+        Dim result = MessageBox.Show("Are you sure you want to clear all fields?", "EPUB Metadata Editor", _
+   MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
+        If result <> DialogResult.Cancel Then
+            TextBox1.Text = ""
+            TextBox16.Text = ""
+            TextBox2.Text = ""
+            TextBox12.Text = ""
+            TextBox3.Text = ""
+            TextBox13.Text = ""
+            TextBox15.Text = ""
+            TextBox14.Text = ""
+            TextBox5.Text = ""
+            TextBox6.Text = ""
+            TextBox17.Text = ""
+            TextBox7.Text = ""
+            TextBox8.Text = ""
+            TextBox9.Text = ""
+            TextBox10.Text = ""
+            TextBox11.Text = ""
+            ComboBox1.SelectedIndex = -1
+            ComboBox2.SelectedIndex = -1
+            WebBrowser1.DocumentText = ""
+        End If
     End Sub
 End Class
