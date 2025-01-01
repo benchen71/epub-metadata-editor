@@ -1,5 +1,2 @@
-1.9.8
-[*] GitHub link added to About dialog box.
-[*] "Clear all fields" button added.
-[*] Some buttons have increased contrast.
-[*] Files can now be dragged and dropped into the "Batch Operations" list.
+2.0.0
+[*] Font change to make everything bigger on larger screens.

@@ -964,8 +964,8 @@ skipsecondcreator:
         'Get Date
         Try
             Label6.Text = "Date"
-            TextBox6.Width = 304
-            TextBox6.Left = 81
+            'TextBox6.Width = 304
+            'TextBox6.Left = 81
             startpos = InStr(metadatafile, "<dc:date")
             firsttaglength = 8
             If startpos = 0 Then
@@ -986,8 +986,8 @@ skipsecondcreator:
                         If (fileaspos < endpos) Then
                             TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                             Label6.Text = "Date (" + Mid(metadatafile, fileaspos + 11, endheader - fileaspos - 12) + ")"
-                            TextBox6.Width = 255
-                            TextBox6.Left = 130
+                            'TextBox6.Width = 255
+                            'TextBox6.Left = 130
                         Else
                             TextBox6.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                         End If
@@ -1119,15 +1119,15 @@ skipsecondcreator:
                     If (Mid(metadatafile, startpos + firsttaglength, 1) = ">") Then
                         TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
                         Label9.Text = "Identifier"
-                        TextBox9.Width = 304
-                        TextBox9.Left = 81
+                        'TextBox9.Width = 304
+                        'TextBox9.Left = 81
                     Else
                         If versioninfo = "3.0" Then
                             endheaderpos = InStr(startpos, metadatafile, ">")
                             TextBox9.Text = Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1)
                             Label9.Text = "Identifier"
-                            TextBox9.Width = 304
-                            TextBox9.Left = 81
+                            'TextBox9.Width = 304
+                            'TextBox9.Left = 81
                             'Get id
                             idpos = InStr(startpos, metadatafile, "id=")
                             idinfo = ""
@@ -1153,8 +1153,8 @@ skipsecondcreator:
                                             If refinespos <> 0 Then
                                                 If refinespos < endpos Then
                                                     Label9.Text = "Identifier (" + Mid(metadatafile, refinespos + 8, endheaderpos - refinespos - 10) + "=" + Mid(metadatafile, endheaderpos + 1, endpos - endheaderpos - 1) + ")"
-                                                    TextBox9.Width = 255
-                                                    TextBox9.Left = 130
+                                                    'TextBox9.Width = 255
+                                                    'TextBox9.Left = 130
                                                 End If
                                             End If
                                         End If
@@ -1187,8 +1187,8 @@ skipsecondcreator:
                                         Next
                                     End If
                                 End If
-                                TextBox9.Width = 255
-                                TextBox9.Left = 130
+                                'TextBox9.Width = 255
+                                'TextBox9.Left = 130
                             Else
                                 If nocontent = False Then
                                     TextBox9.Text = Mid(metadatafile, startpos + lenheader, endpos - startpos - lenheader)
@@ -1206,8 +1206,8 @@ skipsecondcreator:
                                     End If
                                 End If
                                 Label9.Text = "Identifier"
-                                TextBox9.Width = 304
-                                TextBox9.Left = 81
+                                'TextBox9.Width = 304
+                                'TextBox9.Left = 81
                             End If
                         End If
                     End If
@@ -1215,8 +1215,8 @@ skipsecondcreator:
             End If
         Catch ex As Exception
             TextBox9.Text = "ERROR"
-            TextBox9.Width = 304
-            TextBox9.Left = 81
+            'TextBox9.Width = 304
+            'TextBox9.Left = 81
         End Try
 
         'Get source
@@ -1796,9 +1796,9 @@ exitsub:
 
 
         LoadWindowPosition()
-        'Me.Width = 913
-        'Me.Height = 677
-        Me.ClientSize = New System.Drawing.Size(905, 645)
+        'Me.Width = 1058
+        'Me.Height = 858
+        Me.ClientSize = New System.Drawing.Size(1052, 828)
 
         tempdirectory = System.IO.Path.GetTempPath
         ChDir(tempdirectory)
@@ -3024,14 +3024,14 @@ errortext:
     End Sub
 
     Private Sub Button16_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button16.Click
-        'Me.Width = 1257
-        Me.ClientSize = New System.Drawing.Size(1250, 645)
+        'Me.Width = 1503
+        Me.ClientSize = New System.Drawing.Size(1500, 828)
         Button16.Visible = False
     End Sub
 
     Private Sub Button17_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button17.Click
-        'Me.Width = 913
-        Me.ClientSize = New System.Drawing.Size(905, 645)
+        'Me.Width = 1058
+        Me.ClientSize = New System.Drawing.Size(1052, 828)
         Button16.Visible = True
     End Sub
 
@@ -4930,12 +4930,12 @@ outputsource:
         If ((Dialog2.DialogResult = Windows.Forms.DialogResult.OK) And (oldeventtype <> neweventtype)) Then
             If neweventtype = "" Then
                 Label6.Text = "Date"
-                TextBox6.Width = 304
-                TextBox6.Left = 81
+                'TextBox6.Width = 304
+                'TextBox6.Left = 81
             Else
                 Label6.Text = "Date (" + neweventtype + ")"
-                TextBox6.Width = 255
-                TextBox6.Left = 130
+                'TextBox6.Width = 255
+                'TextBox6.Left = 130
             End If
             projectchanged = True
             Button3.Enabled = True
@@ -4957,8 +4957,8 @@ outputsource:
         If ((Dialog2.DialogResult = Windows.Forms.DialogResult.OK) And (oldschemetype <> newschemetype)) Then
             If newschemetype = "" Then
                 Label9.Text = "Identifier"
-                TextBox9.Width = 304
-                TextBox9.Left = 81
+                'TextBox9.Width = 304
+                'TextBox9.Left = 81
             Else
                 If versioninfo = "3.0" Then
                     If InStr(newschemetype, "=") = 0 Then
@@ -4966,8 +4966,8 @@ outputsource:
                     End If
                 End If
                 Label9.Text = "Identifier (" + newschemetype + ")"
-                TextBox9.Width = 255
-                TextBox9.Left = 130
+                'TextBox9.Width = 255
+                'TextBox9.Left = 130
             End If
             projectchanged = True
             Button3.Enabled = True

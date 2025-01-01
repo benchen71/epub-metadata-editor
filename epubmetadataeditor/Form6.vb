@@ -7,4 +7,8 @@ Public Class Form6
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
         Form2.Button9_Click(sender, e)
     End Sub
+
+    Private Sub Form6_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+        Button7.Left = Me.Width - 105
+    End Sub
 End Class

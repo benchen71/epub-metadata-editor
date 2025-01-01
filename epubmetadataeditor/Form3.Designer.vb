@@ -47,9 +47,10 @@ Partial Class Form3
         '
         'Button1
         '
+        Me.Button1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.Location = New System.Drawing.Point(147, 617)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(114, 26)
+        Me.Button1.Size = New System.Drawing.Size(114, 29)
         Me.Button1.TabIndex = 1
         Me.Button1.Text = "Close"
         Me.Button1.UseVisualStyleBackColor = True
@@ -59,11 +60,11 @@ Partial Class Form3
         Me.VistaTreeView1.BackColor = System.Drawing.Color.White
         Me.VistaTreeView1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.VistaTreeView1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.VistaTreeView1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VistaTreeView1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.VistaTreeView1.FontColorSelected = System.Drawing.Color.Black
         Me.VistaTreeView1.FontHotTracking = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.VistaTreeView1.ForeColor = System.Drawing.Color.Black
-        Me.VistaTreeView1.ItemHeight = 17
+        Me.VistaTreeView1.ItemHeight = 22
         Me.VistaTreeView1.Location = New System.Drawing.Point(9, 12)
         Me.VistaTreeView1.Name = "VistaTreeView1"
         Me.VistaTreeView1.NodeBaseColor = System.Drawing.Color.White

@@ -44,10 +44,10 @@ Partial Class Form6
         'Button7
         '
         Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button7.Image = CType(resources.GetObject("Button7.Image"), System.Drawing.Image)
-        Me.Button7.Location = New System.Drawing.Point(833, 12)
+        Me.Button7.Image = Global.EPubMetadataEditor.My.Resources.Resources.arrow_double_clockwise
+        Me.Button7.Location = New System.Drawing.Point(808, 12)
         Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(33, 35)
+        Me.Button7.Size = New System.Drawing.Size(60, 64)
         Me.Button7.TabIndex = 39
         Me.ToolTip1.SetToolTip(Me.Button7, "Refresh")
         Me.Button7.UseVisualStyleBackColor = True

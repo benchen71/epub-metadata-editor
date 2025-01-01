@@ -95,6 +95,7 @@ Partial Class AboutBox1
         'LabelProductName
         '
         Me.LabelProductName.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelProductName.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelProductName.ForeColor = System.Drawing.Color.Black
         Me.LabelProductName.Location = New System.Drawing.Point(240, 0)
         Me.LabelProductName.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
@@ -108,6 +109,7 @@ Partial Class AboutBox1
         'LabelVersion
         '
         Me.LabelVersion.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelVersion.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelVersion.ForeColor = System.Drawing.Color.Black
         Me.LabelVersion.Location = New System.Drawing.Point(240, 30)
         Me.LabelVersion.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
@@ -121,6 +123,7 @@ Partial Class AboutBox1
         'LabelCopyright
         '
         Me.LabelCopyright.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelCopyright.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelCopyright.ForeColor = System.Drawing.Color.Black
         Me.LabelCopyright.Location = New System.Drawing.Point(240, 60)
         Me.LabelCopyright.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
@@ -134,6 +137,7 @@ Partial Class AboutBox1
         'LabelCompanyName
         '
         Me.LabelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LabelCompanyName.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelCompanyName.ForeColor = System.Drawing.Color.Black
         Me.LabelCompanyName.Location = New System.Drawing.Point(240, 90)
         Me.LabelCompanyName.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
@@ -147,13 +151,13 @@ Partial Class AboutBox1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Black
         Me.Label1.Location = New System.Drawing.Point(240, 162)
         Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Padding = New System.Windows.Forms.Padding(0, 20, 0, 0)
-        Me.Label1.Size = New System.Drawing.Size(208, 52)
+        Me.Label1.Size = New System.Drawing.Size(225, 58)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "To donate using Paypal, click the donate button:"
         '
@@ -161,12 +165,13 @@ Partial Class AboutBox1
         '
         Me.TextBoxDescription.BackColor = System.Drawing.Color.White
         Me.TextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TextBoxDescription.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxDescription.ForeColor = System.Drawing.Color.Black
         Me.TextBoxDescription.Location = New System.Drawing.Point(244, 123)
         Me.TextBoxDescription.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.TextBoxDescription.Multiline = True
         Me.TextBoxDescription.Name = "TextBoxDescription"
-        Me.TextBoxDescription.Size = New System.Drawing.Size(187, 27)
+        Me.TextBoxDescription.Size = New System.Drawing.Size(221, 36)
         Me.TextBoxDescription.TabIndex = 0
         Me.TextBoxDescription.TabStop = False
         Me.TextBoxDescription.Text = "Description"
@@ -176,9 +181,10 @@ Partial Class AboutBox1
         Me.OKButton.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.OKButton.BackColor = System.Drawing.SystemColors.Control
         Me.OKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.OKButton.Location = New System.Drawing.Point(208, 297)
+        Me.OKButton.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OKButton.Location = New System.Drawing.Point(208, 299)
         Me.OKButton.Name = "OKButton"
-        Me.OKButton.Size = New System.Drawing.Size(75, 21)
+        Me.OKButton.Size = New System.Drawing.Size(75, 29)
         Me.OKButton.TabIndex = 1
         Me.OKButton.Text = "&OK"
         Me.OKButton.UseVisualStyleBackColor = False
@@ -186,7 +192,7 @@ Partial Class AboutBox1
         'PictureBox1
         '
         Me.PictureBox1.Image = Global.EPubMetadataEditor.My.Resources.Resources.btn_donateCC_LG
-        Me.PictureBox1.Location = New System.Drawing.Point(313, 228)
+        Me.PictureBox1.Location = New System.Drawing.Point(362, 223)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(99, 47)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
@@ -206,30 +212,30 @@ Partial Class AboutBox1
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!)
-        Me.LinkLabel1.Location = New System.Drawing.Point(204, 192)
+        Me.LinkLabel1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel1.Location = New System.Drawing.Point(153, 192)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(35, 16)
+        Me.LinkLabel1.Size = New System.Drawing.Size(71, 19)
         Me.LinkLabel1.TabIndex = 4
         Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "here"
+        Me.LinkLabel1.Text = "click here"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.25!)
+        Me.Label2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.Location = New System.Drawing.Point(12, 192)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(197, 16)
+        Me.Label2.Size = New System.Drawing.Size(143, 19)
         Me.Label2.TabIndex = 5
-        Me.Label2.Text = "Access the GitHub project page"
+        Me.Label2.Text = "GitHub project page:"
         '
         'AboutBox1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(489, 324)
+        Me.ClientSize = New System.Drawing.Size(489, 340)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.PictureBox2)

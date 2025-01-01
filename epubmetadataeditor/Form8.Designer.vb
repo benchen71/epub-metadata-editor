@@ -35,9 +35,10 @@ Partial Class Form8
         '
         Me.RadioButton1.AutoSize = True
         Me.RadioButton1.Checked = True
+        Me.RadioButton1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadioButton1.Location = New System.Drawing.Point(19, 26)
         Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(81, 17)
+        Me.RadioButton1.Size = New System.Drawing.Size(101, 23)
         Me.RadioButton1.TabIndex = 0
         Me.RadioButton1.TabStop = True
         Me.RadioButton1.Text = "EPUB3 files"
@@ -46,9 +47,10 @@ Partial Class Form8
         'RadioButton2
         '
         Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadioButton2.Location = New System.Drawing.Point(19, 61)
         Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(136, 17)
+        Me.RadioButton2.Size = New System.Drawing.Size(183, 23)
         Me.RadioButton2.TabIndex = 1
         Me.RadioButton2.TabStop = True
         Me.RadioButton2.Text = "OPF files with tag errors"
@@ -57,16 +59,18 @@ Partial Class Form8
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(161, 62)
+        Me.CheckBox1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(211, 62)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(83, 17)
+        Me.CheckBox1.Size = New System.Drawing.Size(108, 23)
         Me.CheckBox1.TabIndex = 2
         Me.CheckBox1.Text = "and fix them"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(51, 146)
+        Me.Button1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(64, 143)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(120, 29)
         Me.Button1.TabIndex = 3
@@ -75,7 +79,8 @@ Partial Class Form8
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(199, 146)
+        Me.Button2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.Location = New System.Drawing.Point(212, 143)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(120, 29)
         Me.Button2.TabIndex = 4
@@ -85,25 +90,27 @@ Partial Class Form8
         'RadioButton3
         '
         Me.RadioButton3.AutoSize = True
+        Me.RadioButton3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadioButton3.Location = New System.Drawing.Point(19, 96)
         Me.RadioButton3.Name = "RadioButton3"
-        Me.RadioButton3.Size = New System.Drawing.Size(119, 17)
+        Me.RadioButton3.Size = New System.Drawing.Size(156, 23)
         Me.RadioButton3.TabIndex = 5
         Me.RadioButton3.Text = "OPF files containing"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(161, 95)
+        Me.TextBox1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(211, 96)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(181, 20)
+        Me.TextBox1.Size = New System.Drawing.Size(181, 27)
         Me.TextBox1.TabIndex = 6
         '
         'Form8
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(372, 195)
+        Me.ClientSize = New System.Drawing.Size(409, 195)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.RadioButton3)
         Me.Controls.Add(Me.Button2)
@@ -112,6 +119,7 @@ Partial Class Form8
         Me.Controls.Add(Me.RadioButton2)
         Me.Controls.Add(Me.RadioButton1)
         Me.Name = "Form8"
+        Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.Text = "EPUB Metadata Editor - Find in current folder"
         Me.ResumeLayout(False)
         Me.PerformLayout()

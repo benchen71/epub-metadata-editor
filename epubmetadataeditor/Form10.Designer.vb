@@ -34,9 +34,10 @@ Partial Class Form10
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(13, 13)
+        Me.CheckBox1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(12, 8)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(98, 17)
+        Me.CheckBox1.Size = New System.Drawing.Size(131, 23)
         Me.CheckBox1.TabIndex = 0
         Me.CheckBox1.Text = "Auto-fix .opf file"
         Me.CheckBox1.UseVisualStyleBackColor = True
@@ -46,9 +47,10 @@ Partial Class Form10
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Checked = True
         Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox2.Location = New System.Drawing.Point(13, 37)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(114, 17)
+        Me.CheckBox2.Size = New System.Drawing.Size(142, 23)
         Me.CheckBox2.TabIndex = 1
         Me.CheckBox2.Text = "Remove SVG tags"
         Me.CheckBox2.UseVisualStyleBackColor = True
@@ -58,18 +60,20 @@ Partial Class Form10
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Checked = True
         Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox3.Location = New System.Drawing.Point(13, 60)
+        Me.CheckBox3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox3.Location = New System.Drawing.Point(12, 66)
         Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(114, 17)
+        Me.CheckBox3.Size = New System.Drawing.Size(153, 23)
         Me.CheckBox3.TabIndex = 2
         Me.CheckBox3.Text = "Prioritise cover file "
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(112, 94)
+        Me.Button1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(123, 95)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(105, 27)
+        Me.Button1.Size = New System.Drawing.Size(105, 29)
         Me.Button1.TabIndex = 3
         Me.Button1.Text = "OK"
         Me.Button1.UseVisualStyleBackColor = True
@@ -77,9 +81,10 @@ Partial Class Form10
         'CheckBox4
         '
         Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Location = New System.Drawing.Point(133, 60)
+        Me.CheckBox4.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox4.Location = New System.Drawing.Point(178, 66)
         Me.CheckBox4.Name = "CheckBox4"
-        Me.CheckBox4.Size = New System.Drawing.Size(122, 17)
+        Me.CheckBox4.Size = New System.Drawing.Size(159, 23)
         Me.CheckBox4.TabIndex = 4
         Me.CheckBox4.Text = "Resize to Thumbnail"
         Me.CheckBox4.UseVisualStyleBackColor = True
@@ -88,7 +93,7 @@ Partial Class Form10
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(318, 133)
+        Me.ClientSize = New System.Drawing.Size(346, 133)
         Me.Controls.Add(Me.CheckBox4)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.CheckBox3)

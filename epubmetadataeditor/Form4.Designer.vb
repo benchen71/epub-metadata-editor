@@ -52,29 +52,33 @@ Partial Class Form4
         Me.LinkLabel12 = New System.Windows.Forms.LinkLabel
         Me.LinkLabel13 = New System.Windows.Forms.LinkLabel
         Me.LinkLabel14 = New System.Windows.Forms.LinkLabel
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.Label10 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(65, 176)
+        Me.TextBox2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox2.Location = New System.Drawing.Point(84, 303)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(545, 20)
+        Me.TextBox2.Size = New System.Drawing.Size(526, 27)
         Me.TextBox2.TabIndex = 1
         '
         'Button7
         '
         Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.Image = Global.EPubMetadataEditor.My.Resources.Resources.arrow_double_clockwise
-        Me.Button7.Location = New System.Drawing.Point(618, 137)
+        Me.Button7.Location = New System.Drawing.Point(624, 252)
         Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(46, 46)
+        Me.Button7.Size = New System.Drawing.Size(60, 64)
         Me.Button7.TabIndex = 32
         Me.ToolTip1.SetToolTip(Me.Button7, "Update Filename Using Template")
         Me.Button7.UseVisualStyleBackColor = True
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(212, 210)
+        Me.Button3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button3.Location = New System.Drawing.Point(231, 372)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(121, 29)
         Me.Button3.TabIndex = 33
@@ -83,7 +87,8 @@ Partial Class Form4
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(339, 210)
+        Me.Button1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(358, 372)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(121, 29)
         Me.Button1.TabIndex = 34
@@ -93,36 +98,40 @@ Partial Class Form4
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(5, 127)
+        Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(5, 241)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(54, 13)
+        Me.Label1.Size = New System.Drawing.Size(73, 19)
         Me.Label1.TabIndex = 35
         Me.Label1.Text = "Template:"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(5, 179)
+        Me.Label2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(5, 306)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(50, 13)
+        Me.Label2.Size = New System.Drawing.Size(66, 19)
         Me.Label2.TabIndex = 36
         Me.Label2.Text = "Rename:"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(8, 6)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(163, 13)
+        Me.Label3.Size = New System.Drawing.Size(228, 19)
         Me.Label3.TabIndex = 37
         Me.Label3.Text = "The following fields are available:"
         '
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(20, 25)
+        Me.LinkLabel1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel1.Location = New System.Drawing.Point(20, 32)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(41, 13)
+        Me.LinkLabel1.Size = New System.Drawing.Size(57, 19)
         Me.LinkLabel1.TabIndex = 38
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "Creator"
@@ -130,9 +139,10 @@ Partial Class Form4
         'LinkLabel2
         '
         Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.Location = New System.Drawing.Point(20, 38)
+        Me.LinkLabel2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel2.Location = New System.Drawing.Point(20, 56)
         Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(80, 13)
+        Me.LinkLabel2.Size = New System.Drawing.Size(113, 19)
         Me.LinkLabel2.TabIndex = 39
         Me.LinkLabel2.TabStop = True
         Me.LinkLabel2.Text = "Creator (File as)"
@@ -140,9 +150,10 @@ Partial Class Form4
         'LinkLabel3
         '
         Me.LinkLabel3.AutoSize = True
-        Me.LinkLabel3.Location = New System.Drawing.Point(20, 51)
+        Me.LinkLabel3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel3.Location = New System.Drawing.Point(20, 81)
         Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(114, 13)
+        Me.LinkLabel3.Size = New System.Drawing.Size(158, 19)
         Me.LinkLabel3.TabIndex = 40
         Me.LinkLabel3.TabStop = True
         Me.LinkLabel3.Text = "Creator (Surname only)"
@@ -150,9 +161,10 @@ Partial Class Form4
         'LinkLabel4
         '
         Me.LinkLabel4.AutoSize = True
-        Me.LinkLabel4.Location = New System.Drawing.Point(378, 25)
+        Me.LinkLabel4.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel4.Location = New System.Drawing.Point(431, 32)
         Me.LinkLabel4.Name = "LinkLabel4"
-        Me.LinkLabel4.Size = New System.Drawing.Size(27, 13)
+        Me.LinkLabel4.Size = New System.Drawing.Size(38, 19)
         Me.LinkLabel4.TabIndex = 42
         Me.LinkLabel4.TabStop = True
         Me.LinkLabel4.Text = "Title"
@@ -160,9 +172,10 @@ Partial Class Form4
         'LinkLabel5
         '
         Me.LinkLabel5.AutoSize = True
-        Me.LinkLabel5.Location = New System.Drawing.Point(378, 38)
+        Me.LinkLabel5.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel5.Location = New System.Drawing.Point(431, 56)
         Me.LinkLabel5.Name = "LinkLabel5"
-        Me.LinkLabel5.Size = New System.Drawing.Size(66, 13)
+        Me.LinkLabel5.Size = New System.Drawing.Size(94, 19)
         Me.LinkLabel5.TabIndex = 43
         Me.LinkLabel5.TabStop = True
         Me.LinkLabel5.Text = "Title (File as)"
@@ -170,9 +183,10 @@ Partial Class Form4
         'LinkLabel6
         '
         Me.LinkLabel6.AutoSize = True
-        Me.LinkLabel6.Location = New System.Drawing.Point(580, 25)
+        Me.LinkLabel6.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel6.Location = New System.Drawing.Point(534, 81)
         Me.LinkLabel6.Name = "LinkLabel6"
-        Me.LinkLabel6.Size = New System.Drawing.Size(30, 13)
+        Me.LinkLabel6.Size = New System.Drawing.Size(40, 19)
         Me.LinkLabel6.TabIndex = 46
         Me.LinkLabel6.TabStop = True
         Me.LinkLabel6.Text = "Date"
@@ -180,9 +194,10 @@ Partial Class Form4
         'LinkLabel7
         '
         Me.LinkLabel7.AutoSize = True
-        Me.LinkLabel7.Location = New System.Drawing.Point(481, 25)
+        Me.LinkLabel7.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel7.Location = New System.Drawing.Point(534, 32)
         Me.LinkLabel7.Name = "LinkLabel7"
-        Me.LinkLabel7.Size = New System.Drawing.Size(36, 13)
+        Me.LinkLabel7.Size = New System.Drawing.Size(48, 19)
         Me.LinkLabel7.TabIndex = 44
         Me.LinkLabel7.TabStop = True
         Me.LinkLabel7.Text = "Series"
@@ -190,9 +205,10 @@ Partial Class Form4
         'LinkLabel8
         '
         Me.LinkLabel8.AutoSize = True
-        Me.LinkLabel8.Location = New System.Drawing.Point(481, 38)
+        Me.LinkLabel8.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel8.Location = New System.Drawing.Point(534, 56)
         Me.LinkLabel8.Name = "LinkLabel8"
-        Me.LinkLabel8.Size = New System.Drawing.Size(65, 13)
+        Me.LinkLabel8.Size = New System.Drawing.Size(87, 19)
         Me.LinkLabel8.TabIndex = 45
         Me.LinkLabel8.TabStop = True
         Me.LinkLabel8.Text = "Series Index"
@@ -200,10 +216,11 @@ Partial Class Form4
         'Label4
         '
         Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.Red
-        Me.Label4.Location = New System.Drawing.Point(8, 205)
+        Me.Label4.Location = New System.Drawing.Point(8, 342)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(201, 13)
+        Me.Label4.Size = New System.Drawing.Size(278, 19)
         Me.Label4.TabIndex = 46
         Me.Label4.Text = "The following characters are not allowed:"
         Me.Label4.Visible = False
@@ -211,10 +228,11 @@ Partial Class Form4
         'Label5
         '
         Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Red
-        Me.Label5.Location = New System.Drawing.Point(8, 205)
+        Me.Label5.Location = New System.Drawing.Point(8, 342)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(181, 13)
+        Me.Label5.Size = New System.Drawing.Size(253, 19)
         Me.Label5.TabIndex = 47
         Me.Label5.Text = "To output a single '%' in the filename,"
         Me.Label5.Visible = False
@@ -222,9 +240,10 @@ Partial Class Form4
         'LinkLabel9
         '
         Me.LinkLabel9.AutoSize = True
-        Me.LinkLabel9.Location = New System.Drawing.Point(20, 64)
+        Me.LinkLabel9.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel9.Location = New System.Drawing.Point(20, 106)
         Me.LinkLabel9.Name = "LinkLabel9"
-        Me.LinkLabel9.Size = New System.Drawing.Size(155, 13)
+        Me.LinkLabel9.Size = New System.Drawing.Size(220, 19)
         Me.LinkLabel9.TabIndex = 41
         Me.LinkLabel9.TabStop = True
         Me.LinkLabel9.Text = "Creator (First Initial Of Surname)"
@@ -232,54 +251,58 @@ Partial Class Form4
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(5, 153)
+        Me.Label7.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(5, 273)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(44, 13)
+        Me.Label7.Size = New System.Drawing.Size(61, 19)
         Me.Label7.TabIndex = 50
         Me.Label7.Text = "Current:"
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(65, 150)
+        Me.TextBox3.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox3.Location = New System.Drawing.Point(84, 270)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(545, 20)
+        Me.TextBox3.Size = New System.Drawing.Size(526, 27)
         Me.TextBox3.TabIndex = 49
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(8, 84)
+        Me.Label8.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(8, 140)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(578, 13)
+        Me.Label8.Size = New System.Drawing.Size(490, 19)
         Me.Label8.TabIndex = 51
-        Me.Label8.Text = "Click links to insert at cursor position or replace selected text in Template. Sh" & _
-            "ift-click links to insert all UPPER CASE fields."
+        Me.Label8.Text = "Click links to insert at cursor position or replace selected text in Template."
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(8, 100)
+        Me.Label9.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(8, 187)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(564, 13)
+        Me.Label9.Size = New System.Drawing.Size(194, 19)
         Me.Label9.TabIndex = 52
-        Me.Label9.Text = "Use ""\"" to create subfolders.  For example, ""%CreatorFirstInitial%\%CreatorSurnam" & _
-            "eOnly%\%CreatorFileAs% - %Title%""."
+        Me.Label9.Text = "Use ""\"" to create subfolders."
         '
         'ComboBox1
         '
+        Me.ComboBox1.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(65, 123)
+        Me.ComboBox1.Location = New System.Drawing.Point(84, 237)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(545, 21)
+        Me.ComboBox1.Size = New System.Drawing.Size(526, 27)
         Me.ComboBox1.TabIndex = 0
         '
         'LinkLabel10
         '
         Me.LinkLabel10.AutoSize = True
-        Me.LinkLabel10.Location = New System.Drawing.Point(197, 64)
+        Me.LinkLabel10.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel10.Location = New System.Drawing.Point(249, 106)
         Me.LinkLabel10.Name = "LinkLabel10"
-        Me.LinkLabel10.Size = New System.Drawing.Size(161, 13)
+        Me.LinkLabel10.Size = New System.Drawing.Size(228, 19)
         Me.LinkLabel10.TabIndex = 56
         Me.LinkLabel10.TabStop = True
         Me.LinkLabel10.Text = "Creator2 (First Initial Of Surname)"
@@ -287,9 +310,10 @@ Partial Class Form4
         'LinkLabel11
         '
         Me.LinkLabel11.AutoSize = True
-        Me.LinkLabel11.Location = New System.Drawing.Point(197, 51)
+        Me.LinkLabel11.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel11.Location = New System.Drawing.Point(249, 81)
         Me.LinkLabel11.Name = "LinkLabel11"
-        Me.LinkLabel11.Size = New System.Drawing.Size(120, 13)
+        Me.LinkLabel11.Size = New System.Drawing.Size(166, 19)
         Me.LinkLabel11.TabIndex = 55
         Me.LinkLabel11.TabStop = True
         Me.LinkLabel11.Text = "Creator2 (Surname only)"
@@ -297,9 +321,10 @@ Partial Class Form4
         'LinkLabel12
         '
         Me.LinkLabel12.AutoSize = True
-        Me.LinkLabel12.Location = New System.Drawing.Point(197, 38)
+        Me.LinkLabel12.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel12.Location = New System.Drawing.Point(249, 56)
         Me.LinkLabel12.Name = "LinkLabel12"
-        Me.LinkLabel12.Size = New System.Drawing.Size(86, 13)
+        Me.LinkLabel12.Size = New System.Drawing.Size(121, 19)
         Me.LinkLabel12.TabIndex = 54
         Me.LinkLabel12.TabStop = True
         Me.LinkLabel12.Text = "Creator2 (File as)"
@@ -307,9 +332,10 @@ Partial Class Form4
         'LinkLabel13
         '
         Me.LinkLabel13.AutoSize = True
-        Me.LinkLabel13.Location = New System.Drawing.Point(197, 25)
+        Me.LinkLabel13.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel13.Location = New System.Drawing.Point(249, 32)
         Me.LinkLabel13.Name = "LinkLabel13"
-        Me.LinkLabel13.Size = New System.Drawing.Size(47, 13)
+        Me.LinkLabel13.Size = New System.Drawing.Size(65, 19)
         Me.LinkLabel13.TabIndex = 53
         Me.LinkLabel13.TabStop = True
         Me.LinkLabel13.Text = "Creator2"
@@ -317,18 +343,42 @@ Partial Class Form4
         'LinkLabel14
         '
         Me.LinkLabel14.AutoSize = True
-        Me.LinkLabel14.Location = New System.Drawing.Point(580, 51)
+        Me.LinkLabel14.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel14.Location = New System.Drawing.Point(534, 106)
         Me.LinkLabel14.Name = "LinkLabel14"
-        Me.LinkLabel14.Size = New System.Drawing.Size(43, 13)
+        Me.LinkLabel14.Size = New System.Drawing.Size(56, 19)
         Me.LinkLabel14.TabIndex = 57
         Me.LinkLabel14.TabStop = True
         Me.LinkLabel14.Text = "Subject"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(8, 159)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(311, 19)
+        Me.Label6.TabIndex = 58
+        Me.Label6.Text = "Shift-click links to insert all UPPER CASE fields."
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(8, 206)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(588, 19)
+        Me.Label10.TabIndex = 59
+        Me.Label10.Text = "For example, ""%CreatorFirstInitial%\%CreatorSurnameOnly%\%CreatorFileAs% - %Title" & _
+            "%""."
         '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(673, 249)
+        Me.ClientSize = New System.Drawing.Size(697, 413)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.LinkLabel14)
         Me.Controls.Add(Me.LinkLabel10)
         Me.Controls.Add(Me.LinkLabel11)
@@ -392,4 +442,6 @@ Partial Class Form4
     Friend WithEvents LinkLabel12 As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel13 As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel14 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
 End Class
