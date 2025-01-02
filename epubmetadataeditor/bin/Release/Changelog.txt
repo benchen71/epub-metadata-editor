@@ -1,2 +1,3 @@
-2.0.0
-[*] Font change to make everything bigger on larger screens.
+2.0.1
+[*] Rearranged the About dialog box slightly.
+[*] Program now comes in two versions: larger fonts or compact.
