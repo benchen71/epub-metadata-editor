@@ -54,6 +54,7 @@ Partial Class Form4
         Me.LinkLabel14 = New System.Windows.Forms.LinkLabel
         Me.Label6 = New System.Windows.Forms.Label
         Me.Label10 = New System.Windows.Forms.Label
+        Me.LinkLabel15 = New System.Windows.Forms.LinkLabel
         Me.SuspendLayout()
         '
         'TextBox2
@@ -372,11 +373,23 @@ Partial Class Form4
         Me.Label10.Text = "For example, ""%CreatorFirstInitial%\%CreatorSurnameOnly%\%CreatorFileAs% - %Title" & _
             "%""."
         '
+        'LinkLabel15
+        '
+        Me.LinkLabel15.AutoSize = True
+        Me.LinkLabel15.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel15.Location = New System.Drawing.Point(534, 131)
+        Me.LinkLabel15.Name = "LinkLabel15"
+        Me.LinkLabel15.Size = New System.Drawing.Size(72, 19)
+        Me.LinkLabel15.TabIndex = 60
+        Me.LinkLabel15.TabStop = True
+        Me.LinkLabel15.Text = "Language"
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(697, 413)
+        Me.Controls.Add(Me.LinkLabel15)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.LinkLabel14)
@@ -444,4 +457,5 @@ Partial Class Form4
     Friend WithEvents LinkLabel14 As System.Windows.Forms.LinkLabel
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents LinkLabel15 As System.Windows.Forms.LinkLabel
 End Class

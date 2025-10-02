@@ -1,6 +1,7 @@
 Imports System
 Imports System.IO
 Imports System.IO.File
+Imports System.IO.Compression
 Imports System.Net
 Imports System.Xml
 Imports Microsoft.Win32
@@ -4720,6 +4721,7 @@ outputsource:
             Try
                 zip = ZipStorer.Create(tempEpubFileName, "")
                 Dim mimetype As New MemoryStream(System.Text.Encoding.UTF8.GetBytes("application/epub+zip"))
+                'zip.AddMimetype(ZipStorer.Compression.Store, "mimetype", mimetype, DateTime.Now)
                 zip.AddStream(ZipStorer.Compression.Store, "mimetype", mimetype, DateTime.Now, "")
                 mimetype.Close()
                 Dim dir = Directory.GetDirectories(ebookdirectory)

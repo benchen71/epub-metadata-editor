@@ -1,3 +1,4 @@
-2.0.1
-[*] Rearranged the About dialog box slightly.
-[*] Program now comes in two versions: larger fonts or compact.
+2.0.2
+[*] Link to other version in About dialog box should now download automatically.
+[*] Link to updated version of Compact version now downloads the Compact installer.
+[*] Added "Language" to the file renamer.

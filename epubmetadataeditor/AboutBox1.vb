@@ -31,6 +31,14 @@ Public NotInheritable Class AboutBox1
     End Sub
 
     Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
-        System.Diagnostics.Process.Start("https://github.com/benchen71/epub-metadata-editor/blob/master/epubmetadataeditor/bin/Release/Output/EPubMetadataEditorCompactInstaller.exe")
+        System.Diagnostics.Process.Start("https://github.com/benchen71/epub-metadata-editor/blob/master/epubmetadataeditor/bin/Release/Output/EPubMetadataEditorCompactInstaller.exe?raw=true")
+    End Sub
+
+    Private Sub PictureBox1_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBox1.MouseEnter
+        Me.Cursor = Cursors.Hand
+    End Sub
+
+    Private Sub PictureBox1_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles PictureBox1.MouseLeave
+        Me.Cursor = Cursors.Arrow
     End Sub
 End Class

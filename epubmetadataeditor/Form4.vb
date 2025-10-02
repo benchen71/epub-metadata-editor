@@ -329,6 +329,10 @@ Public Class Form4
                             insertText = Form1.TextBox17.Text
                         ElseIf field = "SUBJECT" Then
                             insertText = Form1.TextBox17.Text.ToUpper
+                        ElseIf field = "Language" Then
+                            insertText = Form1.TextBox11.Text
+                        ElseIf field = "LANGUAGE" Then
+                            insertText = Form1.TextBox11.Text.ToUpper
                         Else
                             insertText = ""
                         End If
@@ -397,6 +401,11 @@ errortext:
 
     Private Sub LinkLabel14_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel14.LinkClicked
         Dim insertText = "%Subject%"
+        MakeInsertion(insertText)
+    End Sub
+
+    Private Sub LinkLabel15_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel15.LinkClicked
+        Dim insertText = "%Language%"
         MakeInsertion(insertText)
     End Sub
 End Class

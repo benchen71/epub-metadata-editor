@@ -63,6 +63,39 @@ Public Class ZipStorer
         End Function
     End Structure
 
+    ' <summary>
+    ' Represents an entry in Zip file directory
+    ' </summary>
+    Public Structure ZipMimetypeEntry
+
+        ' <summary>Compression method</summary>
+        Public Method As Compression
+        ' <summary>Full path and filename as stored in Zip</summary>
+        Public FilenameInZip As String
+        ' <summary>Original file size</summary>
+        Public FileSize As UInteger
+        ' <summary>Compressed file size</summary>
+        Public CompressedSize As UInteger
+        ' <summary>Offset of header information inside Zip storage</summary>
+        Public HeaderOffset As UInteger
+        ' <summary>Offset of file inside Zip storage</summary>
+        Public FileOffset As UInteger
+        ' <summary>Size of header information</summary>
+        Public HeaderSize As UInteger
+        ' <summary>32-bit checksum of entire file</summary>
+        Public Crc32 As UInteger
+        ' <summary>Last modification time of file</summary>
+        Public ModifyTime As DateTime
+        ' <summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
+        Public EncodeUTF8 As Boolean
+
+        ' <summary>Overriden method</summary>
+        ' <returns>Filename in Zip</returns>
+        Public Overrides Function ToString() As String
+            Return Me.FilenameInZip
+        End Function
+    End Structure
+
 #Region "Public fields"
     ' <summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
     Public EncodeUTF8 As Boolean = False
@@ -71,8 +104,11 @@ Public Class ZipStorer
 #End Region
 
 #Region "Private fields"
+    ' Mimetype file
+    Private Mimetype As New ZipMimetypeEntry
     ' List of files to store
     Private Files As New List(Of ZipFileEntry)()
+    'Private Files As New ArrayList()
     ' Filename of storage file
     Private FileName As String
     ' Stream object of storage file
@@ -190,7 +226,7 @@ Public Class ZipStorer
     ' <param name="_filenameInZip">Filename and path as desired in Zip directory</param>
     ' <param name="_comment">Comment for stored file</param>        
     Public Sub AddFile(ByVal _method As Compression, ByVal _pathname As String, ByVal _filenameInZip As String, ByVal _comment As String)
-        If Access = FileAccess.Read Then Throw New InvalidOperationException("Writing is not alowed")
+        If Access = FileAccess.Read Then Throw New InvalidOperationException("Writing is not allowed")
 
         Dim stream As New FileStream(_pathname, FileMode.Open, FileAccess.Read)
         AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment)
@@ -247,11 +283,14 @@ Public Class ZipStorer
     ' <param name="_modTime">Modification time of the data to store</param>
     ' <param name="_comment">Comment for stored file</param>
     Public Sub AddStream(ByVal _method As Compression, ByVal _filenameInZip As String, ByVal _source As Stream, ByVal _modTime As DateTime, ByVal _comment As String)
-        If Access = FileAccess.Read Then Throw New InvalidOperationException("Writing is not alowed")
+        If Access = FileAccess.Read Then Throw New InvalidOperationException("Writing is not allowed")
 
         Dim offset As Long
         If Me.Files.Count = 0 Then
             offset = 0
+            'ElseIf Me.Files.Count = 1 Then
+            'Dim last As ZipMimetypeEntry = Me.Files(0)
+            'offset = last.HeaderOffset + last.HeaderSize
         Else
             Dim last As ZipFileEntry = Me.Files(Me.Files.Count - 1)
             offset = last.HeaderOffset + last.HeaderSize
@@ -285,6 +324,48 @@ Public Class ZipStorer
     End Sub
 
     ' <summary>
+    ' Add mimetype into the Zip storage without extra information (dates and comment)
+    ' </summary>
+    ' <param name="_method">Compression method</param>
+    ' <param name="_filenameInZip">Filename and path as desired in Zip directory</param>
+    ' <param name="_source">Stream object containing the data to store in Zip</param>
+    Public Sub AddMimetype(ByVal _method As Compression, ByVal _filenameInZip As String, ByVal _source As Stream, ByVal _modTime As DateTime)
+        If Access = FileAccess.Read Then Throw New InvalidOperationException("Writing is not allowed")
+
+        Dim offset As Long
+        If Me.Files.Count = 0 Then
+            offset = 0
+        Else
+            Dim last As ZipFileEntry = Me.Files(Me.Files.Count - 1)
+            offset = last.HeaderOffset + last.HeaderSize
+        End If
+
+        ' Prepare the fileinfo
+        Dim zme As New ZipMimetypeEntry()
+        zme.Method = _method
+        zme.EncodeUTF8 = Me.EncodeUTF8
+        zme.FilenameInZip = NormalizedFilename(_filenameInZip)
+
+        ' Even though we write the header now, it will have to be rewritten, since we don't know compressed size or crc.
+        zme.Crc32 = 0  ' to be updated later
+        zme.HeaderOffset = CType(Me.ZipFileStream.Position, UInteger)  ' offset within file of the start of this local record
+        zme.ModifyTime = _modTime
+
+        ' Write local header for mimetype
+        WriteLocalMimetypeHeader(zme)
+        zme.FileOffset = CType(Me.ZipFileStream.Position, UInteger)
+
+        ' Write file to zip (store)
+        StoreMimetype(zme, _source)
+        _source.Close()
+
+        Me.UpdateMimetypeCrcAndSizes(zme)
+
+        'The following line has been commented out because it doesn't work
+        'Files.Add(zme)
+    End Sub
+
+    ' <summary>
     ' Updates central directory (if pertinent) and close the Zip storage
     ' </summary>
     ' <remarks>This is a required step, unless automatic dispose is used</remarks>
@@ -297,7 +378,11 @@ Public Class ZipStorer
 
             For i As Integer = 0 To Files.Count - 1
                 Dim pos As Long = Me.ZipFileStream.Position
+                'If i = 0 Then
+                'Me.WriteMimetypeCentralDirRecord(Files(i))
+                'Else
                 Me.WriteCentralDirRecord(Files(i))
+                'End If
                 centralSize += CType(Me.ZipFileStream.Position - pos, UInteger)
             Next
 
@@ -534,6 +619,34 @@ Public Class ZipStorer
         _zfe.HeaderSize = CType(Me.ZipFileStream.Position - pos, UInteger)
     End Sub
 
+    ' Local Mimetype header:
+    '    local file header signature     4 bytes  (&H04034b50)
+    '    version needed to extract       2 bytes
+    '    general purpose bit flag        2 bytes
+    '    compression method              2 bytes
+    '    crc-32                          4 bytes
+    '    compressed size                 4 bytes
+    '    uncompressed size               4 bytes
+    '    filename length                 2 bytes
+
+    '    filename (variable size)
+
+    Private Sub WriteLocalMimetypeHeader(ByRef _zme As ZipMimetypeEntry)
+        Dim pos As Long = Me.ZipFileStream.Position
+        Dim encoder As Encoding = If(_zme.EncodeUTF8, Encoding.UTF8, DefaultEncoding)
+        Dim encodedFilename As Byte() = encoder.GetBytes(_zme.FilenameInZip)
+
+        Me.ZipFileStream.Write(New Byte() {80, 75, 3, 4, 20, 0}, 0, 6) ' No extra header
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(If(_zme.EncodeUTF8, &H800, 0), UShort)), 0, 2) ' filename and comment encoding 
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(_zme.Method, UShort)), 0, 2)  ' zipping method
+        Me.ZipFileStream.Write(BitConverter.GetBytes(DateTimeToDosTime(_zme.ModifyTime)), 0, 4) ' zipping date and time
+        Me.ZipFileStream.Write(New Byte() {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 12) ' unused CRC, un/compressed size, updated later
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(encodedFilename.Length, UShort)), 0, 2) ' filename length   
+
+        Me.ZipFileStream.Write(encodedFilename, 0, encodedFilename.Length)
+        _zme.HeaderSize = CType(Me.ZipFileStream.Position - pos, UInteger)
+    End Sub
+
     Private Sub WriteCentralDirRecord(ByVal _zfe As ZipFileEntry)
         Dim encoder As Encoding = If(_zfe.EncodeUTF8, Encoding.UTF8, DefaultEncoding)
         Dim encodedFilename As Byte() = encoder.GetBytes(_zfe.FilenameInZip)
@@ -560,6 +673,28 @@ Public Class ZipStorer
         Me.ZipFileStream.Write(encodedFilename, 0, encodedFilename.Length)
         Me.ZipFileStream.Write(extraInfo, 0, extraInfo.Length)
         Me.ZipFileStream.Write(encodedComment, 0, encodedComment.Length)
+    End Sub
+
+    Private Sub WriteMimetypeCentralDirRecord(ByVal _zme As ZipMimetypeEntry)
+        Dim encoder As Encoding = If(_zme.EncodeUTF8, Encoding.UTF8, DefaultEncoding)
+        Dim encodedFilename As Byte() = encoder.GetBytes(_zme.FilenameInZip)
+
+        Me.ZipFileStream.Write(New Byte() {80, 75, 1, 2, 23, &HB, 20, 0}, 0, 8)
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(If(_zme.EncodeUTF8, &H800, 0), UShort)), 0, 2) ' filename and comment encoding 
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(_zme.Method, UShort)), 0, 2)  ' zipping method
+        Me.ZipFileStream.Write(BitConverter.GetBytes(DateTimeToDosTime(_zme.ModifyTime)), 0, 4)  ' zipping date and time
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.Crc32), 0, 4) ' file CRC
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.CompressedSize), 0, 4) ' compressed file size
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.FileSize), 0, 4) ' uncompressed file size
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(encodedFilename.Length, UShort)), 0, 2) ' Filename in zip
+
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(0, UShort)), 0, 2) ' disk=0
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(0, UShort)), 0, 2) ' file type: binary
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(0, UShort)), 0, 2) ' Internal file attributes
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(&H8100, UShort)), 0, 2) ' External file attributes (normal/readable)
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.HeaderOffset), 0, 4)  ' Offset of header
+
+        Me.ZipFileStream.Write(encodedFilename, 0, encodedFilename.Length)
     End Sub
 
     ' End of central dir record:
@@ -635,6 +770,53 @@ Public Class ZipStorer
             Me.ZipFileStream.SetLength(posStart)
             _source.Position = sourceStart
             Me.Store(_zfe, _source)
+        End If
+    End Sub
+
+    ' Copies all source file into storage file
+    Private Sub StoreMimetype(ByRef _zme As ZipMimetypeEntry, ByVal _source As Stream)
+        Dim buffer(16383) As Byte
+        Dim bytesRead As Integer
+        Dim totalRead As UInteger = 0
+        Dim outStream As Stream
+
+        Dim posStart As Long = Me.ZipFileStream.Position
+        Dim sourceStart As Long = _source.Position
+
+        If _zme.Method = Compression.Store Then
+            outStream = Me.ZipFileStream
+        Else
+            outStream = New DeflateStream(Me.ZipFileStream, CompressionMode.Compress, True)
+        End If
+
+        _zme.Crc32 = (0 Xor &HFFFFFFFFUI)
+
+        Do
+            bytesRead = _source.Read(buffer, 0, buffer.Length)
+            totalRead += CType(bytesRead, UInteger)
+            If bytesRead > 0 Then
+                outStream.Write(buffer, 0, bytesRead)
+                For i As UInteger = 0 To bytesRead - 1
+                    _zme.Crc32 = ZipStorer.CrcTable((_zme.Crc32 Xor buffer(i)) And &HFF) Xor (_zme.Crc32 >> 8)
+                Next
+            End If
+        Loop While bytesRead = buffer.Length
+        outStream.Flush()
+
+        If _zme.Method = Compression.Deflate Then outStream.Dispose()
+
+        _zme.Crc32 = _zme.Crc32 Xor &HFFFFFFFFUI
+        _zme.FileSize = totalRead
+        _zme.CompressedSize = CType(Me.ZipFileStream.Position - posStart, UInteger)
+
+        ' Verify for real compression
+        If _zme.Method = Compression.Deflate AndAlso Not Me.ForceDeflating AndAlso _source.CanSeek AndAlso _zme.CompressedSize > _zme.FileSize Then
+            ' Start operation again with Store algorithm
+            _zme.Method = Compression.Store
+            Me.ZipFileStream.Position = posStart
+            Me.ZipFileStream.SetLength(posStart)
+            _source.Position = sourceStart
+            Me.StoreMimetype(_zme, _source)
         End If
     End Sub
 
@@ -730,6 +912,32 @@ Public Class ZipStorer
         Me.ZipFileStream.Write(BitConverter.GetBytes(_zfe.Crc32), 0, 4)  ' Update CRC
         Me.ZipFileStream.Write(BitConverter.GetBytes(_zfe.CompressedSize), 0, 4)  ' Compressed size
         Me.ZipFileStream.Write(BitConverter.GetBytes(_zfe.FileSize), 0, 4)  ' Uncompressed size
+
+        Me.ZipFileStream.Position = lastPos  ' restore position
+    End Sub
+
+    '     CRC32 algorithm
+    '      The 'magic number' for the CRC is &Hdebb20e3.  
+    '      The proper CRC pre and post conditioning
+    '      is used, meaning that the CRC register is
+    '      pre-conditioned with all ones (a starting value
+    '      of &Hffffffff) and the value is post-conditioned by
+    '      taking the one's complement of the CRC residual.
+    '      If bit 3 of the general purpose flag is set, this
+    '      field is set to zero in the local header and the correct
+    '      value is put in the data descriptor and in the central
+    '      directory.
+
+    Private Sub UpdateMimetypeCrcAndSizes(ByRef _zme As ZipMimetypeEntry)
+        Dim lastPos As Long = Me.ZipFileStream.Position  ' remember position
+
+        Me.ZipFileStream.Position = _zme.HeaderOffset + 8
+        Me.ZipFileStream.Write(BitConverter.GetBytes(CType(_zme.Method, UShort)), 0, 2)  ' zipping method
+
+        Me.ZipFileStream.Position = _zme.HeaderOffset + 14
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.Crc32), 0, 4)  ' Update CRC
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.CompressedSize), 0, 4)  ' Compressed size
+        Me.ZipFileStream.Write(BitConverter.GetBytes(_zme.FileSize), 0, 4)  ' Uncompressed size
 
         Me.ZipFileStream.Position = lastPos  ' restore position
     End Sub
