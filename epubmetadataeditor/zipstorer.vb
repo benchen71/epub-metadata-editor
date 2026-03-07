@@ -835,17 +835,18 @@ Public Class ZipStorer
     End Function
 
     Private Function CreateExtraInfo(ByVal _zfe As ZipFileEntry) As Byte()
-        Dim buffer(36) As Byte
+        ' Dim buffer(36) As Byte
 
-        BitConverter.GetBytes(CType(&HA, UShort)).CopyTo(buffer, 0) ' NTFS FileTime
-        BitConverter.GetBytes(CType(32, UShort)).CopyTo(buffer, 2) ' Length
-        BitConverter.GetBytes(CType(1, UShort)).CopyTo(buffer, 8) ' Tag 1
-        BitConverter.GetBytes(CType(24, UShort)).CopyTo(buffer, 10) ' Size 1
-        BitConverter.GetBytes(_zfe.ModifyTime.ToFileTime()).CopyTo(buffer, 12) ' MTime
-        BitConverter.GetBytes(_zfe.AccessTime.ToFileTime()).CopyTo(buffer, 20) ' ATime
-        BitConverter.GetBytes(_zfe.CreationTime.ToFileTime()).CopyTo(buffer, 28) ' CTime
+        ' BitConverter.GetBytes(CType(&HA, UShort)).CopyTo(buffer, 0) ' NTFS FileTime
+        ' BitConverter.GetBytes(CType(32, UShort)).CopyTo(buffer, 2) ' Length
+        ' BitConverter.GetBytes(CType(1, UShort)).CopyTo(buffer, 8) ' Tag 1
+        ' BitConverter.GetBytes(CType(24, UShort)).CopyTo(buffer, 10) ' Size 1
+        ' BitConverter.GetBytes(_zfe.ModifyTime.ToFileTime()).CopyTo(buffer, 12) ' MTime
+        ' BitConverter.GetBytes(_zfe.AccessTime.ToFileTime()).CopyTo(buffer, 20) ' ATime
+        ' BitConverter.GetBytes(_zfe.CreationTime.ToFileTime()).CopyTo(buffer, 28) ' CTime
 
-        Return buffer
+        ' Return buffer
+		Return New Byte() {}
     End Function
 
     Private Sub ReadExtraInfo(ByVal buffer As Byte(), ByVal offset As Integer, ByVal _zfe As ZipFileEntry)
