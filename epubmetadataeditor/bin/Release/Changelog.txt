@@ -1,4 +1,3 @@
-2.0.2
-[*] Link to other version in About dialog box should now download automatically.
-[*] Link to updated version of Compact version now downloads the Compact installer.
-[*] Added "Language" to the file renamer.
+2.0.3
+[*] Fix for saving second creator when no <dc:> tag found after first creator.
+[*] Fix for issues #102 (bug: epubs are repacked with "extra field" data) and #106 (content.opf is corrupted with malformed tag) (fixes by AlisterH)

@@ -4027,8 +4027,8 @@ lookforrefines2:
             Else
                 If (TextBox3.Text <> "") Then
                     'Second creator being added
-                    startpos = InStr(metadatafile, "</dc:creator>")
-                    startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after first creator
+                    startpos = InStr(metadatafile, "</dc:creator>") + 13
+                    'startpos = InStr(startpos, metadatafile, "<dc:") - 1 'start of next item after first creator
 
                     'Get optional attributes
                     rolestring = "aut"
